@@ -145,6 +145,7 @@
           mode = "0700";
         }
         ".local/share/direnv"
+	".config/gh"
       ];
       files = [
         ".screenrc"
