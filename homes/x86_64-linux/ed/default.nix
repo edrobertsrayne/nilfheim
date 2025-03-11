@@ -1,4 +1,9 @@
-{...}: {
+{
+  lib,
+  namespace,
+  ...
+}:
+with lib.${namespace}; {
   programs.git = {
     enable = true;
     userEmail = "ed.rayne@gmail.com";
@@ -11,6 +16,8 @@
   programs.gh = {
     enable = true;
   };
+
+  asgard.cli.zsh.enable = true;
 
   home.username = "ed";
 
