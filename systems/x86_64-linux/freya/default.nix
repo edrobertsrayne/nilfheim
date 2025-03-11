@@ -1,7 +1,6 @@
 {
   lib,
-  pkgs,
-  inputs,
+  namespace,
   ...
 }: {
   imports = [
@@ -13,68 +12,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  nix.settings = {
-    experimental-features = ["nix-command" "flakes"];
-    trusted-users = ["root" "@wheel"];
-  };
+  ${namespace}.suites.common.enable = true;
 
   networking.hostName = "freya";
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Europe/London";
-
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
-
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.xkb.layout = "gb";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
-
-  users.users.ed = {
-    isNormalUser = true;
-    extraGroups = ["wheel" "networkmanager"];
-    initialHashedPassword = "$y$j9T$JYQ3.uYakfzCK9H9v76dr.$LZWvasy4PvMfupxMdHrN7tnC.hfzPJEholafgekBK82";
-  };
-  users.users.root.initialHashedPassword = "$y$j9T$w.VKTH0NZS5OU8kvR/9rO1$t42ECbPAcj1rDFm7AXSj2IC8PJCmhWyA/mz0mKOOET1";
-  security.sudo.wheelNeedsPassword = false;
-
-  programs.firefox.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    curl
-    git
-  ];
-
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-    };
-  };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     mkdir /btrfs_tmp
@@ -145,7 +85,7 @@
           mode = "0700";
         }
         ".local/share/direnv"
-	".config/gh"
+        ".config/gh"
       ];
       files = [
         ".screenrc"
