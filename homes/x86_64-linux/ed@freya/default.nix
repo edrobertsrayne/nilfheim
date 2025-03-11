@@ -8,6 +8,11 @@
     };
   };
 
+  programs.gh = {
+    enable = true;
+    settings.git_protocol = "ssh";
+  };
+
   home.username = "ed";
 
   home.shell.enableShellIntegration = true;
