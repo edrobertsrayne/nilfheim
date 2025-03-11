@@ -4,23 +4,13 @@
   ...
 }:
 with lib.${namespace}; {
-  programs.git = {
-    enable = true;
-    userEmail = "ed.rayne@gmail.com";
-    userName = "Ed Roberts Rayne";
-    extraConfig = {
-      init.defaultBranch = "main";
+  asgard = {
+    user.enable = true;
+    cli = {
+      zsh.enable = true;
+      git.enable = true;
     };
   };
-
-  programs.gh = {
-    enable = true;
-  };
-
-  asgard.cli.zsh.enable = true;
-
-  home.username = "ed";
-
   home.shell.enableShellIntegration = true;
 
   home.stateVersion = "25.05";
