@@ -40,11 +40,6 @@ in {
 
     services.libinput.enable = true;
 
-    users.users.ed = {
-      isNormalUser = true;
-      extraGroups = ["wheel" "networkmanager"];
-      initialHashedPassword = "$y$j9T$JYQ3.uYakfzCK9H9v76dr.$LZWvasy4PvMfupxMdHrN7tnC.hfzPJEholafgekBK82";
-    };
     security.sudo.wheelNeedsPassword = false;
 
     programs.firefox.enable = true;
