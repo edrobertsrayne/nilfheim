@@ -148,7 +148,6 @@
       ];
       files = [
         ".screenrc"
-        ".config/gnome-initial-setup-done"
       ];
     };
   };
