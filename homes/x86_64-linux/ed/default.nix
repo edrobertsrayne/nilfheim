@@ -11,5 +11,4 @@ with lib.${namespace}; {
       git.enable = true;
     };
   };
-  home.shell.enableShellIntegration = true;
 }
