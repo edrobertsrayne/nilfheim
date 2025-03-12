@@ -2,7 +2,6 @@
   pkgs,
   config,
   lib,
-  options,
   namespace,
   ...
 }:
@@ -14,7 +13,11 @@ in {
     enable = mkEnableOption "Whether to enable common configuration.";
   };
   config = mkIf cfg.enable {
-  ${namespace}.nix.enable = true;
+    ${namespace} = {
+      nix.enable = true;
+      services.ssh.enable = true;
+    };
+
     networking.networkmanager.enable = true;
 
     time.timeZone = "Europe/London";
@@ -27,13 +30,5 @@ in {
       curl
       git
     ];
-
-    services.openssh = {
-      enable = true;
-      settings = {
-        PasswordAuthentication = false;
-        KbdInteractiveAuthentication = false;
-      };
-    };
   };
 }
