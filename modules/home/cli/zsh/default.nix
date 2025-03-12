@@ -22,6 +22,6 @@ in {
       };
       starship.enable = true;
     };
-      home.shell.enableShellIntegration = true;
+    home.shell.enableShellIntegration = true;
   };
 }

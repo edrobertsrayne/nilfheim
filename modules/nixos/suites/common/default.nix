@@ -14,6 +14,7 @@ in {
     enable = mkEnableOption "Whether to enable common configuration.";
   };
   config = mkIf cfg.enable {
+  ${namespace}.nix.enable = true;
     networking.networkmanager.enable = true;
 
     time.timeZone = "Europe/London";
