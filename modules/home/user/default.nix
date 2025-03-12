@@ -12,7 +12,7 @@ in {
     enable = mkEnableOption "Whether to configure the user account";
     name = mkOption {
       type = types.str;
-      default = "ed";
+      default = config.snowfallorg.user.name or "ed";
       description = "The user account name.";
     };
     fullName = mkOption {
