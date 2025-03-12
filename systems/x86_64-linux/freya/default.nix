@@ -9,9 +9,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  ${namespace}.suites = {
-    common.enable = true;
-    desktop.enable = true;
+  ${namespace} = {
+    persist.enable = true;
+    suites = {
+      common.enable = true;
+      desktop.enable = true;
+    };
   };
 
   networking.hostName = "freya";
