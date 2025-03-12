@@ -15,6 +15,7 @@ in {
   };
   config = mkIf cfg.enable {
     ${namespace} = {
+      system.fonts.enable = true;
       hardware = {
         audio.enable = true;
       };
