@@ -27,11 +27,6 @@ in {
       git
     ];
 
-    nix.settings = {
-      experimental-features = ["nix-command" "flakes"];
-      trusted-users = ["root" "@wheel"];
-    };
-
     services.openssh = {
       enable = true;
       settings = {

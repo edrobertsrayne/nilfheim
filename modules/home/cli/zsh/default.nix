@@ -21,7 +21,7 @@ in {
         autosuggestion.enable = true;
       };
       starship.enable = true;
-      home.shell.enableShellIntegration = true;
     };
+      home.shell.enableShellIntegration = true;
   };
 }
