@@ -14,6 +14,7 @@ in {
   };
   config = mkIf cfg.enable {
     ${namespace} = {
+    system.boot = true;
       nix.enable = true;
       services.ssh.enable = true;
       hardware.network.enable = true;
