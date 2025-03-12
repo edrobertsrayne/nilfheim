@@ -16,7 +16,10 @@ in {
     ${namespace} = {
       system.boot.enable = true;
       nix.enable = true;
-      services.ssh.enable = true;
+      services = {
+        ssh.enable = true;
+        tailscale.enable = true;
+      };
       hardware.network.enable = true;
     };
 

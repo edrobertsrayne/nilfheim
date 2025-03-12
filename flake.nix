@@ -22,6 +22,11 @@
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs:
@@ -40,6 +45,7 @@
       systems.modules.nixos = with inputs; [
         disko.nixosModules.default
         impermanence.nixosModules.impermanence
+        agenix.nixosModules.default
       ];
     };
 }
