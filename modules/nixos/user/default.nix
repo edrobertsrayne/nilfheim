@@ -36,11 +36,6 @@ in {
       default = [];
       description = "Groups for the user to be assigned.";
     };
-    extraOptions = mkOption {
-      type = attrs;
-      default = {};
-      description = mdDoc "Extra options pass to users.users.<name>.";
-    };
   };
 
   config = {
