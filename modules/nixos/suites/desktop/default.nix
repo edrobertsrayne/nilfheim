@@ -1,8 +1,6 @@
 {
-  pkgs,
   config,
   lib,
-  options,
   namespace,
   ...
 }:
@@ -15,10 +13,11 @@ in {
   };
   config = mkIf cfg.enable {
     ${namespace} = {
-      system.fonts.enable = true;
-      desktop.gnome.enable = true;
+      system.fonts = enabled;
+      desktop.gnome = enabled;
+      desktop.addons.alacritty = enabled;
       hardware = {
-        audio.enable = true;
+        audio = enabled;
       };
     };
     programs.firefox.enable = true;
