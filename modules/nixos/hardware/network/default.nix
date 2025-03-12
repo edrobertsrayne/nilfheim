@@ -4,7 +4,8 @@
   namespace,
   ...
 }:
-with lib; with lib.${namespace}; let
+with lib;
+with lib.${namespace}; let
   cfg = config.${namespace}.hardware.network;
 in {
   options.${namespace}.hardware.network = {
