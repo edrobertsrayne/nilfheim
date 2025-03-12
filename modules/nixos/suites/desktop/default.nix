@@ -16,19 +16,11 @@ in {
   config = mkIf cfg.enable {
     ${namespace} = {
       system.fonts.enable = true;
+      desktop.gnome.enable = true;
       hardware = {
         audio.enable = true;
       };
     };
-    services.xserver = {
-      enable = true;
-      displayManager.gdm.enable = true;
-      desktopManager.gnome.enable = true;
-      xkb.layout = "gb";
-    };
-
-    services.libinput.enable = true;
-
     programs.firefox.enable = true;
   };
 }
