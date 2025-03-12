@@ -9,13 +9,28 @@ with lib;
 with lib.${namespace}; let
   cfg = config.${namespace}.desktop.gnome;
   inherit (config.${namespace}) user;
+  defaultExtensions = with pkgs.gnomeExtensions; [
+    gtile
+    just-perfection
+    logo-menu
+    space-bar
+    top-bar-organizer
+    wireless-hid
+  ];
 in {
-  options.${namespace}.desktop.gnome = {
+  options.${namespace}.desktop.gnome = with types; {
     enable = mkEnableOption "Whether to enable the GNOME desktop environment.";
+    color-scheme = mkOpt (enum ["light" "dark"]) "dark" "The colourscheme to use.";
+    wayland = mkBoolOpt true "Whether to use Wayland.";
+    autoSuspend = mkBoolOpt true "Whether to suspend the machine after inactivity.";
+    extensions = mkOpt (listOf package) [] "Extra Gnome extensions to install.";
   };
   config = mkIf cfg.enable {
     ${namespace} = {
-      system.xkb.enable = true;
+      system.xkb = enabled;
+      desktop.addons = {
+        gtk = enabled;
+      };
     };
     environment.gnome.excludePackages = with pkgs; [
       gnome-tour
@@ -34,15 +49,26 @@ in {
       yelp
       gnome-initial-setup
       gnome-contacts
+      gnome-font-viewer
+      gnome-system-monitor
     ];
-    environment.systemPackages = with pkgs; [
-      gnome-tweaks
-    ];
+    environment.systemPackages = with pkgs;
+      [
+        gnome-tweaks
+        wl-clipboard
+      ]
+      ++ defaultExtensions
+      ++ cfg.extensions;
     services = {
       libinput.enable = true;
       xserver = {
         enable = true;
-        displayManager = {gdm.enable = true;};
+        displayManager = {
+          gdm = {
+            enable = true;
+            inherit (cfg) wayland autoSuspend;
+          };
+        };
         desktopManager.gnome.enable = true;
       };
     };
