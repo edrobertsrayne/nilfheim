@@ -16,9 +16,8 @@ in {
     ${namespace} = {
       nix.enable = true;
       services.ssh.enable = true;
+      hardware.network.enable = true;
     };
-
-    networking.networkmanager.enable = true;
 
     time.timeZone = "Europe/London";
 
