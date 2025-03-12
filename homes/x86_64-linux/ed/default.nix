@@ -12,6 +12,4 @@ with lib.${namespace}; {
     };
   };
   home.shell.enableShellIntegration = true;
-
-  home.stateVersion = "25.05";
 }
