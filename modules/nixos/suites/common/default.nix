@@ -32,6 +32,8 @@ in {
       wget
       curl
       git
+      gh
+      tree
     ];
   };
 }

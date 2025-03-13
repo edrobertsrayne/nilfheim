@@ -6,10 +6,10 @@
 }:
 with lib;
 with lib.${namespace}; let
-  cfg = config.${namespace}.cli.git;
+  cfg = config.${namespace}.utils.git;
   inherit (config.${namespace}) user;
 in {
-  options.${namespace}.cli.git = with types; {
+  options.${namespace}.utils.git = with types; {
     enable = mkEnableOption "Whether to enable git and github cli tools.";
     userName = mkOption {
       type = str;
@@ -29,10 +29,6 @@ in {
       extraConfig = {
         init.defaultBranch = "main";
       };
-    };
-
-    programs.gh = {
-      enable = true;
     };
   };
 }

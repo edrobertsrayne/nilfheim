@@ -5,13 +5,11 @@
 }:
 with lib.${namespace}; {
   asgard = {
-    user.enable = true;
-    cli = {
-      zsh.enable = true;
-      git.enable = true;
-    };
+    user = enabled;
+    shell.zsh = enabled;
     utils = {
       tmux = enabled;
+      git = enabled;
     };
   };
   programs = {

@@ -1,5 +1,4 @@
 {
-  pkgs,
   config,
   namespace,
   lib,
@@ -7,9 +6,9 @@
 }:
 with lib;
 with lib.${namespace}; let
-  cfg = config.${namespace}.cli.zsh;
+  cfg = config.${namespace}.shell.zsh;
 in {
-  options.${namespace}.cli.zsh = {
+  options.${namespace}.shell.zsh = {
     enable = mkEnableOption "Whether to enable zsh.";
   };
   config = mkIf cfg.enable {
@@ -22,6 +21,6 @@ in {
       };
       starship.enable = true;
     };
-    home.shell.enableShellIntegration = true;
+    home.shell.enableZshIntegration = true;
   };
 }
