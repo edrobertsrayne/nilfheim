@@ -10,6 +10,9 @@ with lib.${namespace}; {
       zsh.enable = true;
       git.enable = true;
     };
+    utils = {
+      tmux = enabled;
+    };
   };
   programs = {
     bat = enabled;
@@ -23,7 +26,6 @@ with lib.${namespace}; {
     password-store = enabled;
     ripgrep = enabled;
     thefuck = enabled;
-    tmux = enabled;
     yazi = enabled;
     zoxide = enabled;
   };
