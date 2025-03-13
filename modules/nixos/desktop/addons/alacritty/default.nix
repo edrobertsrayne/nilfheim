@@ -22,7 +22,6 @@ in {
             style = "Regular";
           };
           window = {
-            opacity = 0.9;
             padding = {
               x = 4;
               y = 0;

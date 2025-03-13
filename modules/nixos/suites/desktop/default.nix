@@ -14,8 +14,14 @@ in {
   config = mkIf cfg.enable {
     ${namespace} = {
       system.fonts = enabled;
-      desktop.gnome = enabled;
-      desktop.addons.alacritty = enabled;
+      desktop = {
+        gnome = enabled;
+        addons = {
+          alacritty = enabled;
+          foot = enabled;
+          wezterm = enabled;
+        };
+      };
       hardware = {
         audio = enabled;
       };
