@@ -10,6 +10,7 @@ with lib.${namespace}; {
     utils = {
       tmux = enabled;
       git = enabled;
+      neovim = enabled;
     };
   };
   programs = {

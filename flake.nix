@@ -27,6 +27,8 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nvf.url = "github:notashelf/nvf";
   };
 
   outputs = inputs:
@@ -46,6 +48,10 @@
         disko.nixosModules.default
         impermanence.nixosModules.impermanence
         agenix.nixosModules.default
+      ];
+
+      homes.modules = with inputs; [
+        nvf.homeManagerModules.nvf
       ];
     };
 }
