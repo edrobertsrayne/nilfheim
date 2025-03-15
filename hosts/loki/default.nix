@@ -4,11 +4,9 @@
     ./hardware-configuration.nix
   ];
 
-  # Enable UEFI and use GRUB as the bootloader
-  boot.loader.grub = {
-    enable = true;
-    efiSupport = true;
-    efiInstallAsRemovable = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
   };
 
   # Enable SSH with your public key
