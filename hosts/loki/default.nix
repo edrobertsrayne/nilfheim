@@ -31,7 +31,7 @@
   services.qemuGuest.enable = true;
 
   # Set the hostname
-  # networking.hostName = "nixos-vm";
+  networking.hostName = "loki";
 
   # Set the time zone
   time.timeZone = "UTC";
