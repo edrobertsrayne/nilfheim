@@ -1,5 +1,8 @@
 {pkgs, ...}: {
-  imports = [./disko-configuration.nix];
+  imports = [
+    ./disko-configuration.nix
+    ./hardware-configuration.nix
+  ];
 
   # Enable UEFI and use GRUB as the bootloader
   boot.loader = {
@@ -35,7 +38,6 @@
   # QEMU-specific configuration
   boot.kernelParams = ["console=ttyS0"]; # Use serial console for QEMU
   boot.initrd.availableKernelModules = ["virtio_pci" "virtio_blk" "virtio_net"]; # Load necessary virtio modules
-  networking.useDHCP = true; # Enable DHCP for networking in QEMU
 
   # Enable QEMU guest agent (optional but recommended)
   services.qemuGuest.enable = true;
