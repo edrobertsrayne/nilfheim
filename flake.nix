@@ -1,57 +1,45 @@
 {
-  description = "Nixos config flake";
+  description = "Ed's NixOS Configuration";
+
+  outputs = inputs @ {flake-parts, ...}:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
+
+      imports = [
+        ./hosts/default.nix
+        # ./home/default.nix
+      ];
+
+      perSystem = {pkgs, ...}: {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            git
+            tree
+            neovim
+            gh
+          ];
+        };
+        formatter = pkgs.alejandra;
+      };
+    };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    impermanence = {
-      url = "github:nix-community/impermanence";
-    };
-
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    snowfall-lib = {
-      url = "github:snowfallorg/lib";
+    impermanence = {
+      url = "github:nix-community/impermanence";
+    };
+    disko = {
+      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nvf.url = "github:notashelf/nvf";
   };
-
-  outputs = inputs:
-    inputs.snowfall-lib.mkFlake {
-      inherit inputs;
-      src = ./.;
-
-      snowfall = {
-        namespace = "asgard";
-        meta = {
-          name = "nixos-config";
-          title = "My NixOS configuration";
-        };
-      };
-
-      systems.modules.nixos = with inputs; [
-        disko.nixosModules.default
-        impermanence.nixosModules.impermanence
-        agenix.nixosModules.default
-      ];
-
-      homes.modules = with inputs; [
-        nvf.homeManagerModules.nvf
-      ];
-    };
 }
