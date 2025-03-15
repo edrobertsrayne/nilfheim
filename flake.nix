@@ -5,6 +5,8 @@
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux"];
 
+      lib = import ./lib {inherit (inputs.nixpkgs) lib;};
+
       imports = [
         ./hosts/default.nix
         # ./home/default.nix
