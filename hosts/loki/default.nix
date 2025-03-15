@@ -5,16 +5,10 @@
   ];
 
   # Enable UEFI and use GRUB as the bootloader
-  boot.loader = {
-    efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi"; # Default EFI system partition mount point
-    };
-    grub = {
-      enable = true;
-      efiSupport = true;
-      device = "nodev"; # Use "nodev" for UEFI systems
-    };
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    efiInstallAsRemovable = true;
   };
 
   # Enable SSH with your public key
@@ -34,10 +28,6 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0EYKmro8pZDXNyT5NiBZnRGhQ/5HlTn5PJEWRawUN1 ed@imac"
     ];
   };
-
-  # QEMU-specific configuration
-  boot.kernelParams = ["console=ttyS0"]; # Use serial console for QEMU
-  boot.initrd.availableKernelModules = ["virtio_pci" "virtio_blk" "virtio_net"]; # Load necessary virtio modules
 
   # Enable QEMU guest agent (optional but recommended)
   services.qemuGuest.enable = true;
