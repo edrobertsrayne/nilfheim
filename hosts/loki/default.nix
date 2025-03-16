@@ -19,19 +19,8 @@
   };
 
   # Add your SSH public key to the default user
-  users.users.ed = {
-    isNormalUser = true;
-    extraGroups = ["wheel"]; # Enable sudo access
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0EYKmro8pZDXNyT5NiBZnRGhQ/5HlTn5PJEWRawUN1 ed@imac"
-    ];
-  };
-
   # Enable QEMU guest agent (optional but recommended)
   services.qemuGuest.enable = true;
-
-  # Set the hostname
-  networking.hostName = "loki";
 
   # Set the time zone
   time.timeZone = "UTC";
@@ -53,7 +42,4 @@
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
-
-  # System state version (required for NixOS upgrades)
-  system.stateVersion = "25.05"; # Update this to your NixOS version
 }

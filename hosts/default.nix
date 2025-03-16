@@ -15,6 +15,10 @@
             inputs.disko.nixosModules.default
             inputs.impermanence.nixosModules.impermanence
             inputs.agenix.nixosModules.default
+            {
+              networking.hostName = "${hostname}";
+              system.stateVersion = "25.05";
+            }
           ]
           ++ extraModules;
       };
