@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}:
+{lib, ...}:
 with lib.custom; {
   imports = [
     ./disko-configuration.nix
@@ -11,6 +7,7 @@ with lib.custom; {
 
   roles = {
     common = enabled;
+    desktop = enabled;
   };
 
   # Add your SSH public key to the default user
