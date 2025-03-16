@@ -27,6 +27,7 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
+                users.ed = import ../home/default.nix;
               };
             }
           ]
@@ -38,6 +39,6 @@
         hostname = "loki";
       };
     };
-    homeMangerModules.defaut = ../home/default.nix;
+    # homeMangerModules.defaut = ../home/default.nix;
   };
 }
