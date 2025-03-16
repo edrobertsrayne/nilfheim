@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  inputs,
   ...
 }:
 with lib.custom; {
@@ -9,6 +10,7 @@ with lib.custom; {
     useUserPackages = true;
     users.${config.modules.user.name} = import ../home;
     sharedModules = [
+      inputs.nvf.homeManagerModules.default
       {
         programs.home-manager = enabled;
         manual = {
