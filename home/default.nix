@@ -1,17 +1,17 @@
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}:
-with lib.nilfheim; {
-  programs = {
-    zsh = {
-      enable = true;
-      enableCompletion = true;
-      autosuggestion = enabled;
+{lib, ...}:
+with lib.custom; {
+  config = {
+    home = {
+      username = "ed";
+      stateVersion = "25.05";
     };
-    starship = enabled;
+    programs = {
+      zsh = {
+        enable = true;
+        enableCompletion = true;
+        autosuggestion = enabled;
+      };
+      starship = enabled;
+    };
   };
 }
