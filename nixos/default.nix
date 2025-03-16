@@ -10,6 +10,7 @@
         ./desktop/gnome.nix
         ./desktop/gtk.nix
 
+        ./hardware/audio.nix
         ./hardware/network.nix
 
         ./services/avahi.nix
