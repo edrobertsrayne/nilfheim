@@ -6,6 +6,10 @@
 with lib.custom; let
   inherit (osConfig.modules) user;
 in {
+  imports = [
+    ./nvf
+  ];
+
   config = {
     home = {
       username = "ed";
@@ -24,5 +28,6 @@ in {
         userEmail = user.email;
       };
     };
+    modules.neovim = enabled;
   };
 }
