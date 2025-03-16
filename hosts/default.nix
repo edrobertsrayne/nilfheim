@@ -7,28 +7,23 @@
     mkNixosSystem = {
       system ? "x86_64-linux",
       hostname,
+      username ? "ed",
       extraModules ? [],
     }:
       lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs lib hostname;
+          inherit inputs lib hostname username;
         };
         modules =
           [
             ./${hostname}
             ../nixos
             inputs.disko.nixosModules.default
-            inputs.impermanence.nixosModules.impermanence
-            inputs.agenix.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             {
               networking.hostName = "${hostname}";
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.ed = import ../home/default.nix;
-              };
+              system.stateVersion = "25.05";
             }
           ]
           ++ extraModules;
@@ -39,6 +34,5 @@
         hostname = "loki";
       };
     };
-    # homeMangerModules.defaut = ../home/default.nix;
   };
 }

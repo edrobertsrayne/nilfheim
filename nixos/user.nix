@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  username ? "ed",
   ...
 }:
 with lib; let
@@ -9,7 +10,7 @@ with lib; let
   cfg = config.modules.user;
 in {
   options.modules.user = with types; {
-    name = mkOpt str "ed" "The main to use for the user account.";
+    name = mkOpt str username "The main to use for the user account.";
     fullName = mkOpt str "Ed Roberts Rayne" "The user's full name.";
     email = mkOpt str "ed.rayne@gmail.com" "The user's email address.";
     initialHashedPassword = mkOption {
