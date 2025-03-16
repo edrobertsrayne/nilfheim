@@ -3,7 +3,7 @@
 
   outputs = inputs @ {flake-parts, ...}: let
     lib = inputs.nixpkgs.lib.extend (self: super: {
-      nilfheim = import ./lib {
+      custom = import ./lib {
         inherit inputs;
         lib = self;
       };
@@ -16,8 +16,7 @@
       systems = ["x86_64-linux"];
 
       imports = [
-        ./hosts/default.nix
-        # ./home/default.nix
+        ./hosts
       ];
 
       perSystem = {pkgs, ...}: {
