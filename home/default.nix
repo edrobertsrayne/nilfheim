@@ -1,5 +1,11 @@
-{lib, ...}:
-with lib.custom; {
+{
+  lib,
+  osConfig,
+  ...
+}:
+with lib.custom; let
+  inherit (osConfig.modules) user;
+in {
   config = {
     home = {
       username = "ed";
@@ -12,6 +18,11 @@ with lib.custom; {
         autosuggestion = enabled;
       };
       starship = enabled;
+      git = {
+        enable = true;
+        userName = user.name;
+        userEmail = user.email;
+      };
     };
   };
 }
