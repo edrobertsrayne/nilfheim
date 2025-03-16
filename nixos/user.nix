@@ -15,7 +15,7 @@ in {
     email = mkOpt str "ed.rayne@gmail.com" "The user's email address.";
     initialHashedPassword = mkOption {
       type = str;
-      default = "$y$j9T$JYQ3.uYakfzCK9H9v76dr.$LZWvasy4PvMfupxMdHrN7tnC.hfzPJEholafgekBK82";
+      default = "$y$j9T$vueRmYTLFOtT6Q3jiCH8M/$oTfJQqYfgnDprn/nBxRHgpz90EpDVDtAiV7Aqvx.U95";
       description = "The hashed password to use when the user is first created.";
     };
     extraGroups = mkOpt (listOf str) [] "Groups to assign the user to.";
