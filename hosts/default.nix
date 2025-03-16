@@ -1,6 +1,7 @@
 {
   inputs,
   lib,
+  self,
   ...
 }: {
   flake = let
@@ -18,14 +19,10 @@
         modules =
           [
             ./${hostname}
-            ../nixos
             inputs.disko.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             inputs.impermanence.nixosModules.impermanence
-            {
-              networking.hostName = "${hostname}";
-              system.stateVersion = "25.05";
-            }
+            self.nixosModules.modules
           ]
           ++ extraModules;
       };
