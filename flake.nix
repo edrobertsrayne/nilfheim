@@ -1,11 +1,19 @@
 {
   description = "Ed's NixOS Configuration";
 
-  outputs = inputs @ {flake-parts, ...}:
-    flake-parts.lib.mkFlake {inherit inputs;} {
+  outputs = inputs @ {flake-parts, ...}: let
+    lib = inputs.nixpkgs.lib.extend (self: super: {
+      nilfheim = import ./lib {
+        inherit inputs;
+        lib = self;
+      };
+    });
+  in
+    flake-parts.lib.mkFlake {
+      inherit inputs;
+      specialArgs.lib = lib;
+    } {
       systems = ["x86_64-linux"];
-
-      lib = import ./lib {inherit (inputs.nixpkgs) lib;};
 
       imports = [
         ./hosts/default.nix
