@@ -1,6 +1,6 @@
 {
   flake = {
-    nixosModules.modules = {hostname, ...}: {
+    nixosModules.modules = {
       imports = [
         ./roles/common.nix
         ./roles/desktop.nix
@@ -9,6 +9,8 @@
         ./desktop/foot.nix
         ./desktop/gnome.nix
         ./desktop/gtk.nix
+
+        ./hardware/network.nix
 
         ./services/avahi.nix
         ./services/ssh.nix
@@ -23,7 +25,6 @@
         ./user.nix
       ];
 
-      networking.hostName = "${hostname}";
       system.stateVersion = "25.05";
     };
   };
