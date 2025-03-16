@@ -1,13 +1,13 @@
 {
-  username ? "ed",
   lib,
+  config,
   ...
 }:
 with lib.custom; {
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.${username} = import ../home;
+    users.${config.modules.user.name} = import ../home;
     sharedModules = [
       {
         programs.home-manager = enabled;
