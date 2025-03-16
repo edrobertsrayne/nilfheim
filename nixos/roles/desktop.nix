@@ -11,6 +11,7 @@ in {
 
   config = mkIf cfg.enable {
     modules = {
+      hardware.audio = enabled;
       desktop = {
         gnome = enabled;
         foot = enabled;
