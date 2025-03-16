@@ -21,6 +21,7 @@ in {
       system = {
         boot = enabled;
         nix = enabled;
+        persist = enabled;
       };
     };
 

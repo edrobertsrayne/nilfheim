@@ -11,9 +11,10 @@
     ./services/avahi.nix
     ./services/ssh.nix
 
-    ./system/nix.nix
-    ./system/fonts.nix
     ./system/boot.nix
+    ./system/fonts.nix
+    ./system/nix.nix
+    ./system/persist.nix
     ./system/xkb.nix
 
     ./home-manager.nix
