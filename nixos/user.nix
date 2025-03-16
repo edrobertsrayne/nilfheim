@@ -5,10 +5,10 @@
   ...
 }:
 with lib; let
-  inherit (lib.nilfheim) mkOpt enabled;
-  cfg = config.nilfheim.user;
+  inherit (lib.custom) mkOpt enabled;
+  cfg = config.modules.user;
 in {
-  options.nilfheim.user = with types; {
+  options.modules.user = with types; {
     name = mkOpt str "ed" "The main to use for the user account.";
     fullName = mkOpt str "Ed Roberts Rayne" "The user's full name.";
     email = mkOpt str "ed.rayne@gmail.com" "The user's email address.";
