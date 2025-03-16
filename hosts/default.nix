@@ -1,13 +1,17 @@
-{inputs, ...}: {
+{
+  inputs,
+  lib,
+  ...
+}: {
   flake = let
     mkNixosSystem = {
       system ? "x86_64-linux",
       hostname,
       extraModules ? [],
     }:
-      inputs.nixpkgs.lib.nixosSystem {
+      lib.nixosSystem {
         inherit system;
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit inputs lib;};
         modules =
           [
             ./${hostname}

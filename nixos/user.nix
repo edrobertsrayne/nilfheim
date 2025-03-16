@@ -5,6 +5,7 @@
   ...
 }:
 with lib; let
+  inherit (lib.nilfheim) mkOpt enabled;
   cfg = config.nilfheim.user;
 in {
   options.nilfheim.user = with types; {
@@ -32,5 +33,6 @@ in {
       };
     };
     security.sudo.wheelNeedsPassword = false;
+    programs.zsh = enabled;
   };
 }
