@@ -21,8 +21,13 @@
             inputs.disko.nixosModules.default
             inputs.impermanence.nixosModules.impermanence
             inputs.agenix.nixosModules.default
+            inputs.home-manager.nixosModules.home-manager
             {
               networking.hostName = "${hostname}";
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+              };
             }
           ]
           ++ extraModules;
