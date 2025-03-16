@@ -14,6 +14,7 @@ in {
 
   config = mkIf cfg.enable {
     modules = {
+      hardware.network = enabled;
       services = {
         avahi = enabled;
         ssh = enabled;
