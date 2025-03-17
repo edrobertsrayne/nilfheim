@@ -18,6 +18,7 @@ in {
       services = {
         avahi = enabled;
         ssh = enabled;
+        tailscale = enabled;
       };
       system = {
         boot = enabled;
