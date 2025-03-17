@@ -23,6 +23,7 @@
             inputs.home-manager.nixosModules.home-manager
             inputs.impermanence.nixosModules.impermanence
             self.nixosModules.modules
+            self.nixosModules.secrets
           ]
           ++ extraModules;
       };
