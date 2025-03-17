@@ -24,9 +24,6 @@
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             git
-            tree
-            neovim
-            gh
           ];
         };
         formatter = pkgs.alejandra;
@@ -36,6 +33,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
