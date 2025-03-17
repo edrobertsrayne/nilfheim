@@ -6,10 +6,10 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.neovim;
+  cfg = config.modules.nvf;
 in {
-  options.modules.neovim = {
-    enable = mkEnableOption "Enable neovim";
+  options.modules.nvf = {
+    enable = mkEnableOption "Enable neovim (nvf).";
   };
 
   imports = [
