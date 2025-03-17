@@ -31,6 +31,10 @@
       loki = mkNixosSystem {
         hostname = "loki";
       };
+      freya = mkNixosSystem {
+        hostname = "freya";
+        extraModules = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s];
+      };
     };
   };
 }
