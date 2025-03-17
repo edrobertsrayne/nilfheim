@@ -37,7 +37,7 @@ in {
       fzf = enabled;
       git = {
         enable = true;
-        userName = user.name;
+        userName = user.fullName;
         userEmail = user.email;
       };
       jq = enabled;
