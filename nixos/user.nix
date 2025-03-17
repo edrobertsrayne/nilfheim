@@ -31,6 +31,7 @@ in {
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0EYKmro8pZDXNyT5NiBZnRGhQ/5HlTn5PJEWRawUN1 ed@imac"
         ];
         shell = pkgs.zsh;
+        inherit (cfg) initialHashedPassword;
       };
     };
     security.sudo.wheelNeedsPassword = false;
