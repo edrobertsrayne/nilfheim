@@ -29,7 +29,7 @@ in {
       }
 
       (mkIf persist.enable {
-        modules.system.persist.extraUserDirectories = ["./mozilla/firefox"];
+        modules.system.persist.extraUserDirectories = [".mozilla/firefox"];
       })
     ]);
 }
