@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   lib,
   ...
 }:
@@ -10,6 +11,10 @@ in {
   options.roles.desktop.enable = mkEnableOption "Whether to enable desktop role.";
 
   config = mkIf cfg.enable {
+    stylix = {
+      enable = true;
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
+    };
     modules = {
       hardware.audio = enabled;
       desktop = {

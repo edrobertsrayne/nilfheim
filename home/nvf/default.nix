@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   ...
@@ -31,12 +30,6 @@ in {
           withNodeJs = false;
           withPython3 = false;
           withRuby = false;
-
-          theme = {
-            enable = true;
-            name = "nord";
-            transparent = false;
-          };
         };
       };
     };

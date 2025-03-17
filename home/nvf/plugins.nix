@@ -26,12 +26,7 @@
 
     spellcheck.enable = true;
 
-    statusline = {
-      lualine = {
-        enable = true;
-        theme = "nord";
-      };
-    };
+    statusline.lualine.enable = true;
 
     tabline.nvimBufferline = {
       enable = true;

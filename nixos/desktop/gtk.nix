@@ -11,10 +11,6 @@ with lib.custom; let
 in {
   options.modules.desktop.gtk = with types; {
     enable = mkBoolOpt false "Whether to customize GTK and apply themes.";
-    theme = {
-      name = mkOpt str "Nordic-darker" "The name of the GTK theme to apply.";
-      package = mkOpt package pkgs.nordic "The package to use for the theme.";
-    };
     cursor = {
       name = mkOpt str "Bibata-Modern-Ice" "The name of the cursor theme to apply.";
       package = mkOpt package pkgs.bibata-cursors "The package to use for the cursor theme.";
@@ -37,9 +33,6 @@ in {
     home-manager.users.${user.name} = {
       gtk = {
         enable = true;
-        theme = {
-          inherit (cfg.theme) name package;
-        };
         cursorTheme = {
           inherit (cfg.cursor) name package;
         };
