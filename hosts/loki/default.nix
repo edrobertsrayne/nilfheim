@@ -7,7 +7,6 @@ with lib.custom; {
 
   roles = {
     common = enabled;
-    desktop = enabled;
   };
 
   # Add your SSH public key to the default user
