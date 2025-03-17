@@ -27,17 +27,16 @@ with lib.custom; let
 
   baseRootFiles = [
     "/etc/machine-id"
-    {
-      file = "/var/keys/secret_file";
-      parentDirectory = {mode = "u=rwx,g=,o=";};
-    }
   ];
 
   baseUserDirectories = [
+    "Desktop"
+    "Documents"
     "Music"
     "Pictures"
-    "Documents"
     "Projects"
+    "Public"
+    "Templates"
     "Videos"
     {
       directory = ".gnupg";
@@ -52,7 +51,8 @@ with lib.custom; let
       mode = "0700";
     }
     ".local/share/direnv"
-    ".config/gh"
+    ".local/share/zoxide"
+    ".tmux/resurrect"
   ];
 
   baseUserFiles = [
