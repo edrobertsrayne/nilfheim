@@ -13,5 +13,6 @@ in {
 
   config = mkIf cfg.enable {
     environment.systemPackages = [pkgs.obsidian];
+    modules.system.persist.extraUserDirectories = [".config/obsidian"];
   };
 }
