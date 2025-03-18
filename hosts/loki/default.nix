@@ -5,10 +5,6 @@ with lib.custom; {
     ./hardware-configuration.nix
   ];
 
-  roles = {
-    common = enabled;
-  };
-
   # Add your SSH public key to the default user
   # Enable QEMU guest agent (optional but recommended)
   services.qemuGuest.enable = true;

@@ -5,11 +5,17 @@
   ...
 }: {
   flake = let
+    # Roles
+    common = ../roles/common.nix;
+    workstation = ../roles/workstation.nix;
+    laptop = ../roles/laptop.nix;
+
     mkNixosSystem = {
       system ? "x86_64-linux",
       hostname,
       username ? "ed",
       extraModules ? [],
+      roles ? [],
     }:
       lib.nixosSystem {
         inherit system;
@@ -26,16 +32,19 @@
             self.nixosModules.modules
             self.nixosModules.secrets
           ]
+          ++ roles
           ++ extraModules;
       };
   in {
     nixosConfigurations = {
       loki = mkNixosSystem {
         hostname = "loki";
+        roles = [common];
       };
       freya = mkNixosSystem {
         hostname = "freya";
         extraModules = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s];
+        roles = [common workstation laptop];
       };
     };
   };

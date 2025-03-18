@@ -4,10 +4,4 @@ with lib.custom; {
     ./disko-configuration.nix
     ./hardware-configuration.nix
   ];
-
-  roles = {
-    common = enabled;
-    desktop = enabled;
-    laptop = enabled;
-  };
 }
