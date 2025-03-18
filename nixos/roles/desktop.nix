@@ -32,5 +32,9 @@ in {
         xkb = enabled;
       };
     };
+    environment.systemPackages = with pkgs; [
+      processing
+      vlc
+    ];
   };
 }
