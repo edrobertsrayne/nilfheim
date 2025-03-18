@@ -5,6 +5,7 @@
         imports = [
           ./roles/common.nix
           ./roles/desktop.nix
+          ./roles/laptop.nix
 
           ./desktop/arduino.nix
           ./desktop/firefox.nix

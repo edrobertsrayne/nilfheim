@@ -8,5 +8,6 @@ with lib.custom; {
   roles = {
     common = enabled;
     desktop = enabled;
+    laptop = enabled;
   };
 }
