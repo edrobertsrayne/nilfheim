@@ -19,7 +19,6 @@ in {
     };
     programs = {
       bat = enabled;
-      btop = enabled;
       dircolors = enabled;
       direnv = {
         enable = true;
@@ -40,15 +39,10 @@ in {
         userName = user.fullName;
         userEmail = user.email;
       };
-      jq = enabled;
       lazygit = enabled;
-      lf = enabled;
       nh = enabled;
       password-store = enabled;
-      ripgrep = enabled;
       starship = enabled;
-      thefuck = enabled;
-      yazi = enabled;
       zoxide = {
         enable = true;
         options = ["--cmd cd"];
