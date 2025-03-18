@@ -6,6 +6,7 @@
           ./roles/common.nix
           ./roles/desktop.nix
 
+          ./desktop/arduino.nix
           ./desktop/firefox.nix
           ./desktop/foot.nix
           ./desktop/gnome.nix

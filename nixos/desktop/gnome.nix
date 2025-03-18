@@ -94,7 +94,8 @@ in {
             ++ optional desktop.firefox.enable "firefox.desktop"
             ++ optional desktop.foot.enable "foot.desktop"
             ++ optional desktop.vscode.enable "code.desktop"
-            ++ optional desktop.obsidian.enable "obsidian.desktop";
+            ++ optional desktop.obsidian.enable "obsidian.desktop"
+            ++ optional desktop.arduino.enable "arduino-ide.desktop";
         };
         "org/gnome/desktop/peripherals/mouse" = {
           speed = 0.0;

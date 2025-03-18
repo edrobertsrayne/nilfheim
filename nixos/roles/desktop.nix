@@ -20,6 +20,7 @@ in {
     modules = {
       hardware.audio = enabled;
       desktop = {
+        arduino = enabled;
         gnome = enabled;
         foot = enabled;
         firefox = enabled;
