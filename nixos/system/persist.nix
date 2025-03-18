@@ -148,7 +148,14 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      fileSystems.${cfg.path}.neededForBoot = true;
+      fileSystems = {
+        ${cfg.path}.neededForBoot = true;
+        # fix agenix secret evaluation, see https://github.com/ryantm/agenix/issues/45
+        "/etc/ssh" = {
+          depends = ["${cfg.path}"];
+          neededForBoot = true;
+        };
+      };
       environment.persistence.${cfg.path} = {
         hideMounts = true;
         directories = baseRootDirectories ++ cfg.extraRootDirectories;
