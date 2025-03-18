@@ -3,8 +3,9 @@
   pkgs,
   lib,
   ...
-}:
-with lib.custom; {
+}: let
+  inherit (lib.custom) enabled;
+in {
   nixpkgs.config.allowUnfree = true;
   stylix = {
     enable = true;
@@ -20,6 +21,7 @@ with lib.custom; {
       firefox = enabled;
       obsidian = enabled;
       spotify = enabled;
+      virtManager = enabled;
       vscode = enabled;
     };
     system = {

@@ -10,6 +10,7 @@
           ./desktop/gtk.nix
           ./desktop/obsidian.nix
           ./desktop/spotify.nix
+          ./desktop/virt-manager.nix
           ./desktop/vscode.nix
 
           ./hardware/audio.nix
