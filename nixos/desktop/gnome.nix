@@ -13,7 +13,7 @@ with lib.custom; let
     dash-to-dock
     caffeine
     vitals
-    blur-my-shell
+    # blur-my-shell
     impatience
     clipboard-indicator
     removable-drive-menu
@@ -86,15 +86,15 @@ in {
       dconf.settings = {
         "org/gnome/shell" = {
           disable-user-extensions = false;
-          enabled-extensions = builtins.map (extension: extension.extensionUuid) (cfg.extensions ++ defaultExtensions);
+          # enabled-extensions = builtins.map (extension: extension.extensionUuid) (cfg.extensions ++ defaultExtensions);
           favorite-apps =
             [
               "org.gnome.Nautilus.desktop"
             ]
             ++ optional desktop.firefox.enable "firefox.desktop"
             ++ optional desktop.foot.enable "foot.desktop"
-            ++ optional desktop.vscode.enable "vscode.desktop"
-            ++ optional desktop.obsidian.enable "obsidan.desktop";
+            ++ optional desktop.vscode.enable "code.desktop"
+            ++ optional desktop.obsidian.enable "obsidian.desktop";
         };
         "org/gnome/desktop/peripherals/mouse" = {
           speed = 0.0;
