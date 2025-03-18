@@ -30,6 +30,8 @@ in {
           withNodeJs = false;
           withPython3 = false;
           withRuby = false;
+
+          luaConfigRC.general = builtins.readFile ./lua/general.lua;
         };
       };
     };

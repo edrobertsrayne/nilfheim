@@ -11,6 +11,8 @@
 
     comments.comment-nvim.enable = true;
 
+    dashboard.alpha.enable = true;
+
     filetree.neo-tree.enable = true;
 
     git = {
@@ -21,6 +23,11 @@
     notes.todo-comments.enable = true;
 
     notify.nvim-notify.enable = true;
+
+    mini = {
+      basics.enable = true;
+      surround.enable = true;
+    };
 
     snippets.luasnip.enable = true;
 
@@ -37,10 +44,6 @@
 
     telescope = {
       enable = true;
-      mappings = {
-        findFiles = "<leader><space>";
-        liveGrep = "<leader>/";
-      };
     };
 
     terminal.toggleterm = {
