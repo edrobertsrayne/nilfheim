@@ -28,6 +28,7 @@ in {
       authKeyFile = config.age.secrets.tailscale.path;
       inherit (cfg) extraSetFlags extraUpFlags;
     };
+    modules.system.persist.extraRootDirectories = ["/var/lib/tailscale"];
     networking.firewall = {
       trustedInterfaces = [config.services.tailscale.interfaceName];
       allowedUDPPorts = [config.services.tailscale.port];
