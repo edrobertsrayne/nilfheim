@@ -10,6 +10,8 @@
           ./desktop/foot.nix
           ./desktop/gnome.nix
           ./desktop/gtk.nix
+          ./desktop/obsidian.nix
+          ./desktop/vscode.nix
 
           ./hardware/audio.nix
           ./hardware/network.nix

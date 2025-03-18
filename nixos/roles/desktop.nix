@@ -11,6 +11,7 @@ in {
   options.roles.desktop.enable = mkEnableOption "Whether to enable desktop role.";
 
   config = mkIf cfg.enable {
+    nixpkgs.config.allowUnfree = true;
     stylix = {
       enable = true;
       base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
@@ -21,6 +22,8 @@ in {
         gnome = enabled;
         foot = enabled;
         firefox = enabled;
+        obsidian = enabled;
+        vscode = enabled;
       };
       system = {
         fonts = enabled;

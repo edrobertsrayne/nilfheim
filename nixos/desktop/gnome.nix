@@ -92,7 +92,9 @@ in {
               "org.gnome.Nautilus.desktop"
             ]
             ++ optional desktop.firefox.enable "firefox.desktop"
-            ++ optional desktop.foot.enable "foot.desktop";
+            ++ optional desktop.foot.enable "foot.desktop"
+            ++ optional desktop.vscode.enable "vscode.desktop"
+            ++ optional desktop.obsidian.enable "obsidan.desktop";
         };
         "org/gnome/desktop/peripherals/mouse" = {
           speed = 0.0;
