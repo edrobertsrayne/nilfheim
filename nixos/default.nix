@@ -12,6 +12,7 @@
           ./desktop/gnome.nix
           ./desktop/gtk.nix
           ./desktop/obsidian.nix
+          ./desktop/spotify.nix
           ./desktop/vscode.nix
 
           ./hardware/audio.nix

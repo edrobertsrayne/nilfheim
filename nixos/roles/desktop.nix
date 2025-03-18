@@ -25,6 +25,7 @@ in {
         foot = enabled;
         firefox = enabled;
         obsidian = enabled;
+        spotify = enabled;
         vscode = enabled;
       };
       system = {
