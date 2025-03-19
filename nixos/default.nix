@@ -17,6 +17,7 @@
           ./hardware/network.nix
 
           ./services/avahi.nix
+          ./services/blocky.nix
           ./services/ssh.nix
           ./services/tailscale.nix
 
