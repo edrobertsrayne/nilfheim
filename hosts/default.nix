@@ -9,6 +9,7 @@
     common = ../roles/common.nix;
     workstation = ../roles/workstation.nix;
     laptop = ../roles/laptop.nix;
+    homelab = ../roles/homelab.nix;
 
     mkNixosSystem = {
       system ? "x86_64-linux",
@@ -39,7 +40,7 @@
     nixosConfigurations = {
       loki = mkNixosSystem {
         hostname = "loki";
-        roles = [common];
+        roles = [common homelab];
       };
       freya = mkNixosSystem {
         hostname = "freya";
