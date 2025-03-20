@@ -9,20 +9,13 @@ with lib.custom; let
   cfg = config.modules.desktop.gnome;
   inherit (config.modules) user desktop;
   defaultExtensions = with pkgs.gnomeExtensions; [
-    gtile
-    dash-to-dock
     caffeine
-    vitals
-    # blur-my-shell
-    impatience
     clipboard-indicator
-    removable-drive-menu
-    media-controls
     just-perfection
-    logo-menu
+    removable-drive-menu
     space-bar
-    top-bar-organizer
-    wireless-hid
+    tactile
+    vitals
   ];
 in {
   options.modules.desktop.gnome = with types; {
@@ -30,6 +23,7 @@ in {
     wayland = mkBoolOpt true "Whether to use Wayland.";
     autoSuspend = mkBoolOpt true "Whether to suspend the machine after inactivity.";
     extensions = mkOpt (listOf package) [] "Extra Gnome extensions to install.";
+    darkMode = mkBoolOpt true "Whether to prefer dark mode.";
   };
 
   config = mkIf cfg.enable {
@@ -82,11 +76,24 @@ in {
 
     programs.dconf.enable = true;
 
-    home-manager.users.${user.name}.config = {
+    home-manager.users.${user.name} = {
       dconf.settings = {
+        "org/gnome/desktop/interface" = {
+          color-scheme =
+            if cfg.darkMode
+            then "prefer-dark"
+            else "default";
+          enable-hot-corners = false;
+        };
         "org/gnome/shell" = {
           disable-user-extensions = false;
-          # enabled-extensions = builtins.map (extension: extension.extensionUuid) (cfg.extensions ++ defaultExtensions);
+          enabled-extensions =
+            [
+              "native-window-placement@gnome-shell-extensions.gcampax.github.com"
+              "drive-menu@gnome-shell-extensions.gcampax.github.com"
+              "user-theme@gnome-shell-extensions.gcampax.github.com"
+            ]
+            ++ builtins.map (extension: "${extension.extensionUuid}") defaultExtensions;
           favorite-apps =
             [
               "org.gnome.Nautilus.desktop"
@@ -141,6 +148,24 @@ in {
           switch-to-application-8 = [];
           switch-to-application-9 = [];
           switch-to-application-10 = [];
+        };
+        "org/gnome/tweaks" = {
+          show-extensions-notice = false;
+        };
+        "org/gnome/desktop/wm/preferences" = {
+          num-workspaces = 5;
+        };
+        "org/gnome/mutter" = {
+          dynamic-workspaces = false;
+        };
+        "org/gnome/shell/extensions/just-perfection" = {
+          support-notifier-type = 0;
+          window-maximized-on-create = true;
+          animation = 2;
+        };
+        "org/gnome/shell/extensions/tactile" = {
+          col-0 = 2;
+          col-3 = 2;
         };
       };
     };
