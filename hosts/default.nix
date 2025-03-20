@@ -7,7 +7,7 @@
   flake = let
     # Roles
     common = ../roles/common.nix;
-    workstation = ../roles/workstation.nix;
+    desktop = ../roles/desktop.nix;
     laptop = ../roles/laptop.nix;
     homelab = ../roles/homelab.nix;
 
@@ -45,7 +45,7 @@
       freya = mkNixosSystem {
         hostname = "freya";
         extraModules = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s];
-        roles = [common workstation laptop];
+        roles = [common desktop laptop];
       };
     };
   };
