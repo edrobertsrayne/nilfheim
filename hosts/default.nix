@@ -1,7 +1,6 @@
 {
   inputs,
   lib,
-  self,
   ...
 }: {
   flake = let
@@ -30,8 +29,8 @@
             inputs.home-manager.nixosModules.home-manager
             inputs.impermanence.nixosModules.impermanence
             inputs.stylix.nixosModules.stylix
-            self.nixosModules.modules
-            self.nixosModules.secrets
+            ../modules/nixos
+            ../secrets
           ]
           ++ roles
           ++ extraModules;

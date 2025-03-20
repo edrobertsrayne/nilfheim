@@ -17,7 +17,6 @@
 
       imports = [
         ./hosts
-        ./nixos
       ];
 
       perSystem = {
