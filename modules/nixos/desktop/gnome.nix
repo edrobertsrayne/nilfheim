@@ -160,7 +160,7 @@ in {
         };
         "org/gnome/shell/extensions/just-perfection" = {
           support-notifier-type = 0;
-          window-maximized-on-create = true;
+          window-maximized-on-create = false;
           animation = 2;
         };
         "org/gnome/shell/extensions/tactile" = {
