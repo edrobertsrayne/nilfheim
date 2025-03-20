@@ -33,8 +33,8 @@ in {
 
           theme = {
             enable = true;
-            name = "rose-pine";
-            style = "main";
+            name = "catppuccin";
+            style = "mocha";
           };
 
           luaConfigRC.general = builtins.readFile ./lua/general.lua;

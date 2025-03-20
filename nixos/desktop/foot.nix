@@ -7,27 +7,6 @@ with lib;
 with lib.custom; let
   cfg = config.modules.desktop.foot;
   inherit (config.modules) user;
-  themes.rose-pine.colors = {
-    background = "191724";
-    foreground = "e0def4";
-    regular0 = "26233a"; # black (Overlay)
-    regular1 = "eb6f92"; # red (Love)
-    regular2 = "9ccfd8"; # green (Foam)
-    regular3 = "f6c177"; # yellow (Gold)
-    regular4 = "31748f"; # blue (Pine)
-    regular5 = "c4a7e7"; # magenta (Iris)
-    regular6 = "ebbcba"; # cyan (Rose)
-    regular7 = "e0def4"; # white (Text)
-    bright0 = "47435d"; # bright black (lighter Overlay)
-    bright1 = "ff98ba"; # bright red (lighter Love)
-    bright2 = "c5f9ff"; # bright green (lighter Foam)
-    bright3 = "ffeb9e"; # bright yellow (lighter Gold)
-    bright4 = "5b9ab7"; # bright blue (lighter Pine)
-    bright5 = "eed0ff"; # bright magenta (lighter Iris)
-    bright6 = "ffe5e3"; # bright cyan (lighter Rose)
-    bright7 = "fefcff"; # bright white (lighter Text)
-    flash = "f6c177"; # yellow (Gold)
-  };
 in {
   options.modules.desktop.foot = with types; {
     enable = mkBoolOpt false "Whether to enable foot terminal emulator.";
@@ -39,7 +18,6 @@ in {
         enable = true;
         server.enable = false;
         settings = {
-          inherit (themes.rose-pine) colors;
           main = {
             font = "JetBrainsMono Nerd Font:size=12";
             line-height = 14;
@@ -49,8 +27,38 @@ in {
           };
           scrollback.lines = 2000;
           url.protocols = "http,https,ftp,ftps,file,gemini,gopher,mailto";
-          cursor.blink = "yes";
+          cursor = {
+            color = "11111b f5e0dc";
+            blink = "yes";
+          };
           csd.size = 0;
+          colors = {
+            foreground = "cdd6f4";
+            background = "1e1e2e";
+            regular0 = "45475a";
+            regular1 = "f38ba8";
+            regular2 = "a6e3a1";
+            regular3 = "f9e2af";
+            regular4 = "89b4fa";
+            regular5 = "f5c2e7";
+            regular6 = "94e2d5";
+            regular7 = "bac2de";
+            bright1 = "f38ba8";
+            bright2 = "a6e3a1";
+            bright3 = "f9e2af";
+            bright4 = "89b4fa";
+            bright5 = "f5c2e7";
+            bright6 = "94e2d5";
+            bright7 = "a6adc8";
+            "16" = "fab387";
+            "17" = "f5e0dc";
+            selection-foreground = "cdd6f4";
+            selection-background = "414356";
+            search-box-no-match = "11111b f38ba8";
+            search-box-match = "cdd6f4 313244";
+            jump-labels = "11111b fab387";
+            urls = "89b4fa";
+          };
         };
       };
     };
