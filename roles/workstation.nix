@@ -7,11 +7,6 @@
   inherit (lib.custom) enabled;
 in {
   nixpkgs.config.allowUnfree = true;
-  stylix = {
-    enable = false;
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
-  };
   modules = {
     hardware.audio = enabled;
     desktop = {

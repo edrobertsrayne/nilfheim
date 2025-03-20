@@ -31,6 +31,12 @@ in {
           withPython3 = false;
           withRuby = false;
 
+          theme = {
+            enable = true;
+            name = "rose-pine";
+            style = "main";
+          };
+
           luaConfigRC.general = builtins.readFile ./lua/general.lua;
         };
       };
