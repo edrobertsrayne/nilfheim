@@ -15,6 +15,8 @@
 
     ./services/avahi.nix
     ./services/blocky.nix
+    ./services/caddy.nix
+    ./services/plex.nix
     ./services/ssh.nix
     ./services/tailscale.nix
 

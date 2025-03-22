@@ -29,7 +29,7 @@
             inputs.home-manager.nixosModules.home-manager
             inputs.impermanence.nixosModules.impermanence
             inputs.stylix.nixosModules.stylix
-            ../modules
+            ../modules/nixos
             ../secrets
           ]
           ++ roles
