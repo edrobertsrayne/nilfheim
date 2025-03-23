@@ -16,7 +16,6 @@ with lib.custom; let
     "/var/lib/systemd/coredump"
     "/etc/NetworkManager/system-connections"
     "/etc/ssh/authorized_keys.d"
-    "/var/lib/upower"
   ];
 
   baseRootFiles = [
@@ -25,8 +24,6 @@ with lib.custom; let
     "/etc/ssh/ssh_host_ed25519_key.pub"
     "/etc/ssh/ssh_host_rsa_key"
     "/etc/ssh/ssh_host_rsa_key.pub"
-    "/etc/adjtime"
-    "/etc/zfs/zpool.cache"
   ];
 
   baseUserDirectories = [
@@ -135,7 +132,8 @@ in {
     };
   };
 
-  config = mkIf cfg.enable (mkMerge [
+  config =
+    mkIf cfg.enable
     {
       fileSystems = {
         ${cfg.path}.neededForBoot = true;
@@ -154,42 +152,11 @@ in {
           files = baseUserFiles ++ cfg.extraUserFiles;
         };
       };
-    }
-
-    (mkIf (cfg.filesystem == "btrfs") {
-      boot.initrd.postDeviceCommands =
-        lib.mkAfter
-        /*
-        bash
-        */
-        ''
-          mkdir ${cfg.tmpMountPoint}
-          mount ${cfg.rootVolume} ${cfg.tmpMountPoint}
-          if [[ -e ${cfg.tmpMountPoint}/root ]]; then
-              mkdir -p ${cfg.tmpMountPoint}/old_roots
-              timestamp=$(date --date="@$(stat -c %Y ${cfg.tmpMountPoint}/root)" "+%Y-%m-%-d_%H:%M:%S")
-              mv ${cfg.tmpMountPoint}/root "${cfg.tmpMountPoint}/old_roots/$timestamp"
-          fi
-
-          delete_subvolume_recursively() {
-              IFS=$'\n'
-              for i in $(btrfs subvolume list -o "$1" | cut -f 9- -d ' '); do
-                  delete_subvolume_recursively "${cfg.tmpMountPoint}/$i"
-              done
-              btrfs subvolume delete "$1"
-          }
-
-          for i in $(find ${cfg.tmpMountPoint}/old_roots/ -maxdepth 1 -mtime +${toString cfg.oldRootsRetentionDays}); do
-              delete_subvolume_recursively "$i"
-          done
-
-          btrfs subvolume create ${cfg.tmpMountPoint}/root
-          umount ${cfg.tmpMountPoint}
-        '';
-    })
-
-    (mkIf (cfg.filesystem == "zfs") {
-      boot.supportedFilesystems = ["zfs"];
+      boot.initrd = {
+        availableKernelModules = ["zfs"];
+        kernelModules = ["zfs"];
+        supportedFilesystems = ["zfs"];
+      };
       networking.hostId = builtins.substring 0 8 (
         builtins.hashString "sha256" config.networking.hostName
       );
@@ -198,9 +165,8 @@ in {
         trim.enable = true;
       };
       boot.initrd.postDeviceCommands = lib.mkAfter ''
-        zfs rollback -r rpool/root@blank
+        zpool import -N zroot
+        zfs rollback -r zroot/local/root@blank
       '';
-      systemd.services.zfs-mount.enable = false;
-    })
-  ]);
+    };
 }

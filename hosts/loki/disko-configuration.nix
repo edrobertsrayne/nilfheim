@@ -1,91 +1,71 @@
 {
   disko.devices = {
-    disk.main = {
-      device = "/dev/sda";
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions = {
-          boot = {
-            name = "boot";
-            size = "1M";
-            type = "EF02";
-          };
-          esp = {
-            name = "ESP";
-            size = "500M";
-            type = "EF00";
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
+    disk = {
+      main = {
+        device = "/dev/sda";
+        type = "disk";
+        content = {
+          type = "gpt";
+          partitions = {
+            boot = {
+              name = "boot";
+              size = "1M";
+              type = "EF02";
             };
-          };
-          swap = {
-            size = "4G";
-            content = {
-              type = "swap";
-              resumeDevice = true;
+            ESP = {
+              size = "500M";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = ["umask=0077"];
+              };
             };
-          };
-          zfs = {
-            name = "zfs";
-            size = "100%";
-            content = {
-              type = "zfs";
-              pool = "rpool";
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "zroot";
+              };
             };
           };
         };
       };
     };
     zpool = {
-      rpool = {
+      zroot = {
         type = "zpool";
         rootFsOptions = {
+          # https://wiki.archlinux.org/title/Install_Arch_Linux_on_ZFS
           acltype = "posixacl";
-          dnodesize = "auto";
-          canmount = "off";
-          compression = "lz4";
-          xattr = "sa";
-          normalization = "formD";
+          atime = "off";
+          compression = "zstd";
           mountpoint = "none";
-          "com.sun:auto-snapshot" = "false";
+          xattr = "sa";
         };
-        options = {
-          ashift = "12";
-          autotrim = "on";
-        };
+        options.ashift = "12";
+
         datasets = {
-          "rpool/root" = {
+          "local" = {
             type = "zfs_fs";
-            mountpoint = "/";
-            options = {
-              mountpoint = "legacy";
-            };
-            postCreateHook = "zfs snapshot rpool/root@blank";
+            options.mountpoint = "none";
           };
-
-          # Persistent data
-          "rpool/persist" = {
-            type = "zfs_fs";
-            mountpoint = "/persist";
-            options = {
-              mountpoint = "legacy";
-              "com.sun:auto-snapshot" = "true";
-            };
-          };
-
-          # Nix store
-          "rpool/nix" = {
+          "local/nix" = {
             type = "zfs_fs";
             mountpoint = "/nix";
-            options = {
-              mountpoint = "legacy";
-              atime = "off";
-              canmount = "on";
-              "com.sun:auto-snapshot" = "true";
-            };
+            options."com.sun:auto-snapshot" = "false";
+          };
+          "local/persist" = {
+            type = "zfs_fs";
+            mountpoint = "/persist";
+            options."com.sun:auto-snapshot" = "false";
+          };
+          "local/root" = {
+            type = "zfs_fs";
+            mountpoint = "/";
+            options."com.sun:auto-snapshot" = "false";
+            postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/local/root@blank$' || zfs snapshot zroot/local/root@blank";
           };
         };
       };
