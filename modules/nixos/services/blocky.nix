@@ -56,5 +56,12 @@ in {
       allowedTCPPorts = [53 4000];
       allowedUDPPorts = [53];
     };
+
+    services.prometheus.scrapeConfigs = [
+      {
+        job_name = "blocky";
+        static_configs = [{targets = ["127.0.0.1:${builtins.toString cfg.port}"];}];
+      }
+    ];
   };
 }
