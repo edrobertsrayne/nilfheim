@@ -12,6 +12,12 @@
       mouse = true;
       prefix = "C-s";
       sensibleOnTop = true;
+      extraConfig = ''
+        bind -n S-Left  previous-window
+        bind -n S-Right next-window
+        set -g default-terminal "screen-256color"
+        set -as terminal-features ",xterm-256color:RGB"
+      '';
 
       plugins = with pkgs.tmuxPlugins; [
         {
