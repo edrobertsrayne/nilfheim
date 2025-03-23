@@ -137,10 +137,6 @@ in {
     {
       fileSystems = {
         ${cfg.path}.neededForBoot = true;
-        # "/etc/ssh" = {
-        #   depends = ["${cfg.path}"];
-        #   neededForBoot = true;
-        # };
         "/var/log".neededForBoot = true;
       };
       environment.persistence.${cfg.path} = {
@@ -163,6 +159,19 @@ in {
       services.zfs = {
         autoScrub.enable = true;
         trim.enable = true;
+      };
+      services.openssh = {
+        hostKeys = [
+          {
+            path = "/persist/etc/ssh/ssh_host_ed25519_key";
+            type = "ed25519";
+          }
+          {
+            path = "/persist/etc/ssh/ssh_host_rsa_key";
+            type = "rsa";
+            bits = 4096;
+          }
+        ];
       };
       boot.initrd.postDeviceCommands = lib.mkAfter ''
         zpool import -N zroot
