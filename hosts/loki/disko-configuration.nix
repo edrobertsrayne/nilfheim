@@ -28,42 +28,63 @@
               resumeDevice = true;
             };
           };
-          root = {
-            name = "root";
+          zfs = {
+            name = "zfs";
             size = "100%";
             content = {
-              type = "lvm_pv";
-              vg = "root_vg";
+              type = "zfs";
+              pool = "rpool";
             };
           };
         };
       };
     };
-    lvm_vg = {
-      root_vg = {
-        type = "lvm_vg";
-        lvs = {
-          root = {
-            size = "100%FREE";
-            content = {
-              type = "btrfs";
-              extraArgs = ["-f"];
+    zpool = {
+      rpool = {
+        type = "zpool";
+        rootFsOptions = {
+          acltype = "posixacl";
+          dnodesize = "auto";
+          canmount = "off";
+          compression = "lz4";
+          xattr = "sa";
+          normalization = "formD";
+          mountpoint = "none";
+          "com.sun:auto-snapshot" = "false";
+        };
+        options = {
+          ashift = "12";
+          autotrim = "on";
+        };
+        datasets = {
+          "rpool/root" = {
+            type = "zfs_fs";
+            mountpoint = "/";
+            options = {
+              mountpoint = "legacy";
+            };
+            postCreateHook = "zfs snapshot rpool/root@blank";
+          };
 
-              subvolumes = {
-                "/root" = {
-                  mountpoint = "/";
-                };
+          # Persistent data
+          "rpool/persist" = {
+            type = "zfs_fs";
+            mountpoint = "/persist";
+            options = {
+              mountpoint = "legacy";
+              "com.sun:auto-snapshot" = "true";
+            };
+          };
 
-                "/persist" = {
-                  mountOptions = ["subvol=persist" "noatime"];
-                  mountpoint = "/persist";
-                };
-
-                "/nix" = {
-                  mountOptions = ["subvol=nix" "noatime"];
-                  mountpoint = "/nix";
-                };
-              };
+          # Nix store
+          "rpool/nix" = {
+            type = "zfs_fs";
+            mountpoint = "/nix";
+            options = {
+              mountpoint = "legacy";
+              atime = "off";
+              canmount = "on";
+              "com.sun:auto-snapshot" = "true";
             };
           };
         };

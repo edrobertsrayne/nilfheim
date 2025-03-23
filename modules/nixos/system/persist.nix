@@ -8,7 +8,6 @@ with lib.custom; let
   cfg = config.modules.system.persist;
   inherit (config.modules.user) name;
 
-  # Define base directories and files to persist
   baseRootDirectories = [
     "/etc/nixos"
     "/var/log"
@@ -16,28 +15,21 @@ with lib.custom; let
     "/var/lib/nixos"
     "/var/lib/systemd/coredump"
     "/etc/NetworkManager/system-connections"
-    "/etc/ssh"
-    {
-      directory = "/var/lib/colord";
-      user = "colord";
-      group = "colord";
-      mode = "u=rwx,g=rx,o=";
-    }
+    "/etc/ssh/authorized_keys.d"
+    "/var/lib/upower"
   ];
 
   baseRootFiles = [
     "/etc/machine-id"
+    "/etc/ssh/ssh_host_ed25519_key"
+    "/etc/ssh/ssh_host_ed25519_key.pub"
+    "/etc/ssh/ssh_host_rsa_key"
+    "/etc/ssh/ssh_host_rsa_key.pub"
+    "/etc/adjtime"
+    "/etc/zfs/zpool.cache"
   ];
 
   baseUserDirectories = [
-    "Desktop"
-    "Documents"
-    "Music"
-    "Pictures"
-    "Projects"
-    "Public"
-    "Templates"
-    "Videos"
     {
       directory = ".gnupg";
       mode = "0700";
@@ -50,9 +42,6 @@ with lib.custom; let
       directory = ".local/share/keyrings";
       mode = "0700";
     }
-    ".local/share/direnv"
-    ".local/share/zoxide"
-    ".tmux/resurrect"
   ];
 
   baseUserFiles = [
@@ -67,7 +56,7 @@ in {
       description = "Path to persistent storage location";
     };
     filesystem = mkOption {
-      type = types.enum ["btrfs" "other"];
+      type = types.enum ["btrfs" "zfs"];
       default = "btrfs";
       description = "Filesystem type for root";
     };
@@ -150,11 +139,11 @@ in {
     {
       fileSystems = {
         ${cfg.path}.neededForBoot = true;
-        # fix agenix secret evaluation, see https://github.com/ryantm/agenix/issues/45
-        "/etc/ssh" = {
-          depends = ["${cfg.path}"];
-          neededForBoot = true;
-        };
+        # "/etc/ssh" = {
+        #   depends = ["${cfg.path}"];
+        #   neededForBoot = true;
+        # };
+        "/var/log".neededForBoot = true;
       };
       environment.persistence.${cfg.path} = {
         hideMounts = true;
@@ -197,6 +186,21 @@ in {
           btrfs subvolume create ${cfg.tmpMountPoint}/root
           umount ${cfg.tmpMountPoint}
         '';
+    })
+
+    (mkIf (cfg.filesystem == "zfs") {
+      boot.supportedFilesystems = ["zfs"];
+      networking.hostId = builtins.substring 0 8 (
+        builtins.hashString "sha256" config.networking.hostName
+      );
+      services.zfs = {
+        autoScrub.enable = true;
+        trim.enable = true;
+      };
+      boot.initrd.postDeviceCommands = lib.mkAfter ''
+        zfs rollback -r rpool/root@blank
+      '';
+      systemd.services.zfs-mount.enable = false;
     })
   ]);
 }
