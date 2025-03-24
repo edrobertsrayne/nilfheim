@@ -5,5 +5,4 @@
   ];
 
   services.qemuGuest.enable = true;
-  modules.system.persist.filesystem = "zfs";
 }

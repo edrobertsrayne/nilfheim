@@ -6,9 +6,7 @@
 with lib;
 with lib.custom; let
   cfg = config.modules.system.persist;
-  inherit (config.modules.user) name;
 
-  # Define base directories and files to persist
   baseRootDirectories = [
     "/etc/nixos"
     "/var/log"
@@ -26,36 +24,6 @@ with lib.custom; let
     "/etc/ssh/ssh_host_rsa_key"
     "/etc/ssh/ssh_host_rsa_key.pub"
   ];
-
-  baseUserDirectories = [
-    "Desktop"
-    "Documents"
-    "Music"
-    "Pictures"
-    "Projects"
-    "Public"
-    "Templates"
-    "Videos"
-    {
-      directory = ".gnupg";
-      mode = "0700";
-    }
-    {
-      directory = ".ssh";
-      mode = "0700";
-    }
-    {
-      directory = ".local/share/keyrings";
-      mode = "0700";
-    }
-    ".local/share/direnv"
-    ".local/share/zoxide"
-    ".tmux/resurrect"
-  ];
-
-  baseUserFiles = [
-    ".screenrc"
-  ];
 in {
   options.modules.system.persist = with types; {
     enable = mkEnableOption "Whether to enable peristent storage";
@@ -66,7 +34,7 @@ in {
     };
     filesystem = mkOption {
       type = types.enum ["zfs" "btrfs" "other"];
-      default = "btrfs";
+      default = "zfs";
       description = "Filesystem type for root";
     };
     rootVolume = mkOption {
@@ -88,59 +56,11 @@ in {
       type = types.listOf (types.either types.str types.attrs);
       default = [];
       description = "Additional system directories to persist";
-      example = literalExpression ''
-        [
-          "/var/lib/docker"
-          {
-            directory = "/var/lib/jenkins";
-            user = "jenkins";
-            group = "jenkins";
-            mode = "u=rwx,g=rx,o=";
-          }
-        ]
-      '';
     };
     extraRootFiles = mkOption {
       type = types.listOf (types.either types.str types.attrs);
       default = [];
       description = "Additional system files to persist";
-      example = literalExpression ''
-        [
-          "/etc/adjtime"
-          {
-            file = "/etc/special.conf";
-            parentDirectory = { mode = "u=rwx,g=,o="; };
-          }
-        ]
-      '';
-    };
-    extraUserDirectories = mkOption {
-      type = types.listOf (types.either types.str types.attrs);
-      default = [];
-      description = "Additional directories to persist for the primary user";
-      example = literalExpression ''
-        [
-          ".config/vscode"
-          {
-            directory = ".local/share/applications";
-            mode = "0755";
-          }
-        ]
-      '';
-    };
-    extraUserFiles = mkOption {
-      type = types.listOf (types.either types.str types.attrs);
-      default = [];
-      description = "Additional files to persist for the primary user";
-      example = literalExpression ''
-        [
-          ".zsh_history"
-          {
-            file = ".config/special.conf";
-            parentDirectory = { mode = "0700"; };
-          }
-        ]
-      '';
     };
   };
 
@@ -153,10 +73,6 @@ in {
         hideMounts = true;
         directories = baseRootDirectories ++ cfg.extraRootDirectories;
         files = baseRootFiles ++ cfg.extraRootFiles;
-        users.${name} = {
-          directories = baseUserDirectories ++ cfg.extraUserDirectories;
-          files = baseUserFiles ++ cfg.extraUserFiles;
-        };
       };
       services.openssh = {
         hostKeys = [
