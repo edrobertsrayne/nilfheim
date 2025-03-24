@@ -15,18 +15,16 @@ with lib.custom; let
     "/var/lib/bluetooth"
     "/var/lib/nixos"
     "/var/lib/systemd/coredump"
-    "/etc/NetworkManager/system-connections"
-    "/etc/ssh"
-    {
-      directory = "/var/lib/colord";
-      user = "colord";
-      group = "colord";
-      mode = "u=rwx,g=rx,o=";
-    }
+    # "/etc/NetworkManager/system-connections"
+    "/etc/ssh/authorized_keys.d"
   ];
 
   baseRootFiles = [
     "/etc/machine-id"
+    "/etc/ssh/ssh_host_ed25519_key"
+    "/etc/ssh/ssh_host_ed25519_key.pub"
+    "/etc/ssh/ssh_host_rsa_key"
+    "/etc/ssh/ssh_host_rsa_key.pub"
   ];
 
   baseUserDirectories = [
@@ -67,7 +65,7 @@ in {
       description = "Path to persistent storage location";
     };
     filesystem = mkOption {
-      type = types.enum ["btrfs" "other"];
+      type = types.enum ["zfs" "btrfs" "other"];
       default = "btrfs";
       description = "Filesystem type for root";
     };
@@ -150,11 +148,6 @@ in {
     {
       fileSystems = {
         ${cfg.path}.neededForBoot = true;
-        # fix agenix secret evaluation, see https://github.com/ryantm/agenix/issues/45
-        "/etc/ssh" = {
-          depends = ["${cfg.path}"];
-          neededForBoot = true;
-        };
       };
       environment.persistence.${cfg.path} = {
         hideMounts = true;
@@ -164,6 +157,19 @@ in {
           directories = baseUserDirectories ++ cfg.extraUserDirectories;
           files = baseUserFiles ++ cfg.extraUserFiles;
         };
+      };
+      services.openssh = {
+        hostKeys = [
+          {
+            path = "/persist/etc/ssh/ssh_host_ed25519_key";
+            type = "ed25519";
+          }
+          {
+            path = "/persist/etc/ssh/ssh_host_rsa_key";
+            type = "rsa";
+            bits = 4096;
+          }
+        ];
       };
     }
 
@@ -197,6 +203,25 @@ in {
           btrfs subvolume create ${cfg.tmpMountPoint}/root
           umount ${cfg.tmpMountPoint}
         '';
+    })
+
+    (mkIf (cfg.filesystem == "zfs") {
+      boot.initrd = {
+        availableKernelModules = ["zfs"];
+        kernelModules = ["zfs"];
+        supportedFilesystems = ["zfs"];
+        postDeviceCommands = lib.mkAfter ''
+          zpool import -N zroot
+          zfs rollback -r zroot/local/root@blank
+        '';
+      };
+      networking.hostId = builtins.substring 0 8 (
+        builtins.hashString "sha256" config.networking.hostName
+      );
+      services.zfs = {
+        autoScrub.enable = true;
+        trim.enable = true;
+      };
     })
   ]);
 }
