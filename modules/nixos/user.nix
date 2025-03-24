@@ -5,8 +5,8 @@
   username ? "ed",
   ...
 }:
-with lib; let
-  inherit (lib.custom) mkOpt enabled;
+with lib;
+with lib.custom; let
   cfg = config.modules.user;
 in {
   options.modules.user = with types; {
@@ -20,6 +20,7 @@ in {
     };
     extraGroups = mkOpt (listOf str) [] "Groups to assign the user to.";
     extraSSHKeys = mkOpt (listOf str) [] "Additional authorised SSH keys.";
+    shell = mkOpt package pkgs.bash "The default shell for the user.";
   };
   config = {
     users = {
@@ -31,11 +32,10 @@ in {
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0EYKmro8pZDXNyT5NiBZnRGhQ/5HlTn5PJEWRawUN1"
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHjO/+Q0fcuPJlilQNFfTbxG78ov3owvJW66poCTZVy4"
         ];
-        shell = pkgs.zsh;
-        inherit (cfg) initialHashedPassword;
+        inherit (cfg) initialHashedPassword shell;
       };
     };
     security.sudo.wheelNeedsPassword = false;
-    programs.zsh = enabled;
+    programs.zsh.enable = true;
   };
 }

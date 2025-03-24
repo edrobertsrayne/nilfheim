@@ -7,6 +7,7 @@
 in {
   nixpkgs.config.allowUnfree = true;
   modules = {
+    home-manager = enabled;
     hardware.audio = enabled;
     desktop = {
       arduino = enabled;
