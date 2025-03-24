@@ -13,6 +13,5 @@ in {
 
   config = mkIf cfg.enable {
     environment.systemPackages = [pkgs.arduino-ide];
-    modules.system.persist.extraUserDirectories = ["Arduino" ".arduino15" ".arduinoIDE"];
   };
 }
