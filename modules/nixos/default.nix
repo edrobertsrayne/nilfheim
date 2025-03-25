@@ -15,6 +15,8 @@
 
     ./services/avahi.nix
     ./services/blocky.nix
+    ./services/nginx.nix
+    ./services/prometheus.nix
     ./services/ssh.nix
     ./services/tailscale.nix
 
