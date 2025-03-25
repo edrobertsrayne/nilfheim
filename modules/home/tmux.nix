@@ -12,6 +12,15 @@
       mouse = true;
       prefix = "C-s";
       sensibleOnTop = true;
+      extraConfig = ''
+        # correct colours in neovim
+        set -g default-terminal "screen-256color"
+        set -as terminal-features ",xterm-256color:RGB"
+
+        # shift-arrow to switch windows
+        bind -n S-Left  previous-window
+        bind -n S-Right next-window
+      '';
 
       plugins = with pkgs.tmuxPlugins; [
         {
