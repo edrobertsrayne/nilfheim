@@ -16,6 +16,7 @@
     ./services/avahi.nix
     ./services/blocky.nix
     ./services/grafana.nix
+    ./services/jellyfin.nix
     ./services/nginx.nix
     ./services/plex.nix
     ./services/prometheus.nix

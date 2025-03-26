@@ -11,6 +11,7 @@ with lib.custom; {
     services = {
       blocky = enabled;
       grafana = enabled;
+      jellyfin = enabled;
       nginx = enabled;
       plex = enabled;
       prometheus = enabled;
