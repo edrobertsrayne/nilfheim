@@ -6,31 +6,28 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.desktop.gnome;
-  inherit (config.modules) user desktop;
+  cfg = config.desktop.gnome;
+  inherit (config.modules) user;
+  inherit (config) desktop;
   defaultExtensions = with pkgs.gnomeExtensions; [
     caffeine
-    clipboard-indicator
     just-perfection
     removable-drive-menu
     space-bar
     tactile
-    vitals
   ];
 in {
-  options.modules.desktop.gnome = with types; {
-    enable = mkEnableOption "Whether to enable GNOME desktop environment.";
-    wayland = mkBoolOpt true "Whether to use Wayland.";
-    autoSuspend = mkBoolOpt true "Whether to suspend the machine after inactivity.";
-    extensions = mkOpt (listOf package) [] "Extra Gnome extensions to install.";
+  options.desktop.gnome = with types; {
+    enable = mkEnableOption "Whether to enable the Gnome desktop environment.";
+    extraExtensions = mkOpt (listOf package) [] "Extra Gnome extensions to install.";
     darkMode = mkBoolOpt true "Whether to prefer dark mode.";
   };
 
   config = mkIf cfg.enable {
     modules = {
-      desktop.gtk = enabled;
       system.xkb = enabled;
     };
+    desktop.gtk = enabled;
 
     environment.gnome.excludePackages = with pkgs; [
       gnome-tour
@@ -58,7 +55,7 @@ in {
         wl-clipboard
       ]
       ++ defaultExtensions
-      ++ cfg.extensions;
+      ++ cfg.extraExtensions;
 
     services = {
       libinput.enable = true;
@@ -67,7 +64,8 @@ in {
         displayManager = {
           gdm = {
             enable = true;
-            inherit (cfg) wayland autoSuspend;
+            wayland = true;
+            autoSuspend = true;
           };
         };
         desktopManager.gnome.enable = true;
@@ -93,7 +91,8 @@ in {
               "drive-menu@gnome-shell-extensions.gcampax.github.com"
               "user-theme@gnome-shell-extensions.gcampax.github.com"
             ]
-            ++ builtins.map (extension: "${extension.extensionUuid}") defaultExtensions;
+            ++ builtins.map (extension: "${extension.extensionUuid}") (defaultExtensions ++ cfg.extraExtensions);
+
           favorite-apps =
             [
               "org.gnome.Nautilus.desktop"

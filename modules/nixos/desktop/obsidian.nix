@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.modules.desktop.obsidian;
+  cfg = config.desktop.obsidian;
 in {
-  options.modules.desktop.obsidian = {
+  options.desktop.obsidian = {
     enable = mkEnableOption "Whether to enable Obsidian.";
   };
 

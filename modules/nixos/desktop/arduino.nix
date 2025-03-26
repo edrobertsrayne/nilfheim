@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.modules.desktop.arduino;
+  cfg = config.desktop.arduino;
 in {
-  options.modules.desktop.arduino = {
+  options.desktop.arduino = {
     enable = mkEnableOption "Whether to enable Arduino IDE.";
   };
 

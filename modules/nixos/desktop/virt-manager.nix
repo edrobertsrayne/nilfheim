@@ -3,11 +3,11 @@
   lib,
   ...
 }: let
-  cfg = config.modules.desktop.virtManager;
+  cfg = config.desktop.virtManager;
   inherit (config.modules) user;
   inherit (lib) mkEnableOption mkIf;
 in {
-  options.modules.desktop.virtManager = {
+  options.desktop.virtManager = {
     enable = mkEnableOption "Whether to enable Virt-Manager desktop app.";
   };
 

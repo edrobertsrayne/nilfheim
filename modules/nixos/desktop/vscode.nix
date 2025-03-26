@@ -6,9 +6,9 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.desktop.vscode;
+  cfg = config.desktop.vscode;
 in {
-  options.modules.desktop.vscode = {
+  options.desktop.vscode = {
     enable = mkEnableOption "Whether to enable VSCode.";
   };
 

@@ -6,9 +6,9 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.desktop.firefox;
+  cfg = config.desktop.firefox;
 in {
-  options.modules.desktop.firefox = {
+  options.desktop.firefox = {
     enable = mkEnableOption "Whether to enable Firefox browser.";
     defaultBrowser = mkBoolOpt true "Whether to set Firefox as the default browser.";
   };

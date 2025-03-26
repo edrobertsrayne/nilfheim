@@ -6,10 +6,10 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.desktop.gtk;
+  cfg = config.desktop.gtk;
   inherit (config.modules) user;
 in {
-  options.modules.desktop.gtk = with types; {
+  options.desktop.gtk = with types; {
     enable = mkBoolOpt false "Whether to customize GTK and apply themes.";
     cursor = {
       name = mkOpt str "Bibata-Modern-Ice" "The name of the cursor theme to apply.";
