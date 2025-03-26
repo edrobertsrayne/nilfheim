@@ -15,6 +15,7 @@
 
     ./services/avahi.nix
     ./services/blocky.nix
+    ./services/grafana.nix
     ./services/nginx.nix
     ./services/prometheus.nix
     ./services/ssh.nix

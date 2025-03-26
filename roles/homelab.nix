@@ -8,6 +8,7 @@ with lib.custom; {
   config = {
     nixos.services = {
       blocky = enabled;
+      grafana = enabled;
       nginx = enabled;
       prometheus = enabled;
     };
