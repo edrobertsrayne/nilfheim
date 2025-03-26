@@ -13,6 +13,14 @@ in {
       recommendedOptimisation = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
+
+      # Match all server names not caught by other virtualHosts
+      virtualHosts."_" = {
+        default = true;
+        locations."/" = {
+          return = "444"; # Close connection without response
+        };
+      };
     };
     security.acme = {
       acceptTerms = true;
