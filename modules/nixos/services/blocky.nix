@@ -3,19 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
-  cfg = config.nixos.services.blocky;
-  inherit (config.services.blocky.settings) ports;
-  inherit (lib) mkEnableOption mkIf;
+}:
+with lib;
+with lib.custom; let
+  cfg = config.services.blocky;
+  inherit (cfg.settings) ports;
 in {
-  options.nixos.services.blocky = {
-    enable = mkEnableOption "Whether to enable blocky ad blocking servce.";
-  };
-
   config = mkIf cfg.enable {
     services = {
       blocky = {
-        enable = true;
         settings = {
           ports = {
             dns = 53;

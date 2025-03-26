@@ -5,15 +5,10 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.nixos.services.nginx;
+  cfg = config.services.nginx;
 in {
-  options.nixos.services.nginx = {
-    enable = mkEnableOption "Whether to enable nginx.";
-  };
-
   config = mkIf cfg.enable {
     services.nginx = {
-      enable = true;
       recommendedGzipSettings = true;
       recommendedOptimisation = true;
       recommendedProxySettings = true;

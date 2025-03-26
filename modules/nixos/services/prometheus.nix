@@ -5,20 +5,17 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.nixos.services.prometheus;
+  cfg = config.services.prometheus;
   inherit (config) homelab;
-  inherit (config.services.prometheus.exporters) node;
-  inherit (config.services) prometheus;
+  inherit (cfg.exporters) node;
 in {
-  options.nixos.services.prometheus = {
-    enable = mkEnableOption "Whether to enable prometheus.";
+  options.services.prometheus = {
     url = mkOpt types.str "prometheus.${homelab.domain}" "URL for prometheus proxy.";
   };
 
   config = mkIf cfg.enable {
     services = {
       prometheus = {
-        enable = true;
         globalConfig.scrape_interval = "10s";
         scrapeConfigs = [
           {
@@ -38,7 +35,7 @@ in {
         enableACME = true;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString prometheus.port}";
+          proxyPass = "http://127.0.0.1:${toString cfg.port}";
         };
       };
       grafana.provision = {
@@ -47,7 +44,7 @@ in {
             name = "Prometheus";
             type = "prometheus";
             access = "proxy";
-            url = "http://localhost:${builtins.toString prometheus.port}";
+            url = "http://localhost:${builtins.toString cfg.port}";
             editable = true;
             uid = "PBFA97CFB590B2093";
           }
@@ -60,6 +57,6 @@ in {
         ];
       };
     };
-    modules.system.persist.extraRootDirectories = ["/var/lib/${prometheus.stateDir}"];
+    modules.system.persist.extraRootDirectories = ["/var/lib/${cfg.stateDir}"];
   };
 }

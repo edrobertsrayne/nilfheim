@@ -6,7 +6,7 @@ with lib.custom; {
   };
 
   config = {
-    nixos.services = {
+    services = {
       blocky = enabled;
       grafana = enabled;
       nginx = enabled;
