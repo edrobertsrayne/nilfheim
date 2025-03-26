@@ -17,6 +17,7 @@
     ./services/blocky.nix
     ./services/grafana.nix
     ./services/nginx.nix
+    ./services/plex.nix
     ./services/prometheus.nix
     ./services/ssh.nix
     ./services/tailscale.nix

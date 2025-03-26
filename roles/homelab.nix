@@ -6,10 +6,13 @@ with lib.custom; {
   };
 
   config = {
+    nixpkgs.config.allowUnfree = true;
+
     services = {
       blocky = enabled;
       grafana = enabled;
       nginx = enabled;
+      plex = enabled;
       prometheus = enabled;
     };
   };
