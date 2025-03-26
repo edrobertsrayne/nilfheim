@@ -15,6 +15,7 @@
 
     ./services/avahi.nix
     ./services/blocky.nix
+    ./services/deluge.nix
     ./services/grafana.nix
     ./services/jellyfin.nix
     ./services/nginx.nix
@@ -22,6 +23,7 @@
     ./services/prometheus.nix
     ./services/ssh.nix
     ./services/tailscale.nix
+    ./services/wireguard-netns.nix
 
     ./system/boot.nix
     ./system/fonts.nix
