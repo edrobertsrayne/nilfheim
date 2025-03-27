@@ -14,13 +14,20 @@
     ./hardware/network.nix
 
     ./services/avahi.nix
+    ./services/bazarr.nix
     ./services/blocky.nix
     ./services/deluge.nix
     ./services/grafana.nix
     ./services/jellyfin.nix
+    ./services/jellyseerr.nix
+    ./services/lidarr.nix
     ./services/nginx.nix
     ./services/plex.nix
     ./services/prometheus.nix
+    ./services/prowlarr.nix
+    ./services/radarr.nix
+    ./services/readarr.nix
+    ./services/sonarr.nix
     ./services/ssh.nix
     ./services/tailscale.nix
     ./services/wireguard-netns.nix

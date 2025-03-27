@@ -13,13 +13,20 @@ with lib.custom; {
     nixpkgs.config.allowUnfree = true;
 
     services = {
+      bazarr = enabled;
       blocky = enabled;
       deluge = enabled;
       grafana = enabled;
       jellyfin = enabled;
+      jellyseerr = enabled;
+      lidarr = enabled;
       nginx = enabled;
       plex = enabled;
       prometheus = enabled;
+      prowlarr = enabled;
+      radarr = enabled;
+      readarr = enabled;
+      sonarr = enabled;
       wireguard-netns = {
         enable = true;
         configFile = config.age.secrets.mullvad.path;
