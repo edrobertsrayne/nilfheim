@@ -17,6 +17,7 @@ with lib.custom; {
       blocky = enabled;
       deluge = enabled;
       grafana = enabled;
+      homepage-dashboard = enabled;
       jellyfin = enabled;
       jellyseerr = enabled;
       lidarr = enabled;

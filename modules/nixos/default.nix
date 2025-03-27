@@ -18,6 +18,7 @@
     ./services/blocky.nix
     ./services/deluge.nix
     ./services/grafana.nix
+    ./services/homepage.nix
     ./services/jellyfin.nix
     ./services/jellyseerr.nix
     ./services/lidarr.nix
