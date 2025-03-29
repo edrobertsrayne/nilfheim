@@ -16,6 +16,18 @@ in {
     services = {
       jellyfin.dataDir = "/srv/jellyfin";
 
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Media";
+          name = "Jellyfin";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "jellyfin.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
+
       nginx.virtualHosts."${cfg.url}" = {
         enableACME = true;
         forceSSL = true;

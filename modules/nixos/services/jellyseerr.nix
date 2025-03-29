@@ -16,6 +16,18 @@ in {
     # TODO: persist Jellyseerr storage (currently in /usr/lib/private/jellyseer)
 
     services = {
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Media";
+          name = "Jellyseerr";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "jellyseerr.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
+
       nginx.virtualHosts."${cfg.url}" = {
         enableACME = true;
         forceSSL = true;

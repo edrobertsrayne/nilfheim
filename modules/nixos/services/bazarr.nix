@@ -14,6 +14,18 @@ in {
 
   config = mkIf cfg.enable {
     services = {
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Media";
+          name = "Bazarr";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "bazarr.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
+
       nginx.virtualHosts."${cfg.url}" = {
         enableACME = true;
         forceSSL = true;

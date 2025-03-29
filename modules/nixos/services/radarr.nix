@@ -10,7 +10,7 @@ with lib.custom; let
   inherit (cfg.settings.server) port;
 in {
   options.services."${service}" = {
-    url = mkOpt types.str "${service}.${config.homelab.domain}" "URL for ${service} proxy host.";
+    url = mkOpt' types.str "${service}.${config.homelab.domain}";
   };
 
   config = mkIf cfg.enable {
@@ -18,6 +18,18 @@ in {
       "${service}" = {
         dataDir = "/srv/${service}";
       };
+
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Media";
+          name = "Radarr";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "radarr.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
 
       nginx.virtualHosts."${cfg.url}" = {
         enableACME = true;

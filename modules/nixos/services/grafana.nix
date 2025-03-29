@@ -13,21 +13,35 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    services.grafana = {
-      dataDir = "/srv/grafana";
-      settings = {
-        server = {
-          domain = "${cfg.url}";
+    services = {
+      grafana = {
+        dataDir = "/srv/grafana";
+        settings = {
+          server = {
+            domain = "${cfg.url}";
+          };
         };
+        provision.enable = true;
       };
-      provision.enable = true;
-    };
 
-    services.nginx.virtualHosts."${cfg.url}" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString cfg.settings.server.http_port}";
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Monitoring";
+          name = "Grafana";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "grafana.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
+
+      nginx.virtualHosts."${cfg.url}" = {
+        enableACME = true;
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString cfg.settings.server.http_port}";
+        };
       };
     };
   };

@@ -17,6 +17,18 @@ in {
     # TODO: persist Prowlarr storage (currently in /usr/lib/private/prowlarr)
 
     services = {
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Downloads";
+          name = "Prowlarr";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "prowlarr.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
+
       nginx.virtualHosts."${cfg.url}" = {
         enableACME = true;
         forceSSL = true;

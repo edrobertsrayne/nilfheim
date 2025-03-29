@@ -20,6 +20,18 @@ in {
         dataDir = "/srv/${service}";
       };
 
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Media";
+          name = "Readarr";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "readarr.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
+
       nginx.virtualHosts."${cfg.url}" = {
         enableACME = true;
         forceSSL = true;

@@ -31,6 +31,19 @@ in {
           enable = true;
         };
       };
+
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Monitoring";
+          name = "Prometheus";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "prometheus.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
+
       nginx.virtualHosts."${cfg.url}" = {
         enableACME = true;
         forceSSL = true;

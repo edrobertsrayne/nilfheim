@@ -19,6 +19,18 @@ in {
         dataDir = "/srv/${service}";
       };
 
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Media";
+          name = "Sonarr";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "sonarr.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
+
       nginx.virtualHosts."${cfg.url}" = {
         enableACME = true;
         forceSSL = true;

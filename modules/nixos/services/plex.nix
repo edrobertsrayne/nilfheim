@@ -18,6 +18,18 @@ in {
         dataDir = "/srv/plex";
       };
 
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Media";
+          name = "Plex";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "plex.svg";
+            siteMonitor = "https://${cfg.url}";
+          };
+        }
+      ];
+
       nginx = {
         enable = true;
         virtualHosts."${cfg.url}" = {

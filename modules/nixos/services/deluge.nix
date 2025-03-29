@@ -33,6 +33,24 @@ in {
         };
       };
 
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Downloads";
+          name = "Deluge";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "deluge.svg";
+            siteMonitor = "https://${cfg.url}";
+            widget = {
+              type = "deluge";
+              url = "https://${cfg.url}";
+              password = "deluge";
+              enableLeechProgress = true;
+            };
+          };
+        }
+      ];
+
       prometheus = {
         exporters.deluge = {
           enable = true;
