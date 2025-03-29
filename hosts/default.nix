@@ -9,6 +9,7 @@
     desktop = ../roles/desktop.nix;
     laptop = ../roles/laptop.nix;
     homelab = ../roles/homelab.nix;
+    gaming = ../roles/gaming.nix;
 
     mkNixosSystem = {
       system ? "x86_64-linux",
@@ -43,7 +44,7 @@
       freya = mkNixosSystem {
         hostname = "freya";
         extraModules = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s];
-        roles = [common desktop laptop];
+        roles = [common desktop laptop gaming];
       };
       iso = lib.nixosSystem {
         system = "x86_64-linux";

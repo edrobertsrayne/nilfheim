@@ -102,7 +102,8 @@ in {
             ++ optional desktop.vscode.enable "code.desktop"
             ++ optional desktop.obsidian.enable "obsidian.desktop"
             ++ optional desktop.arduino.enable "arduino-ide.desktop"
-            ++ optional desktop.spotify.enable "spotify.desktop";
+            ++ optional desktop.spotify.enable "spotify.desktop"
+            ++ optional config.programs.steam.enable "steam.desktop";
         };
         "org/gnome/desktop/peripherals/mouse" = {
           speed = 0.0;
