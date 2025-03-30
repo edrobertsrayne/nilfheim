@@ -27,5 +27,6 @@ in {
       defaults.email = "ed.rayne@gmail.com";
     };
     networking.firewall.allowedTCPPorts = [80 443];
+    modules.system.persist.extraRootDirectories = ["/var/lib/acme"];
   };
 }
