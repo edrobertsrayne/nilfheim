@@ -9,4 +9,6 @@ let
 in {
   "tailscale.age".publicKeys = systems ++ users;
   "mullvad.age".publicKeys = systems ++ users;
+  "servarr.age".publicKeys = systems ++ users;
+  "homepage.age".publicKeys = systems ++ users;
 }

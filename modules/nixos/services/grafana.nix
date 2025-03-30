@@ -31,7 +31,7 @@ in {
           entry = {
             href = "https://${cfg.url}";
             icon = "grafana.svg";
-            siteMonitor = "https://${cfg.url}";
+            siteMonitor = "http://127.0.0.1:${toString cfg.settings.server.http_port}";
           };
         }
       ];

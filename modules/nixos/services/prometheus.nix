@@ -39,7 +39,7 @@ in {
           entry = {
             href = "https://${cfg.url}";
             icon = "prometheus.svg";
-            siteMonitor = "https://${cfg.url}";
+            siteMonitor = "http://127.0.0.1:${toString cfg.port}";
           };
         }
       ];

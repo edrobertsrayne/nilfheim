@@ -14,9 +14,17 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # TODO: persist Prowlarr storage (currently in /usr/lib/private/prowlarr)
+    # TODO: persist Prowlarr storage (currently in /var/lib/private/prowlarr)
 
     services = {
+      prowlarr = {
+        settings.auth = {
+          method = "External";
+          type = "DisabledForLocalAddresses";
+        };
+        environmentFiles = [config.age.secrets.servarr.path];
+      };
+
       homepage-dashboard.homelabServices = [
         {
           group = "Downloads";
@@ -24,7 +32,12 @@ in {
           entry = {
             href = "https://${cfg.url}";
             icon = "prowlarr.svg";
-            siteMonitor = "https://${cfg.url}";
+            siteMonitor = "http://127.0.0.1:${toString port}";
+            widget = {
+              type = "prowlarr";
+              url = "http://127.0.0.1:${toString port}";
+              key = "{{HOMEPAGE_VAR_PROWLARR_APIKEY}}";
+            };
           };
         }
       ];

@@ -40,7 +40,7 @@ in {
           entry = {
             href = "https://${cfg.url}";
             icon = "deluge.svg";
-            siteMonitor = "https://${cfg.url}";
+            siteMonitor = "http://127.0.0.1:${toString cfg.web.port}";
             widget = {
               type = "deluge";
               url = "https://${cfg.url}";

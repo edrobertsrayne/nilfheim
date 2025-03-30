@@ -21,7 +21,7 @@ in {
           entry = {
             href = "https://${cfg.url}";
             icon = "bazarr.svg";
-            siteMonitor = "https://${cfg.url}";
+            siteMonitor = "http://127.0.0.1:${toString cfg.listenPort}";
           };
         }
       ];

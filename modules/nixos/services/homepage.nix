@@ -30,6 +30,7 @@ in {
         inherit services;
         customCSS = builtins.readFile ./homepage/custom.css;
         settings = {color = "gray";};
+        environmentFile = config.age.secrets.homepage.path;
         widgets = [
           {
             resources = {
