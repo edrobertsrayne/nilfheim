@@ -32,22 +32,6 @@
           };
         };
       };
-      tank = {
-        device = "/dev/sda";
-        type = "disk";
-        content = {
-          type = "gpt";
-          partitions = {
-            zfs = {
-              size = "100%";
-              content = {
-                type = "zfs";
-                pool = "tank";
-              };
-            };
-          };
-        };
-      };
     };
     zpool = {
       zroot = {
@@ -86,40 +70,6 @@
             mountpoint = "/";
             options."com.sun:auto-snapshot" = "false";
             postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/local/root@blank$' || zfs snapshot zroot/local/root@blank";
-          };
-        };
-      };
-      tank = {
-        type = "zpool";
-        rootFsOptions = {
-          acltype = "posixacl";
-          atime = "off";
-          compression = "zstd"; # Optimized for space (media/backups)
-          mountpoint = "none";
-          xattr = "sa";
-        };
-        options.ashift = "12";
-
-        datasets = {
-          "media" = {
-            type = "zfs_fs";
-            mountpoint = "/mnt/media";
-            options."com.sun:auto-snapshot" = "false";
-          };
-          "backup" = {
-            type = "zfs_fs";
-            mountpoint = "/mnt/backup";
-            options."com.sun:auto-snapshot" = "false";
-          };
-          "downloads" = {
-            type = "zfs_fs";
-            mountpoint = "/mnt/downloads";
-            options."com.sun:auto-snapshot" = "false";
-          };
-          "share" = {
-            type = "zfs_fs";
-            mountpoint = "/mnt/share";
-            options."com.sun:auto-snapshot" = "false";
           };
         };
       };

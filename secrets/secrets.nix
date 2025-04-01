@@ -2,7 +2,8 @@ let
   odin = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHJFqOIXL2rj72/1lXfy4QRM1a+MmRzdQbK0NUpDL/z1";
   loki = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICmanxD3yVEHjRsz2ZNOL7l5skXX3ytrm/uYO9PHNF+Y";
   freya = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIO4RjgGmeN0QCTS8V5raJwcoxajuh2K60jtAhw2El1";
-  systems = [freya loki odin];
+  thor = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4jHnG95Nwr9cauhLD5Aq1PcGk0s9mqfL0YJs/N2fJh";
+  systems = [freya loki odin thor];
   users = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJdf/364Rgul97UR6vn4caDuuxBk9fUrRjfpMsa4sfam ed@freya"
   ];
