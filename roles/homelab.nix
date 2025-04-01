@@ -35,5 +35,13 @@ with lib.custom; {
         privateIP = "10.73.213.60";
       };
     };
+
+    # TODO: Move jellyseerr and prowlarr data into /srv
+    modules.system.persist.extraRootDirectories = [
+      {
+        directory = "/var/lib/private";
+        mode = "0700";
+      }
+    ];
   };
 }

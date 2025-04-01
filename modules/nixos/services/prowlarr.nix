@@ -14,14 +14,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # TODO: persist Prowlarr storage (currently in /var/lib/private/prowlarr)
-    modules.system.persist.extraRootDirectories = [
-      {
-        directory = "/var/lib/private";
-        mode = "0700";
-      }
-    ];
-
     services = {
       prowlarr = {
         settings.auth = {

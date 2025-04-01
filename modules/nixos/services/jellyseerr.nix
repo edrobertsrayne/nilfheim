@@ -13,13 +13,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    modules.system.persist.extraRootDirectories = [
-      {
-        directory = "/var/lib/private";
-        mode = "0700";
-      }
-    ];
-
     services = {
       homepage-dashboard.homelabServices = [
         {
