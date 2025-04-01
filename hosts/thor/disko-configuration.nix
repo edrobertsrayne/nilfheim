@@ -2,7 +2,7 @@
   disko.devices = {
     disk = {
       main = {
-        device = "/dev/disk/by-id/nvme-SK_hynix_BC501_HFM256GDJTNG-8310A_NS97N486611407A37";
+        device = "/dev/nvme0n1";
         type = "disk";
         content = {
           type = "gpt";
@@ -33,7 +33,7 @@
         };
       };
       tank = {
-        device = "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_4TB_S6BCNF0W304378R";
+        device = "/dev/sda";
         type = "disk";
         content = {
           type = "gpt";
@@ -109,6 +109,16 @@
           "backup" = {
             type = "zfs_fs";
             mountpoint = "/mnt/backup";
+            options."com.sun:auto-snapshot" = "false";
+          };
+          "downloads" = {
+            type = "zfs_fs";
+            mountpoint = "/mnt/downloads";
+            options."com.sun:auto-snapshot" = "false";
+          };
+          "share" = {
+            type = "zfs_fs";
+            mountpoint = "/mnt/share";
             options."com.sun:auto-snapshot" = "false";
           };
         };
