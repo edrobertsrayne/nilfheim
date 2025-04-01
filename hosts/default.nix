@@ -46,6 +46,10 @@
         extraModules = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s];
         roles = [common desktop laptop gaming];
       };
+      thor = mkNixosSystem {
+        hostname = "thor";
+        roles = [common homelab];
+      };
       iso = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
@@ -58,7 +62,7 @@
             environment.systemPackages = [pkgs.neovim];
             users.users.root.openssh.authorizedKeys.keys = [
               "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN0EYKmro8pZDXNyT5NiBZnRGhQ/5HlTn5PJEWRawUN1 ed@imac"
-              "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHjO/+Q0fcuPJlilQNFfTbxG78ov3owvJW66poCTZVy4 ed@freya"
+              "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJdf/364Rgul97UR6vn4caDuuxBk9fUrRjfpMsa4sfam ed@freya"
             ];
           })
         ];
