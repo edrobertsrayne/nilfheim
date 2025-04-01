@@ -37,10 +37,6 @@
       };
   in {
     nixosConfigurations = {
-      loki = mkNixosSystem {
-        hostname = "loki";
-        roles = [common homelab];
-      };
       freya = mkNixosSystem {
         hostname = "freya";
         extraModules = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s];
