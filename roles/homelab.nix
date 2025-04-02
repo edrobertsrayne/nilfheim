@@ -4,7 +4,17 @@
   ...
 }:
 with lib;
-with lib.custom; {
+with lib.custom; let
+  # List of service users that need access to tank datasets
+  tankServiceUsers = [
+    "radarr"
+    "lidarr"
+    "plex"
+    "sonarr"
+    "jellyfin"
+    "deluge"
+  ];
+in {
   options.homelab = {
     domain = mkOpt types.str "greensroad.uk" "Homelab proxy base domain.";
   };
@@ -43,5 +53,14 @@ with lib.custom; {
         mode = "0700";
       }
     ];
+
+    # Give services that need it access to the tank datapool
+    users.users = lib.mkMerge (
+      map
+      (user: {
+        ${user}.extraGroups = ["tank"];
+      })
+      tankServiceUsers
+    );
   };
 }
