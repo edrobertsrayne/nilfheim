@@ -5,12 +5,11 @@
 }:
 with lib;
 with lib.custom; let
-  service = "prowlarr";
-  cfg = config.services."${service}";
+  cfg = config.services.prowlarr;
   inherit (cfg.settings.server) port;
 in {
-  options.services."${service}" = {
-    url = mkOpt types.str "${service}.${config.homelab.domain}" "URL for ${service} proxy host.";
+  options.services.prowlarr = {
+    url = mkOpt types.str "prowlarr.${config.homelab.domain}" "URL for prowlarr proxy host.";
   };
 
   config = mkIf cfg.enable {
@@ -20,7 +19,6 @@ in {
           method = "External";
           type = "DisabledForLocalAddresses";
         };
-        environmentFiles = [config.age.secrets.servarr.path];
       };
 
       homepage-dashboard.homelabServices = [

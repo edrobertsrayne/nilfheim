@@ -5,24 +5,22 @@
 }:
 with lib;
 with lib.custom; let
-  service = "lidarr";
-  cfg = config.services."${service}";
+  cfg = config.services.lidarr;
   inherit (cfg.settings.server) port;
 in {
-  options.services."${service}" = {
-    url = mkOpt types.str "${service}.${config.homelab.domain}" "URL for ${service} proxy host.";
-    port = mkOpt types.port 8686 "Port to serve ${service} on.";
+  options.services.lidarr = {
+    url = mkOpt types.str "lidarr.${config.homelab.domain}" "URL for lidarr proxy host.";
+    port = mkOpt types.port 8686 "Port to serve lidarr on.";
   };
 
   config = mkIf cfg.enable {
     services = {
-      "${service}" = {
-        dataDir = "/srv/${service}";
+      lidarr = {
+        dataDir = "/srv/lidarr";
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
         };
-        environmentFiles = [config.age.secrets.servarr.path];
       };
 
       homepage-dashboard.homelabServices = [

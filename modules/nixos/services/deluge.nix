@@ -19,9 +19,12 @@ in {
         web.enable = true;
         dataDir = mkDefault "/srv/deluge";
         declarative = true;
-        authFile = "${pkgs.writeText "deluge-auth" ''
+        config = {
+          download_location = "/mnt/downloads";
+        };
+        authFile = pkgs.writeText "deluge-auth" ''
           localclient:deluge:10
-        ''}";
+        '';
       };
 
       nginx.virtualHosts."${cfg.url}" = {
@@ -44,7 +47,7 @@ in {
             widget = {
               type = "deluge";
               url = "https://${cfg.url}";
-              password = "deluge";
+              password = "{{HOMEPAGE_VAR_DELUGE_PASS}}";
               enableLeechProgress = true;
             };
           };
@@ -54,9 +57,7 @@ in {
       prometheus = {
         exporters.deluge = {
           enable = true;
-          delugePasswordFile = "${pkgs.writeText "deluge-exporter" ''
-            deluge
-          ''}";
+          delugePasswordFile = pkgs.writeText "deluge-pass" ''deluge'';
         };
         scrapeConfigs = [
           {

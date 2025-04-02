@@ -5,23 +5,21 @@
 }:
 with lib;
 with lib.custom; let
-  service = "radarr";
-  cfg = config.services."${service}";
+  cfg = config.services.radarr;
   inherit (cfg.settings.server) port;
 in {
-  options.services."${service}" = {
-    url = mkOpt' types.str "${service}.${config.homelab.domain}";
+  options.services.radarr = {
+    url = mkOpt' types.str "radarr.${config.homelab.domain}";
   };
 
   config = mkIf cfg.enable {
     services = {
-      "${service}" = {
-        dataDir = "/srv/${service}";
+      radarr = {
+        dataDir = "/srv/radarr";
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
         };
-        environmentFiles = [config.age.secrets.servarr.path];
       };
 
       homepage-dashboard.homelabServices = [

@@ -5,23 +5,21 @@
 }:
 with lib;
 with lib.custom; let
-  service = "sonarr";
-  cfg = config.services."${service}";
+  cfg = config.services.sonarr;
   inherit (cfg.settings.server) port;
 in {
-  options.services."${service}" = {
-    url = mkOpt types.str "${service}.${config.homelab.domain}" "URL for ${service} proxy host.";
+  options.services.sonarr = {
+    url = mkOpt types.str "sonarr.${config.homelab.domain}" "URL for sonarr proxy host.";
   };
 
   config = mkIf cfg.enable {
     services = {
-      "${service}" = {
-        dataDir = "/srv/${service}";
+      sonarr = {
+        dataDir = "/srv/sonarr";
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
         };
-        environmentFiles = [config.age.secrets.servarr.path];
       };
 
       homepage-dashboard.homelabServices = [

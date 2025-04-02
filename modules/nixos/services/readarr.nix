@@ -5,24 +5,22 @@
 }:
 with lib;
 with lib.custom; let
-  service = "readarr";
-  cfg = config.services."${service}";
+  cfg = config.services.readarr;
   inherit (cfg.settings.server) port;
 in {
-  options.services."${service}" = {
-    url = mkOpt types.str "${service}.${config.homelab.domain}" "URL for ${service} proxy host.";
-    port = mkOpt types.port 8787 "Port to serve ${service} on.";
+  options.services.readarr = {
+    url = mkOpt types.str "readarr.${config.homelab.domain}" "URL for readarr proxy host.";
+    port = mkOpt types.port 8787 "Port to serve readarr on.";
   };
 
   config = mkIf cfg.enable {
     services = {
-      "${service}" = {
-        dataDir = "/srv/${service}";
+      readarr = {
+        dataDir = "/srv/readarr";
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
         };
-        environmentFiles = [config.age.secrets.servarr.path];
       };
 
       homepage-dashboard.homelabServices = [
