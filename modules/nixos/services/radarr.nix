@@ -34,7 +34,6 @@ in {
               type = "radarr";
               url = "http://127.0.0.1:${toString port}";
               key = "{{HOMEPAGE_VAR_RADARR_APIKEY}}";
-              enableQueue = true;
             };
           };
         }

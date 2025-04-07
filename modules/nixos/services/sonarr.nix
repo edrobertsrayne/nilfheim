@@ -34,7 +34,6 @@ in {
               type = "sonarr";
               url = "http://127.0.0.1:${toString port}";
               key = "{{HOMEPAGE_VAR_SONARR_APIKEY}}";
-              enableQueue = true;
             };
           };
         }
