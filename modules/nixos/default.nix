@@ -14,6 +14,7 @@
     ./hardware/network.nix
 
     ./services/avahi.nix
+    ./services/autobrr.nix
     ./services/bazarr.nix
     ./services/blocky.nix
     ./services/deluge.nix

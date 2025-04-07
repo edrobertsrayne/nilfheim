@@ -10,4 +10,5 @@ in {
   "tailscale.age".publicKeys = systems ++ users;
   "mullvad.age".publicKeys = systems ++ users;
   "homepage.age".publicKeys = systems ++ users;
+  "autobrr.age".publicKeys = systems ++ users;
 }
