@@ -5,14 +5,15 @@
 }:
 with lib;
 with lib.custom; let
-  service = "bazarr";
-  cfg = config.services."${service}";
+  cfg = config.services.bazarr;
 in {
-  options.services."${service}" = {
-    url = mkOpt types.str "${service}.${config.homelab.domain}" "URL for ${service} proxy host.";
+  options.services.bazarr = {
+    url = mkOpt types.str "bazarr.${config.homelab.domain}" "URL for bazarr proxy host.";
   };
 
   config = mkIf cfg.enable {
+    users.users.${cfg.user}.extraGroups = ["tank"];
+
     services = {
       homepage-dashboard.homelabServices = [
         {
