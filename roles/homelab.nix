@@ -27,6 +27,7 @@ in {
       bazarr.enable = true;
       blocky.enable = true;
       deluge.enable = true;
+      glances.enable = true;
       grafana.enable = true;
       homepage-dashboard.enable = true;
       jellyfin.enable = true;
