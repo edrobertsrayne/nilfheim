@@ -38,6 +38,13 @@ in {
       radarr = enabled;
       readarr = enabled;
       sonarr = enabled;
+      tailscale = {
+        useRoutingFeatures = "server";
+        extraUpFlags = [
+          "--advertise-exit-node"
+          ''--advertise-routes "192.168.68.0/24"''
+        ];
+      };
       wireguard-netns = {
         enable = true;
         configFile = config.age.secrets.mullvad.path;
