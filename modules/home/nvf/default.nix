@@ -31,13 +31,19 @@ in {
           withPython3 = false;
           withRuby = false;
 
+          useSystemClipboard = true;
+
+          options = {
+            tabstop = 2;
+            shiftwidth = 2;
+            wrap = false;
+          };
+
           theme = {
             enable = true;
             name = "catppuccin";
             style = "mocha";
           };
-
-          luaConfigRC.general = builtins.readFile ./lua/general.lua;
         };
       };
     };
