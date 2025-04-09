@@ -16,11 +16,13 @@ in {
   config = mkIf cfg.enable {
     modules.user.shell = pkgs.zsh;
     home-manager = {
+      backupFileExtension = "backup";
       useGlobalPkgs = true;
       useUserPackages = true;
       users.${config.modules.user.name} = import ../home;
       sharedModules = [
         inputs.nvf.homeManagerModules.default
+        inputs.catppuccin.homeModules.catppuccin
         {
           programs.home-manager = enabled;
           manual = {
