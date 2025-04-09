@@ -5,9 +5,9 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.system.nix;
+  cfg = config.system.nix;
 in {
-  options.modules.system.nix = {
+  options.system.nix = {
     enable = mkEnableOption "Whether to enable nix settings.";
   };
 

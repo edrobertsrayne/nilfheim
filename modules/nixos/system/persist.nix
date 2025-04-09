@@ -5,7 +5,7 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.system.persist;
+  cfg = config.system.persist;
 
   baseRootDirectories = [
     "/etc/nixos"
@@ -13,7 +13,7 @@ with lib.custom; let
     "/var/lib/bluetooth"
     "/var/lib/nixos"
     "/var/lib/systemd/coredump"
-    # "/etc/NetworkManager/system-connections"
+    "/etc/NetworkManager/system-connections"
     "/etc/ssh/authorized_keys.d"
   ];
 
@@ -25,7 +25,7 @@ with lib.custom; let
     "/etc/ssh/ssh_host_rsa_key.pub"
   ];
 in {
-  options.modules.system.persist = with types; {
+  options.system.persist = with types; {
     enable = mkEnableOption "Whether to enable peristent storage";
     path = mkOption {
       type = str;

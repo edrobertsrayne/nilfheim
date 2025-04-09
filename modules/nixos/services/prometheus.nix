@@ -70,6 +70,6 @@ in {
         ];
       };
     };
-    modules.system.persist.extraRootDirectories = ["/var/lib/${cfg.stateDir}"];
+    system.persist.extraRootDirectories = ["/var/lib/${cfg.stateDir}"];
   };
 }

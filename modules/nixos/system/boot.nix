@@ -5,16 +5,14 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.system.boot;
+  cfg = config.system.boot;
 in {
-  options.modules.system.boot = {
+  options.system.boot = {
     enable = mkEnableOption "Whether to enable system booting.";
   };
 
   config = mkIf cfg.enable {
     boot.loader = {
-      # systemd-boot.enable = true;
-      # efi.canTouchEfiVariables = true;
       grub = {
         enable = true;
         efiSupport = true;

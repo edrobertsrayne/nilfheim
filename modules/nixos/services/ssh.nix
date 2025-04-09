@@ -5,10 +5,10 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.services.ssh;
+  cfg = config.services.ssh;
 in {
-  options.modules.services.ssh = {
-    enable = mkEnableOption "Whether to enable SSH.";
+  options.services.ssh = {
+    enable = mkEnableOption "Whether to enable SSH service.";
   };
 
   config = mkIf cfg.enable {

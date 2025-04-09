@@ -1,21 +1,14 @@
-{
-  lib,
-  pkgs,
-  ...
-}:
-with lib.custom; {
-  modules = {
-    hardware.network = enabled;
-    services = {
-      avahi = enabled;
-      ssh = enabled;
-      tailscale = enabled;
-    };
-    system = {
-      boot = enabled;
-      nix = enabled;
-      persist = enabled;
-    };
+{pkgs, ...}: {
+  hardware.network.enable = true;
+  services = {
+    avahi.enable = true;
+    ssh.enable = true;
+    tailscale.enable = true;
+  };
+  system = {
+    boot.enable = true;
+    nix.enable = true;
+    persist.enable = true;
   };
 
   time.timeZone = "Europe/London";
