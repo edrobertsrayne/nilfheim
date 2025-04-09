@@ -13,6 +13,8 @@ in {
   };
 
   config = mkIf cfg.enable {
+    users.users.${cfg.user}.extraGroups = ["tank"];
+
     services = {
       radarr = {
         dataDir = "/srv/radarr";
