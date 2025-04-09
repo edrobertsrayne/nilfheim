@@ -2,6 +2,7 @@
   imports = [
     ./desktop/arduino.nix
     ./desktop/firefox.nix
+    ./desktop/fonts.nix
     ./desktop/foot.nix
     ./desktop/gnome.nix
     ./desktop/gtk.nix
@@ -9,6 +10,7 @@
     ./desktop/spotify.nix
     ./desktop/virt-manager.nix
     ./desktop/vscode.nix
+    ./desktop/xkb.nix
 
     ./hardware/audio.nix
     ./hardware/network.nix
@@ -36,10 +38,9 @@
     ./services/wireguard-netns.nix
 
     ./system/boot.nix
-    ./system/fonts.nix
+    ./desktop/fonts.nix
     ./system/nix.nix
     ./system/persist.nix
-    ./system/xkb.nix
   ];
 
   system.stateVersion = "25.05";

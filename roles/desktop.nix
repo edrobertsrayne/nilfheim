@@ -1,10 +1,8 @@
 {
   pkgs,
-  lib,
   config,
   ...
 }: let
-  inherit (lib.custom) enabled;
   inherit (config) user;
 in {
   nixpkgs.config.allowUnfree = true;
@@ -15,14 +13,18 @@ in {
   };
 
   desktop = {
-    gnome = enabled;
-    arduino = enabled;
-    foot = enabled;
-    firefox = enabled;
-    obsidian = enabled;
-    spotify = enabled;
-    virtManager = enabled;
-    vscode = enabled;
+    gnome.enable = true;
+
+    arduino.enable = true;
+    foot.enable = true;
+    firefox.enable = true;
+    obsidian.enable = true;
+    spotify.enable = true;
+    virtManager.enable = true;
+    vscode.enable = true;
+
+    fonts.enable = true;
+    xkb.enable = true;
   };
 
   home-manager = {
@@ -38,13 +40,7 @@ in {
     };
   };
 
-  modules = {
-    hardware.audio = enabled;
-    system = {
-      fonts = enabled;
-      xkb = enabled;
-    };
-  };
+  hardware.audio.enable = true;
 
   environment.systemPackages = with pkgs; [
     processing

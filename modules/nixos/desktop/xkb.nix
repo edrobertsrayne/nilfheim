@@ -5,9 +5,9 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.system.xkb;
+  cfg = config.desktop.xkb;
 in {
-  options.modules.system.xkb = {
+  options.desktop.xkb = {
     enable = mkEnableOption "Whether to configure xkb.";
   };
 

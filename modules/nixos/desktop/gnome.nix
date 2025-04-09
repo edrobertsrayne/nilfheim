@@ -23,10 +23,10 @@ in {
   };
 
   config = mkIf cfg.enable {
-    modules = {
-      system.xkb = enabled;
+    desktop = {
+      xkb.enable = true;
+      gtk.enable = true;
     };
-    desktop.gtk = enabled;
 
     environment.gnome.excludePackages = with pkgs; [
       gnome-tour

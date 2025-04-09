@@ -6,10 +6,10 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.system.fonts;
+  cfg = config.desktop.fonts;
 in {
-  options.modules.system.fonts = with types; {
-    enable = mkEnableOption "Whether to install system fonts.";
+  options.desktop.fonts = with types; {
+    enable = mkEnableOption "Whether to install desktop fonts.";
     fonts = mkOption {
       type = listOf package;
       default = [];
