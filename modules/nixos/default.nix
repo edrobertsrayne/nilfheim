@@ -35,6 +35,7 @@
     ./services/sonarr.nix
     ./services/ssh.nix
     ./services/tailscale.nix
+    ./services/uptime-kuma.nix
     ./services/wireguard-netns.nix
 
     ./system/boot.nix

@@ -47,6 +47,7 @@ in {
           ''--advertise-routes "192.168.68.0/24"''
         ];
       };
+      uptime-kuma.enable = true;
       wireguard-netns = {
         enable = true;
         configFile = config.age.secrets.mullvad.path;
@@ -56,7 +57,7 @@ in {
     };
 
     # TODO: Move jellyseerr and prowlarr data into /srv
-    modules.system.persist.extraRootDirectories = [
+    system.persist.extraRootDirectories = [
       {
         directory = "/var/lib/private";
         mode = "0700";
