@@ -4,7 +4,7 @@
   ...
 }:
 with lib.custom; let
-  inherit (osConfig.modules) user;
+  inherit (osConfig) user;
 in {
   imports = [
     ./nvf
@@ -13,7 +13,7 @@ in {
 
   config = {
     home = {
-      username = "ed";
+      username = user.name;
       stateVersion = "25.05";
       shell.enableShellIntegration = true;
     };

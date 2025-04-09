@@ -5,9 +5,14 @@
   ...
 }: let
   inherit (lib.custom) enabled;
-  inherit (config.modules) user;
+  inherit (config) user;
 in {
   nixpkgs.config.allowUnfree = true;
+
+  catppuccin = {
+    flavor = "mocha";
+    enable = true;
+  };
 
   desktop = {
     gnome = enabled;
@@ -20,18 +25,20 @@ in {
     vscode = enabled;
   };
 
-  home-manager.users.${user.name}.config = {
-    catppuccin = {
-      flavor = "mocha";
-      enable = true;
-    };
-    programs = {
-      alacritty.enable = true;
+  home-manager = {
+    enable = true;
+    users.${user.name}.config = {
+      catppuccin = {
+        flavor = "mocha";
+        enable = true;
+      };
+      programs = {
+        alacritty.enable = true;
+      };
     };
   };
 
   modules = {
-    home-manager = enabled;
     hardware.audio = enabled;
     system = {
       fonts = enabled;

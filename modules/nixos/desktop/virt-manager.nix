@@ -4,7 +4,7 @@
   ...
 }: let
   cfg = config.desktop.virtManager;
-  inherit (config.modules) user;
+  inherit (config) user;
   inherit (lib) mkEnableOption mkIf;
 in {
   options.desktop.virtManager = {

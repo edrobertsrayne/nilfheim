@@ -7,8 +7,7 @@
 with lib;
 with lib.custom; let
   cfg = config.desktop.gnome;
-  inherit (config.modules) user;
-  inherit (config) desktop;
+  inherit (config) desktop user;
   defaultExtensions = with pkgs.gnomeExtensions; [
     caffeine
     just-perfection

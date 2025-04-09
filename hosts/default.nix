@@ -31,6 +31,7 @@
             inputs.impermanence.nixosModules.impermanence
             inputs.catppuccin.nixosModules.catppuccin
             ../modules/nixos
+            ../modules/common
             ../secrets
           ]
           ++ roles

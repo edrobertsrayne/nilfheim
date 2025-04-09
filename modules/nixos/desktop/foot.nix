@@ -6,7 +6,7 @@
 with lib;
 with lib.custom; let
   cfg = config.desktop.foot;
-  inherit (config.modules) user;
+  inherit (config) user;
 in {
   options.desktop.foot = with types; {
     enable = mkBoolOpt false "Whether to enable foot terminal emulator.";

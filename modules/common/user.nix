@@ -7,9 +7,9 @@
 }:
 with lib;
 with lib.custom; let
-  cfg = config.modules.user;
+  cfg = config.user;
 in {
-  options.modules.user = with types; {
+  options.user = with types; {
     name = mkOpt str username "The main to use for the user account.";
     fullName = mkOpt str "Ed Roberts Rayne" "The user's full name.";
     email = mkOpt str "ed.rayne@gmail.com" "The user's email address.";

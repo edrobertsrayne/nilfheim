@@ -7,7 +7,7 @@
 with lib;
 with lib.custom; let
   cfg = config.desktop.gtk;
-  inherit (config.modules) user;
+  inherit (config) user;
 in {
   options.desktop.gtk = with types; {
     enable = mkBoolOpt false "Whether to customize GTK and apply themes.";
