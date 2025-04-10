@@ -6,6 +6,7 @@
 }:
 with lib;
 with lib.custom; let
+  wallpaper = "/home/ed/Pictures/Wallpapers/among-trees-campsite.jpg";
   cfg = config.desktop.gnome;
   inherit (config) desktop user;
   defaultExtensions = with pkgs.gnomeExtensions; [
@@ -72,7 +73,6 @@ in {
     };
 
     programs.dconf.enable = true;
-
     home-manager.users.${user.name} = {
       dconf.settings = {
         "org/gnome/desktop/interface" = {
@@ -81,6 +81,14 @@ in {
             then "prefer-dark"
             else "default";
           enable-hot-corners = false;
+        };
+        "org/gnome/desktop/background" = {
+          picture-options = "zoom";
+          picture-uri = "file://${wallpaper}";
+          picture-uri-dark = "file://${wallpaper}";
+        };
+        "org/gnome/desktop/screensaver" = {
+          picture-uri = "file://${wallpaper}";
         };
         "org/gnome/shell" = {
           disable-user-extensions = false;
