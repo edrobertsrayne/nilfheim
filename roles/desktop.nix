@@ -46,5 +46,6 @@ in {
     processing
     vlc
     kicad
+    bambu-studio
   ];
 }
