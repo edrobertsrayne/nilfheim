@@ -26,7 +26,6 @@ in {
             term = "xterm-256color";
           };
           scrollback.lines = 2000;
-          url.protocols = "http,https,ftp,ftps,file,gemini,gopher,mailto";
           cursor = {
             blink = "yes";
           };
