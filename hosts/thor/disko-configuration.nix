@@ -1,42 +1,4 @@
 {
-  lib,
-  username,
-  ...
-}: let
-  # Helper function to generate ZFS tank dataset configurations
-  mkTankMount = name: {
-    "${name}" = {
-      type = "zfs_fs";
-      mountpoint = "/mnt/${name}";
-      options."com.sun:auto-snapshot" = "false";
-      mountOptions = ["nofail"];
-    };
-  };
-
-  # List of tank datasets
-  tankDatasets = [
-    "backup"
-    "downloads"
-    "media"
-    "share"
-  ];
-
-  # Generate permissions script for tank mounts
-  mkTankPermissions = dirs:
-    lib.concatMapStrings (dir: ''
-      if [ -d "/mnt/${dir}" ]; then
-        chown -R ${username}:tank /mnt/${dir}
-        chmod -R 2775 /mnt/${dir}
-      fi
-    '')
-    dirs;
-in {
-  users.groups.tank.members = ["${username}"];
-
-  # Ensure ZFS is set up properly
-  boot.supportedFilesystems = ["zfs"];
-  boot.zfs.extraPools = ["tank"];
-
   disko.devices = {
     disk = {
       main = {
@@ -137,17 +99,33 @@ in {
           xattr = "sa";
         };
         options.ashift = "12";
-        datasets = lib.foldl (acc: name: acc // mkTankMount name) {} tankDatasets;
+        datasets = {
+          "backup" = {
+            type = "zfs_fs";
+            mountpoint = "/mnt/backup";
+            options."com.sun:auto-snapshot" = "false";
+            mountOptions = ["nofail"];
+          };
+          "share" = {
+            type = "zfs_fs";
+            mountpoint = "/mnt/share";
+            options."com.sun:auto-snapshot" = "false";
+            mountOptions = ["nofail"];
+          };
+          "media" = {
+            type = "zfs_fs";
+            mountpoint = "/mnt/media";
+            options."com.sun:auto-snapshot" = "false";
+            mountOptions = ["nofail"];
+          };
+          "downloads" = {
+            type = "zfs_fs";
+            mountpoint = "/mnt/downloads";
+            options."com.sun:auto-snapshot" = "false";
+            mountOptions = ["nofail"];
+          };
+        };
       };
     };
-  };
-
-  # Setup permissions
-  system.activationScripts.tankPermissions = {
-    deps = ["users" "groups"];
-    text = ''
-      echo "Setting up tank pool permissions..."
-      ${mkTankPermissions tankDatasets}
-    '';
   };
 }
