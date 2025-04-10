@@ -16,6 +16,7 @@
       systems = ["x86_64-linux" "x86_64-darwin"];
 
       imports = [
+        ./packages
         ./hosts
       ];
 
@@ -58,6 +59,10 @@
     nvf = {
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    wallpapers = {
+      url = "github:DenverCoder1/minimalistic-wallpaper-collection";
+      flake = false;
     };
   };
 }

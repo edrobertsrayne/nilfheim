@@ -347,7 +347,8 @@
         "impermanence": "impermanence",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
-        "nvf": "nvf"
+        "nvf": "nvf",
+        "wallpapers": "wallpapers"
       }
     },
     "rust-overlay": {
@@ -414,6 +415,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "wallpapers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1733828857,
+        "narHash": "sha256-x0Ho/KUbQBvpEsxNpNSS2t/tWbZHlA9tQQO24B9Wqfc=",
+        "owner": "DenverCoder1",
+        "repo": "minimalistic-wallpaper-collection",
+        "rev": "14b5cbbf52954836247ec75da17ff889224027d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DenverCoder1",
+        "repo": "minimalistic-wallpaper-collection",
         "type": "github"
       }
     }
