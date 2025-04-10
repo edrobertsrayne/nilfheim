@@ -6,7 +6,6 @@
 pkgs.stdenv.mkDerivation {
   name = "wallpaper";
   src = "${inputs.wallpapers}/images";
-  timestamp = builtins.toString builtins.currentTime;
   dontBuild = true;
   installPhase = ''
     mkdir -p $out
