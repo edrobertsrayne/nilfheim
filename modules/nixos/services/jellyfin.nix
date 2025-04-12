@@ -13,6 +13,8 @@ in {
   };
 
   config = mkIf cfg.enable {
+    users.users.${cfg.user}.extraGroups = ["tank"];
+
     services = {
       jellyfin.dataDir = "/srv/jellyfin";
 
@@ -47,6 +49,27 @@ in {
     nixpkgs.config.packageOverrides = pkgs: {
       vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
     };
+
+    # Enable intro skipper plugin
+    nixpkgs.overlays = with pkgs; [
+      (
+        final: prev: {
+          jellyfin-web = prev.jellyfin-web.overrideAttrs (finalAttrs: previousAttrs: {
+            installPhase = ''
+              runHook preInstall
+
+              # this is the important line
+              sed -i "s#</head>#<script src=\"configurationpage?name=skip-intro-button.js\"></script></head>#" dist/index.html
+
+              mkdir -p $out/share
+              cp -a dist $out/share/jellyfin-web
+
+              runHook postInstall
+            '';
+          });
+        }
+      )
+    ];
 
     hardware.graphics = {
       enable = true;
