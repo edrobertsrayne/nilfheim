@@ -13,6 +13,7 @@ with lib.custom; {
     nixpkgs.config.allowUnfree = true;
 
     services = {
+      audiobookshelf.enable = true;
       autobrr.enable = true;
       bazarr.enable = true;
       blocky.enable = true;

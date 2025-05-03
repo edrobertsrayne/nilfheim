@@ -16,6 +16,7 @@
     ./hardware/network.nix
 
     ./services/avahi.nix
+    ./services/audiobookshelf.nix
     ./services/autobrr.nix
     ./services/bazarr.nix
     ./services/blocky.nix
