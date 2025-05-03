@@ -5,5 +5,6 @@
     mullvad.file = ./mullvad.age;
     homepage.file = ./homepage.age;
     autobrr.file = ./autobrr.age;
+    kavita.file = ./kavita.age;
   };
 }

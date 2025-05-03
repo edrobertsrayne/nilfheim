@@ -23,6 +23,7 @@ with lib.custom; {
       homepage-dashboard.enable = true;
       jellyfin.enable = true;
       jellyseerr.enable = true;
+      kavita.enable = true;
       lidarr.enable = true;
       nginx.enable = true;
       plex.enable = true;

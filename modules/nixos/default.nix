@@ -26,6 +26,7 @@
     ./services/homepage.nix
     ./services/jellyfin.nix
     ./services/jellyseerr.nix
+    ./services/kavita.nix
     ./services/lidarr.nix
     ./services/nginx.nix
     ./services/plex.nix
