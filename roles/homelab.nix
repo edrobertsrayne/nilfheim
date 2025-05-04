@@ -12,6 +12,10 @@ with lib.custom; {
   config = {
     nixpkgs.config.allowUnfree = true;
 
+    virtualisation = {
+      podman.enable = true;
+    };
+
     services = {
       audiobookshelf.enable = true;
       autobrr.enable = true;
@@ -48,7 +52,6 @@ with lib.custom; {
       };
     };
 
-    # TODO: Move jellyseerr and prowlarr data into /srv
     system.persist.extraRootDirectories = [
       {
         directory = "/var/lib/private";
