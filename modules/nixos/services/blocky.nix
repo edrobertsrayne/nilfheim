@@ -38,7 +38,25 @@ in {
               ads = ["https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"];
             };
             allowlists = {
-              ads = ["https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt"];
+              ads = [
+                (pkgs.writeText "whitelist.txt" ''
+                  clients4.google.com
+                  clients2.google.com
+                  s.youtube.com
+                  video-stats.youtube.com
+                  www.googleapis.com
+                  youtubei.googleapis.com
+                  oauthaccountmanager.googleapis.com
+                  android.clients.google.com
+                  reminders-pa.googleapis.com
+                  firestore.googleapis.com
+                  gstaticadssl.l.google.com
+                  googleapis.l.google.com
+                  dl.google.com
+                  redirector.gvt1.com
+                  mtalk.google.com
+                '')
+              ];
             };
             clientGroupsBlock = {
               default = ["ads"];
