@@ -14,6 +14,7 @@ with lib.custom; {
 
     virtualisation = {
       podman.enable = true;
+      tdarr.enable = true;
     };
 
     services = {

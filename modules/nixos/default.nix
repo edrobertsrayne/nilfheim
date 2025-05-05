@@ -1,7 +1,5 @@
 {
   imports = [
-    ./virtualisation/podman.nix
-
     ./desktop/arduino.nix
     ./desktop/firefox.nix
     ./desktop/fonts.nix
@@ -41,6 +39,9 @@
     ./services/tailscale.nix
     ./services/uptime-kuma.nix
     ./services/wireguard-netns.nix
+
+    ./virtualisation/podman.nix
+    ./virtualisation/tdarr.nix
 
     ./system/boot.nix
     ./desktop/fonts.nix

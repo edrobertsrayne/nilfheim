@@ -13,7 +13,7 @@ in {
       containers.enable = true;
       podman = {
         dockerCompat = true;
-        defaultNetwork.settings.dns_enabled = true;
+        defaultNetwork.settings.dns_enabled = false;
       };
     };
 
