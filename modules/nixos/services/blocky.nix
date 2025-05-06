@@ -35,7 +35,40 @@ in {
           };
           blocking = {
             denylists = {
-              ads = ["https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"];
+              ads = [
+                "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+                "https://small.oisd.nl/rpz"
+                "https://raw.githubusercontent.com/lassekongo83/Frellwits-filter-lists/master/Frellwits-Swedish-Hosts-File.txt"
+                "https://v.firebog.net/hosts/AdguardDNS.txt"
+                (pkgs.writeText "adblock.txt" ''
+                  mediavisor.doubleclick.net
+                  affiliationjs.s3.amazonaws.com
+                '')
+              ];
+              trackers = [
+                "https://v.firebog.net/hosts/Easyprivacy.txt"
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.amazon.txt"
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.apple.txt"
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.huawei.txt"
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.winoffice.txt"
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.tiktok.extended.txt"
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.lgwebos.txt"
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.vivo.txt"
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.oppo-realme.txt"
+                "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.xiaomi.txt"
+                (pkgs.writeText "trackers.txt" ''
+                  cdn.luckyorange.com
+                  w1.luckyorange.com
+                  ads.facebook.com
+                  advertising.twitter.com
+                  widgets.pinterest.com
+                  samsung-com.112.2o7.net
+                  api.bugsnag.com
+                  app.bugsnag.com
+                  browser.sentry-cdn.com
+                  app.getsentry.com
+                '')
+              ];
             };
             allowlists = {
               ads = [
@@ -59,7 +92,7 @@ in {
               ];
             };
             clientGroupsBlock = {
-              default = ["ads"];
+              default = ["ads" "trackers"];
             };
           };
         };
