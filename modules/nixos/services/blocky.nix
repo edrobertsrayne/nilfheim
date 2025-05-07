@@ -43,6 +43,7 @@ in {
                 (pkgs.writeText "adblock.txt" ''
                   mediavisor.doubleclick.net
                   affiliationjs.s3.amazonaws.com
+                  afs.googlesyndication.com
                 '')
               ];
               trackers = [
@@ -57,6 +58,7 @@ in {
                 "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.oppo-realme.txt"
                 "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/native.xiaomi.txt"
                 (pkgs.writeText "trackers.txt" ''
+                  api.luckyorange.com
                   cdn.luckyorange.com
                   w1.luckyorange.com
                   ads.facebook.com
@@ -67,6 +69,20 @@ in {
                   app.bugsnag.com
                   browser.sentry-cdn.com
                   app.getsentry.com
+                  adm.hotjar.com
+                  identify.hotjar.com
+                  insights.hotjar.com
+                  surveys.hotjar.com
+                  tools.mouseflow.com
+                  cdn-test.mouseflow.com
+                  realtime.luckyorange.com
+                  claritybt.freshmarketer.com
+                  fwtracks.freshmarketer.com
+                  udcm.yahoo.com
+                  log.fc.yahoo.com
+                  adtech.yahooinc.com
+                  appmetrica.yandex.ru
+                  metrika.yandex.ru
                 '')
               ];
             };
