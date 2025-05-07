@@ -18,8 +18,8 @@ in {
     services = {
       homepage-dashboard.homelabServices = [
         {
-          group = "Media";
-          name = "Lidarr";
+          group = "Downloads";
+          name = "sabnzbd";
           entry = {
             href = "https://${cfg.url}";
             icon = "sabnzbd.svg";
