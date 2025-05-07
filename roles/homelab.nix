@@ -19,7 +19,7 @@ with lib.custom; {
 
     services = {
       audiobookshelf.enable = true;
-      autobrr.enable = true;
+      # autobrr.enable = true;
       bazarr.enable = true;
       blocky.enable = true;
       deluge.enable = true;
