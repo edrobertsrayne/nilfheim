@@ -1,13 +1,13 @@
 {
   programs.nvf.settings.vim = {
     lsp = {
+      enable = true;
       formatOnSave = true;
       lightbulb.enable = true;
       trouble.enable = true;
       lspSignature.enable = true;
     };
     languages = {
-      enableLSP = true;
       enableFormat = true;
       enableTreesitter = true;
       enableExtraDiagnostics = true;
