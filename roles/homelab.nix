@@ -36,6 +36,7 @@ with lib.custom; {
       prowlarr.enable = true;
       radarr.enable = true;
       readarr.enable = true;
+      sabnzbd.enable = true;
       sonarr.enable = true;
       tailscale = {
         useRoutingFeatures = "server";

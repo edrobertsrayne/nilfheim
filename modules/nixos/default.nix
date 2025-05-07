@@ -34,6 +34,7 @@
     ./services/prowlarr.nix
     ./services/radarr.nix
     ./services/readarr.nix
+    ./services/sabnzbd.nix
     ./services/sonarr.nix
     ./services/ssh.nix
     ./services/tailscale.nix
