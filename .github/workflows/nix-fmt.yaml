@@ -1,0 +1,73 @@
+name: Nix Format
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Needed if we want to commit back to the repo or PR
+          token: ${{ secrets.GH_ACTIONS_TOKEN }}
+      
+      - name: Install Determinate Nix
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          determinate: true
+      
+      - name: Run nix fmt
+        id: fmt
+        run: |
+          # Run nix fmt and check if any files were modified
+          nix fmt
+          if git diff --exit-code; then
+            echo "No formatting changes needed"
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+          else
+            echo "Formatting changes detected"
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
+          fi
+      
+      # For push events, commit the formatting changes directly
+      - name: Commit formatting changes (push)
+        if: steps.fmt.outputs.changes_detected == 'true' && github.event_name == 'push'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "style: apply nix fmt changes"
+          git push
+      
+      # For pull requests, commit to the PR branch
+      - name: Commit formatting changes (pull request)
+        if: steps.fmt.outputs.changes_detected == 'true' && github.event_name == 'pull_request'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "style: apply nix fmt changes"
+          git push origin HEAD:${{ github.head_ref }}
+      
+      # Add a comment to the PR if formatting changes were made
+      - name: Comment on PR
+        if: steps.fmt.outputs.changes_detected == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_ACTIONS_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✨ I\'ve automatically applied `nix fmt` formatting changes to this PR.'
+            })
