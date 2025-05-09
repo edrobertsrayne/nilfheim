@@ -20,6 +20,7 @@
     ./services/autobrr.nix
     ./services/bazarr.nix
     ./services/blocky.nix
+    ./services/calibre.nix
     ./services/deluge.nix
     ./services/glances.nix
     ./services/grafana.nix

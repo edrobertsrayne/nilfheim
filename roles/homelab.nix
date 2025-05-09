@@ -22,6 +22,7 @@ with lib.custom; {
       # autobrr.enable = true;
       bazarr.enable = true;
       blocky.enable = true;
+      calibre.enable = true;
       deluge.enable = true;
       glances.enable = true;
       grafana.enable = true;
