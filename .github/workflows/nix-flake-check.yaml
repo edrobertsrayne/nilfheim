@@ -1,0 +1,33 @@
+name: Nix Flake Check
+
+on:
+  pull_request:
+    branches: [ main ]
+  # Optionally run on push to main as well
+  # push:
+    # branches: [ main ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Install Determinate Nix
+        uses: DeterminateSystems/nix-installer-action@main
+        with:
+          determinate: true
+          
+      - name: Run nix flake check
+        run: nix flake check
+        
+      - name: Report check status
+        if: always()
+        run: |
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "✅ Nix flake check passed"
+          else
+            echo "❌ Nix flake check failed"
+            exit 1
+          fi
