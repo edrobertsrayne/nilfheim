@@ -24,5 +24,11 @@ in {
         options = "--delete-older-than 7d";
       };
     };
+    system.autoUpgrade = {
+      enable = true;
+      flake = "github:edrobertsrayne/nilfheim";
+      flags = [];
+      dates = "04:00";
+    };
   };
 }
