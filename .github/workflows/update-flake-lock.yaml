@@ -17,3 +17,5 @@ jobs:
           determinate: true
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
+        with:
+          token: ${{ secrets.GH_ACTIONS_TOKEN }}
