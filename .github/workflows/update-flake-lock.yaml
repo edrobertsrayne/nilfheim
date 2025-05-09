@@ -4,7 +4,10 @@ on:
   workflow_dispatch: # allows manual triggering
   schedule:
     - cron: '0 0 * * 0' # runs weekly on Sunday at 00:00
-
+permissions:
+  contents: write
+  pull-requests: write
+  
 jobs:
   lockfile:
     runs-on: ubuntu-latest
@@ -22,3 +25,9 @@ jobs:
           pr-labels: | 
             dependencies
             automated
+          git-author-name: "github-actions[bot]"
+          git-author-email: "github-actions[bot]@users.noreply.github.com"
+          git-committer-name: "github-actions[bot]"
+          git-committer-email: "github-actions[bot]@users.noreply.github.com"
+          # Token with PR creation permissions - usually the default token works
+          token: ${{ secrets.GITHUB_TOKEN }}
