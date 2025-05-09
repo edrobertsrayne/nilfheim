@@ -1,33 +1,45 @@
 name: update-flake-lock
-
 on:
   workflow_dispatch: # allows manual triggering
   schedule:
     - cron: '0 0 * * 0' # runs weekly on Sunday at 00:00
+
+# Set write permissions for repository contents
 permissions:
   contents: write
-  pull-requests: write
-  
+
 jobs:
   lockfile:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Important: Fetch the main branch that we want to update
+          ref: main
+          # Make sure we have write permissions
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Determinate Nix
         uses: DeterminateSystems/nix-installer-action@main
         with:
           determinate: true
       - name: Update flake.lock
+        id: update
         uses: DeterminateSystems/update-flake-lock@main
         with:
-          pr-title: "chore: update flake.lock"
-          pr-labels: | 
-            dependencies
-            automated
+          # Disable PR creation
+          pr-creation: false
+          # Configure Git identity
           git-author-name: "github-actions[bot]"
           git-author-email: "github-actions[bot]@users.noreply.github.com"
           git-committer-name: "github-actions[bot]"
           git-committer-email: "github-actions[bot]@users.noreply.github.com"
-          # Token with PR creation permissions - usually the default token works
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit and push changes to main
+        # Only run this step if there were actual updates to flake.lock
+        if: steps.update.outputs.nix-revision != ''
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add flake.lock
+          git commit -m "chore: update flake.lock"
+          git push origin main
