@@ -29,7 +29,7 @@ jobs:
         id: fmt
         run: |
           # Run nix fmt and check if any files were modified
-          nix fmt
+          nix fmt .
           if git diff --exit-code; then
             echo "No formatting changes needed"
             echo "changes_detected=false" >> $GITHUB_OUTPUT
