@@ -27,6 +27,9 @@ in {
           max_active_downloading = 10;
           max_active_limit = 15;
           max_active_seeding = 5;
+          remove_seed_at_ratio = true;
+          stop_seed_at_ratio = true;
+          stop_seed_ratio = 2.0;
         };
         authFile = pkgs.writeText "deluge-auth" ''
           localclient:deluge:10
