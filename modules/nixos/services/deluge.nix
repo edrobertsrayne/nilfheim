@@ -22,7 +22,11 @@ in {
         dataDir = mkDefault "/srv/deluge";
         declarative = true;
         config = {
+          dont_count_slow_torrents = true;
           download_location = "/mnt/downloads";
+          max_active_downloading = 10;
+          max_active_limit = 15;
+          max_active_seeding = 5;
         };
         authFile = pkgs.writeText "deluge-auth" ''
           localclient:deluge:10
