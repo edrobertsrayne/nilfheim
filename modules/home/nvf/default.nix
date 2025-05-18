@@ -31,7 +31,11 @@ in {
           withPython3 = false;
           withRuby = false;
 
-          useSystemClipboard = true;
+          clipboard = {
+            enable = true;
+            providers.wl-copy.enable = true;
+            registers = "unnamedplus";
+          };
 
           options = {
             tabstop = 2;
