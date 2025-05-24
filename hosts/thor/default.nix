@@ -18,4 +18,42 @@
     "d /mnt/backup 2775 root tank"
     "d /mnt/share 2775 root tank"
   ];
+
+  services.samba = {
+    enable = true;
+    settings = {
+      "backup" = {
+        "path" = "/mnt/backup";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "downloads" = {
+        "path" = "/mnt/downloads";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "media" = {
+        "path" = "/mnt/media";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+      "share" = {
+        "path" = "/mnt/share";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+      };
+    };
+  };
 }

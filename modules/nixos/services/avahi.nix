@@ -12,8 +12,11 @@ in {
       openFirewall = true;
       publish = {
         enable = true;
-        userServices = true;
         addresses = true;
+        domain = true;
+        hinfo = true;
+        workstation = true;
+        userServices = true;
       };
     };
   };
