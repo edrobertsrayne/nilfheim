@@ -1,8 +1,15 @@
-{username, ...}: {
+{
+  username,
+  lib,
+  ...
+}: {
   imports = [
     ./disko-configuration.nix
     ./hardware-configuration.nix
   ];
+
+  networking.bridges.vmbr0.interfaces = ["eno1"];
+  networking.interfaces.vmbr0.useDHCP = lib.mkDefault true;
 
   # Ensure ZFS is set up properly
   boot.supportedFilesystems = ["zfs"];
