@@ -1,6 +1,8 @@
 {
   lib,
   config,
+  inputs,
+  system,
   ...
 }:
 with lib;
@@ -17,6 +19,9 @@ in {
 
   config = {
     nixpkgs.config.allowUnfree = true;
+    nixpkgs.overlays = [
+      inputs.proxmox-nixos.overlays.${system}
+    ];
 
     virtualisation = {
       homeassistant.enable = true;
@@ -50,6 +55,10 @@ in {
       nginx.enable = true;
       prometheus.enable = true;
       prowlarr.enable = true;
+      proxmox-ve = {
+        enable = true;
+        ipAddress = "192.168.68.122";
+      };
       radarr.enable = true;
       readarr.enable = true;
       # sabnzbd.enable = true;
