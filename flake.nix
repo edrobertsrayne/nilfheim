@@ -59,5 +59,6 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    proxmox-nixos.url = "github:SaumonNet/proxmox-nixos";
   };
 }
