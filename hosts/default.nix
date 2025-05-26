@@ -30,6 +30,7 @@
             inputs.home-manager.nixosModules.home-manager
             inputs.impermanence.nixosModules.impermanence
             inputs.catppuccin.nixosModules.catppuccin
+            inputs.proxmox-nixos.nixosModules.proxmox-ve
             ../modules/nixos
             ../modules/common
             ../secrets
