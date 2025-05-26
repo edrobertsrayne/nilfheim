@@ -14,6 +14,9 @@ in {
     tunnel = mkOption {
       type = types.str;
       default = "23c4423f-ec30-423b-ba18-ba18904ddb85";
+    ip = mkOption {
+      default = "192.168.68.122";
+      type = types.str;
     };
   };
 
@@ -57,7 +60,7 @@ in {
       prowlarr.enable = true;
       proxmox-ve = {
         enable = true;
-        ipAddress = "192.168.68.122";
+        ipAddress = "${config.homelab.ip}";
       };
       radarr.enable = true;
       readarr.enable = true;
