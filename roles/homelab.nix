@@ -13,6 +13,8 @@ with lib.custom; {
     nixpkgs.config.allowUnfree = true;
 
     virtualisation = {
+      esphome.enable = true;
+      homeassistant.enable = true;
       podman.enable = true;
       tdarr.enable = true;
     };

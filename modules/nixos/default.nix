@@ -42,6 +42,8 @@
     ./services/uptime-kuma.nix
     ./services/wireguard-netns.nix
 
+    ./virtualisation/esphome.nix
+    ./virtualisation/homeassistant.nix
     ./virtualisation/podman.nix
     ./virtualisation/tdarr.nix
 
