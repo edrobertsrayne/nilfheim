@@ -5,22 +5,38 @@
   username ? "ed",
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.user;
 in {
   options.user = with types; {
-    name = mkOpt str username "The main to use for the user account.";
-    fullName = mkOpt str "Ed Roberts Rayne" "The user's full name.";
-    email = mkOpt str "ed.rayne@gmail.com" "The user's email address.";
+    name = mkOption {
+      type = str;
+      default = username;
+    };
+    fullName = mkOption {
+      type = str;
+      default = "Ed Roberts Rayne";
+    };
+    email = mkOption {
+      type = str;
+      default = "ed.rayne@gmail.com";
+    };
     initialHashedPassword = mkOption {
       type = str;
       default = "$y$j9T$vueRmYTLFOtT6Q3jiCH8M/$oTfJQqYfgnDprn/nBxRHgpz90EpDVDtAiV7Aqvx.U95";
-      description = "The hashed password to use when the user is first created.";
     };
-    extraGroups = mkOpt (listOf str) [] "Groups to assign the user to.";
-    extraSSHKeys = mkOpt (listOf str) [] "Additional authorised SSH keys.";
-    shell = mkOpt package pkgs.bash "The default shell for the user.";
+    extraGroups = mkOption {
+      type = listOf str;
+      default = [];
+    };
+    extraSSHKeys = mkOption {
+      type = listOf str;
+      default = [];
+    };
+    shell = mkOption {
+      type = package;
+      default = pkgs.bash;
+    };
   };
   config = {
     users = {
@@ -34,6 +50,9 @@ in {
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJdf/364Rgul97UR6vn4caDuuxBk9fUrRjfpMsa4sfam" # ed@freya
         ];
         inherit (cfg) initialHashedPassword shell;
+      };
+      users.root = {
+        inherit (cfg) initialHashedPassword;
       };
     };
     security.sudo.wheelNeedsPassword = false;
