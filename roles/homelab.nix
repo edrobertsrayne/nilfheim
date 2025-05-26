@@ -21,7 +21,6 @@ with lib.custom; {
 
     services = {
       audiobookshelf.enable = true;
-      # autobrr.enable = true;
       bazarr.enable = true;
       blocky.enable = true;
       deluge.enable = true;
@@ -38,7 +37,7 @@ with lib.custom; {
       prowlarr.enable = true;
       radarr.enable = true;
       readarr.enable = true;
-      sabnzbd.enable = true;
+      # sabnzbd.enable = true;
       sonarr.enable = true;
       tailscale = {
         useRoutingFeatures = "server";
