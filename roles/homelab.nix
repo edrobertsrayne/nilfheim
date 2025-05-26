@@ -9,6 +9,10 @@ with lib;
 with lib.custom; {
   options.homelab = {
     domain = mkOpt types.str "greensroad.uk" "Homelab proxy base domain.";
+    ip = mkOption {
+      default = "192.168.68.122";
+      type = types.str;
+    };
   };
 
   config = {
@@ -41,7 +45,7 @@ with lib.custom; {
       prowlarr.enable = true;
       proxmox-ve = {
         enable = true;
-        ipAddress = "192.168.68.122";
+        ipAddress = "${config.homelab.ip}";
       };
       radarr.enable = true;
       readarr.enable = true;
