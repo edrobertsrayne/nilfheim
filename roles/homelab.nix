@@ -32,7 +32,6 @@ with lib.custom; {
       kavita.enable = true;
       lidarr.enable = true;
       nginx.enable = true;
-      plex.enable = true;
       prometheus.enable = true;
       prowlarr.enable = true;
       radarr.enable = true;
