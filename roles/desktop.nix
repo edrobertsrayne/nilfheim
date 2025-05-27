@@ -45,7 +45,7 @@ in {
   environment.systemPackages = with pkgs; [
     processing
     vlc
-    kicad
+    # kicad
     bambu-studio
   ];
 }
