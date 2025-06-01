@@ -15,6 +15,7 @@ in {
   config = mkIf cfg.enable {
     services = {
       prowlarr = {
+        dataDir = "/srv/prowlarr";
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
