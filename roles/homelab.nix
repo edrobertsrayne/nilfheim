@@ -38,6 +38,7 @@ with lib.custom; {
       readarr.enable = true;
       # sabnzbd.enable = true;
       sonarr.enable = true;
+      stirling-pdf.enable = true;
       tailscale = {
         useRoutingFeatures = "server";
         extraUpFlags = [

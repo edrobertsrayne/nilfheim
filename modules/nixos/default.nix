@@ -38,6 +38,7 @@
     ./services/samba.nix
     ./services/sonarr.nix
     ./services/ssh.nix
+    ./services/stirling-pdf.nix
     ./services/tailscale.nix
     ./services/uptime-kuma.nix
     ./services/wireguard-netns.nix
