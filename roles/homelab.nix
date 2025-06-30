@@ -14,7 +14,7 @@ with lib.custom; {
 
     virtualisation = {
       # esphome.enable = true;
-      homeassistant.enable = true;
+      # homeassistant.enable = true;
       podman.enable = true;
       tdarr.enable = true;
     };
@@ -26,6 +26,38 @@ with lib.custom; {
       deluge.enable = true;
       glances.enable = true;
       grafana.enable = true;
+      home-assistant = {
+        enable = true;
+        extraComponents = [
+          # Components required to complete the onboarding
+          "analytics"
+          "google_translate"
+          "met"
+          "radio_browser"
+          "shopping_list"
+          # Recommended for fast zlib compression
+          # https://www.home-assistant.io/integrations/isal
+          "isal"
+          "esphome"
+          "sonos"
+          "hue"
+          "jellyfin"
+          "nest"
+        ];
+        config = {
+          # Includes dependencies for a basic setup
+          # https://www.home-assistant.io/integrations/default_config/
+          default_config = {};
+          http = {
+            use_x_forwarded_for = true;
+            trusted_proxies = ["127.0.0.1"];
+          };
+
+          automation = "!include automations.yaml";
+          script = "!include scripts.yaml";
+          scene = "!include scenes.yaml";
+        };
+      };
       homepage-dashboard.enable = true;
       jellyfin.enable = true;
       jellyseerr.enable = true;
