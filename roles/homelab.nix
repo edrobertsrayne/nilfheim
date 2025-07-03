@@ -20,6 +20,7 @@ with lib.custom; {
       bazarr.enable = true;
       blocky.enable = true;
       deluge.enable = true;
+      flaresolverr.enable = true;
       glances.enable = true;
       grafana.enable = true;
       homepage-dashboard.enable = true;
