@@ -1,8 +1,4 @@
-{
-  lib,
-  config,
-  ...
-}:
+{lib, ...}:
 with lib;
 with lib.custom; {
   options.homelab = {
@@ -48,12 +44,6 @@ with lib.custom; {
         ];
       };
       uptime-kuma.enable = true;
-      wireguard-netns = {
-        enable = true;
-        configFile = config.age.secrets.mullvad.path;
-        dnsIP = "10.64.0.1";
-        privateIP = "10.73.213.60";
-      };
     };
 
     system.persist.extraRootDirectories = [

@@ -41,7 +41,6 @@
     ./services/stirling-pdf.nix
     ./services/tailscale.nix
     ./services/uptime-kuma.nix
-    ./services/wireguard-netns.nix
 
     ./virtualisation/esphome.nix
     ./virtualisation/homeassistant.nix
