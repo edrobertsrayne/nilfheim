@@ -42,7 +42,8 @@ with lib.custom; {
       tailscale = {
         useRoutingFeatures = "server";
         extraUpFlags = [
-          "--advertise-exit-node"
+          ''--exit-node 10.71.91.83''
+          ''--exit-node-allow-lan-access''
           ''--advertise-routes "192.168.68.0/24"''
         ];
       };
