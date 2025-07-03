@@ -23,6 +23,7 @@
     ./services/deluge.nix
     ./services/glances.nix
     ./services/grafana.nix
+    ./services/home-assistant.nix
     ./services/homepage.nix
     ./services/jellyfin.nix
     ./services/jellyseerr.nix
