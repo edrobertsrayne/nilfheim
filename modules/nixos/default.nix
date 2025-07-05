@@ -42,7 +42,6 @@
     ./services/tailscale.nix
     ./services/uptime-kuma.nix
 
-    ./virtualisation/esphome.nix
     ./virtualisation/homeassistant.nix
     ./virtualisation/podman.nix
     ./virtualisation/tdarr.nix
