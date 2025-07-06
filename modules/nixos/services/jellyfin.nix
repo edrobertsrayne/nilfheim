@@ -16,7 +16,10 @@ in {
     users.users.${cfg.user}.extraGroups = ["tank"];
 
     services = {
-      jellyfin.dataDir = "/srv/jellyfin";
+      jellyfin = {
+        dataDir = "/srv/jellyfin";
+        openFirewall = true;
+      };
 
       homepage-dashboard.homelabServices = [
         {
