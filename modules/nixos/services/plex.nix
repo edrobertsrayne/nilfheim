@@ -33,8 +33,6 @@ in {
       nginx = {
         enable = true;
         virtualHosts."${cfg.url}" = {
-          forceSSL = true;
-          enableACME = true;
           http2 = true;
           extraConfig = ''
             #Some players don't reopen a socket and playback stops totally
