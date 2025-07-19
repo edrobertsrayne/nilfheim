@@ -58,18 +58,15 @@ in {
       ++ cfg.extraExtensions;
 
     services = {
-      libinput.enable = true;
-      xserver = {
-        enable = true;
-        displayManager = {
-          gdm = {
-            enable = true;
-            wayland = true;
-            autoSuspend = true;
-          };
+      displayManager = {
+        gdm = {
+          enable = true;
+          wayland = true;
+          autoSuspend = true;
         };
-        desktopManager.gnome.enable = true;
       };
+      libinput.enable = true;
+      desktopManager.gnome.enable = true;
     };
 
     programs.dconf.enable = true;
