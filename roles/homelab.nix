@@ -33,6 +33,7 @@ in {
         tunnels."${cfg.tunnel}" = {
           credentialsFile = config.age.secrets.cloudflare-homelab.path;
           default = "http_status:404";
+          "*.greensroad.uk" = "http://localhost:80";
         };
       };
       deluge.enable = true;
