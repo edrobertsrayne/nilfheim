@@ -29,11 +29,12 @@ in {
       services = {
         proxmox-ve = {
           ipAddress = "${config.homelab.ip}";
+          bridges = ["vmbr0"];
         };
 
         nginx.virtualHosts."${cfg.url}" = {
           locations."/" = {
-            proxyPass = "http://127.0.0.1:8006";
+            proxyPass = "https://127.0.0.1:8006";
           };
         };
       };
