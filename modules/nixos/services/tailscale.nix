@@ -19,5 +19,8 @@ in {
       allowedUDPPorts = [config.services.tailscale.port];
       checkReversePath = "loose";
     };
+    systemd.services.tailscaled = {
+      restartIfChanged = false;
+    };
   };
 }
