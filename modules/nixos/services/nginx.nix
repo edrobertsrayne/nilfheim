@@ -22,11 +22,6 @@ in {
         };
       };
     };
-    security.acme = {
-      acceptTerms = true;
-      defaults.email = "ed.rayne@gmail.com";
-    };
     networking.firewall.allowedTCPPorts = [80 443];
-    system.persist.extraRootDirectories = ["/var/lib/acme"];
   };
 }
