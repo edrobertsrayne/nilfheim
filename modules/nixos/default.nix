@@ -32,6 +32,7 @@
     ./services/plex.nix
     ./services/prometheus.nix
     ./services/prowlarr.nix
+    ./services/proxmox-ve.nix
     ./services/radarr.nix
     ./services/readarr.nix
     ./services/sabnzbd.nix

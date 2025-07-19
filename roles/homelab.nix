@@ -1,19 +1,21 @@
 {
   lib,
   config,
-  inputs,
-  system,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.homelab;
 in {
   options.homelab = {
-    domain = mkOpt types.str "greensroad.uk" "Homelab proxy base domain.";
+    domain = mkOption {
+      type = types.str;
+      default = "greensroad.uk";
+      description = "Homelab proxy base domain.";
+    };
     tunnel = mkOption {
       type = types.str;
       default = "23c4423f-ec30-423b-ba18-ba18904ddb85";
+    };
     ip = mkOption {
       default = "192.168.68.122";
       type = types.str;
@@ -22,9 +24,6 @@ in {
 
   config = {
     nixpkgs.config.allowUnfree = true;
-    nixpkgs.overlays = [
-      inputs.proxmox-nixos.overlays.${system}
-    ];
 
     virtualisation = {
       homeassistant.enable = true;
@@ -58,10 +57,7 @@ in {
       nginx.enable = true;
       prometheus.enable = true;
       prowlarr.enable = true;
-      proxmox-ve = {
-        enable = true;
-        ipAddress = "${config.homelab.ip}";
-      };
+      proxmox-ve.enable = true;
       radarr.enable = true;
       readarr.enable = true;
       # sabnzbd.enable = true;
