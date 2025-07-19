@@ -36,6 +36,10 @@ in {
         }
       ];
 
+      cloudflared.tunnels.${config.homelab.tunnel}.ingress = {
+        "merlin.greensroad.uk" = "http://localhost:${toString cfg.settings.server.http_port}";
+      };
+
       nginx.virtualHosts."${cfg.url}" = {
         enableACME = true;
         forceSSL = true;
