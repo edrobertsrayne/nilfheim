@@ -1,8 +1,18 @@
-{lib, ...}:
+{
+  lib,
+  config,
+  ...
+}:
 with lib;
-with lib.custom; {
+with lib.custom; let
+  cfg = config.homelab;
+in {
   options.homelab = {
     domain = mkOpt types.str "greensroad.uk" "Homelab proxy base domain.";
+    tunnel = mkOption {
+      type = types.str;
+      default = "23c4423f-ec30-423b-ba18-ba18904ddb85";
+    };
   };
 
   config = {
@@ -18,6 +28,16 @@ with lib.custom; {
       audiobookshelf.enable = true;
       bazarr.enable = true;
       blocky.enable = true;
+      cloudflared = {
+        enable = true;
+        tunnels."${cfg.tunnel}" = {
+          credentialsFile = config.age.secrets.cloudflare-homelab.path;
+          default = "http_status:404";
+          ingress = {
+            "*.${cfg.domain}" = "http://localhost:80";
+          };
+        };
+      };
       deluge.enable = true;
       flaresolverr.enable = true;
       glances.enable = true;
@@ -48,6 +68,8 @@ with lib.custom; {
       };
       uptime-kuma.enable = true;
     };
+
+    systemd.services.cloudflared.restartIfChanged = false;
 
     system.persist.extraRootDirectories = [
       {
