@@ -5,6 +5,6 @@
     homepage.file = ./homepage.age;
     autobrr.file = ./autobrr.age;
     kavita.file = ./kavita.age;
-    cloudlfare-homelab.file = ./cloudflare-homelab.age;
+    cloudflare-homelab.file = ./cloudflare-homelab.age;
   };
 }
