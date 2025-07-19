@@ -12,4 +12,5 @@ in {
   "homepage.age".publicKeys = systems ++ users;
   "autobrr.age".publicKeys = systems ++ users;
   "kavita.age".publicKeys = systems ++ users;
+  "cloudflare-homelab.age".publicKeys = systems ++ users;
 }
