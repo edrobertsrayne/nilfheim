@@ -40,6 +40,7 @@
     ./services/sonarr.nix
     ./services/ssh.nix
     ./services/stirling-pdf.nix
+    ./services/transmission.nix
     ./services/tailscale.nix
     ./services/uptime-kuma.nix
 
