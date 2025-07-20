@@ -57,7 +57,7 @@ in {
       nginx.enable = true;
       prometheus.enable = true;
       prowlarr.enable = true;
-      proxmox-ve.enable = true;
+      # proxmox-ve.enable = true;
       radarr.enable = true;
       readarr.enable = true;
       # sabnzbd.enable = true;
