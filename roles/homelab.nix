@@ -78,8 +78,6 @@ in {
       uptime-kuma.enable = true;
     };
 
-    # systemd.services.cloudflared.restartIfChanged = false;
-
     system.persist.extraRootDirectories = [
       {
         directory = "/var/lib/private";
