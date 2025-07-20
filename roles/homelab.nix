@@ -45,7 +45,7 @@ in {
           };
         };
       };
-      deluge.enable = true;
+      deluge.enable = false;
       flaresolverr.enable = true;
       glances.enable = true;
       grafana.enable = true;
@@ -57,10 +57,10 @@ in {
       nginx.enable = true;
       prometheus.enable = true;
       prowlarr.enable = true;
-      # proxmox-ve.enable = true;
+      proxmox-ve.enable = false;
       radarr.enable = true;
       readarr.enable = true;
-      # sabnzbd.enable = true;
+      sabnzbd.enable = false;
       sonarr.enable = true;
       stirling-pdf.enable = true;
       tailscale = {
