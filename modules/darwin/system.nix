@@ -7,9 +7,9 @@
   # System-level configuration
   system.stateVersion = 4;
   system.primaryUser = username;
+  ids.gids.nixbld = 350;
 
   # Enable nix daemon
-  # services.nix-daemon.enable = true;
   nix.enable = true;
 
   # Set hostname
