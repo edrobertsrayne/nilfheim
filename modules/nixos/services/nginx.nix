@@ -3,8 +3,7 @@
   config,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.nginx;
 in {
   config = mkIf cfg.enable {

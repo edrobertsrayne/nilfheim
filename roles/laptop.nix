@@ -1,4 +1,3 @@
-{lib, ...}:
-with lib.custom; {
-  powerManagement = enabled;
+_: {
+  powerManagement.enable = true;
 }

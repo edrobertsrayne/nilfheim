@@ -3,12 +3,15 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.bazarr;
 in {
   options.services.bazarr = {
-    url = mkOpt types.str "bazarr.${config.homelab.domain}" "URL for bazarr proxy host.";
+    url = mkOption {
+      type = types.str;
+      default = "bazarr.${config.homelab.domain}";
+      description = "URL for bazarr proxy host.";
+    };
   };
 
   config = mkIf cfg.enable {

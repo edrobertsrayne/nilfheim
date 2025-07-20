@@ -3,14 +3,21 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.lidarr;
   inherit (cfg.settings.server) port;
 in {
   options.services.lidarr = {
-    url = mkOpt types.str "lidarr.${config.homelab.domain}" "URL for lidarr proxy host.";
-    port = mkOpt types.port 8686 "Port to serve lidarr on.";
+    url = mkOption {
+      type = types.str;
+      default = "lidarr.${config.homelab.domain}";
+      description = "URL for lidarr proxy host.";
+    };
+    port = mkOption {
+      type = types.port;
+      default = 8686;
+      description = "Port to serve lidarr on.";
+    };
   };
 
   config = mkIf cfg.enable {

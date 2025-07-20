@@ -4,8 +4,7 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.virtualisation.podman;
 in {
   config = mkIf cfg.enable {

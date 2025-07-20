@@ -3,12 +3,15 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.glances;
 in {
   options.services.glances = {
-    url = mkOpt types.str "glances.${config.homelab.domain}" "URL for glances proxy host.";
+    url = mkOption {
+      type = types.str;
+      default = "glances.${config.homelab.domain}";
+      description = "URL for glances proxy host.";
+    };
   };
 
   config = mkIf cfg.enable {

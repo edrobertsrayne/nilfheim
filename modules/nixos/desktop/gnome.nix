@@ -4,8 +4,7 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   wallpaper = "/home/ed/Pictures/Wallpapers/among-trees-campsite.jpg";
   cfg = config.desktop.gnome;
   inherit (config) desktop user;
@@ -19,8 +18,16 @@ with lib.custom; let
 in {
   options.desktop.gnome = with types; {
     enable = mkEnableOption "Whether to enable the Gnome desktop environment.";
-    extraExtensions = mkOpt (listOf package) [] "Extra Gnome extensions to install.";
-    darkMode = mkBoolOpt true "Whether to prefer dark mode.";
+    extraExtensions = mkOption {
+      type = listOf package;
+      default = [];
+      description = "Extra Gnome extensions to install.";
+    };
+    darkMode = mkOption {
+      type = bool;
+      default = true;
+      description = "Whether to prefer dark mode.";
+    };
   };
 
   config = mkIf cfg.enable {

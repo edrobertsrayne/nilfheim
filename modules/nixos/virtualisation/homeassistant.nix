@@ -3,8 +3,7 @@
   config,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.virtualisation.homeassistant;
 in {
   options.virtualisation.homeassistant = with lib.types; {

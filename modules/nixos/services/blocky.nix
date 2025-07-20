@@ -4,8 +4,7 @@
   pkgs,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.blocky;
   inherit (cfg.settings) ports;
 in {

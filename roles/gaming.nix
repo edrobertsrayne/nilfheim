@@ -1,11 +1,9 @@
 {
-  config,
   lib,
   pkgs,
   ...
 }:
-with lib;
-with lib.custom; {
+with lib; {
   hardware.graphics = {
     enable = true;
     enable32Bit = true;

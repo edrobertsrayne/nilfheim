@@ -3,13 +3,16 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.sabnzbd;
   port = 8080;
 in {
   options.services.sabnzbd = {
-    url = mkOpt types.str "sabnzbd.${config.homelab.domain}" "URL for sabnzbd proxy host.";
+    url = mkOption {
+      type = types.str;
+      default = "sabnzbd.${config.homelab.domain}";
+      description = "URL for sabnzbd proxy host.";
+    };
   };
 
   config = mkIf cfg.enable {

@@ -3,13 +3,16 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.prowlarr;
   inherit (cfg.settings.server) port;
 in {
   options.services.prowlarr = {
-    url = mkOpt types.str "prowlarr.${config.homelab.domain}" "URL for prowlarr proxy host.";
+    url = mkOption {
+      type = types.str;
+      default = "prowlarr.${config.homelab.domain}";
+      description = "URL for prowlarr proxy host.";
+    };
   };
 
   config = mkIf cfg.enable {

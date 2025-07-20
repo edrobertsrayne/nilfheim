@@ -3,14 +3,17 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.prometheus;
   inherit (config) homelab;
   inherit (cfg.exporters) node;
 in {
   options.services.prometheus = {
-    url = mkOpt types.str "prometheus.${homelab.domain}" "URL for prometheus proxy.";
+    url = mkOption {
+      type = types.str;
+      default = "prometheus.${homelab.domain}";
+      description = "URL for prometheus proxy.";
+    };
   };
 
   config = mkIf cfg.enable {

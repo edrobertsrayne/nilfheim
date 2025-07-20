@@ -5,8 +5,7 @@
   pkgs,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.home-manager;
 in {
   options.home-manager = {
@@ -24,11 +23,11 @@ in {
         inputs.nvf.homeManagerModules.default
         inputs.catppuccin.homeModules.catppuccin
         {
-          programs.home-manager = enabled;
+          programs.home-manager.enable = true;
           manual = {
-            manpages = disabled;
-            html = disabled;
-            json = disabled;
+            manpages.enable = false;
+            html.enable = false;
+            json.enable = false;
           };
         }
       ];

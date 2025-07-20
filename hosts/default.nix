@@ -1,9 +1,7 @@
-{
-  inputs,
-  lib,
-  ...
-}: {
+{inputs, ...}: {
   flake = let
+    inherit (inputs.nixpkgs) lib;
+
     # Roles
     common = ../roles/common.nix;
     desktop = ../roles/desktop.nix;
