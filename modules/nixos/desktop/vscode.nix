@@ -4,8 +4,7 @@
   pkgs,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.desktop.vscode;
 in {
   options.desktop.vscode = {

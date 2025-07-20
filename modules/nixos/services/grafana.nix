@@ -3,13 +3,16 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   inherit (config) homelab;
   cfg = config.services.grafana;
 in {
   options.services.grafana = {
-    url = mkOpt types.str "grafana.${homelab.domain}" "URL for Grafana proxy.";
+    url = mkOption {
+      type = types.str;
+      default = "grafana.${homelab.domain}";
+      description = "URL for Grafana proxy.";
+    };
   };
 
   config = lib.mkIf cfg.enable {

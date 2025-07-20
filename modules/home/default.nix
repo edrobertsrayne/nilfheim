@@ -1,9 +1,4 @@
-{
-  lib,
-  osConfig,
-  ...
-}:
-with lib.custom; let
+{osConfig, ...}: let
   inherit (osConfig) user;
 in {
   imports = [
@@ -18,8 +13,8 @@ in {
       shell.enableShellIntegration = true;
     };
     programs = {
-      bat = enabled;
-      dircolors = enabled;
+      bat.enable = true;
+      dircolors.enable = true;
       direnv = {
         enable = true;
         nix-direnv.enable = true;
@@ -33,16 +28,16 @@ in {
         enable = true;
         ignores = [".git/" "*.bak"];
       };
-      fzf = enabled;
+      fzf.enable = true;
       git = {
         enable = true;
         userName = user.fullName;
         userEmail = user.email;
       };
-      lazygit = enabled;
-      nh = enabled;
-      password-store = enabled;
-      starship = enabled;
+      lazygit.enable = true;
+      nh.enable = true;
+      password-store.enable = true;
+      starship.enable = true;
       zoxide = {
         enable = true;
         options = ["--cmd cd"];
@@ -50,7 +45,7 @@ in {
       zsh = {
         enable = true;
         enableCompletion = true;
-        autosuggestion = enabled;
+        autosuggestion.enable = true;
         shellAliases = {
           c = "clear";
           ls = "exa";
@@ -63,6 +58,6 @@ in {
         };
       };
     };
-    modules.nvf = enabled;
+    modules.nvf.enable = true;
   };
 }

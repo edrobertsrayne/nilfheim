@@ -3,13 +3,16 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   service = "jellyseerr";
   cfg = config.services."${service}";
 in {
   options.services."${service}" = {
-    url = mkOpt types.str "${service}.${config.homelab.domain}" "URL for ${service} proxy host.";
+    url = mkOption {
+      type = types.str;
+      default = "${service}.${config.homelab.domain}";
+      description = "URL for ${service} proxy host.";
+    };
   };
 
   config = mkIf cfg.enable {

@@ -3,13 +3,18 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.stirling-pdf;
 in {
   options.services.stirling-pdf = {
-    url = mkOpt' types.str "stirling-pdf.${config.homelab.domain}";
-    port = mkOpt' types.port 8081;
+    url = mkOption {
+      type = types.str;
+      default = "stirling-pdf.${config.homelab.domain}";
+    };
+    port = mkOption {
+      type = types.port;
+      default = 8081;
+    };
   };
 
   config = mkIf cfg.enable {

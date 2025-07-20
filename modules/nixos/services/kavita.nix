@@ -3,12 +3,15 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.kavita;
 in {
   options.services.kavita = {
-    url = mkOpt types.str "kavita.${config.homelab.domain}" "URL for kavita proxy host.";
+    url = mkOption {
+      type = types.str;
+      default = "kavita.${config.homelab.domain}";
+      description = "URL for kavita proxy host.";
+    };
   };
 
   config = mkIf cfg.enable {

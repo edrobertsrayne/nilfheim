@@ -3,12 +3,15 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.audiobookshelf;
 in {
   options.services.audiobookshelf = {
-    url = mkOpt types.str "audiobookshelf.${config.homelab.domain}" "URL for audiobookshelf proxy host.";
+    url = mkOption {
+      type = types.str;
+      default = "audiobookshelf.${config.homelab.domain}";
+      description = "URL for audiobookshelf proxy host.";
+    };
   };
 
   config = mkIf cfg.enable {

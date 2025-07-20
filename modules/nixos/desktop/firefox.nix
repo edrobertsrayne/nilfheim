@@ -4,13 +4,16 @@
   pkgs,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.desktop.firefox;
 in {
   options.desktop.firefox = {
     enable = mkEnableOption "Whether to enable Firefox browser.";
-    defaultBrowser = mkBoolOpt true "Whether to set Firefox as the default browser.";
+    defaultBrowser = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Whether to set Firefox as the default browser.";
+    };
   };
 
   config =

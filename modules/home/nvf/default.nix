@@ -3,8 +3,7 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.modules.nvf;
 in {
   options.modules.nvf = {

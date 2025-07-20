@@ -3,12 +3,15 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.plex;
 in {
   options.services.plex = {
-    url = mkOpt types.str "plex.${config.homelab.domain}" "URL for Plex proxy.";
+    url = mkOption {
+      type = types.str;
+      default = "plex.${config.homelab.domain}";
+      description = "URL for Plex proxy.";
+    };
   };
 
   config = mkIf cfg.enable {

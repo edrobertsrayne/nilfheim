@@ -3,13 +3,16 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.desktop.foot;
   inherit (config) user;
 in {
   options.desktop.foot = with types; {
-    enable = mkBoolOpt false "Whether to enable foot terminal emulator.";
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Whether to enable foot terminal emulator.";
+    };
   };
 
   config = mkIf cfg.enable {

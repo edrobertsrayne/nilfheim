@@ -3,20 +3,50 @@
   config,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.virtualisation.tdarr;
 in {
   options.virtualisation.tdarr = with lib.types; {
     enable = mkEnableOption "Whether to enable tdarr server.";
-    serverPort = mkOpt int 8266 "Port for the tdarr server.";
-    webUIPort = mkOpt int 8265 "Port to serve the tdarr web UI from.";
-    nodeName = mkOpt str "InternalNode" "Name for internal node.";
-    enableVAAPI = mkBoolOpt true "Use Intel VAAPI for transcoding.";
-    dataDir = mkOpt path "/srv/tdarr" "The directory where tdarr will create files.";
-    mediaDir = mkOpt path "/mnt/media" "The directory where media for transcoding is stored.";
-    cacheDir = mkOpt path "/transcode_cache" "The data where transcoding data is cached.";
-    url = mkOpt' str "tdarr.${config.homelab.domain}";
+    serverPort = mkOption {
+      type = int;
+      default = 8266;
+      description = "Port for the tdarr server.";
+    };
+    webUIPort = mkOption {
+      type = int;
+      default = 8265;
+      description = "Port to serve the tdarr web UI from.";
+    };
+    nodeName = mkOption {
+      type = str;
+      default = "InternalNode";
+      description = "Name for internal node.";
+    };
+    enableVAAPI = mkOption {
+      type = bool;
+      default = true;
+      description = "Use; description= Intel VAAPI for transcoding.";
+    };
+    dataDir = mkOption {
+      type = path;
+      default = "/srv/tdarr";
+      description = "The directory where tdarr will create files.";
+    };
+    mediaDir = mkOption {
+      type = path;
+      default = "/mnt/media";
+      description = "The directory where media for transcoding is stored.";
+    };
+    cacheDir = mkOption {
+      type = path;
+      default = "/transcode_cache";
+      description = "The data where transcoding data is cached.";
+    };
+    url = mkOption {
+      type = str;
+      default = "tdarr.${config.homelab.domain}";
+    };
   };
   config = mkIf cfg.enable {
     virtualisation = {

@@ -4,12 +4,15 @@
   pkgs,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.deluge;
 in {
   options.services.deluge = with types; {
-    url = mkOpt types.str "deluge.${config.homelab.domain}" "URL for deluge proxy.";
+    url = mkOption {
+      type = str;
+      default = "deluge.${config.homelab.domain}";
+      description = "URL for deluge proxy.";
+    };
   };
 
   config = mkIf cfg.enable {

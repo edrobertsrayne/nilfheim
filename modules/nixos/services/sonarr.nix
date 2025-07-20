@@ -3,13 +3,16 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.sonarr;
   inherit (cfg.settings.server) port;
 in {
   options.services.sonarr = {
-    url = mkOpt types.str "sonarr.${config.homelab.domain}" "URL for sonarr proxy host.";
+    url = mkOption {
+      type = types.str;
+      default = "sonarr.${config.homelab.domain}";
+      description = "URL for sonarr proxy host.";
+    };
   };
 
   config = mkIf cfg.enable {

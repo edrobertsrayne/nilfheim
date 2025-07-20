@@ -4,12 +4,15 @@
   pkgs,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.jellyfin;
 in {
   options.services.jellyfin = {
-    url = mkOpt types.str "jellyfin.${config.homelab.domain}" "URL for Jellyfin proxy.";
+    url = mkOption {
+      type = types.str;
+      default = "jellyfin.${config.homelab.domain}";
+      description = "URL for Jellyfin proxy.";
+    };
   };
 
   config = mkIf cfg.enable {

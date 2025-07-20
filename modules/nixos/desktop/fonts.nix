@@ -4,8 +4,7 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.desktop.fonts;
 in {
   options.desktop.fonts = with types; {

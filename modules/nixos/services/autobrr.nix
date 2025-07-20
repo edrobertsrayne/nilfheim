@@ -3,13 +3,16 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.autobrr;
   port = "7474";
 in {
   options.services.autobrr = {
-    url = mkOpt types.str "autobrr.${config.homelab.domain}" "URL for autobrr proxy host.";
+    url = mkOption {
+      type = types.str;
+      default = "autobrr.${config.homelab.domain}";
+      description = "URL for autobrr proxy host.";
+    };
   };
 
   config = mkIf cfg.enable {

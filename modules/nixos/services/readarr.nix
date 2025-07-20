@@ -3,14 +3,21 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.readarr;
   inherit (cfg.settings.server) port;
 in {
   options.services.readarr = {
-    url = mkOpt types.str "readarr.${config.homelab.domain}" "URL for readarr proxy host.";
-    port = mkOpt types.port 8787 "Port to serve readarr on.";
+    url = mkOption {
+      type = types.str;
+      default = "readarr.${config.homelab.domain}";
+      description = "URL for readarr proxy host.";
+    };
+    port = mkOption {
+      type = types.port;
+      default = 8787;
+      description = "Port to serve readarr on.";
+    };
   };
 
   config = mkIf cfg.enable {

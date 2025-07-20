@@ -3,12 +3,14 @@
   config,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.uptime-kuma;
 in {
   options.services.uptime-kuma = {
-    url = mkOpt' types.str "uptime.${config.homelab.domain}";
+    url = mkOption {
+      type = types.str;
+      default = "uptime.${config.homelab.domain}";
+    };
   };
 
   config = mkIf cfg.enable {

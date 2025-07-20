@@ -3,14 +3,24 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.homepage-dashboard;
+
+  dashboardServiceType = types.submodule {
+    options = {
+      group = mkOption {type = types.str;};
+      name = mkOption {type = types.str;};
+      entry = mkOption {type = types.attrs;};
+    };
+  };
 in {
   options.services.homepage-dashboard = {
-    url = mkOpt types.str "home.${config.homelab.domain}" "URL for the homepage dashboard proxy.";
-
-    homelabServices = lib.mkOption {
+    url = mkOption {
+      type = types.str;
+      default = "home.${config.homelab.domain}";
+      description = "URL for the homepage dashboard proxy.";
+    };
+    homelabServices = mkOption {
       type = types.listOf dashboardServiceType;
       default = [];
       description = "List of dashboard entries from all services";
@@ -19,13 +29,9 @@ in {
   config = mkIf cfg.enable {
     services = {
       homepage-dashboard = let
-        groupedAttrs = builtins.groupBy (service: service.group) cfg.homelabServices;
-        transformedAttrs =
-          lib.mapAttrs (
-            group: services: lib.map (service: {"${service.name}" = service.entry;}) services
-          )
-          groupedAttrs;
-        services = lib.mapAttrsToList (group: value: {"${group}" = value;}) transformedAttrs;
+        services = lib.mapAttrsToList (group: services: {
+          "${group}" = lib.map (service: {"${service.name}" = service.entry;}) services;
+        }) (builtins.groupBy (service: service.group) cfg.homelabServices);
       in {
         inherit services;
         customCSS = builtins.readFile ./homepage/custom.css;

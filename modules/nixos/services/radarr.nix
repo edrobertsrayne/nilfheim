@@ -3,13 +3,15 @@
   lib,
   ...
 }:
-with lib;
-with lib.custom; let
+with lib; let
   cfg = config.services.radarr;
   inherit (cfg.settings.server) port;
 in {
   options.services.radarr = {
-    url = mkOpt' types.str "radarr.${config.homelab.domain}";
+    url = mkOption {
+      type = types.str;
+      default = "radarr.${config.homelab.domain}";
+    };
   };
 
   config = mkIf cfg.enable {
