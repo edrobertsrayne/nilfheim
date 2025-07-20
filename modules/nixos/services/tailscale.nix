@@ -20,7 +20,7 @@ in {
       checkReversePath = "loose";
     };
     systemd.services.tailscaled = {
-      restartIfChanged = false;
+      # restartIfChanged = false;
     };
   };
 }
