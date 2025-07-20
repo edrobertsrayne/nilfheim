@@ -69,6 +69,19 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";
+          proxyWebsockets = true;
+          extraConfig = ''
+            add_header X-Frame-Options DENY;
+            add_header X-Content-Type-Options nosniff;
+            add_header Referrer-Policy strict-origin-when-cross-origin;
+          '';
+        };
+        locations."~* \.(css|js|png|jpg|jpeg|gif|ico|svg)$" = {
+          proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";
+          extraConfig = ''
+            expires 1h;
+            add_header Cache-Control "public, immutable";
+          '';
         };
       };
     };
