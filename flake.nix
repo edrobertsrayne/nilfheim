@@ -14,14 +14,22 @@
       perSystem = {
         pkgs,
         inputs',
+        system,
+        lib,
         ...
       }: {
         devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            git
-            inputs'.agenix.packages.default
-            inputs'.disko.packages.default
-          ];
+          packages = with pkgs;
+            [
+              git
+              alejandra
+            ]
+            ++ lib.optionals stdenv.isLinux [
+              inputs'.agenix.packages.default
+              inputs'.disko.packages.default
+            ]
+            ++ lib.optionals stdenv.isDarwin [
+            ];
         };
         formatter = pkgs.alejandra;
       };
@@ -30,6 +38,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager = {
       url = "github:nix-community/home-manager";

@@ -36,6 +36,28 @@
           ++ roles
           ++ extraModules;
       };
+    mkDarwinSystem = {
+      system ? "x86_64-darwin",
+      hostname,
+      username ? "ed",
+      extraModules ? [],
+      roles ? [],
+    }:
+      inputs.nix-darwin.lib.darwinSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs lib hostname username system;
+        };
+        modules =
+          [
+            inputs.home-manager.darwinModules.home-manager
+            ../modules/darwin
+            # ../modules/common
+            ../secrets
+          ]
+          ++ roles
+          ++ extraModules;
+      };
   in {
     nixosConfigurations = {
       freya = mkNixosSystem {
@@ -63,6 +85,12 @@
             ];
           })
         ];
+      };
+    };
+    darwinConfigurations = {
+      odin = mkDarwinSystem {
+        system = "x86_64-darwin";
+        hostname = "odin";
       };
     };
   };

@@ -49,9 +49,9 @@
     ./virtualisation/tdarr.nix
 
     ./system/boot.nix
-    ./desktop/fonts.nix
     ./system/nix.nix
     ./system/persist.nix
+    ./system/user.nix
   ];
 
   system.stateVersion = "25.05";
