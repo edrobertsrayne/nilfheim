@@ -35,7 +35,16 @@ in {
       in {
         inherit services;
         customCSS = builtins.readFile ./homepage/custom.css;
-        settings = {color = "gray";};
+        settings = {
+          color = "gray";
+          headerStyle = "clean";
+          hideVersion = true;
+          language = "en";
+          quicklaunch = {
+            searchDescriptions = true;
+            hideInternetSearch = true;
+          };
+        };
         environmentFile = config.age.secrets.homepage.path;
         widgets = [
           {
@@ -46,12 +55,14 @@ in {
               cputemp = true;
               uptime = true;
               units = "metric";
+              refresh = 1000;
             };
           }
           {
             resources = {
               label = "Storage";
-              disk = "/";
+              disk = ["/" "/mnt/media"];
+              units = "metric";
             };
           }
           {
@@ -61,6 +72,7 @@ in {
               longitude = 0.1214;
               timezone = "Europe/London";
               units = "metric";
+              cache = 5;
             };
           }
         ];
