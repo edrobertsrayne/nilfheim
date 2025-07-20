@@ -13,6 +13,10 @@ in {
       default = "sonarr.${config.homelab.domain}";
       description = "URL for sonarr proxy host.";
     };
+    apikey = mkOption {
+      type = types.str;
+      default = "e6619670253d4b17baaa8a640a3aafed";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -24,6 +28,7 @@ in {
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
+          inherit (cfg) apikey;
         };
       };
 
@@ -38,7 +43,7 @@ in {
             widget = {
               type = "sonarr";
               url = "http://127.0.0.1:${toString port}";
-              key = "{{HOMEPAGE_VAR_SONARR_APIKEY}}";
+              key = "${cfg.apikey}";
             };
           };
         }

@@ -12,6 +12,10 @@ in {
       type = types.str;
       default = "radarr.${config.homelab.domain}";
     };
+    apikey = mkOption {
+      type = types.str;
+      default = "45f0ce64ed8b4d34b51908c60b7a70fc";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -23,6 +27,7 @@ in {
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
+          inherit (cfg) apikey;
         };
       };
 
@@ -37,7 +42,7 @@ in {
             widget = {
               type = "radarr";
               url = "http://127.0.0.1:${toString port}";
-              key = "{{HOMEPAGE_VAR_RADARR_APIKEY}}";
+              key = "${cfg.apikey}";
             };
           };
         }

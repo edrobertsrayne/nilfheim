@@ -13,6 +13,10 @@ in {
       default = "prowlarr.${config.homelab.domain}";
       description = "URL for prowlarr proxy host.";
     };
+    apikey = mkOption {
+      type = types.str;
+      default = "c20dce066e08419daaa4c2cbbe4ddcbe";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -22,6 +26,7 @@ in {
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
+          inherit (cfg) apikey;
         };
       };
 
@@ -36,7 +41,7 @@ in {
             widget = {
               type = "prowlarr";
               url = "http://127.0.0.1:${toString port}";
-              key = "{{HOMEPAGE_VAR_PROWLARR_APIKEY}}";
+              key = "${cfg.apikey}";
             };
           };
         }

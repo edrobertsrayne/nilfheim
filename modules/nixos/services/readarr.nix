@@ -18,6 +18,10 @@ in {
       default = 8787;
       description = "Port to serve readarr on.";
     };
+    apikey = mkOption {
+      type = types.str;
+      default = "8fdde8ce0f444f80bb6c8626b97f2598";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -29,6 +33,7 @@ in {
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
+          inherit (cfg) apikey;
         };
       };
 
@@ -43,7 +48,7 @@ in {
             widget = {
               type = "readarr";
               url = "http://127.0.0.1:${toString port}";
-              key = "{{HOMEPAGE_VAR_READARR_APIKEY}}";
+              key = "${cfg.apikey}";
             };
           };
         }

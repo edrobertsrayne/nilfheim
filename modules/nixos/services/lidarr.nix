@@ -18,6 +18,10 @@ in {
       default = 8686;
       description = "Port to serve lidarr on.";
     };
+    apikey = mkOption {
+      type = types.str;
+      default = "f6a4315040e94c7c9eb2aefe5bfc4445";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -29,6 +33,7 @@ in {
         settings.auth = {
           method = "External";
           type = "DisabledForLocalAddresses";
+          inherit (cfg) apikey;
         };
       };
 
@@ -43,7 +48,7 @@ in {
             widget = {
               type = "lidarr";
               url = "http://127.0.0.1:${toString port}";
-              key = "{{HOMEPAGE_VAR_LIDARR_APIKEY}}";
+              key = "${cfg.apikey}";
             };
           };
         }
