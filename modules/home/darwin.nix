@@ -13,6 +13,7 @@
 
     programs = {
       alacritty.enable = true;
+      ghostty.enable = true;
       git = {
         enable = true;
         userName = "Ed Roberts Rayne";
