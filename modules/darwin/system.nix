@@ -4,30 +4,62 @@
   username,
   ...
 }: {
-  # System-level configuration
-  system.stateVersion = 6;
-  system.primaryUser = username;
   ids.gids.nixbld = 350;
 
-  # Enable nix daemon
-  nix.enable = true;
+  nix = {
+    enable = true;
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      trusted-users = ["root" "@admin"];
+    };
+  };
 
-  # Set hostname
   networking.hostName = hostname;
 
-  # Basic system packages
   environment.systemPackages = with pkgs; [
     vim
     git
   ];
 
-  # User configuration
   users.users.${username} = {
     home = "/Users/${username}";
     shell = pkgs.zsh;
   };
 
-  # Enable touch ID for sudo
+  system = {
+    stateVersion = 6; # DO NOT CHANGE!
+    primaryUser = username;
+    defaults = {
+      dock = {
+        autohide = true;
+        orientation = "bottom";
+        tilesize = 24;
+        magnification = false;
+        show-recents = false;
+        launchanim = false;
+        show-process-indicators = true;
+        mineffect = "scale";
+      };
+      finder = {
+        AppleShowAllExtensions = true;
+        ShowPathbar = true;
+        _FXShowPosixPathInTitle = true;
+        QuitMenuItem = true;
+      };
+      NSGlobalDomain = {
+        _HIHideMenuBar = false;
+        AppleKeyboardUIMode = 3;
+        InitialKeyRepeat = 15;
+        KeyRepeat = 2;
+        AppleInterfaceStyle = "Dark";
+      };
+      screencapture = {
+        location = "~/Pictures/Screenshots";
+        type = "png";
+      };
+    };
+  };
+
   security.pam.services = {
     sudo_local = {
       reattach = true;
