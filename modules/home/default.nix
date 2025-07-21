@@ -51,9 +51,9 @@ in {
           ls = "exa";
           l = "ls";
           ".." = "z ..";
-          la = "exa -a";
-          ll = "exa -al";
-          lt = "exa -a --tree --level=2";
+          la = "eza -a";
+          ll = "eza -al";
+          lt = "eza -a --tree --level=2";
           tmux = "tmux -u";
         };
       };
