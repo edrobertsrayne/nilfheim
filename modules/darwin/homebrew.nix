@@ -27,8 +27,6 @@
       "processing"
       "raycast"
       "steam"
-      "tailscale"
-      "tailscale-app"
       "utm"
       "visual-studio-code"
       "vlc"

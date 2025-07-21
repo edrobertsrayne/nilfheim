@@ -1,7 +1,8 @@
 {
   imports = [
-    ./system.nix
-    ./homebrew.nix
     ./home-manager.nix
+    ./homebrew.nix
+    ./services.nix
+    ./system.nix
   ];
 }
