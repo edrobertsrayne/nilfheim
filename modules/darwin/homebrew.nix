@@ -13,7 +13,6 @@
     casks = [
       "adobe-connect"
       "adobe-creative-cloud"
-      "alacritty"
       "arduino-ide"
       "balenaetcher"
       "bambu-studio"
@@ -33,7 +32,6 @@
       "utm"
       "visual-studio-code"
       "vlc"
-      "wezterm"
     ];
   };
 }

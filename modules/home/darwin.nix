@@ -11,10 +11,14 @@
       shell.enableShellIntegration = true;
     };
 
-    programs.git = {
-      enable = true;
-      userName = "Ed Roberts Rayne";
-      userEmail = "ed.rayne@gmail.com";
+    programs = {
+      alacritty.enable = true;
+      git = {
+        enable = true;
+        userName = "Ed Roberts Rayne";
+        userEmail = "ed.rayne@gmail.com";
+      };
+      wezterm.enable = true;
     };
   };
 }
