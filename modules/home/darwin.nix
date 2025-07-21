@@ -9,7 +9,7 @@ _: {
 
     programs = {
       alacritty.enable = true;
-      ghostty.enable = true;
+      ghostty.enable = false; # package marked as broken
       git = {
         enable = true;
         userName = "Ed Roberts Rayne";
