@@ -8,12 +8,32 @@
     ];
 
     brews = [
-      # Add any CLI tools you need from homebrew
     ];
 
     casks = [
-      # Add GUI applications here
-      # Example: "firefox"
+      "adobe-connect"
+      "adobe-creative-cloud"
+      "alacritty"
+      "arduino-ide"
+      "balenaetcher"
+      "bambu-studio"
+      "claude"
+      "docker-desktop"
+      "firefox"
+      "github"
+      "google-chrome"
+      "google-drive"
+      "karabiner-elements"
+      "kicad"
+      "processing"
+      "raycast"
+      "steam"
+      "tailscale"
+      "tailscale-app"
+      "utm"
+      "visual-studio-code"
+      "vlc"
+      "wezterm"
     ];
   };
 }
