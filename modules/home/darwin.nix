@@ -10,6 +10,7 @@ _: {
     catppuccin = {
       flavor = "mocha";
       enable = true;
+      wezterm.apply = true;
     };
 
     programs = {
@@ -43,36 +44,67 @@ _: {
       wezterm = {
         enable = true;
         extraConfig = ''
-          local mylib = require 'mylib'
-          return {
-                  enable_wayland = false,
-                  enable_tab_bar = false,
-                  font_size = 12.0,
-                  font = wezterm.font("JetBrainsMono Nerd Font"),
-                  macos_window_background_blur = 30,
-                  window_background_opacity = 0.95,
-                  window_decorations = "TITLE | RESIZE",
-                  warn_about_missing_glyphs = false,
-                  keys = {
-                          {
-                                  key = "f",
-                                  mods = "CTRL",
-                                  action = wezterm.action.ToggleFullScreen,
-                          },
-                          {
-                                  key = "'",
-                                  mods = "CTRL",
-                                  action = wezterm.action.ClearScrollback("ScrollbackAndViewport"),
-                          },
-                  },
-                  mouse_bindings = {
-                          {
-                                  event = { Up = { streak = 1, button = "Left" } },
-                                  mods = "CTRL",
-                                  action = wezterm.action.OpenLinkAtMouseCursor,
-                          },
-                  },
-          }
+            config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
+            config.font_size = 12.0
+            config.warn_about_missing_glyphs = false
+
+            config.enable_tab_bar = false
+            config.window_decorations = "TITLE | RESIZE"
+            config.macos_window_background_blur = 30
+            config.window_background_opacity = 0.95
+            config.window_padding = {
+              left = 4,
+              right = 4,
+              top = 0,
+              bottom = 0,
+            }
+            config.window_close_confirmation = 'NeverPrompt'
+
+            config.max_fps = 120
+            config.animation_fps = 60
+            config.enable_wayland = false
+
+            config.audible_bell = "Disabled"
+            config.scrollback_lines = 10000
+            config.enable_scroll_bar = false
+
+            config.keys = {
+              {
+                key = "f",
+                mods = "CTRL",
+                action = wezterm.action.ToggleFullScreen,
+              },
+              {
+                key = "'",
+                mods = "CTRL",
+                action = wezterm.action.ClearScrollback("ScrollbackAndViewport"),
+              },
+              {
+                key = "=",
+                mods = "CTRL",
+                action = wezterm.action.IncreaseFontSize,
+              },
+              {
+                key = "-",
+                mods = "CTRL",
+                action = wezterm.action.DecreaseFontSize,
+              },
+              {
+                key = "0",
+                mods = "CTRL",
+                action = wezterm.action.ResetFontSize,
+              },
+            }
+
+            config.mouse_bindings = {
+              {
+                event = { Up = { streak = 1, button = "Left" } },
+                mods = "CTRL",
+                action = wezterm.action.OpenLinkAtMouseCursor,
+              },
+            }
+
+          return config
         '';
       };
     };
