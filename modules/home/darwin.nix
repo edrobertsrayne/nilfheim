@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}: {
+_: {
   imports = [./common.nix];
 
   config = {
