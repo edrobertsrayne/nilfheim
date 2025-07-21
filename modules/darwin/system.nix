@@ -5,7 +5,7 @@
   ...
 }: {
   # System-level configuration
-  system.stateVersion = 4;
+  system.stateVersion = 6;
   system.primaryUser = username;
   ids.gids.nixbld = 350;
 
