@@ -50,6 +50,10 @@
     shell = pkgs.zsh;
   };
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
+
   system = {
     stateVersion = 6; # DO NOT CHANGE!
     primaryUser = username;
