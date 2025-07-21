@@ -1,17 +1,12 @@
-{osConfig, ...}: let
-  inherit (osConfig) user;
-in {
+{lib, ...}: {
   imports = [
     ./nvf
     ./tmux.nix
   ];
 
   config = {
-    home = {
-      username = user.name;
-      stateVersion = "25.05";
-      shell.enableShellIntegration = true;
-    };
+    home.stateVersion = "25.05";
+
     programs = {
       bat.enable = true;
       dircolors.enable = true;
@@ -29,11 +24,6 @@ in {
         ignores = [".git/" "*.bak"];
       };
       fzf.enable = true;
-      git = {
-        enable = true;
-        userName = user.fullName;
-        userEmail = user.email;
-      };
       lazygit.enable = true;
       nh.enable = true;
       password-store.enable = true;
@@ -48,8 +38,8 @@ in {
         autosuggestion.enable = true;
         shellAliases = {
           c = "clear";
-          ls = "exa";
-          l = "ls";
+          ls = "eza";
+          l = "eza";
           ".." = "z ..";
           la = "eza -a";
           ll = "eza -al";
@@ -58,6 +48,7 @@ in {
         };
       };
     };
+
     modules.nvf.enable = true;
   };
 }

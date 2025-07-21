@@ -3,6 +3,7 @@
   config,
   inputs,
   pkgs,
+  username,
   ...
 }:
 with lib; let
@@ -13,7 +14,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    user.shell = pkgs.zsh;
     home-manager = {
       backupFileExtension = "backup";
       useGlobalPkgs = true;
@@ -31,8 +31,6 @@ in {
           };
         }
       ];
-
-      users.${config.user.name} = import ../home;
     };
   };
 }

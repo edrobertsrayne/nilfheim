@@ -30,7 +30,6 @@
             inputs.catppuccin.nixosModules.catppuccin
             inputs.proxmox-nixos.nixosModules.proxmox-ve
             ../modules/nixos
-            ../modules/common
             ../secrets
           ]
           ++ roles
@@ -52,7 +51,6 @@
           [
             inputs.home-manager.darwinModules.home-manager
             ../modules/darwin
-            # ../modules/common
             ../secrets
           ]
           ++ roles

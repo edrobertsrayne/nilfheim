@@ -1,5 +1,7 @@
 {
   imports = [
+    ./home-manager.nix
+
     ./desktop/arduino.nix
     ./desktop/firefox.nix
     ./desktop/fonts.nix
