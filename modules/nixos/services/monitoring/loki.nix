@@ -24,9 +24,9 @@ in {
             http_listen_port = 3100;
             grpc_listen_port = 9096;
           };
-          
+
           auth_enabled = false;
-          
+
           ingester = {
             lifecycler = {
               address = "127.0.0.1";
@@ -43,20 +43,22 @@ in {
             chunk_target_size = 1048576;
             chunk_retain_period = "30s";
           };
-          
+
           schema_config = {
-            configs = [{
-              from = "2020-10-24";
-              store = "tsdb";
-              object_store = "filesystem";
-              schema = "v13";
-              index = {
-                prefix = "index_";
-                period = "24h";
-              };
-            }];
+            configs = [
+              {
+                from = "2020-10-24";
+                store = "tsdb";
+                object_store = "filesystem";
+                schema = "v13";
+                index = {
+                  prefix = "index_";
+                  period = "24h";
+                };
+              }
+            ];
           };
-          
+
           storage_config = {
             tsdb_shipper = {
               active_index_directory = "/srv/loki/tsdb-index";
@@ -66,18 +68,18 @@ in {
               directory = "/srv/loki/chunks";
             };
           };
-          
+
           limits_config = {
             reject_old_samples = true;
             reject_old_samples_max_age = "168h";
             retention_period = "744h"; # 31 days
           };
-          
+
           table_manager = {
             retention_deletes_enabled = false;
             retention_period = "0s";
           };
-          
+
           compactor = {
             working_directory = "/srv/loki/compactor";
             compactor_ring = {
@@ -106,7 +108,7 @@ in {
           proxyPass = "http://127.0.0.1:${toString cfg.configuration.server.http_listen_port}";
         };
       };
-      
+
       grafana.provision = {
         datasources.settings.datasources = [
           {
@@ -138,15 +140,15 @@ in {
         ];
       };
     };
-    
+
     systemd.tmpfiles.rules = [
       "d ${cfg.dataDir} 0755 loki loki -"
       "d ${cfg.dataDir}/chunks 0755 loki loki -"
       "d ${cfg.dataDir}/tsdb-index 0755 loki loki -"
-      "d ${cfg.dataDir}/tsdb-cache 0755 loki loki -" 
+      "d ${cfg.dataDir}/tsdb-cache 0755 loki loki -"
       "d ${cfg.dataDir}/compactor 0755 loki loki -"
     ];
-    
+
     system.persist.extraRootDirectories = [
       "/srv/loki"
     ];

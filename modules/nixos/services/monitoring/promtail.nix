@@ -24,17 +24,17 @@ in {
             http_listen_port = 9080;
             grpc_listen_port = 0;
           };
-          
+
           positions = {
             filename = "/var/lib/promtail/positions.yaml";
           };
-          
+
           clients = [
             {
               url = "http://127.0.0.1:${toString lokiCfg.configuration.server.http_listen_port}/loki/api/v1/push";
             }
           ];
-          
+
           scrape_configs = [
             # Systemd journal logs
             {
@@ -65,7 +65,7 @@ in {
                 }
               ];
             }
-            
+
             # Nginx access logs
             {
               job_name = "nginx-access";
@@ -100,7 +100,7 @@ in {
                 }
               ];
             }
-            
+
             # Nginx error logs
             {
               job_name = "nginx-error";
@@ -115,7 +115,7 @@ in {
                 }
               ];
             }
-            
+
             # Jellyfin logs
             {
               job_name = "jellyfin";
@@ -130,7 +130,7 @@ in {
                 }
               ];
             }
-            
+
             # *arr stack logs (Sonarr, Radarr, Lidarr, Readarr, Prowlarr)
             {
               job_name = "arr-services";
@@ -164,7 +164,7 @@ in {
                 }
               ];
             }
-            
+
             # Kavita logs
             {
               job_name = "kavita";
@@ -179,7 +179,7 @@ in {
                 }
               ];
             }
-            
+
             # Bazarr logs (if they exist in expected location)
             {
               job_name = "bazarr";
@@ -216,27 +216,27 @@ in {
         };
       };
     };
-    
+
     systemd.tmpfiles.rules = [
       "d /var/lib/promtail 0755 promtail promtail -"
     ];
-    
+
     system.persist.extraRootDirectories = [
       "/var/lib/promtail"
     ];
-    
+
     # Ensure promtail can read various log sources
-    users.users.promtail.extraGroups = [ 
-      "systemd-journal"  # For systemd journal access
-      "nginx"           # For nginx log access
-      "jellyfin"        # For Jellyfin log access
-      "sonarr"          # For Sonarr log access
-      "radarr"          # For Radarr log access
-      "lidarr"          # For Lidarr log access
-      "readarr"         # For Readarr log access
-      "prowlarr"        # For Prowlarr log access
-      "bazarr"          # For Bazarr log access
-      "kavita"          # For Kavita log access
+    users.users.promtail.extraGroups = [
+      "systemd-journal" # For systemd journal access
+      "nginx" # For nginx log access
+      "jellyfin" # For Jellyfin log access
+      "sonarr" # For Sonarr log access
+      "radarr" # For Radarr log access
+      "lidarr" # For Lidarr log access
+      "readarr" # For Readarr log access
+      "prowlarr" # For Prowlarr log access
+      "bazarr" # For Bazarr log access
+      "kavita" # For Kavita log access
     ];
   };
 }
