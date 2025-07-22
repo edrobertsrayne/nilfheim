@@ -107,7 +107,6 @@
 
     visuals = {
       nvim-web-devicons.enable = true;
-      cinnamon-nvim.enable = true;
       fidget-nvim.enable = true;
       highlight-undo.enable = true;
     };
