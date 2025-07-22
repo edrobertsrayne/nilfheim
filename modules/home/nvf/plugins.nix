@@ -12,8 +12,25 @@
     autopairs.nvim-autopairs.enable = true;
 
     binds = {
-      whichKey.enable = true;
-      cheatsheet.enable = true;
+      whichKey = {
+        enable = true;
+        setupOpts = {
+          preset = "helix";
+        };
+        register = {
+          "<leader>f" = "Find";
+          "<leader>g" = "Git";
+          "<leader>s" = "Search";
+          "<leader>u" = "UI";
+          "<leader>w" = "Windows";
+          "<leader>x" = "Diagnostics/Quickfix";
+          "<leader>q" = "Quit/Session";
+          "<leader>c" = "Code";
+          "<leader>b" = "Buffers";
+          "<leader>t" = "Terminal";
+          "<leader>n" = "Notifications";
+        };
+      };
     };
 
     comments.comment-nvim.enable = true;
