@@ -143,18 +143,304 @@
       lua = true;
       desc = "Prev Reference";
     }
-
+    # Git
+    {
+      key = "<leader>gb";
+      mode = ["n"];
+      action = "function() require('snacks.picker').git_branches() end";
+      lua = true;
+      desc = "Git Branches";
+    }
+    {
+      key = "<leader>gl";
+      mode = ["n"];
+      action = "function() require('snacks.picker').git_log() end";
+      lua = true;
+      desc = "Git Log";
+    }
+    {
+      key = "<leader>gL";
+      mode = ["n"];
+      action = "function() require('snacks.picker').git_log_line() end";
+      lua = true;
+      desc = "Git Log Line";
+    }
+    {
+      key = "<leader>gs";
+      mode = ["n"];
+      action = "function() require('snacks.picker').git_status() end";
+      lua = true;
+      desc = "Git Status";
+    }
+    {
+      key = "<leader>gS";
+      mode = ["n"];
+      action = "function() require('snacks.picker').git_stash() end";
+      lua = true;
+      desc = "Git Stash";
+    }
+    {
+      key = "<leader>gd";
+      mode = ["n"];
+      action = "function() require('snacks.picker').git_diff() end";
+      lua = true;
+      desc = "Git Diff (Hunks)";
+    }
+    {
+      key = "<leader>gf";
+      mode = ["n"];
+      action = "function() require('snacks.picker').git_log_file() end";
+      lua = true;
+      desc = "Git Log File";
+    }
+    {
+      key = "<leader>gB";
+      mode = ["n" "v"];
+      action = "function() require('snacks.gitbrowse')() end";
+      lua = true;
+      desc = "Git Browse";
+    }
     {
       key = "<leader>gg";
       mode = ["n"];
-      action = "<cmd>lua require('snacks.lazygit')()<CR>";
-      desc = "Open lazygit";
+      action = "function() require('snacks.lazygit')() end";
+      lua = true;
+      desc = "lazygit";
+    }
+    # Core Snacks functionality
+    {
+      key = "<leader><space>";
+      mode = ["n"];
+      action = "function() require('snacks.picker').smart() end";
+      lua = true;
+      desc = "Smart Find Files";
+    }
+    {
+      key = "<leader>,";
+      mode = ["n"];
+      action = "function() require('snacks.picker').buffers() end";
+      lua = true;
+      desc = "Buffers";
+    }
+    {
+      key = "<leader>/";
+      mode = ["n"];
+      action = "function() require('snacks.picker').grep() end";
+      lua = true;
+      desc = "Grep";
+    }
+    {
+      key = "<leader>:";
+      mode = ["n"];
+      action = "function() require('snacks.picker').command_history() end";
+      lua = true;
+      desc = "Command History";
     }
     {
       key = "<leader>e";
       mode = ["n"];
-      action = "<cmd>Neotree toggle<CR>";
-      desc = "Toggle file explorer [Neotree]";
+      action = "function() require('snacks.explorer')() end";
+      lua = true;
+      desc = "File Explorer";
+    }
+
+    # Find files
+    {
+      key = "<leader>fb";
+      mode = ["n"];
+      action = "function() require('snacks.picker').buffers() end";
+      lua = true;
+      desc = "Buffers";
+    }
+    {
+      key = "<leader>fc";
+      mode = ["n"];
+      action = "function() require('snacks.picker').files({ cwd = vim.fn.stdpath(\"config\") }) end";
+      lua = true;
+      desc = "Find Config File";
+    }
+    {
+      key = "<leader>ff";
+      mode = ["n"];
+      action = "function() require('snacks.picker').files() end";
+      lua = true;
+      desc = "Find Files";
+    }
+    {
+      key = "<leader>fg";
+      mode = ["n"];
+      action = "function() require('snacks.picker').git_files() end";
+      lua = true;
+      desc = "Find Git Files";
+    }
+    {
+      key = "<leader>fp";
+      mode = ["n"];
+      action = "function() require('snacks.picker').projects() end";
+      lua = true;
+      desc = "Projects";
+    }
+    {
+      key = "<leader>fr";
+      mode = ["n"];
+      action = "function() require('snacks.picker').recent() end";
+      lua = true;
+      desc = "Recent";
+    }
+    # Search
+    {
+      key = "<leader>sb";
+      mode = ["n"];
+      action = "function() require('snacks.picker').lines() end";
+      lua = true;
+      desc = "Buffer Lines";
+    }
+    {
+      key = "<leader>sB";
+      mode = ["n"];
+      action = "function() require('snacks.picker').grep_buffers() end";
+      lua = true;
+      desc = "Grep Open Buffers";
+    }
+    {
+      key = "<leader>sg";
+      mode = ["n"];
+      action = "function() require('snacks.picker').grep() end";
+      lua = true;
+      desc = "Grep";
+    }
+    {
+      key = "<leader>sw";
+      mode = ["n" "x"];
+      action = "function() require('snacks.picker').grep_word() end";
+      lua = true;
+      desc = "Visual selection or word";
+    }
+    {
+      key = "<leader>s\"";
+      mode = ["n"];
+      action = "function() require('snacks.picker').registers() end";
+      lua = true;
+      desc = "Registers";
+    }
+    {
+      key = "<leader>sa";
+      mode = ["n"];
+      action = "function() require('snacks.picker').autocmds() end";
+      lua = true;
+      desc = "Autocmds";
+    }
+    {
+      key = "<leader>sc";
+      mode = ["n"];
+      action = "function() require('snacks.picker').command_history() end";
+      lua = true;
+      desc = "Command History";
+    }
+    {
+      key = "<leader>sC";
+      mode = ["n"];
+      action = "function() require('snacks.picker').commands() end";
+      lua = true;
+      desc = "Commands";
+    }
+    {
+      key = "<leader>sd";
+      mode = ["n"];
+      action = "function() require('snacks.picker').diagnostics() end";
+      lua = true;
+      desc = "Diagnostics";
+    }
+    {
+      key = "<leader>sD";
+      mode = ["n"];
+      action = "function() require('snacks.picker').diagnostics_buffer() end";
+      lua = true;
+      desc = "Buffer Diagnostics";
+    }
+    {
+      key = "<leader>sh";
+      mode = ["n"];
+      action = "function() require('snacks.picker').help() end";
+      lua = true;
+      desc = "Help Pages";
+    }
+    {
+      key = "<leader>sH";
+      mode = ["n"];
+      action = "function() require('snacks.picker').highlights() end";
+      lua = true;
+      desc = "Highlights";
+    }
+    {
+      key = "<leader>si";
+      mode = ["n"];
+      action = "function() require('snacks.picker').icons() end";
+      lua = true;
+      desc = "Icons";
+    }
+    {
+      key = "<leader>sj";
+      mode = ["n"];
+      action = "function() require('snacks.picker').jumps() end";
+      lua = true;
+      desc = "Jumps";
+    }
+    {
+      key = "<leader>sk";
+      mode = ["n"];
+      action = "function() require('snacks.picker').keymaps() end";
+      lua = true;
+      desc = "Keymaps";
+    }
+    {
+      key = "<leader>sl";
+      mode = ["n"];
+      action = "function() require('snacks.picker').loclist() end";
+      lua = true;
+      desc = "Location List";
+    }
+    {
+      key = "<leader>sm";
+      mode = ["n"];
+      action = "function() require('snacks.picker').marks() end";
+      lua = true;
+      desc = "Marks";
+    }
+    {
+      key = "<leader>sM";
+      mode = ["n"];
+      action = "function() require('snacks.picker').man() end";
+      lua = true;
+      desc = "Man Pages";
+    }
+    {
+      key = "<leader>sq";
+      mode = ["n"];
+      action = "function() require('snacks.picker').qflist() end";
+      lua = true;
+      desc = "Quickfix List";
+    }
+    {
+      key = "<leader>sR";
+      mode = ["n"];
+      action = "function() require('snacks.picker').resume() end";
+      lua = true;
+      desc = "Resume";
+    }
+    {
+      key = "<leader>su";
+      mode = ["n"];
+      action = "function() require('snacks.picker').undo() end";
+      lua = true;
+      desc = "Undo History";
+    }
+    {
+      key = "<leader>uC";
+      mode = ["n"];
+      action = "function() require('snacks.picker').colorschemes() end";
+      lua = true;
+      desc = "Colorschemes";
     }
     {
       key = "jk";
@@ -167,72 +453,6 @@
       mode = ["n"];
       action = ":nohl<CR>";
       desc = "Clear search highlights";
-    }
-    {
-      key = "<leader>be";
-      action = ":Neotree float buffers<CR>";
-      mode = ["n"];
-      desc = "Buffer list";
-    }
-    {
-      key = "<leader>ge";
-      action = ":Neotree float git_status<CR>";
-      mode = ["n"];
-      desc = "List git status [NeoTree]";
-    }
-    {
-      key = "<leader><space>";
-      mode = ["n"];
-      action = "<cmd>Telescope find_files<CR>";
-      desc = "Find Files [Telescope]";
-    }
-    {
-      key = "<leader>/";
-      mode = ["n"];
-      action = "<cmd>Telescope live_grep<CR>";
-      desc = "Live Grep [Telescope]";
-    }
-    {
-      key = "<leader>,";
-      mode = ["n"];
-      action = "<cmd>Telescope buffers<CR>";
-      desc = "Buffers [Telescope]";
-    }
-    {
-      key = "<leader>fC";
-      mode = ["n"];
-      action = "<cmd>Telescope commands<CR>";
-      desc = "Commands";
-    }
-    {
-      key = "<leader>fd";
-      mode = ["n"];
-      action = "<cmd>Telescope diagnostics<CR>";
-      desc = "Diagnostics";
-    }
-    {
-      key = "<leader>fc";
-      mode = ["n"];
-      action = "<cmd>Telescope commands_history<CR>";
-      desc = "Command history";
-    }
-    {
-      key = "<leader>fh";
-      mode = ["n"];
-      action = "<cmd>Telescope help_tags";
-      desc = "Help";
-    }
-    {
-      key = "<leader>fq";
-      mode = ["n"];
-      action = "<cmd>Telescope quickfix<CR>";
-      desc = "Quickfix list";
-    }
-    {
-      key = "<leader>f/";
-      mode = ["n"];
-      action = "<cmd>Telescope search_history<CR>";
-      desc = "Search history";
     }
   ];
 }

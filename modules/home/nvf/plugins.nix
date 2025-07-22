@@ -5,10 +5,13 @@
     utility.snacks-nvim = {
       enable = true;
       setupOpts = {
-        lazygit = {enable = true;};
-        indent = {enable = true;};
-        scroll = {enable = true;};
-        words = {enable = true;};
+        lazygit = {enabled = true;};
+        indent = {enabled = true;};
+        scroll = {enabled = true;};
+        words = {enabled = true;};
+        gitbrowser = {enabled = true;};
+        picker = {enabled = true;};
+        explorer = {enabled = true;};
       };
     };
 
