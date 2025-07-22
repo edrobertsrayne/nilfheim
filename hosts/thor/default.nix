@@ -30,33 +30,41 @@
         "path" = "/mnt/backup";
         "browseable" = "yes";
         "read only" = "no";
-        "guest ok" = "yes";
+        "guest ok" = "no";
+        "valid users" = username;
         "create mask" = "0644";
         "directory mask" = "0755";
+        "force user" = username;
+        "force group" = "users";
       };
       "downloads" = {
         "path" = "/mnt/downloads";
         "browseable" = "yes";
         "read only" = "no";
-        "guest ok" = "yes";
+        "guest ok" = "no";
+        "valid users" = username;
         "create mask" = "0644";
         "directory mask" = "0755";
+        "force user" = username;
+        "force group" = "users";
       };
       "media" = {
         "path" = "/mnt/media";
         "browseable" = "yes";
-        "read only" = "no";
-        "guest ok" = "yes";
-        "create mask" = "0644";
-        "directory mask" = "0755";
+        "read only" = "yes";
+        "guest ok" = "no";
+        "valid users" = username;
       };
       "share" = {
         "path" = "/mnt/share";
         "browseable" = "yes";
         "read only" = "no";
-        "guest ok" = "yes";
+        "guest ok" = "no";
+        "valid users" = username;
         "create mask" = "0644";
         "directory mask" = "0755";
+        "force user" = username;
+        "force group" = "users";
       };
     };
   };
