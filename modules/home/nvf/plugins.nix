@@ -2,6 +2,10 @@
   programs.nvf.settings.vim = {
     autocomplete.nvim-cmp.enable = true;
 
+    utility.snacks-nvim = {
+      enable = true;
+    };
+
     autopairs.nvim-autopairs.enable = true;
 
     binds = {
