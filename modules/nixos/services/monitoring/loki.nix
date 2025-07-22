@@ -118,6 +118,20 @@ in {
             uid = "LOKI001";
           }
         ];
+        dashboards.settings.providers = [
+          {
+            name = "Loki Dashboards";
+            options.path = "${./grafana/logs-overview.json}";
+          }
+          {
+            name = "Nginx Logs";
+            options.path = "${./grafana/nginx-logs.json}";
+          }
+          {
+            name = "Service Logs";
+            options.path = "${./grafana/service-logs.json}";
+          }
+        ];
       };
     };
     
