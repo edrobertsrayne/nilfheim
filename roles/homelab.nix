@@ -50,12 +50,14 @@ in {
       glances.enable = true;
       grafana.enable = true;
       homepage-dashboard.enable = true;
+      loki.enable = true;
       jellyfin.enable = true;
       jellyseerr.enable = true;
       kavita.enable = true;
       lidarr.enable = true;
       nginx.enable = true;
       prometheus.enable = true;
+      promtail.enable = true;
       prowlarr.enable = true;
       proxmox-ve.enable = false;
       radarr.enable = true;
