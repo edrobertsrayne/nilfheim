@@ -1,6 +1,12 @@
 {
   programs.nvf.settings.vim.keymaps = [
     {
+      key = "<leader>gg";
+      mode = ["n"];
+      action = "<cmd>lua require('snacks.lazygit')()<CR>";
+      desc = "Open lazygit";
+    }
+    {
       key = "<leader>e";
       mode = ["n"];
       action = "<cmd>Neotree toggle<CR>";

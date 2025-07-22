@@ -4,6 +4,9 @@
 
     utility.snacks-nvim = {
       enable = true;
+      setupOpts = {
+        lazygit = {enable = true;};
+      };
     };
 
     autopairs.nvim-autopairs.enable = true;
@@ -52,7 +55,6 @@
 
     terminal.toggleterm = {
       enable = true;
-      lazygit.enable = true;
     };
 
     treesitter.context.enable = true;
