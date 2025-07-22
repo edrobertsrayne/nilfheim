@@ -29,6 +29,14 @@ in {
               }
             ];
           }
+          {
+            job_name = "promtail";
+            static_configs = [
+              {
+                targets = ["localhost:9080"];
+              }
+            ];
+          }
         ];
         exporters.node = {
           enable = true;

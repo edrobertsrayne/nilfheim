@@ -131,6 +131,10 @@ in {
             name = "Service Logs";
             options.path = "${./grafana/service-logs.json}";
           }
+          {
+            name = "Promtail Monitoring";
+            options.path = "${./grafana/promtail-monitoring.json}";
+          }
         ];
       };
     };
