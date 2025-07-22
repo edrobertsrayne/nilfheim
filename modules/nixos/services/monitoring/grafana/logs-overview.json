@@ -119,7 +119,7 @@
             "type": "loki",
             "uid": "LOKI001"
           },
-          "expr": "sum by (job) (rate({job=~\".+\"}[$__range]))",
+          "expr": "sum by (job) (rate({job=~\".+\"}[5m]))",
           "queryType": "",
           "refId": "A"
         }
@@ -183,7 +183,7 @@
             "type": "loki",
             "uid": "LOKI001"
           },
-          "expr": "count by (job) (count by (job) ({job=~\".+\"}))",
+          "expr": "count(count by (job) (count_over_time({job=~\".+\"} [$__range])))",
           "queryType": "",
           "refId": "A"
         }
@@ -256,7 +256,7 @@
             "type": "loki",
             "uid": "LOKI001"
           },
-          "expr": "sum by (level) (count_over_time({job=\"systemd-journal\"} |~ \"(?i)(error|warn|info|debug)\" [$__range]))",
+          "expr": "sum by (level) (count_over_time({job=\"systemd-journal\", level=~\"error|warn|info|debug\"} [$__range]))",
           "queryType": "",
           "refId": "A"
         }
@@ -379,7 +379,7 @@
             "type": "loki",
             "uid": "LOKI001"
           },
-          "expr": "sum by (level) (rate({job=\"systemd-journal\"} |~ \"(?i)(error|warn)\" [$__rate_interval]))",
+          "expr": "sum by (level) (rate({job=\"systemd-journal\", level=~\"error|warn\"} [5m]))",
           "queryType": "",
           "refId": "A"
         }
