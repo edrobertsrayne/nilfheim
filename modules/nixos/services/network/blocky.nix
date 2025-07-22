@@ -128,7 +128,7 @@ in {
         provision.dashboards.settings.providers = [
           {
             name = "Blocky";
-            options.path = ./grafana/blocky.json;
+            options.path = ../monitoring/grafana/blocky.json;
           }
         ];
       };

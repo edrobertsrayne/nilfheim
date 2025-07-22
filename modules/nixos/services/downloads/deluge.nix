@@ -83,7 +83,7 @@ in {
       grafana.provision.dashboards.settings.providers = [
         {
           name = "Deluge";
-          options.path = ./grafana/deluge.json;
+          options.path = ../../monitoring/grafana/deluge.json;
         }
       ];
     };
