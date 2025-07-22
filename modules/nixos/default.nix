@@ -2,58 +2,24 @@
   imports = [
     ./home-manager.nix
 
-    ./desktop/arduino.nix
-    ./desktop/firefox.nix
-    ./desktop/fonts.nix
-    ./desktop/foot.nix
-    ./desktop/gnome.nix
-    ./desktop/gtk.nix
-    ./desktop/obsidian.nix
-    ./desktop/spotify.nix
-    ./desktop/virt-manager.nix
-    ./desktop/vscode.nix
-    ./desktop/xkb.nix
+    # Desktop applications and environments
+    ./desktop
 
-    ./hardware/audio.nix
-    ./hardware/network.nix
+    # Hardware configuration
+    ./hardware
 
-    ./services/avahi.nix
-    ./services/audiobookshelf.nix
-    ./services/autobrr.nix
-    ./services/bazarr.nix
-    ./services/blocky.nix
-    ./services/deluge.nix
-    ./services/glances.nix
-    ./services/grafana.nix
-    ./services/homepage.nix
-    ./services/jellyfin.nix
-    ./services/jellyseerr.nix
-    ./services/kavita.nix
-    ./services/lidarr.nix
-    ./services/nginx.nix
-    ./services/plex.nix
-    ./services/prometheus.nix
-    ./services/prowlarr.nix
-    ./services/proxmox-ve.nix
-    ./services/radarr.nix
-    ./services/readarr.nix
-    ./services/sabnzbd.nix
-    ./services/samba.nix
-    ./services/sonarr.nix
-    ./services/ssh.nix
-    ./services/stirling-pdf.nix
-    ./services/transmission.nix
-    ./services/tailscale.nix
-    ./services/uptime-kuma.nix
+    # Services organized by category
+    ./services/downloads
+    ./services/media
+    ./services/monitoring
+    ./services/network
+    ./services/utilities
 
-    ./virtualisation/homeassistant.nix
-    ./virtualisation/podman.nix
-    ./virtualisation/tdarr.nix
+    # Virtualization and containers
+    ./virtualisation
 
-    ./system/boot.nix
-    ./system/nix.nix
-    ./system/persist.nix
-    ./system/user.nix
+    # Core system configuration
+    ./system
   ];
 
   system.stateVersion = "25.05";

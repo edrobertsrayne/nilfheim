@@ -1,5 +1,5 @@
 {
-  description = "Ed's NixOS Configuration";
+  description = "Ed's NixOS Configuration - A modular NixOS/Darwin flake";
 
   outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {
