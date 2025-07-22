@@ -8,6 +8,7 @@
         lazygit = {enable = true;};
         indent = {enable = true;};
         scroll = {enable = true;};
+        words = {enable = true;};
       };
     };
 
