@@ -21,6 +21,17 @@ in {
             "hosts deny" = mkDefault "0.0.0.0/0";
             "guest account" = mkDefault "nobody";
             "map to guest" = mkDefault "bad user";
+
+            # Enhanced security settings
+            "server signing" = mkDefault "mandatory";
+            "smb encrypt" = mkDefault "required";
+            "server min protocol" = mkDefault "SMB3";
+            "client min protocol" = mkDefault "SMB3";
+            "restrict anonymous" = mkDefault "2";
+            "null passwords" = mkDefault "no";
+            "obey pam restrictions" = mkDefault "yes";
+            "unix password sync" = mkDefault "yes";
+            "pam password change" = mkDefault "yes";
           };
         };
       };
