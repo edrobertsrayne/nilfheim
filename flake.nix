@@ -18,11 +18,17 @@
         lib,
         ...
       }: {
+        _module.args.pkgs = import inputs.nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
         devShells.default = pkgs.mkShell {
           packages = with pkgs;
             [
               git
               alejandra
+              claude-code
+              gh
             ]
             ++ lib.optionals stdenv.isLinux [
               inputs'.agenix.packages.default
