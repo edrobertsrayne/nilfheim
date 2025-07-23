@@ -1,0 +1,161 @@
+groups:
+  - name: system.logs.alerts
+    rules:
+      # High Error Rate in System Logs
+      - alert: SystemHighErrorRate
+        expr: |
+          (
+            sum(rate({job="systemd-journal", level="error"}[5m]))
+            /
+            sum(rate({job="systemd-journal"}[5m]))
+          ) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "High error rate in system logs"
+          description: "System is generating high error rate in systemd journal logs."
+
+      # Critical Service Failures
+      - alert: CriticalServiceFailure
+        expr: sum(count_over_time({job="systemd-journal", level="error"} |~ "(?i)(failed|error|critical)" [5m])) > 10
+        for: 2m
+        labels:
+          severity: critical
+          component: system
+        annotations:
+          summary: "Critical service failures detected"
+          description: "More than 10 critical errors detected in systemd logs in the last 5 minutes."
+
+      # Service Restarts
+      - alert: FrequentServiceRestarts
+        expr: sum(count_over_time({job="systemd-journal"} |~ "(?i)(started|stopped|restarted)" [15m])) > 5
+        for: 5m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "Frequent service restarts detected"
+          description: "More than 5 service start/stop events detected in the last 15 minutes."
+
+  - name: application.logs.alerts  
+    rules:
+      # Media Stack Service Errors
+      - alert: MediaStackHighErrors
+        expr: sum(rate({job="systemd-journal", unit=~".*(sonarr|radarr|lidarr|readarr|prowlarr|jellyfin|jellyseerr).*", level="error"}[5m])) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+          component: media-stack
+        annotations:
+          summary: "High error rate in media stack services"
+          description: "Media stack services are generating high error rates."
+
+      # Container Issues
+      - alert: ContainerLogErrors
+        expr: rate({job="systemd-journal", container!="", level="error"}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: containers
+        annotations:
+          summary: "Container errors detected"
+          description: "Container is generating errors in logs."
+
+      # Download Client Issues
+      - alert: DownloadClientErrors
+        expr: sum(count_over_time({job="systemd-journal", unit=~".*(transmission|deluge|sabnzbd).*"} |~ "(?i)(error|failed|timeout)" [10m])) > 5
+        for: 5m
+        labels:
+          severity: warning
+          component: downloads
+        annotations:
+          summary: "Download client errors detected"
+          description: "Download clients are experiencing errors or timeouts."
+
+  - name: nginx.logs.alerts
+    rules:
+      # High HTTP Error Rate
+      - alert: NginxHighErrorRate
+        expr: |
+          (
+            sum(rate({job="nginx-access", status=~"4..|5.."}[5m]))
+            /
+            sum(rate({job="nginx-access"}[5m]))
+          ) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          component: nginx
+        annotations:
+          summary: "High HTTP error rate"
+          description: "Nginx is serving high rate of HTTP errors (4xx/5xx status codes)."
+
+      # Too Many 5xx Errors
+      - alert: NginxHigh5xxErrors
+        expr: sum(rate({job="nginx-access", status=~"5.."}[5m])) > 1
+        for: 5m
+        labels:
+          severity: critical
+          component: nginx
+        annotations:
+          summary: "High rate of 5xx errors"
+          description: "Nginx is serving high rate of server errors (5xx), indicating backend issues."
+
+      # Nginx Error Log Activity
+      - alert: NginxErrorLogActivity
+        expr: rate({job="nginx-error"}[5m]) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          component: nginx
+        annotations:
+          summary: "High activity in Nginx error logs"
+          description: "Nginx error log is receiving high number of entries, indicating potential issues."
+
+      # Suspicious Activity Patterns
+      - alert: SuspiciousAccessPatterns
+        expr: sum(count_over_time({job="nginx-access", status="404"}[5m])) > 20
+        for: 2m
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "High number of 404 errors"
+          description: "Unusual number of 404 errors detected, possible scanning/probing activity."
+
+      # Authentication Failures
+      - alert: AuthenticationFailures
+        expr: sum(count_over_time({job="nginx-access", status="401"}[5m])) > 10
+        for: 2m
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "High number of authentication failures"
+          description: "Multiple authentication failures detected, possible brute force attempt."
+
+  - name: security.logs.alerts
+    rules:
+      # SSH Connection Attempts
+      - alert: HighSSHConnectionAttempts
+        expr: sum(count_over_time({job="systemd-journal"} |~ "(?i)(ssh|sshd).*(failed|invalid|refused)" [5m])) > 5
+        for: 2m
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "High number of SSH connection attempts"
+          description: "Multiple SSH connection attempts or failures detected."
+
+      # Firewall Drops
+      - alert: HighFirewallDrops
+        expr: sum(count_over_time({job="systemd-journal"} |~ "(?i)(dropped|blocked|denied)" [5m])) > 10
+        for: 2m
+        labels:
+          severity: info
+          component: security
+        annotations:
+          summary: "High number of firewall drops"
+          description: "High number of packets being dropped by firewall rules."

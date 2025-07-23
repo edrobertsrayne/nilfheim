@@ -37,6 +37,26 @@ in {
               }
             ];
           }
+          {
+            job_name = "alertmanager";
+            static_configs = [
+              {
+                targets = ["localhost:9093"];
+              }
+            ];
+          }
+        ];
+        ruleFiles = [
+          ./alerts/logging.yml
+        ];
+        alertmanagers = [
+          {
+            static_configs = [
+              {
+                targets = ["localhost:9093"];
+              }
+            ];
+          }
         ];
         exporters.node = {
           enable = true;

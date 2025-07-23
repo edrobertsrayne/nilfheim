@@ -88,6 +88,24 @@ in {
               };
             };
           };
+
+          ruler = {
+            storage = {
+              type = "local";
+              local = {
+                directory = "/srv/loki/rules";
+              };
+            };
+            rule_path = "/srv/loki/rules-temp";
+            alertmanager_url = "http://localhost:9093";
+            ring = {
+              kvstore = {
+                store = "inmemory";
+              };
+            };
+            enable_api = true;
+            enable_alertmanager_v2 = true;
+          };
         };
       };
 
@@ -147,6 +165,9 @@ in {
       "d ${cfg.dataDir}/tsdb-index 0755 loki loki -"
       "d ${cfg.dataDir}/tsdb-cache 0755 loki loki -"
       "d ${cfg.dataDir}/compactor 0755 loki loki -"
+      "d ${cfg.dataDir}/rules 0755 loki loki -"
+      "d ${cfg.dataDir}/rules-temp 0755 loki loki -"
+      "L+ ${cfg.dataDir}/rules/loki-rules.yml - - - - ${./alerts/loki-rules.yml}"
     ];
 
     system.persist.extraRootDirectories = [
