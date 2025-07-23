@@ -48,6 +48,7 @@ in {
         ];
         ruleFiles = [
           ./alerts/logging.yml
+          ../backup/alerts/zfs-snapshots.yml
         ];
         alertmanagers = [
           {
@@ -60,6 +61,10 @@ in {
         ];
         exporters.node = {
           enable = true;
+          enabledCollectors = ["textfile"];
+          extraFlags = [
+            "--collector.textfile.directory=/var/lib/zfs-snapshots"
+          ];
         };
       };
 

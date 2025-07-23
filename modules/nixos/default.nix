@@ -9,6 +9,7 @@
     ./hardware
 
     # Services organized by category
+    ./services/backup
     ./services/downloads
     ./services/media
     ./services/monitoring
