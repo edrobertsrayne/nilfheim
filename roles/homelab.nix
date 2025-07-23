@@ -56,7 +56,10 @@ in {
       kavita.enable = true;
       lidarr.enable = true;
       nginx.enable = true;
-      prometheus.enable = true;
+      prometheus = {
+        enable = true;
+        alertmanager.enable = true;
+      };
       promtail.enable = true;
       prowlarr.enable = true;
       proxmox-ve.enable = false;

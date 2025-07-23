@@ -1,5 +1,6 @@
 {
   imports = [
+    ./alertmanager.nix
     ./glances.nix
     ./grafana.nix
     ./loki.nix
