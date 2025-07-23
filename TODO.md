@@ -2,9 +2,6 @@
 
 ## 🚨 Critical Security Issues (IMMEDIATE)
 
-- [ ] Move password hashes to agenix secrets (`modules/nixos/system/user.nix:26`)
-- [ ] Enable password requirement for sudo (`modules/nixos/system/user.nix:58`)
-- [ ] Disable or secure root account with separate encrypted password
 - [ ] Fix Plex TLS settings - remove TLS 1.0/1.1 (`modules/nixos/services/media/plex.nix:51-54`)
 - [ ] Add global nginx security headers (`modules/nixos/services/network/nginx.nix`)
 - [ ] Restrict service exposure - review `openFirewall = true` settings
@@ -13,10 +10,11 @@
 
 ## ⚠️ High Priority Infrastructure
 
+- [ ] Add nginx proxyWebSockets to all exposed services
 - [ ] Create Restic backup service (`modules/nixos/services/utilities/restic.nix`)
 - [ ] Enable ZFS auto-snapshots with retention policies
 - [ ] Add backup monitoring with Prometheus integration
-- [ ] Implement Loki + Promtail for log management
+- [X] Implement Loki + Promtail for log management
 - [ ] Add SMART monitoring for disk health
 - [ ] Create system health checks for ZFS and services
 - [ ] Configure Blocky query logging to PostgreSQL database
