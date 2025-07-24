@@ -13,6 +13,14 @@ in {
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
 
+      # WebSocket upgrade support - map for connection upgrade handling
+      appendHttpConfig = ''
+        map $http_upgrade $connection_upgrade {
+          default upgrade;
+          "" close;
+        }
+      '';
+
       # Match all server names not caught by other virtualHosts
       virtualHosts."_" = {
         default = true;
