@@ -23,22 +23,13 @@
     "d /mnt/share 2775 root tank"
   ];
 
-  # Configure ZFS snapshots for /srv directory
-  services.zfs-snapshots = {
+  # Configure ZFS auto-snapshots for /srv directory
+  services.zfs.autoSnapshot = {
     enable = true;
-    alerting.enable = true; # Enable Prometheus monitoring
-    datasets = {
-      "zroot/local/srv" = {
-        daily = 14; # Keep 14 daily snapshots (2 weeks)
-        weekly = 8; # Keep 8 weekly snapshots (2 months)
-        monthly = 6; # Keep 6 monthly snapshots (6 months)
-        schedule = {
-          daily = "01:30"; # 1:30 AM daily (before other backups)
-          weekly = "Sun 02:30"; # 2:30 AM Sunday weekly
-          monthly = "1 03:30"; # 3:30 AM first of month
-        };
-      };
-    };
+    # Keep more snapshots to match previous retention policy
+    daily = 14; # Keep 14 daily snapshots (2 weeks)
+    weekly = 8; # Keep 8 weekly snapshots (2 months)
+    monthly = 6; # Keep 6 monthly snapshots (6 months)
   };
 
   services.samba = {

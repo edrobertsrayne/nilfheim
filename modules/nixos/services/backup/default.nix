@@ -1,5 +1,3 @@
 {
-  imports = [
-    ./zfs-snapshots.nix
-  ];
+  # No custom backup services - using built-in NixOS services
 }

@@ -143,3 +143,63 @@ nix flake check --systems "$(nix eval --impure --raw --expr 'builtins.currentSys
 nix log .#nixosConfigurations.<hostname>.config.system.build.toplevel
 ```
 
+## Service Configuration Guidelines
+
+### Nginx Proxy Services
+
+When adding new nginx proxy services, follow these guidelines:
+
+**✅ DO:**
+```nix
+services.nginx.virtualHosts."${cfg.url}" = {
+  locations."/" = {
+    proxyPass = "http://127.0.0.1:${toString port}";
+    proxyWebsockets = true;  # Enables WebSocket support
+  };
+};
+```
+
+**❌ DON'T:**
+- Add custom proxy headers in `extraConfig` - NixOS recommended proxy settings handle these automatically
+- Duplicate WebSocket headers (`proxy_set_header Upgrade` / `proxy_set_header Connection`)
+- Override timeout/buffer settings unless absolutely necessary for the specific service
+
+**Why:** NixOS includes recommended proxy settings in `modules/nixos/services/network/nginx.nix` that automatically provide:
+- Proper proxy headers (Host, X-Forwarded-*, X-Real-IP, etc.)
+- WebSocket upgrade mapping and headers
+- Optimal timeouts and buffer settings
+- Security headers
+
+Custom `extraConfig` can conflict with these built-in settings and cause 400 Bad Request errors.
+
+**Special Cases:**
+- **Proxmox VE**: Requires `https://` proxy and SSL verification bypass
+- **Static assets**: May need additional location blocks for CSS/JS/images
+- **Service-specific headers**: Only add if genuinely required by the application
+
+### ZFS Snapshots
+
+ZFS snapshots are managed using the built-in NixOS `services.zfs.autoSnapshot` service for systems with ZFS pools.
+
+**Configuration:**
+```nix
+services.zfs.autoSnapshot = {
+  enable = true;
+  # Retention policies (defaults shown)
+  frequent = 4;   # 15-minute snapshots
+  hourly = 24;    # Hourly snapshots
+  daily = 7;      # Daily snapshots
+  weekly = 4;     # Weekly snapshots
+  monthly = 12;   # Monthly snapshots
+};
+```
+
+**Requirements:**
+- ZFS datasets must have `com.sun:auto-snapshot=true` property set (configured in disko)
+- Only applies to NixOS systems with ZFS pools
+
+**❌ Never apply ZFS configurations to:**
+- Darwin (macOS) systems  
+- Systems without ZFS pools
+- Systems where ZFS is not the primary filesystem
+

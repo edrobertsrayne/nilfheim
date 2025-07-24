@@ -1,5 +1,3 @@
 {
-  imports = [
-    ./zfs-snapshots.nix
-  ];
+  # No backup services currently configured for Darwin
 }
