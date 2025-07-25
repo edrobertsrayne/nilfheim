@@ -61,7 +61,7 @@
       dock = {
         autohide = true;
         orientation = "bottom";
-        tilesize = 24;
+        tilesize = 48;
         magnification = false;
         show-recents = false;
         launchanim = false;
