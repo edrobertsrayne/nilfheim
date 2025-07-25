@@ -55,6 +55,7 @@ in {
       jellyseerr.enable = true;
       kavita.enable = true;
       lidarr.enable = true;
+      n8n.enable = true;
       nginx.enable = true;
       prometheus = {
         enable = true;
