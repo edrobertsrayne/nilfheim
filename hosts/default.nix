@@ -8,6 +8,8 @@
     laptop = ../roles/laptop.nix;
     homelab = ../roles/homelab.nix;
     gaming = ../roles/gaming.nix;
+    server = ../roles/server.nix;
+    vps = ../roles/vps.nix;
 
     mkNixosSystem = {
       system ? "x86_64-linux",
@@ -65,7 +67,11 @@
       };
       thor = mkNixosSystem {
         hostname = "thor";
-        roles = [common homelab];
+        roles = [homelab];
+      };
+      loki = mkNixosSystem {
+        hostname = "loki";
+        roles = [server];
       };
       iso = lib.nixosSystem {
         system = "x86_64-linux";
