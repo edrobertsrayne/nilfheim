@@ -23,6 +23,7 @@ in {
   };
 
   config = {
+    imports = [./server.nix];
     nixpkgs.config.allowUnfree = true;
 
     virtualisation = {
@@ -70,7 +71,6 @@ in {
       sonarr.enable = true;
       stirling-pdf.enable = true;
       tailscale = {
-        useRoutingFeatures = "server";
         extraUpFlags = [
           "--exit-node 10.71.91.83"
           "--exit-node-allow-lan-access=true"
