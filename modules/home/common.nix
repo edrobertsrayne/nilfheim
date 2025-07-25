@@ -1,4 +1,4 @@
-{lib, ...}: {
+{...}: {
   imports = [
     ./nvf
     ./tmux.nix

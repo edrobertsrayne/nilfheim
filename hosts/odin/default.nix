@@ -1,8 +1,4 @@
-{
-  username,
-  lib,
-  ...
-}: {
+_: {
   # macOS specific configuration
   system.defaults = {
     dock.autohide = true;
