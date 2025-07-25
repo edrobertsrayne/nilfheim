@@ -11,7 +11,7 @@ in {
     virtualisation = {
       containers.enable = true;
       podman = {
-        dockerCompat = true;
+        dockerCompat = false;
         defaultNetwork.settings.dns_enabled = false;
       };
     };

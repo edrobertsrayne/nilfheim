@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   hardware.network.enable = true;
   virtualisation.podman.enable = true;
+  virtualisation.docker.enable = true;
   services = {
     avahi.enable = true;
     ssh.enable = true;
