@@ -1,7 +1,4 @@
-{
-  username,
-  ...
-}: {
+{username, ...}: {
   imports = [
     ./disko-configuration.nix
     ./hardware-configuration.nix
