@@ -17,35 +17,42 @@ in {
   ];
 
   config = mkIf cfg.enable {
-    programs.nvf = {
-      enable = true;
-      defaultEditor = true;
-      enableManpages = true;
-      settings = {
-        vim = {
-          vimAlias = true;
-          viAlias = true;
+    programs = {
+      # dependencies for snacks-nvim
+      ripgrep.enable = true;
+      fd.enable = true;
+      lazygit.enable = true;
 
-          withNodeJs = false;
-          withPython3 = false;
-          withRuby = false;
+      nvf = {
+        enable = true;
+        defaultEditor = true;
+        enableManpages = true;
+        settings = {
+          vim = {
+            vimAlias = true;
+            viAlias = true;
 
-          clipboard = {
-            enable = true;
-            providers.wl-copy.enable = true;
-            registers = "unnamedplus";
-          };
+            withNodeJs = false;
+            withPython3 = false;
+            withRuby = false;
 
-          options = {
-            tabstop = 2;
-            shiftwidth = 2;
-            wrap = false;
-          };
+            clipboard = {
+              enable = true;
+              providers.wl-copy.enable = true;
+              registers = "unnamedplus";
+            };
 
-          theme = {
-            enable = true;
-            name = "catppuccin";
-            style = "mocha";
+            options = {
+              tabstop = 2;
+              shiftwidth = 2;
+              wrap = false;
+            };
+
+            theme = {
+              enable = true;
+              name = "catppuccin";
+              style = "mocha";
+            };
           };
         };
       };
