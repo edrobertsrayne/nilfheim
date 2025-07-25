@@ -70,7 +70,7 @@ agenix -r
 
 ## Development Workflow
 
-1. **Create feature branch**: 
+1. **Create feature branch**:
    - Features: `git checkout -b feat/feature-name`
    - Fixes: `git checkout -b fix/issue-name`
 
@@ -78,31 +78,37 @@ agenix -r
 
 3. **Format code**: `nix fmt .`
 
-4. **Test configuration**:
+4. **Lint code**: `statix` and fix any errors or warnings
+
+5. **Remove redundant code** `deadnix -l` and fix any warnings
+
+6. **Test configuration**:
    - NixOS: `nixos-rebuild build-vm --flake .#<hostname>`
    - Darwin: `darwin-rebuild check --flake .#<hostname>`
 
-5. **Validate flake**:
-   - NixOS: `nix flake check --systems "$(nix eval --impure --raw --expr 'builtins.currentSystem')"`
+7. **Validate flake**:
+   - NixOS:
+     `nix flake check --systems "$(nix eval --impure --raw --expr 'builtins.currentSystem')"`
    - Darwin: `nix flake check`
 
-6. **Commit** using conventional format: `type(scope): description`
-   - Examples: 
+8. **Commit** using conventional format: `type(scope): description`
+   - Examples:
      - `feat(homelab): add navidrome music server`
      - `fix(security): enable sudo password requirement`
      - `refactor(services): create service abstraction library`
 
-7. **Apply changes**:
+9. **Apply changes**:
    - NixOS local: `sudo nixos-rebuild switch --flake .#<hostname>`
-   - NixOS remote: `nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo`
+   - NixOS remote:
+     `nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo`
    - Darwin: `darwin-rebuild switch --flake .#<hostname>`
 
-8. **Before PR**: `git rebase main`
+10. **Before PR**: `git rebase main`
 
 ### Pre-commit Checklist
 
 - [ ] Run `nix fmt .`
-- [ ] Check flake validity (see step 5 above)
+- [ ] Check flake validity (see step 7 above)
 - [ ] Verify no formatting changes: `git diff`
 - [ ] Test configuration builds
 - [ ] Test in VM (NixOS) or check (Darwin)
@@ -126,13 +132,13 @@ curl -s http://api.example.com | nix run nixpkgs#jq -- '.data'
 
 ### Common Issues
 
-| Issue | Solution |
-|-------|----------|
-| Permission errors | Enter development shell: `nix develop` |
-| Build failures | Update flake inputs: `nix flake update` |
-| Secret access | Verify agenix keys configuration |
-| Hardware issues | Update hardware-configuration.nix |
-| Platform mismatch | Use correct rebuild command for your OS |
+| Issue             | Solution                                  |
+| ----------------- | ----------------------------------------- |
+| Permission errors | Enter development shell: `nix develop`    |
+| Build failures    | Update flake inputs: `nix flake update`   |
+| Secret access     | Verify agenix keys configuration          |
+| Hardware issues   | Update hardware-configuration.nix         |
+| Platform mismatch | Use correct rebuild command for your OS   |
 | Cross-compilation | Use `--build-host` for remote deployments |
 
 ### Debug Commands
@@ -150,6 +156,7 @@ nix log .#nixosConfigurations.<hostname>.config.system.build.toplevel
 ### Nginx Proxy Services
 
 **Standard Configuration:**
+
 ```nix
 services.nginx.virtualHosts."${cfg.url}" = {
   locations."/" = {
@@ -160,17 +167,20 @@ services.nginx.virtualHosts."${cfg.url}" = {
 ```
 
 **Avoid:**
+
 - Custom proxy headers in `extraConfig`
 - Duplicate WebSocket headers
 - Override timeout/buffer settings
 
 **Reason:** NixOS provides recommended proxy settings automatically, including:
+
 - Proxy headers (Host, X-Forwarded-*, X-Real-IP)
 - WebSocket upgrade mapping
 - Optimal timeouts and buffers
 - Security headers
 
 **Exceptions:**
+
 - Proxmox VE: Requires `https://` proxy and SSL verification bypass
 - Static assets: May need additional location blocks
 - Service-specific headers: Only if required by the application
@@ -178,6 +188,7 @@ services.nginx.virtualHosts."${cfg.url}" = {
 ### ZFS Snapshots
 
 **Configuration:**
+
 ```nix
 services.zfs.autoSnapshot = {
   enable = true;
@@ -190,6 +201,7 @@ services.zfs.autoSnapshot = {
 ```
 
 **Requirements:**
+
 - ZFS datasets must have `com.sun:auto-snapshot=true` property
 - Only for NixOS systems with ZFS pools
 - Not applicable to Darwin or non-ZFS systems

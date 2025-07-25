@@ -29,6 +29,8 @@
               alejandra
               claude-code
               gh
+              statix
+              deadnix
             ]
             ++ lib.optionals stdenv.isLinux [
               inputs'.agenix.packages.default
