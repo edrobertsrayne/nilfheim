@@ -6,6 +6,8 @@
 with lib; let
   cfg = config.homelab;
 in {
+imports =[./server.nix];
+
   options.homelab = {
     domain = mkOption {
       type = types.str;
@@ -23,7 +25,6 @@ in {
   };
 
   config = {
-    imports = [./server.nix];
     nixpkgs.config.allowUnfree = true;
 
     virtualisation = {
