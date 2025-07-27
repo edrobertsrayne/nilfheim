@@ -6,7 +6,7 @@
 with lib; let
   cfg = config.homelab;
 in {
-imports =[./server.nix];
+  imports = [./server.nix];
 
   options.homelab = {
     domain = mkOption {
