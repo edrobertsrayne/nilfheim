@@ -7,6 +7,7 @@
     ./prowlarr.nix
     ./radarr.nix
     ./readarr.nix
+    ./recyclarr.nix
     ./sabnzbd.nix
     ./sonarr.nix
     ./transmission.nix
