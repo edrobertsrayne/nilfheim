@@ -31,6 +31,7 @@
               gh
               statix
               deadnix
+              just
             ]
             ++ lib.optionals stdenv.isLinux [
               inputs'.agenix.packages.default
