@@ -32,6 +32,26 @@ in {
         };
       };
 
+      prometheus.exporters.exportarr-sonarr = {
+        enable = true;
+        environment = {API_KEY = cfg.apikey;};
+        url = "http://localhost:${toString port}";
+        port = 9709;
+      };
+
+      prometheus = {
+        scrapeConfigs = [
+          {
+            job_name = "sonarr";
+            static_configs = [
+              {
+                targets = ["localhost:${toString config.services.prometheus.exporters.exportarr-sonarr.port}"];
+              }
+            ];
+          }
+        ];
+      };
+
       homepage-dashboard.homelabServices = [
         {
           group = "Media";

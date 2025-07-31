@@ -20,6 +20,25 @@ in {
     services = {
       bazarr.dataDir = "/srv/bazarr";
 
+      # prometheus.exporters.exportarr-bazarr = {
+      #   enable = true;
+      #   url = "http://127.0.0.1:${toString cfg.listenPort}";
+      #   port = 9708;
+      # };
+      #
+      prometheus = {
+        scrapeConfigs = [
+          {
+            job_name = "bazarr";
+            static_configs = [
+              {
+                targets = ["localhost:${toString config.services.prometheus.exporters.exportarr-bazarr.port}"];
+              }
+            ];
+          }
+        ];
+      };
+
       homepage-dashboard.homelabServices = [
         {
           group = "Media";

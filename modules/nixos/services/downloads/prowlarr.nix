@@ -30,6 +30,25 @@ in {
         };
       };
 
+      prometheus.exporters.exportarr-prowlarr = {
+        enable = true;
+        environment = {API_KEY = cfg.apikey;};
+        url = "http://127.0.0.1:${toString port}";
+        port = 9707;
+      };
+      prometheus = {
+        scrapeConfigs = [
+          {
+            job_name = "prowlarr";
+            static_configs = [
+              {
+                targets = ["localhost:${toString config.services.prometheus.exporters.exportarr-prowlarr.port}"];
+              }
+            ];
+          }
+        ];
+      };
+
       homepage-dashboard.homelabServices = [
         {
           group = "Downloads";

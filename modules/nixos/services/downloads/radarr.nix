@@ -31,6 +31,33 @@ in {
         };
       };
 
+      prometheus.exporters.exportarr-radarr = {
+        enable = true;
+        environment = {API_KEY = cfg.apikey;};
+        url = "http://localhost:${toString port}";
+        port = 9711;
+      };
+
+      prometheus = {
+        scrapeConfigs = [
+          {
+            job_name = "radarr";
+            static_configs = [
+              {
+                targets = ["localhost:${toString config.services.prometheus.exporters.exportarr-radarr.port}"];
+              }
+            ];
+          }
+        ];
+      };
+
+      grafana.provision.dashboards.settings.providers = [
+        {
+          name = "Radarr";
+          options.path = ../monitoring/grafana/radarr.json;
+        }
+      ];
+
       homepage-dashboard.homelabServices = [
         {
           group = "Media";
