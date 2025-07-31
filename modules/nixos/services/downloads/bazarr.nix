@@ -18,6 +18,8 @@ in {
     users.users.${cfg.user}.extraGroups = ["tank"];
 
     services = {
+      bazarr.dataDir = "/srv/bazarr";
+
       homepage-dashboard.homelabServices = [
         {
           group = "Media";
