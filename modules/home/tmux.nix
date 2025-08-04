@@ -12,6 +12,7 @@
       mouse = true;
       prefix = "C-s";
       sensibleOnTop = true;
+      shell = "${pkgs.zsh}/bin/zsh";
       extraConfig = ''
         # correct colours in neovim
         set -g default-terminal "screen-256color"
