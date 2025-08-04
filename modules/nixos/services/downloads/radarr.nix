@@ -51,12 +51,12 @@ in {
         ];
       };
 
-      grafana.provision.dashboards.settings.providers = [
-        {
-          name = "Radarr";
-          options.path = ../monitoring/grafana/radarr.json;
-        }
-      ];
+      # grafana.provision.dashboards.settings.providers = [
+      #   {
+      #     name = "Radarr";
+      #     options.path = ../monitoring/grafana/radarr.json;
+      #   }
+      # ];
 
       homepage-dashboard.homelabServices = [
         {
