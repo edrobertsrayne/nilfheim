@@ -11,6 +11,6 @@ with lib; {
   config = mkIf config.home-manager.enable {
     user.shell = pkgs.zsh;
 
-    home-manager.users.${username} = import ../home/darwin.nix;
+    home-manager.users.${username} = import ../home/nixos.nix;
   };
 }

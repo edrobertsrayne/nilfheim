@@ -36,11 +36,6 @@ _: {
         };
       };
       ghostty.enable = false; # package marked as broken
-      git = {
-        enable = true;
-        userName = "Ed Roberts Rayne";
-        userEmail = "ed.rayne@gmail.com";
-      };
       wezterm = {
         enable = true;
         extraConfig = ''

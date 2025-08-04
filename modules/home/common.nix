@@ -25,6 +25,12 @@
         ignores = [".git/" "*.bak"];
       };
       fzf.enable = true;
+      git = {
+        enable = true;
+        userName = "Ed Roberts Rayne";
+        userEmail = "ed.rayne@gmail.com";
+        extraConfig = {init.defaultBranch = "main";};
+      };
       lazygit.enable = true;
       nh.enable = true;
       password-store.enable = true;
