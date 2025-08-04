@@ -1,7 +1,7 @@
 _: {
   services = {
     tailscale = {
-      enable = true;
+      enable = false;
     };
   };
 }
