@@ -31,6 +31,11 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # temporary fix until libsoup3 is used
+    nixpkgs.config.permittedInsecurePackages = [
+      "libsoup-2.74.3"
+    ];
+
     desktop = {
       xkb.enable = true;
       gtk.enable = true;
