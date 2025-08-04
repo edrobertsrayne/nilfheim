@@ -51,7 +51,7 @@ in {
         cursorTheme = {
           inherit (cfg.cursor) name package;
         };
-        iconTheme = {
+        iconTheme = mkDefault {
           inherit (cfg.icon) name package;
         };
       };
