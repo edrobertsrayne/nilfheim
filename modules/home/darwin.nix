@@ -1,4 +1,4 @@
-_: {
+{lib, ...}: {
   imports = [./common.nix];
 
   config = {
@@ -36,6 +36,7 @@ _: {
         };
       };
       ghostty.enable = false; # package marked as broken
+      nvf.settings.vim.clipboard.providers.wl-copy.enable = lib.mkForce false;
       wezterm = {
         enable = true;
         extraConfig = ''
