@@ -55,5 +55,6 @@ in {
         '';
       };
     };
+    system.persist.extraRootDirectories = ["/etc/samba"];
   };
 }
