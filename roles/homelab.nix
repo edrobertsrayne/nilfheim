@@ -67,7 +67,6 @@ in {
       prowlarr.enable = true;
       proxmox-ve.enable = false;
       radarr.enable = true;
-      readarr.enable = true;
       recyclarr.enable = true;
       sabnzbd.enable = false;
       sonarr.enable = true;
