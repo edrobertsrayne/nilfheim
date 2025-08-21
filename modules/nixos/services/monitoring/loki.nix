@@ -5,14 +5,8 @@
 }:
 with lib; let
   cfg = config.services.loki;
-  inherit (config) homelab;
 in {
   options.services.loki = {
-    url = mkOption {
-      type = types.str;
-      default = "loki.${homelab.domain}";
-      description = "URL for Loki proxy.";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -106,26 +100,6 @@ in {
             enable_api = true;
             enable_alertmanager_v2 = true;
           };
-        };
-      };
-
-      homepage-dashboard.homelabServices = [
-        {
-          group = "Monitoring";
-          name = "Loki";
-          entry = {
-            href = "https://${cfg.url}";
-            icon = "loki.svg";
-            siteMonitor = "http://127.0.0.1:${toString cfg.configuration.server.http_listen_port}";
-            description = "Log aggregation and querying system";
-          };
-        }
-      ];
-
-      nginx.virtualHosts."${cfg.url}" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString cfg.configuration.server.http_listen_port}";
-          proxyWebsockets = true;
         };
       };
 
