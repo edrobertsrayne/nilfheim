@@ -20,6 +20,11 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # Ensure prowlarr data directory has correct ownership
+    systemd.tmpfiles.rules = [
+      "d ${config.services.prowlarr.dataDir} 0755 prowlarr prowlarr - -"
+    ];
+
     services = {
       prowlarr = {
         dataDir = "/srv/prowlarr";
