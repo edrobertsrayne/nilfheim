@@ -25,7 +25,7 @@ in {
 
       homepage-dashboard.homelabServices = [
         {
-          group = "Media";
+          group = "Media Streaming";
           name = "kavita";
           entry = {
             href = "https://${cfg.url}";

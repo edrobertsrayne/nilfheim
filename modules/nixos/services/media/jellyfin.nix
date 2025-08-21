@@ -26,7 +26,7 @@ in {
 
       homepage-dashboard.homelabServices = [
         {
-          group = "Media";
+          group = "Media Streaming";
           name = "Jellyfin";
           entry = {
             href = "https://${cfg.url}";

@@ -54,7 +54,7 @@ in {
 
       homepage-dashboard.homelabServices = [
         {
-          group = "Media";
+          group = "Media Management";
           name = "Sonarr";
           entry = {
             href = "https://${cfg.url}";
