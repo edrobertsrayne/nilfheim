@@ -112,11 +112,11 @@ in {
         {
           group = "Monitoring";
           name = "AlertManager";
-          description = "Alert management and routing system";
           entry = {
             href = "https://${cfg.url}";
             icon = "alertmanager.svg";
             siteMonitor = "http://127.0.0.1:${toString cfg.port}";
+            description = "Alert management and routing system";
           };
         }
       ];
