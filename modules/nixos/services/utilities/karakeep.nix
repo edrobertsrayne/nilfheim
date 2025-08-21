@@ -24,7 +24,7 @@ in {
     services = {
       karakeep = {
         environmentFile = config.age.secrets.karakeep.path;
-        
+
         extraEnvironment = {
           PORT = toString cfg.port;
           # Disable signups and new release checks for homelab use
