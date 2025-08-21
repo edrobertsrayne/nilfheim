@@ -40,6 +40,9 @@ in {
           headerStyle = "clean";
           hideVersion = true;
           language = "en";
+          layout = {
+            useEqualHeights = true;
+          };
           quicklaunch = {
             searchDescriptions = true;
             hideInternetSearch = true;
