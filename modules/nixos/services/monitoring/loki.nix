@@ -113,11 +113,11 @@ in {
         {
           group = "Monitoring";
           name = "Loki";
-          description = "Log aggregation and querying system";
           entry = {
             href = "https://${cfg.url}";
             icon = "loki.svg";
             siteMonitor = "http://127.0.0.1:${toString cfg.configuration.server.http_listen_port}";
+            description = "Log aggregation and querying system";
           };
         }
       ];
