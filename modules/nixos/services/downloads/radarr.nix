@@ -60,7 +60,7 @@ in {
 
       homepage-dashboard.homelabServices = [
         {
-          group = "Media Management";
+          group = "Downloads";
           name = "Radarr";
           entry = {
             href = "https://${cfg.url}";
