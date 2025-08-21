@@ -204,7 +204,7 @@ in {
           name = "Promtail";
           entry = {
             href = "https://${cfg.url}";
-            icon = "promtail.svg";
+            icon = "loki.svg";
             siteMonitor = "http://127.0.0.1:${toString cfg.configuration.server.http_listen_port}";
             description = "Log collection agent for Loki";
           };

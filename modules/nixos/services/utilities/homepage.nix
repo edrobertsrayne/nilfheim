@@ -42,6 +42,22 @@ in {
           language = "en";
           layout = {
             useEqualHeights = true;
+            Media = {
+              style = "row";
+              columns = 4;
+            };
+            Utilities = {
+              style = "row";
+              columns = 4;
+            };
+            Downloads = {
+              style = "row";
+              columns = 3;
+            };
+            Monitoring = {
+              style = "row";
+              columns = 3;
+            };
           };
           quicklaunch = {
             searchDescriptions = true;
