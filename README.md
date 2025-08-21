@@ -70,9 +70,24 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 git clone <repository-url> nilfheim
 cd nilfheim
 
-# Enter development shell (includes tools: claude-code, gh, git, alejandra)
+# Enter development shell (includes tools: claude-code, gh, git, alejandra, just)
 nix develop
 
+# See all available commands
+just --list
+
+# Format code and check flake
+just check
+
+# Deploy to hosts
+just freya    # Local NixOS rebuild
+just odin     # Local macOS rebuild  
+just thor     # Remote deployment to thor
+just loki     # Remote deployment to loki
+```
+
+### Manual Commands (if needed)
+```bash
 # Format code before any changes
 nix fmt .
 
@@ -98,7 +113,20 @@ nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host 
 
 See **CLAUDE.md** for complete development commands and patterns.
 
-Key commands:
+### Quick Commands (via Just)
+```bash
+# Development cycle
+just check           # Format and validate flake
+just ci-quality-dry  # Quick CI validation
+just ci-validate     # Full local CI test
+
+# Local CI testing
+just ci-list         # See available workflows
+just ci-quality      # Run quality checks (statix, deadnix, format)
+just ci-pr           # Simulate pull request CI
+```
+
+### Manual Commands
 - `nix fmt .` - Format all Nix files (required before commits)
 - `statix check` - Lint for Nix code quality
 - `deadnix -l` - Detect unused code
