@@ -56,6 +56,7 @@ in {
       loki.enable = true;
       jellyfin.enable = true;
       jellyseerr.enable = true;
+      karakeep.enable = true;
       kavita.enable = true;
       lidarr.enable = true;
       n8n.enable = true;
