@@ -202,6 +202,7 @@ in {
         {
           group = "Monitoring";
           name = "Promtail";
+          description = "Log collection agent for Loki";
           entry = {
             href = "https://${cfg.url}";
             icon = "promtail.svg";

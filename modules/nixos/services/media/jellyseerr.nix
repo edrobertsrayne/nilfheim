@@ -25,6 +25,7 @@ in {
             href = "https://${cfg.url}";
             icon = "jellyseerr.svg";
             siteMonitor = "https://${cfg.url}";
+            description = "Media request management for Jellyfin";
           };
         }
       ];

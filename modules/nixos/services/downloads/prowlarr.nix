@@ -57,6 +57,7 @@ in {
             href = "https://${cfg.url}";
             icon = "prowlarr.svg";
             siteMonitor = "http://127.0.0.1:${toString port}";
+            description = "Indexer manager for Sonarr and Radarr";
             widget = {
               type = "prowlarr";
               url = "http://127.0.0.1:${toString port}";

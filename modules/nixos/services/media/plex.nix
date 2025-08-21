@@ -25,6 +25,7 @@ in {
         {
           group = "Media";
           name = "Plex";
+          description = "Media server with rich client ecosystem";
           entry = {
             href = "https://${cfg.url}";
             icon = "plex.svg";

@@ -29,6 +29,7 @@ in {
           href = "https://${cfg.url}";
           icon = "uptime-kuma.svg";
           siteMonitor = "https://${cfg.url}";
+          description = "Uptime monitoring and alerting";
         };
       }
     ];

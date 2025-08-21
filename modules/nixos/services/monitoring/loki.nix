@@ -113,6 +113,7 @@ in {
         {
           group = "Monitoring";
           name = "Loki";
+          description = "Log aggregation and querying system";
           entry = {
             href = "https://${cfg.url}";
             icon = "loki.svg";

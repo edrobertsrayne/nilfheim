@@ -32,6 +32,7 @@ in {
             href = "https://${cfg.url}";
             icon = "jellyfin.svg";
             siteMonitor = "https://${cfg.url}";
+            description = "Open-source media server for movies, shows, and music";
           };
         }
       ];

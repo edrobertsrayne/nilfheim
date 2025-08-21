@@ -23,6 +23,7 @@ in {
         {
           group = "Downloads";
           name = "sabnzbd";
+          description = "Usenet newsgroup downloader";
           entry = {
             href = "https://${cfg.url}";
             icon = "sabnzbd.svg";

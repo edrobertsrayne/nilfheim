@@ -25,6 +25,7 @@ in {
         {
           group = "Downloads";
           name = "autobrr";
+          description = "Automated torrent downloading and filtering";
           entry = {
             href = "https://${cfg.url}";
             icon = "autobrr.svg";

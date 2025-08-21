@@ -26,6 +26,7 @@ in {
             href = "https://${cfg.url}";
             icon = "audiobookshelf.svg";
             siteMonitor = "http://127.0.0.1:${toString cfg.port}";
+            description = "Audiobook and podcast server";
           };
         }
       ];

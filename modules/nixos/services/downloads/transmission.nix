@@ -75,6 +75,7 @@ in {
             href = "https://${cfg.url}";
             icon = "transmission.svg";
             siteMonitor = "http://127.0.0.1:${toString cfg.settings.rpc-port}";
+            description = "Lightweight BitTorrent client";
             widget = {
               type = "transmission";
               url = "http://127.0.0.1:${toString cfg.settings.rpc-port}";

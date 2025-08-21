@@ -47,6 +47,7 @@ in {
             href = "https://${cfg.url}";
             icon = "bazarr.svg";
             siteMonitor = "http://127.0.0.1:${toString cfg.listenPort}";
+            description = "Subtitle downloader for movies and TV shows";
           };
         }
       ];

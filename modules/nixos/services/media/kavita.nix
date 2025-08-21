@@ -31,6 +31,7 @@ in {
             href = "https://${cfg.url}";
             icon = "kavita.svg";
             siteMonitor = "http://127.0.0.1:${toString cfg.settings.Port}";
+            description = "Digital library for comics and ebooks";
           };
         }
       ];
