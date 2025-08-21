@@ -4,6 +4,7 @@
     tailscale.file = ./tailscale.age;
     homepage.file = ./homepage.age;
     autobrr.file = ./autobrr.age;
+    karakeep.file = ./karakeep.age;
     kavita.file = ./kavita.age;
     cloudflare-homelab.file = ./cloudflare-homelab.age;
   };
