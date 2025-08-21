@@ -1,15 +1,15 @@
-# Nilfheim - NixOS/Darwin Configuration
+# 🏔️ Nilfheim - NixOS/Darwin Configuration
 
 Ed's modular NixOS and Darwin flake configuration for system management across multiple hosts.
 
-## Architecture
+## 🏗️ Architecture
 
-- **Hosts**: `freya` (ThinkPad T480s), `thor` (homelab server), `loki` (additional server), `odin` (macOS), `iso` (installer)
-- **Roles**: common, desktop, laptop, homelab, gaming
-- **Modules**: organized by platform (nixos/darwin/home) and functionality
-- **Secrets**: managed with agenix encryption
+- **🖥️ Hosts**: `freya` (ThinkPad T480s), `thor` (homelab server), `loki` (additional server), `odin` (macOS), `iso` (installer)
+- **🎭 Roles**: common, desktop, laptop, homelab, gaming
+- **📦 Modules**: organized by platform (nixos/darwin/home) and functionality
+- **🔐 Secrets**: managed with agenix encryption
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 ├── flake.nix              # Main flake configuration and dev shell
@@ -26,44 +26,44 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 └── secrets/               # Encrypted secrets with agenix
 ```
 
-## Modern Infrastructure Features
+## 🚀 Modern Infrastructure Features
 
-### Container Management
+### 🐳 Container Management
 - **Podman**: Rootless containerization for Home Assistant and Tdarr
 - **Systemd Integration**: Native service management for containers
 
-### Storage & Persistence
+### 💾 Storage & Persistence
 - **ZFS**: Advanced filesystem with snapshots and data integrity
 - **Impermanence**: Stateless root with selective persistence
 - **Disko**: Declarative disk partitioning
 
-### Monitoring Stack
+### 📊 Monitoring Stack
 - **Metrics**: Prometheus + Grafana with custom dashboards
 - **Logs**: Loki + Promtail for centralized log aggregation
 - **Health**: Custom exporters for *arr services and system monitoring
 - **Alerts**: AlertManager with notification routing
 
-## Key Features
+## ✨ Key Features
 
-### Thor - Homelab Server
-- **Media**: Jellyfin, Audiobookshelf, Jellyseerr, Kavita (ebooks)
-- **Downloads**: *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr), Transmission, Recyclarr, Flaresolverr
-- **Monitoring**: Grafana, Prometheus, AlertManager, Uptime Kuma, Glances, Loki, Promtail
-- **Network**: Nginx reverse proxy, Blocky DNS, Tailscale, SSH, Cloudflared tunnels
-- **Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Samba shares, Stirling PDF, N8N automation
-- **Virtualization**: Podman containers (Home Assistant, Tdarr)
+### ⚡ Thor - Homelab Server
+- **🎬 Media**: Jellyfin, Audiobookshelf, Jellyseerr, Kavita (ebooks)
+- **📥 Downloads**: *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr), Transmission, Recyclarr, Flaresolverr
+- **📈 Monitoring**: Grafana, Prometheus, AlertManager, Uptime Kuma, Glances, Loki, Promtail
+- **🌐 Network**: Nginx reverse proxy, Blocky DNS, Tailscale, SSH, Cloudflared tunnels
+- **🛠️ Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Samba shares, Stirling PDF, N8N automation
+- **🐳 Virtualization**: Podman containers (Home Assistant, Tdarr)
 
-### Freya - Desktop/Laptop
-- **Desktop**: GNOME with custom theming and fonts
-- **Development**: VSCode, Firefox, Foot terminal
-- **Creative**: Arduino IDE, Spotify, Obsidian
-- **Virtualization**: virt-manager support
+### 💻 Freya - Desktop/Laptop
+- **🖥️ Desktop**: GNOME with custom theming and fonts
+- **👨‍💻 Development**: VSCode, Firefox, Foot terminal
+- **🎨 Creative**: Arduino IDE, Spotify, Obsidian
+- **🖱️ Virtualization**: virt-manager support
 
-### Odin - macOS
-- **Homebrew**: Managed application installation
-- **Development**: Cross-platform development environment
+### 🍎 Odin - macOS
+- **🍺 Homebrew**: Managed application installation
+- **⚙️ Development**: Cross-platform development environment
 
-## Quick Start
+## 🚀 Quick Start
 
 ```bash
 # Clone repository
@@ -86,7 +86,7 @@ just thor     # Remote deployment to thor
 just loki     # Remote deployment to loki
 ```
 
-### Manual Commands (if needed)
+### 🔧 Manual Commands (if needed)
 ```bash
 # Format code before any changes
 nix fmt .
@@ -99,21 +99,21 @@ darwin-rebuild switch --flake .#<hostname>        # macOS
 nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo
 ```
 
-## Security
+## 🔒 Security
 
-- **Authentication**: SSH key-only authentication with hardened config
-- **Secrets**: agenix encrypted secrets management with age keys
-- **Network**: Tailscale mesh VPN for secure remote access
-- **Isolation**: Firewall configuration per service with minimal exposure
-- **Storage**: Samba with authentication, encryption, and access controls
-- **Proxying**: Nginx reverse proxy with WebSocket support
-- **Tunneling**: Cloudflared secure tunnels for external access
+- **🔑 Authentication**: SSH key-only authentication with hardened config
+- **🔐 Secrets**: agenix encrypted secrets management with age keys
+- **🌐 Network**: Tailscale mesh VPN for secure remote access
+- **🛡️ Isolation**: Firewall configuration per service with minimal exposure
+- **💾 Storage**: Samba with authentication, encryption, and access controls
+- **🔀 Proxying**: Nginx reverse proxy with WebSocket support
+- **🌉 Tunneling**: Cloudflared secure tunnels for external access
 
-## Development Workflow
+## 🛠️ Development Workflow
 
 See **CLAUDE.md** for complete development commands and patterns.
 
-### Quick Commands (via Just)
+### ⚡ Quick Commands (via Just)
 ```bash
 # Development cycle
 just check           # Format and validate flake
@@ -126,7 +126,7 @@ just ci-quality      # Run quality checks (statix, deadnix, format)
 just ci-pr           # Simulate pull request CI
 ```
 
-### Manual Commands
+### 🔧 Manual Commands
 - `nix fmt .` - Format all Nix files (required before commits)
 - `statix check` - Lint for Nix code quality
 - `deadnix -l` - Detect unused code
@@ -134,7 +134,7 @@ just ci-pr           # Simulate pull request CI
 
 Commit format: `type(scope): description` (conventional commits)
 
-## Documentation
+## 📚 Documentation
 
-- **CLAUDE.md** - Development commands and workflow
-- **TODO.md** - Planned improvements and pending tasks
+- **📋 CLAUDE.md** - Development commands and workflow
+- **📝 TODO.md** - Planned improvements and pending tasks
