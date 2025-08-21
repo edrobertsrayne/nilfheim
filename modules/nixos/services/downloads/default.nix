@@ -6,7 +6,6 @@
     ./lidarr.nix
     ./prowlarr.nix
     ./radarr.nix
-    ./readarr.nix
     ./recyclarr.nix
     ./sabnzbd.nix
     ./sonarr.nix
