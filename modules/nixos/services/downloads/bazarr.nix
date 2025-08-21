@@ -41,7 +41,7 @@ in {
 
       homepage-dashboard.homelabServices = [
         {
-          group = "Media Management";
+          group = "Downloads";
           name = "Bazarr";
           entry = {
             href = "https://${cfg.url}";

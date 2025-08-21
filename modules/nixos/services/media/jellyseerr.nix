@@ -19,7 +19,7 @@ in {
     services = {
       homepage-dashboard.homelabServices = [
         {
-          group = "Media Streaming";
+          group = "Media";
           name = "Jellyseerr";
           entry = {
             href = "https://${cfg.url}";
