@@ -37,6 +37,7 @@ in {
       audiobookshelf.enable = true;
       bazarr.enable = true;
       blocky.enable = true;
+      code-server.enable = true;
       cloudflared = {
         enable = true;
         tunnels."${cfg.tunnel}" = {
