@@ -15,7 +15,7 @@ in {
 
     port = mkOption {
       type = types.port;
-      default = 3000;
+      default = 3003;
       description = "Port for karakeep web interface.";
     };
   };
