@@ -7,16 +7,35 @@
 ### Development Environment
 
 ```bash
-# Enter development shell (includes claude-code, gh, git, alejandra)
+# Enter development shell (includes claude-code, gh, git, alejandra, just)
 nix develop
 
+# See all available commands
+just --list
+
+# Format and check flake - REQUIRED before committing  
+just check
+```
+
+### Manual Development Commands
+```bash
 # Format all nix files - REQUIRED before committing
 nix fmt .
 ```
 
 ### System Management
 
-#### NixOS (Linux)
+#### Quick Deployments (via Just)
+
+```bash
+# Deploy to hosts
+just freya    # Local NixOS rebuild
+just odin     # Local macOS rebuild
+just thor     # Remote deployment to thor
+just loki     # Remote deployment to loki
+```
+
+#### Manual NixOS (Linux)
 
 ```bash
 # Local rebuild
@@ -38,7 +57,7 @@ sudo nixos-rebuild dry-run --flake .#<hostname>
 nixos-rebuild dry-run --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo
 ```
 
-#### Darwin (macOS)
+#### Manual Darwin (macOS)
 
 ```bash
 # Rebuild system
@@ -76,20 +95,20 @@ agenix -r
 
 2. **Make changes** in `modules/` or `hosts/`
 
-3. **Format code**: `nix fmt .`
+3. **Format and validate**: `just check`
 
-4. **Lint code**: `statix` and fix any errors or warnings
+4. **Run quality checks**: `just ci-quality-dry` (fast validation)
 
-5. **Remove redundant code** `deadnix -l` and fix any warnings
+5. **Test local CI**: `just ci-validate` (comprehensive validation)
 
 6. **Test configuration**:
    - NixOS: `nixos-rebuild build-vm --flake .#<hostname>`
    - Darwin: `darwin-rebuild check --flake .#<hostname>`
 
-7. **Validate flake**:
-   - NixOS:
-     `nix flake check --systems "$(nix eval --impure --raw --expr 'builtins.currentSystem')"`
-   - Darwin: `nix flake check`
+7. **Manual validation** (if needed):
+   - Lint: `statix check .`
+   - Dead code: `deadnix -l .`
+   - Flake check: `nix flake check`
 
 8. **Commit** using conventional format: `type(scope): description`
    - Examples:
@@ -98,22 +117,36 @@ agenix -r
      - `refactor(services): create service abstraction library`
 
 9. **Apply changes**:
-   - NixOS local: `sudo nixos-rebuild switch --flake .#<hostname>`
-   - NixOS remote:
-     `nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo`
-   - Darwin: `darwin-rebuild switch --flake .#<hostname>`
+   - Quick: `just <hostname>` (freya, odin, thor, loki)
+   - Manual NixOS local: `sudo nixos-rebuild switch --flake .#<hostname>`
+   - Manual NixOS remote: `nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo`
+   - Manual Darwin: `darwin-rebuild switch --flake .#<hostname>`
 
 10. **Before PR**: `git rebase main`
 
 ### Pre-commit Checklist
 
-- [ ] Run `nix fmt .`
-- [ ] Check flake validity (see step 7 above)
+- [ ] Run `just check` (format + flake check)
+- [ ] Run `just ci-quality-dry` (fast validation)
 - [ ] Verify no formatting changes: `git diff`
 - [ ] Test configuration builds
 - [ ] Test in VM (NixOS) or check (Darwin)
 - [ ] Rebase against main
 - [ ] Use conventional commit format
+
+### Local CI Testing
+
+```bash
+# Quick validation
+just ci-quality-dry    # Dry run quality checks
+just ci-validate       # Full validation suite
+
+# Run specific workflows
+just ci-list           # See available workflows
+just ci-quality        # Run quality checks
+just ci-format         # Run formatting workflow
+just ci-pr             # Simulate pull request
+```
 
 ### Running Commands Without Installation
 
