@@ -39,7 +39,7 @@ in {
 
       homepage-dashboard.homelabServices = [
         {
-          group = "Media";
+          group = "Media Management";
           name = "Lidarr";
           entry = {
             href = "https://${cfg.url}";

@@ -20,7 +20,7 @@ in {
     services = {
       homepage-dashboard.homelabServices = [
         {
-          group = "Media";
+          group = "Media Streaming";
           name = "audiobookshelf";
           entry = {
             href = "https://${cfg.url}";
