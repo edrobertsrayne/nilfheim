@@ -10,7 +10,7 @@ in {
   config = mkIf cfg.enable {
     services = {
       code-server = {
-        auth = "password";
+        auth = "none";
         host = "127.0.0.1";
         port = 8443;
         disableTelemetry = true;
