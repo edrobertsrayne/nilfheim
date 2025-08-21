@@ -1,5 +1,6 @@
 {
   imports = [
+    ./code-server.nix
     ./homepage.nix
     ./n8n.nix
     ./proxmox-ve.nix
