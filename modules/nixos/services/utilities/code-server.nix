@@ -24,6 +24,20 @@ in {
           proxyWebsockets = true;
         };
       };
+
+      # Homepage dashboard integration
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Utilities";
+          name = "Code Server";
+          entry = {
+            href = "https://${url}";
+            icon = "code-server.svg";
+            siteMonitor = "https://${url}";
+            description = "VS Code in the browser";
+          };
+        }
+      ];
     };
   };
 }

@@ -49,6 +49,7 @@ in {
         {
           group = "Downloads";
           name = "Deluge";
+          description = "Full-featured BitTorrent client";
           entry = {
             href = "https://${cfg.url}";
             icon = "deluge.svg";

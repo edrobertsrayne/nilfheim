@@ -30,6 +30,20 @@ in {
           proxyWebsockets = true;
         };
       };
+
+      # Homepage dashboard integration
+      homepage-dashboard.homelabServices = [
+        {
+          group = "Utilities";
+          name = "Stirling PDF";
+          entry = {
+            href = "https://${cfg.url}";
+            icon = "stirling-pdf.svg";
+            siteMonitor = "https://${cfg.url}";
+            description = "PDF manipulation toolkit";
+          };
+        }
+      ];
     };
   };
 }

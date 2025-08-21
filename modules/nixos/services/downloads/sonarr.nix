@@ -60,6 +60,7 @@ in {
             href = "https://${cfg.url}";
             icon = "sonarr.svg";
             siteMonitor = "http://127.0.0.1:${toString port}";
+            description = "TV series collection manager and downloader";
             widget = {
               type = "sonarr";
               url = "http://127.0.0.1:${toString port}";

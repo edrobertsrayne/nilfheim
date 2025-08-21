@@ -72,6 +72,7 @@ in {
             href = "https://${cfg.url}";
             icon = "prometheus.svg";
             siteMonitor = "http://127.0.0.1:${toString cfg.port}";
+            description = "Metrics collection and monitoring system";
           };
         }
       ];

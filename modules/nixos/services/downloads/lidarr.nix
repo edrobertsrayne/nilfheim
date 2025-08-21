@@ -45,6 +45,7 @@ in {
             href = "https://${cfg.url}";
             icon = "lidarr.svg";
             siteMonitor = "http://127.0.0.1:${toString port}";
+            description = "Music collection manager and downloader";
             widget = {
               type = "lidarr";
               url = "http://127.0.0.1:${toString port}";

@@ -25,6 +25,7 @@ in {
               href = "https://${cfg.url}";
               icon = "glances.svg";
               siteMonitor = "http://127.0.0.1:${toString cfg.port}";
+              description = "System monitoring and performance metrics";
             };
           }
           {

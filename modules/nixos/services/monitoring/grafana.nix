@@ -35,6 +35,7 @@ in {
             href = "https://${cfg.url}";
             icon = "grafana.svg";
             siteMonitor = "http://127.0.0.1:${toString cfg.settings.server.http_port}";
+            description = "Metrics dashboards and visualization";
           };
         }
       ];

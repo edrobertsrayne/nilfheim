@@ -112,6 +112,7 @@ in {
         {
           group = "Monitoring";
           name = "AlertManager";
+          description = "Alert management and routing system";
           entry = {
             href = "https://${cfg.url}";
             icon = "alertmanager.svg";

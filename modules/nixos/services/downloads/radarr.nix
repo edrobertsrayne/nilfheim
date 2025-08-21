@@ -66,6 +66,7 @@ in {
             href = "https://${cfg.url}";
             icon = "radarr.svg";
             siteMonitor = "http://127.0.0.1:${toString port}";
+            description = "Movie collection manager and downloader";
             widget = {
               type = "radarr";
               url = "http://127.0.0.1:${toString port}";
