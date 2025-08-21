@@ -27,10 +27,7 @@ in {
 
         extraEnvironment = {
           PORT = toString cfg.port;
-          # Disable signups and new release checks for homelab use
-          DISABLE_SIGNUPS = "true";
           DISABLE_NEW_RELEASE_CHECK = "true";
-          # Configure OpenAI for automatic tagging
           INFERENCE_ENABLE_AUTO_TAGGING = "true";
           INFERENCE_LANG = "english";
           INFERENCE_CONTEXT_LENGTH = "2048";
