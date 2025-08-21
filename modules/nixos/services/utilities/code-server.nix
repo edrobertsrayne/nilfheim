@@ -32,7 +32,7 @@ in {
           name = "Code Server";
           entry = {
             href = "https://${url}";
-            icon = "code-server.svg";
+            icon = "vscode.svg";
             siteMonitor = "https://${url}";
             description = "VS Code in the browser";
           };
