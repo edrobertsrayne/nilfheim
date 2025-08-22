@@ -21,7 +21,6 @@ in {
     services = {
       jellyfin = {
         dataDir = "/srv/jellyfin";
-        openFirewall = true;
       };
 
       homepage-dashboard.homelabServices = [
