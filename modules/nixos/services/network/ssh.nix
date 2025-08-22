@@ -16,6 +16,17 @@ in {
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;
+        # Enhanced security hardening
+        MaxAuthTries = 3;
+        ClientAliveInterval = 300;
+        ClientAliveCountMax = 2;
+        Protocol = 2;
+        X11Forwarding = false;
+        UsePAM = true;
+        PermitEmptyPasswords = false;
+        ChallengeResponseAuthentication = false;
+        KbdInteractiveAuthentication = false;
+        UseDns = false;
       };
     };
   };
