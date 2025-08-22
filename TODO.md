@@ -29,7 +29,7 @@
 - [X] Refactor *arr services to eliminate duplication
 - [X] Standardize service configuration patterns
 - [X] Centralize port assignments
-- [X] Create service category modules
+- [X] Create service category modules (implemented selectively - only mkArrService abstraction provides value)
 
 ## 🛡️ Enhanced Security
 
