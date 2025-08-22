@@ -15,8 +15,8 @@
 - [ ] Enable ZFS auto-snapshots with retention policies
 - [ ] Add backup monitoring with Prometheus integration
 - [X] Implement Loki + Promtail for log management
-- [ ] Add SMART monitoring for disk health
-- [ ] Create system health checks for ZFS and services
+- [X] Add SMART monitoring for disk health
+- [X] Create system health checks for ZFS and services
 - [ ] Configure Blocky query logging to PostgreSQL database
 - [ ] Create Grafana dashboard for DNS query monitoring and analytics
 
