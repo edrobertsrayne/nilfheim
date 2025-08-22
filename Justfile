@@ -16,7 +16,10 @@ odin:
 
 # Format and check Nix flake
 check:
-    nix fmt . && nix flake check
+    nix fmt .
+    nix run nixpkgs#statix -- check .
+    nix run nixpkgs#deadnix -- -l .
+    nix flake check
 
 # List available GitHub Actions workflows and jobs
 ci-list:
