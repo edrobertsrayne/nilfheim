@@ -1,0 +1,123 @@
+groups:
+  - name: zfs_health
+    rules:
+      - alert: ZFSPoolDegraded
+        expr: zfs_pool_state < 1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "ZFS pool {{ $labels.pool }} is degraded or faulted"
+          description: "ZFS pool {{ $labels.pool }} has state {{ $value }} (1=ONLINE, 0.5=DEGRADED, 0=FAULTED) for more than 5 minutes."
+
+      - alert: ZFSPoolHighUsage
+        expr: (zfs_pool_used_bytes / zfs_pool_capacity_bytes) * 100 > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "ZFS pool {{ $labels.pool }} usage is high"
+          description: "ZFS pool {{ $labels.pool }} is {{ $value | humanizePercentage }} full."
+
+      - alert: ZFSPoolCriticalUsage
+        expr: (zfs_pool_used_bytes / zfs_pool_capacity_bytes) * 100 > 95
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "ZFS pool {{ $labels.pool }} usage is critical"
+          description: "ZFS pool {{ $labels.pool }} is {{ $value | humanizePercentage }} full."
+
+      - alert: ZFSScrubErrors
+        expr: zfs_scrub_errors > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "ZFS scrub found errors on pool {{ $labels.pool }}"
+          description: "ZFS scrub found {{ $value }} errors on pool {{ $labels.pool }}."
+
+      - alert: ZFSScrubOld
+        expr: (time() - zfs_scrub_last_timestamp) > (30 * 24 * 60 * 60)
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "ZFS scrub is overdue for pool {{ $labels.pool }}"
+          description: "ZFS pool {{ $labels.pool }} has not been scrubbed for {{ $value | humanizeDuration }}."
+
+  - name: smart_health
+    rules:
+      - alert: SMARTDeviceFailure
+        expr: smartctl_device_smart_healthy != 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "SMART indicates device {{ $labels.device }} is failing"
+          description: "SMART health check failed for device {{ $labels.device }}."
+
+      - alert: SMARTDeviceHighTemperature
+        expr: smartctl_device_temperature > 60
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High temperature on device {{ $labels.device }}"
+          description: "Device {{ $labels.device }} temperature is {{ $value }}°C."
+
+      - alert: SMARTDeviceReallocatedSectors
+        expr: increase(smartctl_device_reallocated_sector_count[1h]) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Reallocated sectors detected on {{ $labels.device }}"
+          description: "Device {{ $labels.device }} has reallocated {{ $value }} sectors in the last hour."
+
+  - name: service_health
+    rules:
+      - alert: ServiceDown
+        expr: service_up == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.service }} is down"
+          description: "Service {{ $labels.service }} (type: {{ $labels.type }}) has been down for more than 5 minutes."
+
+      - alert: ServiceHighResponseTime
+        expr: service_response_time > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Service {{ $labels.service }} has high response time"
+          description: "Service {{ $labels.service }} response time is {{ $value }}s."
+
+      - alert: DatabaseDown
+        expr: database_up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Database {{ $labels.database }} is unreachable"
+          description: "Database {{ $labels.database }} has been unreachable for more than 2 minutes."
+
+      - alert: CriticalMountLowSpace
+        expr: mount_available_bytes < 5 * 1024 * 1024 * 1024
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Critical mount {{ $labels.mount }} has low disk space"
+          description: "Mount {{ $labels.mount }} has only {{ $value | humanizeBytes }} available space remaining."
+
+      - alert: ProcessCountLow
+        expr: process_count{service=~"nginx|prometheus"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "No {{ $labels.service }} processes running"
+          description: "Critical service {{ $labels.service }} has no running processes."

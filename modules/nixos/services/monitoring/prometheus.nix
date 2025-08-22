@@ -45,9 +45,20 @@ in {
               }
             ];
           }
+          {
+            job_name = "smartctl";
+            static_configs = [
+              {
+                targets = ["localhost:9633"];
+              }
+            ];
+            scrape_interval = "60s";
+            scrape_timeout = "30s";
+          }
         ];
         ruleFiles = [
           ./alerts/logging.yml
+          ./alerts/health-checks.yml
         ];
         alertmanagers = [
           {
@@ -98,6 +109,14 @@ in {
           {
             name = "Node Exporter";
             options.path = ./grafana/node.json;
+          }
+          {
+            name = "ZFS Health";
+            options.path = ./grafana/zfs-health.json;
+          }
+          {
+            name = "System Health";
+            options.path = ./grafana/system-health.json;
           }
         ];
       };
