@@ -66,6 +66,9 @@ in {
         alertmanager.enable = true;
       };
       promtail.enable = true;
+      service-health.enable = true;
+      smartctl-exporter.enable = true;
+      zfs-exporter.enable = true;
       prowlarr.enable = true;
       proxmox-ve.enable = false;
       radarr.enable = true;
