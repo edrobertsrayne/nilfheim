@@ -17,7 +17,7 @@ groups:
           severity: warning
         annotations:
           summary: "ZFS pool {{ $labels.pool }} usage is high"
-          description: "ZFS pool {{ $labels.pool }} is {{ $value | humanizePercentage }} full."
+          description: "ZFS pool {{ $labels.pool }} is {{ $value }}% full."
 
       - alert: ZFSPoolCriticalUsage
         expr: (zfs_pool_used_bytes / zfs_pool_capacity_bytes) * 100 > 95
@@ -26,7 +26,7 @@ groups:
           severity: critical
         annotations:
           summary: "ZFS pool {{ $labels.pool }} usage is critical"
-          description: "ZFS pool {{ $labels.pool }} is {{ $value | humanizePercentage }} full."
+          description: "ZFS pool {{ $labels.pool }} is {{ $value }}% full."
 
       - alert: ZFSScrubErrors
         expr: zfs_scrub_errors > 0
@@ -44,7 +44,7 @@ groups:
           severity: warning
         annotations:
           summary: "ZFS scrub is overdue for pool {{ $labels.pool }}"
-          description: "ZFS pool {{ $labels.pool }} has not been scrubbed for {{ $value | humanizeDuration }}."
+          description: "ZFS pool {{ $labels.pool }} has not been scrubbed for {{ $value }} seconds."
 
   - name: smart_health
     rules:
@@ -111,7 +111,7 @@ groups:
           severity: critical
         annotations:
           summary: "Critical mount {{ $labels.mount }} has low disk space"
-          description: "Mount {{ $labels.mount }} has only {{ $value | humanizeBytes }} available space remaining."
+          description: "Mount {{ $labels.mount }} has only {{ $value }} bytes available space remaining."
 
       - alert: ProcessCountLow
         expr: process_count{service=~"nginx|prometheus"} == 0
