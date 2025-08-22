@@ -13,7 +13,10 @@ nix develop
 # See all available commands
 just --list
 
-# Format and check flake - REQUIRED before committing  
+# Run linting (format + static analysis + dead code detection) - REQUIRED before committing
+just lint
+
+# Run full validation (lint + comprehensive flake check) - REQUIRED before committing
 just check
 ```
 
@@ -95,7 +98,7 @@ agenix -r
 
 2. **Make changes** in `modules/` or `hosts/`
 
-3. **Format and validate**: `just check`
+3. **Format and validate**: `just check` (must pass without errors or warnings)
 
 4. **Run quality checks**: `just ci-quality-dry` (fast validation)
 
@@ -106,9 +109,9 @@ agenix -r
    - Darwin: `darwin-rebuild check --flake .#<hostname>`
 
 7. **Manual validation** (if needed):
-   - Lint: `statix check .`
-   - Dead code: `deadnix -l .`
-   - Flake check: `nix flake check`
+   - Lint only: `just lint` (format + statix + deadnix)
+   - Full check: `just check` (lint + flake check)
+   - Individual tools: `statix check .`, `deadnix -l .`, `nix flake check`
 
 8. **Commit** using conventional format: `type(scope): description`
    - Examples:
@@ -126,13 +129,19 @@ agenix -r
 
 ### Pre-commit Checklist
 
-- [ ] Run `just check` (format + flake check)
+- [ ] Run `just check` - **MUST PASS without errors or warnings**
 - [ ] Run `just ci-quality-dry` (fast validation)
 - [ ] Verify no formatting changes: `git diff`
 - [ ] Test configuration builds
 - [ ] Test in VM (NixOS) or check (Darwin)
 - [ ] Rebase against main
 - [ ] Use conventional commit format
+
+**CRITICAL**: `just check` must complete successfully with zero errors and zero warnings before any commit can be made. This includes:
+- ✅ Formatting (alejandra)
+- ✅ Static analysis (statix)
+- ✅ Dead code detection (deadnix)
+- ✅ Flake validation (nix flake check)
 
 ### Local CI Testing
 
