@@ -25,7 +25,7 @@
 - [X] Create `lib/services.nix` for service abstraction
 - [X] Create `lib/constants.nix` for centralized configuration
 - [X] Create `lib/nginx.nix` for proxy helpers
-- [X] Create `lib/secrets.nix` for secret management
+- [X] ~~Create `lib/secrets.nix` for secret management~~ (removed - agenix handles secrets directly)
 - [X] Refactor *arr services to eliminate duplication
 - [X] Standardize service configuration patterns
 - [X] Centralize port assignments
