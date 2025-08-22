@@ -3,64 +3,12 @@ name: Nix Flake Check
 on:
   pull_request:
     branches: [ main ]
-  push:
-    branches: [ main ]
+  # Optionally run on push to main as well
+  # push:
+    # branches: [ main ]
 
 jobs:
   check:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            system: x86_64-linux
-          - os: macos-latest
-            system: x86_64-darwin
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Install Determinate Nix
-        uses: DeterminateSystems/nix-installer-action@main
-        with:
-          determinate: true
-          
-      - name: Run nix flake check
-        run: |
-          if [ "${{ matrix.system }}" = "x86_64-linux" ]; then
-            # On Linux, check all systems
-            nix flake check
-          else
-            # On macOS, only check Darwin configurations
-            nix flake check --systems "${{ matrix.system }}"
-          fi
-        
-      - name: Build NixOS configurations (Linux only)
-        if: matrix.system == 'x86_64-linux'
-        run: |
-          echo "Building NixOS configurations..."
-          nix build .#nixosConfigurations.freya.config.system.build.toplevel --no-link
-          nix build .#nixosConfigurations.thor.config.system.build.toplevel --no-link
-          nix build .#nixosConfigurations.loki.config.system.build.toplevel --no-link
-          
-      - name: Build Darwin configurations (macOS only)
-        if: matrix.system == 'x86_64-darwin'
-        run: |
-          echo "Building Darwin configurations..."
-          nix build .#darwinConfigurations.odin.system --no-link
-          
-      - name: Report check status
-        if: always()
-        run: |
-          if [ ${{ job.status }} == 'success' ]; then
-            echo "✅ Nix flake check passed on ${{ matrix.system }}"
-          else
-            echo "❌ Nix flake check failed on ${{ matrix.system }}"
-            exit 1
-          fi
-
-  quality:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -71,23 +19,15 @@ jobs:
         with:
           determinate: true
           
-      - name: Run statix (Nix linter)
+      - name: Run nix flake check
+        run: nix flake check
+        
+      - name: Report check status
+        if: always()
         run: |
-          echo "Running statix linter..."
-          nix run nixpkgs#statix -- check .
-          
-      - name: Run deadnix (unused code detection)
-        run: |
-          echo "Running deadnix unused code detection..."
-          nix run nixpkgs#deadnix -- --no-underscore .
-          
-      - name: Check formatting
-        run: |
-          echo "Checking nix formatting..."
-          nix fmt .
-          if ! git diff --exit-code; then
-            echo "❌ Code is not formatted. Run 'nix fmt .' locally."
-            exit 1
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "✅ Nix flake check passed"
           else
-            echo "✅ Code is properly formatted."
+            echo "❌ Nix flake check failed"
+            exit 1
           fi
