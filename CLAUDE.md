@@ -22,8 +22,11 @@ just check
 
 ### Manual Development Commands
 ```bash
-# Format all nix files - REQUIRED before committing
-nix fmt .
+# Individual linting tools (use 'just lint' instead for full suite)
+nix fmt .                    # Format only
+statix check .               # Static analysis only  
+deadnix -l .                 # Dead code detection only
+nix flake check              # Flake validation only
 ```
 
 ### System Management
@@ -92,40 +95,42 @@ agenix -r
 
 ## Development Workflow
 
+### Quick Development Loop
 1. **Create feature branch**:
    - Features: `git checkout -b feat/feature-name`
    - Fixes: `git checkout -b fix/issue-name`
 
 2. **Make changes** in `modules/` or `hosts/`
 
-3. **Format and validate**: `just check` (must pass without errors or warnings)
+3. **Fast validation**: `just lint` (during development for quick feedback)
 
-4. **Run quality checks**: `just ci-quality-dry` (fast validation)
-
-5. **Test local CI**: `just ci-validate` (comprehensive validation)
-
-6. **Test configuration**:
+4. **Test builds**: 
    - NixOS: `nixos-rebuild build-vm --flake .#<hostname>`
    - Darwin: `darwin-rebuild check --flake .#<hostname>`
 
-7. **Manual validation** (if needed):
-   - Lint only: `just lint` (format + statix + deadnix)
-   - Full check: `just check` (lint + flake check)
-   - Individual tools: `statix check .`, `deadnix -l .`, `nix flake check`
+5. **Repeat** until satisfied with changes
 
-8. **Commit** using conventional format: `type(scope): description`
+### Before Commit (MANDATORY)
+1. **Final validation**: `just check` - **MUST PASS completely with zero errors/warnings**
+
+2. **Test configuration**: Deploy to test environment or VM
+
+3. **Commit**: Use conventional format `type(scope): description`
    - Examples:
      - `feat(homelab): add navidrome music server`
      - `fix(security): enable sudo password requirement`
      - `refactor(services): create service abstraction library`
 
-9. **Apply changes**:
+4. **Apply changes**:
    - Quick: `just <hostname>` (freya, odin, thor, loki)
    - Manual NixOS local: `sudo nixos-rebuild switch --flake .#<hostname>`
    - Manual NixOS remote: `nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo`
    - Manual Darwin: `darwin-rebuild switch --flake .#<hostname>`
 
-10. **Before PR**: `git rebase main`
+### Branch Management
+- **Before PR**: `git rebase main`
+- **Quality checks**: `just ci-quality-dry` (fast validation)
+- **Local CI testing**: `just ci-validate` (comprehensive validation)
 
 ### Pre-commit Checklist
 
@@ -174,14 +179,18 @@ curl -s http://api.example.com | nix run nixpkgs#jq -- '.data'
 
 ### Common Issues
 
-| Issue             | Solution                                  |
-| ----------------- | ----------------------------------------- |
-| Permission errors | Enter development shell: `nix develop`    |
-| Build failures    | Update flake inputs: `nix flake update`   |
-| Secret access     | Verify agenix keys configuration          |
-| Hardware issues   | Update hardware-configuration.nix         |
-| Platform mismatch | Use correct rebuild command for your OS   |
-| Cross-compilation | Use `--build-host` for remote deployments |
+| Issue                    | Solution                                           |
+| ------------------------ | -------------------------------------------------- |
+| Permission errors        | Enter development shell: `nix develop`            |
+| Build failures           | Update flake inputs: `nix flake update`           |
+| Secret access            | Verify agenix keys configuration                   |
+| Hardware issues          | Update hardware-configuration.nix                 |
+| Platform mismatch        | Use correct rebuild command for your OS           |
+| Cross-compilation        | Use `--build-host` for remote deployments         |
+| **Linting errors**       | **Run `just lint` and fix all warnings**          |
+| **Flake check failures** | **Run `nix flake check` and resolve errors**      |
+| **Service conflicts**    | **Check port assignments in `lib/constants.nix`** |
+| **Module import errors** | **Verify file paths and module structure**        |
 
 ### Debug Commands
 
@@ -191,6 +200,22 @@ nix flake check --systems "$(nix eval --impure --raw --expr 'builtins.currentSys
 
 # Show build logs
 nix log .#nixosConfigurations.<hostname>.config.system.build.toplevel
+```
+
+### Performance Tips
+
+```bash
+# Faster flake checks (current system only)
+nix flake check --systems "$(nix eval --impure --raw --expr 'builtins.currentSystem')"
+
+# Parallel builds for faster rebuilds
+nixos-rebuild switch --flake .#<hostname> --builders 'ssh://build-host x86_64-linux'
+
+# Local development with build caching
+nixos-rebuild build-vm --flake .#<hostname> --option builders ''
+
+# Quick syntax check without full build
+nix eval .#nixosConfigurations.<hostname>.config.system.build.toplevel --dry-run
 ```
 
 ## Service Configuration
@@ -247,3 +272,49 @@ services.zfs.autoSnapshot = {
 - ZFS datasets must have `com.sun:auto-snapshot=true` property
 - Only for NixOS systems with ZFS pools
 - Not applicable to Darwin or non-ZFS systems
+
+## Service Development Guidelines
+
+### Service Abstractions
+
+**When to Use lib/services.nix Abstractions:**
+- Services with high code similarity (80%+ duplication)
+- Consistent configuration patterns across multiple services
+- Example: *arr services (sonarr, radarr, lidarr) use `mkArrService`
+
+**When NOT to Use Abstractions:**
+- Complex services with unique requirements (Jellyfin, Plex, Prometheus)
+- Simple services (30-50 lines) where abstraction adds overhead
+- Services with service-specific configuration needs
+
+**Available Abstractions:**
+- `mkArrService`: For *arr applications with Prometheus exporters, homepage integration, nginx proxy
+
+### Adding a New Service
+1. Check if existing abstractions apply (`lib/services.nix`)
+2. Follow existing service patterns in `modules/nixos/services/`
+3. Use centralized ports from `lib/constants.nix`
+4. Add homepage integration via `homelabServices`
+5. Configure nginx proxy with `proxyWebsockets = true`
+6. Run `just check` before committing
+
+### Refactoring Existing Services
+1. Identify code duplication patterns
+2. Consider if abstraction would benefit (see guidelines above)
+3. Test thoroughly with `nixos-rebuild build-vm`
+4. Ensure `just check` passes with zero warnings
+
+## Code Quality Standards
+
+### Required Before Any Commit
+- ✅ `just check` passes with ZERO errors and ZERO warnings
+- ✅ All services build successfully
+- ✅ Configuration tested (VM for NixOS, check for Darwin)
+- ✅ Conventional commit format used
+
+### Code Review Guidelines
+- Services should use existing abstractions when applicable
+- Avoid code duplication (DRY principle)
+- Follow existing naming conventions
+- Include proper documentation comments
+- Use centralized constants for ports and paths
