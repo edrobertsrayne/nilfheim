@@ -1,8 +1,7 @@
 {
-  "dashboard": {
-    "id": null,
-    "title": "System Health Overview",
-    "tags": ["health", "monitoring", "system"],
+  "id": null,
+  "title": "System Health & ZFS Monitoring",
+  "tags": ["health", "monitoring", "system", "zfs"],
     "style": "dark",
     "timezone": "browser",
     "refresh": "30s",
@@ -309,16 +308,306 @@
             "unit": "short"
           }
         }
+      },
+      {
+        "id": 8,
+        "title": "ZFS Pool Status",
+        "type": "stat",
+        "gridPos": {"h": 6, "w": 6, "x": 0, "y": 24},
+        "targets": [
+          {
+            "expr": "zfs_pool_state",
+            "legendFormat": "{{ pool }}",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "textMode": "auto"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {"options": {"0": {"text": "FAULTED", "color": "dark-red"}}, "type": "value"},
+              {"options": {"0.5": {"text": "DEGRADED", "color": "yellow"}}, "type": "value"},
+              {"options": {"1": {"text": "ONLINE", "color": "green"}}, "type": "value"}
+            ],
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": 0},
+                {"color": "yellow", "value": 0.5},
+                {"color": "green", "value": 1}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 9,
+        "title": "ZFS Pool Capacity",
+        "type": "piechart",
+        "gridPos": {"h": 6, "w": 6, "x": 6, "y": 24},
+        "targets": [
+          {
+            "expr": "zfs_pool_used_bytes",
+            "legendFormat": "Used - {{ pool }}",
+            "refId": "A"
+          },
+          {
+            "expr": "zfs_pool_available_bytes",
+            "legendFormat": "Available - {{ pool }}",
+            "refId": "B"
+          }
+        ],
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "pieType": "pie",
+          "tooltip": {"mode": "single", "sort": "none"},
+          "legend": {
+            "displayMode": "visible",
+            "placement": "bottom",
+            "showLegend": true,
+            "values": []
+          },
+          "displayLabels": ["percent"]
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"},
+            "unit": "bytes",
+            "custom": {
+              "hideFrom": {"legend": false, "tooltip": false, "vis": false}
+            }
+          }
+        }
+      },
+      {
+        "id": 10,
+        "title": "ZFS Pool Usage Percentage",
+        "type": "bargauge",
+        "gridPos": {"h": 6, "w": 6, "x": 12, "y": 24},
+        "targets": [
+          {
+            "expr": "(zfs_pool_used_bytes / zfs_pool_capacity_bytes) * 100",
+            "legendFormat": "{{ pool }}",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "orientation": "horizontal",
+          "text": {},
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 80},
+                {"color": "red", "value": 90}
+              ]
+            },
+            "unit": "percent",
+            "min": 0,
+            "max": 100
+          }
+        }
+      },
+      {
+        "id": 11,
+        "title": "ZFS Scrub Status",
+        "type": "stat",
+        "gridPos": {"h": 6, "w": 6, "x": 18, "y": 24},
+        "targets": [
+          {
+            "expr": "zfs_scrub_errors",
+            "legendFormat": "{{ pool }} Errors",
+            "refId": "A"
+          },
+          {
+            "expr": "(time() - zfs_scrub_last_timestamp) / 86400",
+            "legendFormat": "{{ pool }} Days Since",
+            "refId": "B"
+          }
+        ],
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {"text": "N/A"}
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 1},
+                {"color": "red", "value": 30}
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {"id": "byRegexp", "options": ".*Errors.*"},
+              "properties": [
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "steps": [
+                      {"color": "green", "value": null},
+                      {"color": "red", "value": 1}
+                    ]
+                  }
+                },
+                {"id": "unit", "value": "short"}
+              ]
+            },
+            {
+              "matcher": {"id": "byRegexp", "options": ".*Days Since.*"},
+              "properties": [
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "steps": [
+                      {"color": "green", "value": null},
+                      {"color": "yellow", "value": 30},
+                      {"color": "red", "value": 60}
+                    ]
+                  }
+                },
+                {"id": "unit", "value": "d"}
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": 12,
+        "title": "ZFS Pool Usage Over Time",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 30},
+        "targets": [
+          {
+            "expr": "(zfs_pool_used_bytes / zfs_pool_capacity_bytes) * 100",
+            "legendFormat": "{{ pool }} Usage %",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "barAlignment": 0,
+              "lineWidth": 2,
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "spanNulls": false,
+              "insertNulls": false,
+              "showPoints": "never",
+              "pointSize": 5,
+              "stacking": {"mode": "none", "group": "A"},
+              "axisPlacement": "auto",
+              "axisLabel": "",
+              "scaleDistribution": {"type": "linear"},
+              "hideFrom": {"legend": false, "tooltip": false, "vis": false},
+              "thresholdsStyle": {"mode": "line"}
+            },
+            "color": {"mode": "palette-classic"},
+            "unit": "percent",
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                {"color": "transparent", "value": null},
+                {"color": "yellow", "value": 80},
+                {"color": "red", "value": 90}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 13,
+        "title": "ZFS Pool Available Space",
+        "type": "timeseries",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 30},
+        "targets": [
+          {
+            "expr": "zfs_pool_available_bytes",
+            "legendFormat": "{{ pool }} Available",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "linear",
+              "barAlignment": 0,
+              "lineWidth": 2,
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "spanNulls": false,
+              "insertNulls": false,
+              "showPoints": "never",
+              "pointSize": 5,
+              "stacking": {"mode": "none", "group": "A"},
+              "axisPlacement": "auto",
+              "axisLabel": "",
+              "scaleDistribution": {"type": "linear"},
+              "hideFrom": {"legend": false, "tooltip": false, "vis": false},
+              "thresholdsStyle": {"mode": "off"}
+            },
+            "color": {"mode": "palette-classic"},
+            "unit": "bytes"
+          }
+        }
       }
     ],
-    "templating": {
-      "list": []
-    },
-    "annotations": {
-      "list": []
-    },
-    "schemaVersion": 30,
-    "version": 1,
-    "links": []
-  }
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "schemaVersion": 30,
+  "version": 1,
+  "links": []
 }
