@@ -8,6 +8,8 @@ in {
     exporterPort,
     description,
     iconName ? name,
+    useSecretApiKey ? true,
+    defaultApiKey ? "",
     extraConfig ? {},
   }: {
     config,
@@ -17,6 +19,12 @@ in {
     with lib; let
       cfg = config.services.${name};
       inherit (cfg.settings.server) port;
+
+      # Use secret if available, otherwise fall back to default
+      apiKey =
+        if useSecretApiKey && config.age.secrets ? "${name}-api"
+        then config.age.secrets."${name}-api".path
+        else cfg.apikey;
     in {
       options.services.${name} = {
         url = mkOption {
@@ -26,7 +34,8 @@ in {
         };
         apikey = mkOption {
           type = types.str;
-          description = "API key for ${name} service.";
+          default = defaultApiKey;
+          description = "API key for ${name} service. Only used if useSecretApiKey is false.";
         };
       };
 
@@ -41,7 +50,10 @@ in {
                 settings.auth = {
                   method = "External";
                   type = "DisabledForLocalAddresses";
-                  inherit (cfg) apikey;
+                  apikey =
+                    if useSecretApiKey
+                    then "$(<${apiKey})"
+                    else cfg.apikey;
                 };
               }
               extraConfig
@@ -50,7 +62,12 @@ in {
             prometheus = {
               exporters."exportarr-${name}" = {
                 enable = true;
-                environment = {API_KEY = cfg.apikey;};
+                environment = {
+                  API_KEY =
+                    if useSecretApiKey
+                    then "$(<${apiKey})"
+                    else cfg.apikey;
+                };
                 url = "http://localhost:${toString port}";
                 port = exporterPort;
               };
@@ -79,7 +96,10 @@ in {
                   widget = {
                     type = name;
                     url = "http://127.0.0.1:${toString port}";
-                    key = cfg.apikey;
+                    key =
+                      if useSecretApiKey
+                      then "$(<${apiKey})"
+                      else cfg.apikey;
                   };
                 };
               }

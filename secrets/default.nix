@@ -7,5 +7,9 @@
     karakeep.file = ./karakeep.age;
     kavita.file = ./kavita.age;
     cloudflare-homelab.file = ./cloudflare-homelab.age;
+    # *arr service API keys
+    sonarr-api.file = ./sonarr-api.age;
+    radarr-api.file = ./radarr-api.age;
+    lidarr-api.file = ./lidarr-api.age;
   };
 }
