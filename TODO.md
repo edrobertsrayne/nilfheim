@@ -2,11 +2,11 @@
 
 ## 🚨 Critical Security Issues (IMMEDIATE)
 
-- [ ] Fix Plex TLS settings - remove TLS 1.0/1.1 (`modules/nixos/services/media/plex.nix:51-54`)
-- [ ] Add global nginx security headers (`modules/nixos/services/network/nginx.nix`)
-- [ ] Restrict service exposure - review `openFirewall = true` settings
-- [ ] Fix Grafana XSS vulnerability (`modules/nixos/services/monitoring/grafana.nix:127`)
-- [ ] Enhance SSH hardening with MaxAuthTries, ClientAliveInterval
+- [X] Fix Plex TLS settings - remove TLS 1.0/1.1 (`modules/nixos/services/media/plex.nix:51-54`)
+- [X] Add global nginx security headers (`modules/nixos/services/network/nginx.nix`)
+- [X] Restrict service exposure - review `openFirewall = true` settings
+- [X] Fix Grafana XSS vulnerability (`modules/nixos/services/monitoring/grafana.nix:127`)
+- [X] Enhance SSH hardening with MaxAuthTries, ClientAliveInterval
 
 ## ⚠️ High Priority Infrastructure
 
