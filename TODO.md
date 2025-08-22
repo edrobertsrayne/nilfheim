@@ -12,7 +12,7 @@
 
 - [ ] Add nginx proxyWebSockets to all exposed services
 - [ ] Create Restic backup service (`modules/nixos/services/utilities/restic.nix`)
-- [ ] Enable ZFS auto-snapshots with retention policies
+- [X] Enable ZFS auto-snapshots with retention policies
 - [ ] Add backup monitoring with Prometheus integration
 - [X] Implement Loki + Promtail for log management
 - [X] Add SMART monitoring for disk health
