@@ -17,7 +17,6 @@ in {
   config = mkIf cfg.enable {
     services = {
       plex = {
-        openFirewall = true;
         dataDir = "/srv/plex";
       };
 
