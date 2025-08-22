@@ -26,7 +26,7 @@ in {
           security = {
             # Prevent XSS attacks
             content_type_protection = true;
-            x_content_type_options = "nosniff";
+            x_content_type_options = true;
             x_xss_protection = true;
             strict_transport_security = true;
             strict_transport_security_max_age_seconds = 31536000;
