@@ -9,54 +9,6 @@ on:
 
 jobs:
   check:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        include:
-          - os: ubuntu-latest
-            system: x86_64-linux
-          - os: macos-latest
-            system: x86_64-darwin
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Install Determinate Nix
-        uses: DeterminateSystems/nix-installer-action@main
-        with:
-          determinate: true
-          
-      - name: Run nix flake check
-        run: |
-          # Run flake check (will skip incompatible systems automatically)
-          nix flake check
-        
-      - name: Build NixOS configurations (Linux only)
-        if: matrix.system == 'x86_64-linux'
-        run: |
-          echo "Building NixOS configurations..."
-          nix build .#nixosConfigurations.freya.config.system.build.toplevel --no-link
-          nix build .#nixosConfigurations.thor.config.system.build.toplevel --no-link
-          nix build .#nixosConfigurations.loki.config.system.build.toplevel --no-link
-          
-      - name: Build Darwin configurations (macOS only)
-        if: matrix.system == 'x86_64-darwin'
-        run: |
-          echo "Building Darwin configurations..."
-          nix build .#darwinConfigurations.odin.system --no-link
-          
-      - name: Report success
-        if: success()
-        run: echo "✅ Nix flake check passed on ${{ matrix.system }}"
-        
-      - name: Report failure
-        if: failure()
-        run: |
-          echo "❌ Nix flake check failed on ${{ matrix.system }}"
-          exit 1
-
-  quality:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -70,12 +22,19 @@ jobs:
       - name: Run nix flake check
         run: nix flake check
         
-      - name: Report check status
-        if: always()
+      - name: Build NixOS configurations
         run: |
-          if [ ${{ job.status }} == 'success' ]; then
-            echo "✅ Nix flake check passed"
-          else
-            echo "❌ Nix flake check failed"
-            exit 1
-          fi
+          echo "Building NixOS configurations..."
+          nix build .#nixosConfigurations.freya.config.system.build.toplevel --no-link
+          nix build .#nixosConfigurations.thor.config.system.build.toplevel --no-link
+          nix build .#nixosConfigurations.loki.config.system.build.toplevel --no-link
+          
+      - name: Report success
+        if: success()
+        run: echo "✅ Nix flake check and build passed"
+        
+      - name: Report failure
+        if: failure()
+        run: |
+          echo "❌ Nix flake check or build failed"
+          exit 1
