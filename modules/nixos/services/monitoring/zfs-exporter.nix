@@ -6,7 +6,6 @@
 }:
 with lib; let
   cfg = config.services.zfs-exporter;
-  inherit (config) homelab;
 
   zfsMetricsScript = pkgs.writeShellScript "zfs-metrics" ''
     #!/bin/bash
@@ -120,29 +119,32 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Create textfile directory for node_exporter
-    systemd.tmpfiles.rules = [
-      "d /var/lib/prometheus-node-exporter-text-files 755 prometheus prometheus -"
-    ];
+    # Configure systemd components
+    systemd = {
+      # Create textfile directory for node_exporter
+      tmpfiles.rules = [
+        "d /var/lib/prometheus-node-exporter-text-files 755 prometheus prometheus -"
+      ];
 
-    # ZFS metrics collection service
-    systemd.services.zfs-exporter = {
-      description = "ZFS Health Metrics Exporter";
-      serviceConfig = {
-        Type = "oneshot";
-        User = "root"; # Need root to access ZFS commands
-        ExecStart = "${zfsMetricsScript}";
+      # ZFS metrics collection service
+      services.zfs-exporter = {
+        description = "ZFS Health Metrics Exporter";
+        serviceConfig = {
+          Type = "oneshot";
+          User = "root"; # Need root to access ZFS commands
+          ExecStart = "${zfsMetricsScript}";
+        };
       };
-    };
 
-    # Timer for regular metrics collection
-    systemd.timers.zfs-exporter = {
-      description = "ZFS Health Metrics Collection Timer";
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnBootSec = "30s";
-        OnUnitActiveSec = cfg.interval;
-        Persistent = true;
+      # Timer for regular metrics collection
+      timers.zfs-exporter = {
+        description = "ZFS Health Metrics Collection Timer";
+        wantedBy = ["timers.target"];
+        timerConfig = {
+          OnBootSec = "30s";
+          OnUnitActiveSec = cfg.interval;
+          Persistent = true;
+        };
       };
     };
 
