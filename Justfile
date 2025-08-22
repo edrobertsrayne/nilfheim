@@ -14,11 +14,15 @@ freya:
 odin:
     sudo darwin-rebuild switch --flake .#odin
 
-# Format and check Nix flake
-check:
+# Run linting tools (formatting, static analysis, dead code detection)
+lint:
     nix fmt .
     nix run nixpkgs#statix -- check .
     nix run nixpkgs#deadnix -- -l .
+
+# Run full flake validation (includes lint + comprehensive flake check)
+check:
+    just lint
     nix flake check
 
 # List available GitHub Actions workflows and jobs
