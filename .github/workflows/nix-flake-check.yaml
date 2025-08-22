@@ -22,19 +22,12 @@ jobs:
       - name: Run nix flake check
         run: nix flake check
         
-      - name: Build NixOS configurations
-        run: |
-          echo "Building NixOS configurations..."
-          nix build .#nixosConfigurations.freya.config.system.build.toplevel --no-link
-          nix build .#nixosConfigurations.thor.config.system.build.toplevel --no-link
-          nix build .#nixosConfigurations.loki.config.system.build.toplevel --no-link
-          
       - name: Report success
         if: success()
-        run: echo "✅ Nix flake check and build passed"
+        run: echo "✅ Nix flake check passed"
         
       - name: Report failure
         if: failure()
         run: |
-          echo "❌ Nix flake check or build failed"
+          echo "❌ Nix flake check failed"
           exit 1

@@ -49,11 +49,11 @@ ci-pr:
 ci-push:
     nix run nixpkgs#act -- push
 
-# Run build checks locally (Linux only, matrix jobs run sequentially)
+# Run flake check locally (matches GitHub Actions workflow)
 ci-build:
     nix run nixpkgs#act -- --job check
 
-# Complete local CI validation (quality + format + dry run build)
+# Complete local CI validation (quality + format + flake check)
 ci-validate:
     nix run nixpkgs#act -- --job quality --dryrun
     nix run nixpkgs#act -- --job format --dryrun
