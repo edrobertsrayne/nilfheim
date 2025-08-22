@@ -59,9 +59,7 @@ in {
               "--smartctl.path=${pkgs.smartmontools}/bin/smartctl"
               "--smartctl.interval=${cfg.interval}"
             ]
-            ++ optionals (cfg.devices != []) [
-              "--smartctl.device=${concatStringsSep "," cfg.devices}"
-            ];
+            ++ optionals (cfg.devices != []) (map (device: "--smartctl.device=${device}") cfg.devices);
         in "${pkgs.prometheus-smartctl-exporter}/bin/smartctl_exporter ${concatStringsSep " " args}";
 
         Restart = "always";
@@ -80,8 +78,8 @@ in {
         RemoveIPC = true;
         PrivateTmp = true;
 
-        # Allow access to block devices for SMART data
-        DeviceAllow = ["block-* r"];
+        # Allow access to devices for SMART data
+        DeviceAllow = ["block-* r" "char-* r"];
       };
     };
 
@@ -89,6 +87,7 @@ in {
     users.users.smartctl-exporter = {
       isSystemUser = true;
       group = "smartctl-exporter";
+      extraGroups = ["disk"]; # Allow access to disk devices
       description = "Smartctl Exporter user";
     };
 
@@ -98,6 +97,8 @@ in {
     services.udev.extraRules = ''
       # Allow smartctl-exporter to access disk devices for SMART monitoring
       SUBSYSTEM=="block", GROUP="smartctl-exporter", MODE="0640"
+      # Allow access to NVMe character devices for SMART monitoring
+      SUBSYSTEM=="nvme", GROUP="smartctl-exporter", MODE="0640"
     '';
 
     # Add sudoers rule to allow smartctl-exporter to run smartctl
