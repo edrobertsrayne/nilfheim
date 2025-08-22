@@ -11,7 +11,8 @@
     name = "sonarr";
     exporterPort = constants.ports.exportarr-sonarr;
     description = constants.descriptions.sonarr;
-    useSecretApiKey = true;
+    useSecretApiKey = false;
+    defaultApiKey = "e6619670253d4b17baaa8a640a3aafed"; # Temporarily back to hardcoded for testing
     extraConfig = {
       settings.server.port = constants.ports.sonarr;
     };
