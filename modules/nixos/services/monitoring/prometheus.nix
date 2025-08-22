@@ -112,10 +112,6 @@ in {
             options.path = ./grafana/node.json;
           }
           {
-            name = "ZFS Health";
-            options.path = ./grafana/zfs-health.json;
-          }
-          {
             name = "System Health";
             options.path = ./grafana/system-health.json;
           }
