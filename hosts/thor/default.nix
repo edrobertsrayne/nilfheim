@@ -35,6 +35,29 @@
       devices = ["/dev/nvme0;nvme" "/dev/sda;sat"];
     };
 
+    # Configure NFS server for tailscale network
+    nfs-server = {
+      enable = true;
+      shares = {
+        downloads = {
+          source = /mnt/downloads;
+          permissions = "rw";
+        };
+        media = {
+          source = /mnt/media;
+          permissions = "ro";
+        };
+        backup = {
+          source = /mnt/backup;
+          permissions = "rw";
+        };
+        share = {
+          source = /mnt/share;
+          permissions = "rw";
+        };
+      };
+    };
+
     samba = {
       enable = true;
       settings = {
