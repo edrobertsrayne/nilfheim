@@ -103,25 +103,25 @@
           "backup" = {
             type = "zfs_fs";
             mountpoint = "/mnt/backup";
-            options."com.sun:auto-snapshot" = "true";
+            options."com.sun:auto-snapshot" = "false";
             mountOptions = ["nofail"];
           };
           "share" = {
             type = "zfs_fs";
             mountpoint = "/mnt/share";
-            options."com.sun:auto-snapshot" = "true";
+            options."com.sun:auto-snapshot" = "false";
             mountOptions = ["nofail"];
           };
           "media" = {
             type = "zfs_fs";
             mountpoint = "/mnt/media";
-            options."com.sun:auto-snapshot" = "true";
+            options."com.sun:auto-snapshot" = "false";
             mountOptions = ["nofail"];
           };
           "downloads" = {
             type = "zfs_fs";
             mountpoint = "/mnt/downloads";
-            options."com.sun:auto-snapshot" = "true";
+            options."com.sun:auto-snapshot" = "false";
             mountOptions = ["nofail"];
           };
         };
