@@ -85,14 +85,8 @@
     secrets = "/run/agenix";
   };
 
-  # Common API keys (these should eventually be moved to secrets)
-  apiKeys = {
-    sonarr = "e6619670253d4b17baaa8a640a3aafed";
-    radarr = "45f0ce64ed8b4d34b51908c60b7a70fc";
-    lidarr = "f6a4315040e94c7c9eb2aefe5bfc4445";
-    # Note: These appear to be example/default keys from the services
-    # In production, these should be properly generated and stored in age secrets
-  };
+  # API keys are now managed through agenix secrets
+  # See secrets/sonarr-api.age, secrets/radarr-api.age, etc.
 
   # Service groups for homepage dashboard
   serviceGroups = {
