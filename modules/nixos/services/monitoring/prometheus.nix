@@ -72,6 +72,7 @@ in {
         exporters.node = {
           enable = true;
           enabledCollectors = ["textfile"];
+          extraFlags = ["--collector.textfile.directory=/var/lib/prometheus-node-exporter-text-files"];
         };
       };
 
