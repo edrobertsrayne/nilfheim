@@ -28,6 +28,11 @@
     monthly = 6; # Keep 6 monthly snapshots (6 months)
   };
 
+  # Configure SMART monitoring with explicit devices
+  services.smartctl-exporter = {
+    devices = ["/dev/nvme0;nvme" "/dev/sda;sat"];
+  };
+
   services.samba = {
     enable = true;
     settings = {
