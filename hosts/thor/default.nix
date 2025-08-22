@@ -19,62 +19,65 @@
     "d /mnt/share 2775 root tank"
   ];
 
-  # Configure ZFS auto-snapshots for /srv directory
-  services.zfs.autoSnapshot = {
-    enable = true;
-    # Keep more snapshots to match previous retention policy
-    daily = 14; # Keep 14 daily snapshots (2 weeks)
-    weekly = 8; # Keep 8 weekly snapshots (2 months)
-    monthly = 6; # Keep 6 monthly snapshots (6 months)
-  };
+  # Configure services
+  services = {
+    # Configure ZFS auto-snapshots for /srv directory
+    zfs.autoSnapshot = {
+      enable = true;
+      # Keep more snapshots to match previous retention policy
+      daily = 14; # Keep 14 daily snapshots (2 weeks)
+      weekly = 8; # Keep 8 weekly snapshots (2 months)
+      monthly = 6; # Keep 6 monthly snapshots (6 months)
+    };
 
-  # Configure SMART monitoring with explicit devices
-  services.smartctl-exporter = {
-    devices = ["/dev/nvme0;nvme" "/dev/sda;sat"];
-  };
+    # Configure SMART monitoring with explicit devices
+    smartctl-exporter = {
+      devices = ["/dev/nvme0;nvme" "/dev/sda;sat"];
+    };
 
-  services.samba = {
-    enable = true;
-    settings = {
-      "backup" = {
-        "path" = "/mnt/backup";
-        "browseable" = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "valid users" = username;
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = username;
-        "force group" = "users";
-      };
-      "downloads" = {
-        "path" = "/mnt/downloads";
-        "browseable" = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "valid users" = username;
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = username;
-        "force group" = "users";
-      };
-      "media" = {
-        "path" = "/mnt/media";
-        "browseable" = "yes";
-        "read only" = "yes";
-        "guest ok" = "no";
-        "valid users" = username;
-      };
-      "share" = {
-        "path" = "/mnt/share";
-        "browseable" = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-        "valid users" = username;
-        "create mask" = "0644";
-        "directory mask" = "0755";
-        "force user" = username;
-        "force group" = "users";
+    samba = {
+      enable = true;
+      settings = {
+        "backup" = {
+          "path" = "/mnt/backup";
+          "browseable" = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+          "valid users" = username;
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          "force user" = username;
+          "force group" = "users";
+        };
+        "downloads" = {
+          "path" = "/mnt/downloads";
+          "browseable" = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+          "valid users" = username;
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          "force user" = username;
+          "force group" = "users";
+        };
+        "media" = {
+          "path" = "/mnt/media";
+          "browseable" = "yes";
+          "read only" = "yes";
+          "guest ok" = "no";
+          "valid users" = username;
+        };
+        "share" = {
+          "path" = "/mnt/share";
+          "browseable" = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+          "valid users" = username;
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          "force user" = username;
+          "force group" = "users";
+        };
       };
     };
   };
