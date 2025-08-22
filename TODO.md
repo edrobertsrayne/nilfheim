@@ -22,14 +22,14 @@
 
 ## 🔧 Code Refactoring
 
-- [ ] Create `lib/services.nix` for service abstraction
-- [ ] Create `lib/constants.nix` for centralized configuration
-- [ ] Create `lib/nginx.nix` for proxy helpers
-- [ ] Create `lib/secrets.nix` for secret management
-- [ ] Refactor *arr services to eliminate duplication
-- [ ] Standardize service configuration patterns
-- [ ] Centralize port assignments
-- [ ] Create service category modules
+- [X] Create `lib/services.nix` for service abstraction
+- [X] Create `lib/constants.nix` for centralized configuration
+- [X] Create `lib/nginx.nix` for proxy helpers
+- [X] Create `lib/secrets.nix` for secret management
+- [X] Refactor *arr services to eliminate duplication
+- [X] Standardize service configuration patterns
+- [X] Centralize port assignments
+- [X] Create service category modules
 
 ## 🛡️ Enhanced Security
 
