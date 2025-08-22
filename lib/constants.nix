@@ -54,6 +54,11 @@
     avahi = 5353;
     nginx = 80;
     nginx-ssl = 443;
+
+    # NFS Services
+    nfs = 2049;
+    rpcbind = 111;
+    nfs-status = 20048;
   };
 
   # Default paths for services
@@ -139,6 +144,7 @@
     # Network Services
     blocky = "DNS proxy and ad-blocker";
     samba = "File sharing service";
+    nfs = "Network File System for remote file access";
   };
 
   # Default authentication settings for *arr services
