@@ -19,7 +19,6 @@ _: {
       "$mod, J, togglesplit"
       "$mod, F, fullscreen"
       "$mod, L, exec, hyprlock"
-      "$mod SHIFT, E, exec, thunar"
       "$mod SHIFT, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
 
       # System utilities
