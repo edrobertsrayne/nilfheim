@@ -31,16 +31,23 @@
 
           modules-left = ["hyprland/workspaces" "hyprland/mode"];
           modules-center = ["hyprland/window"];
-          modules-right = ["tray" "pulseaudio" "network" "battery" "clock"];
+          modules-right = ["tray" "custom/hypridle" "pulseaudio" "network" "battery" "clock"];
 
-          # Workspaces configuration
+          # Workspaces configuration - show first 5 workspaces
           "hyprland/workspaces" = {
-            disable-scroll = true;
+            disable-scroll = false;
             all-outputs = true;
-            format = "{icon}";
+            format = "{name}";
+            persistent-workspaces = {
+              "1" = [];
+              "2" = [];
+              "3" = [];
+              "4" = [];
+              "5" = [];
+            };
             format-icons = {
               "1" = "1";
-              "2" = "2";
+              "2" = "2"; 
               "3" = "3";
               "4" = "4";
               "5" = "5";
@@ -60,12 +67,23 @@
             spacing = 10;
           };
 
-          # Audio
+          # Custom hypridle toggle (caffeine-like functionality)
+          "custom/hypridle" = {
+            format = "{}";
+            exec = ''if pgrep hypridle > /dev/null; then echo "󰅶"; else echo "󰛊"; fi'';
+            on-click = ''if pgrep hypridle > /dev/null; then pkill hypridle && notify-send "Hypridle" "Disabled"; else hypridle & notify-send "Hypridle" "Enabled"; fi'';
+            tooltip-format = "Toggle hypridle (caffeine mode)";
+            interval = 5;
+          };
+
+          # Audio with proper icons
           pulseaudio = {
-            format = "{volume}% {icon}";
-            format-bluetooth = "{volume}% {icon}";
-            format-bluetooth-muted = " {icon}";
-            format-muted = "";
+            format = "{icon} {volume}%";
+            format-bluetooth = "{icon}  {volume}%";
+            format-bluetooth-muted = " ";
+            format-muted = " ";
+            format-source = "{volume}% ";
+            format-source-muted = "";
             format-icons = {
               headphone = "";
               hands-free = "";
@@ -76,43 +94,47 @@
               default = ["" "" ""];
             };
             on-click = "pavucontrol";
+            tooltip-format = "Volume: {volume}%";
           };
 
-          # Network
+          # Network with dynamic icons
           network = {
-            format-wifi = "{essid} ";
-            format-ethernet = "{ipaddr}/{cidr} ";
-            tooltip-format = "{ifname} via {gwaddr} ";
-            format-linked = "{ifname} (No IP) ";
-            format-disconnected = "Disconnected ⚠";
+            format-wifi = "  {signalStrength}%";
+            format-ethernet = " ";
+            tooltip-format = "{essid} ({signalStrength}%) - {ipaddr}/{cidr}";
+            format-linked = "  No IP";
+            format-disconnected = " ";
             format-alt = "{ifname}: {ipaddr}/{cidr}";
-            on-click-right = "nm-connection-editor";
+            on-click = "nm-connection-editor";
+            interval = 5;
           };
 
-          # Battery
+          # Battery with charging states and proper icons
           battery = {
             states = {
               warning = 30;
               critical = 15;
             };
-            format = "{capacity}% {icon}";
-            format-charging = "{capacity}% ";
-            format-plugged = "{capacity}% ";
-            format-alt = "{time} {icon}";
+            format = "{icon} {capacity}%";
+            format-charging = " {capacity}%";
+            format-plugged = " {capacity}%";
+            format-full = " {capacity}%";
+            format-alt = "{icon} {time}";
             format-icons = ["" "" "" "" ""];
+            tooltip-format = "{capacity}% - {timeTo}";
           };
 
-          # Clock
+          # Clock with icon
           clock = {
+            format = "  {:%H:%M}";
+            format-alt = "  {:%a %b %d}";
             tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-            format = "{:%a %b %d  %I:%M %p}";
-            format-alt = "{:%Y-%m-%d}";
           };
         };
       };
 
       style = ''
-        /* Catppuccin Mocha color scheme */
+        /* Minimal Catppuccin Mocha - colored text, uniform backgrounds */
         * {
           border: none;
           border-radius: 0;
@@ -138,25 +160,29 @@
         }
 
         #workspaces button {
-          padding: 0 8px;
+          padding: 0 12px;
           background-color: transparent;
           color: #6c7086; /* Catppuccin Mocha overlay1 */
+          margin: 0 2px;
+          transition: all 0.3s ease;
         }
 
         #workspaces button:hover {
-          background-color: #45475a; /* Catppuccin Mocha surface2 */
+          background-color: #313244; /* Catppuccin Mocha surface0 */
           color: #cdd6f4; /* Catppuccin Mocha text */
-          box-shadow: inherit;
+          border-radius: 6px;
         }
 
         #workspaces button.active {
-          background-color: #89b4fa; /* Catppuccin Mocha blue */
-          color: #1e1e2e; /* Catppuccin Mocha base */
+          background-color: #313244; /* Catppuccin Mocha surface0 */
+          color: #89b4fa; /* Catppuccin Mocha blue */
+          border-radius: 6px;
         }
 
         #workspaces button.urgent {
-          background-color: #f38ba8; /* Catppuccin Mocha pink */
-          color: #1e1e2e; /* Catppuccin Mocha base */
+          background-color: #313244; /* Catppuccin Mocha surface0 */
+          color: #f38ba8; /* Catppuccin Mocha pink */
+          border-radius: 6px;
         }
 
         #window,
@@ -172,21 +198,65 @@
           margin-right: 0;
         }
 
+        /* All modules have uniform background, colored text */
         #clock,
         #battery,
         #pulseaudio,
         #network,
-        #tray {
-          padding: 0 10px;
-          margin: 0 3px;
-          border-radius: 6px;
-          background-color: #313244; /* Catppuccin Mocha surface0 */
-          color: #cdd6f4; /* Catppuccin Mocha text */
+        #tray,
+        #custom-hypridle {
+          padding: 0 12px;
+          margin: 0 2px;
+          background-color: transparent;
+          border-radius: 0;
         }
 
         #window {
           font-weight: normal;
           padding: 0 10px;
+          color: #cdd6f4; /* Catppuccin Mocha text */
+        }
+
+        /* Colored text for different modules */
+        #pulseaudio {
+          color: #fab387; /* Catppuccin Mocha peach */
+        }
+
+        #network {
+          color: #89dceb; /* Catppuccin Mocha sky */
+        }
+
+        #network.disconnected {
+          color: #f38ba8; /* Catppuccin Mocha pink */
+        }
+
+        #battery {
+          color: #a6e3a1; /* Catppuccin Mocha green */
+        }
+
+        #battery.warning {
+          color: #f9e2af; /* Catppuccin Mocha yellow */
+        }
+
+        #battery.critical:not(.charging) {
+          color: #f38ba8; /* Catppuccin Mocha pink */
+          animation-name: blink;
+          animation-duration: 0.5s;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+        }
+
+        #clock {
+          color: #b4befe; /* Catppuccin Mocha lavender */
+        }
+
+        #custom-hypridle {
+          color: #f9e2af; /* Catppuccin Mocha yellow */
+          font-size: 16px;
+        }
+
+        #tray {
           color: #cdd6f4; /* Catppuccin Mocha text */
         }
 
@@ -196,48 +266,18 @@
 
         #tray > .needs-attention {
           -gtk-icon-effect: highlight;
-          background-color: #f9e2af; /* Catppuccin Mocha yellow */
-        }
-
-        #battery.charging, #battery.plugged {
-          background-color: #a6e3a1; /* Catppuccin Mocha green */
-          color: #1e1e2e; /* Catppuccin Mocha base */
-        }
-
-        #pulseaudio {
-          background-color: #fab387; /* Catppuccin Mocha peach */
-          color: #1e1e2e; /* Catppuccin Mocha base */
-        }
-
-        #network {
-          background-color: #89dceb; /* Catppuccin Mocha sky */
-          color: #1e1e2e; /* Catppuccin Mocha base */
-        }
-
-        #clock {
-          background-color: #b4befe; /* Catppuccin Mocha lavender */
-          color: #1e1e2e; /* Catppuccin Mocha base */
+          color: #f9e2af; /* Catppuccin Mocha yellow */
         }
 
         @keyframes blink {
           to {
-            background-color: #cdd6f4; /* Catppuccin Mocha text */
-            color: #1e1e2e; /* Catppuccin Mocha base */
+            color: #cdd6f4; /* Catppuccin Mocha text */
           }
         }
 
-        #battery.critical:not(.charging) {
-          background-color: #f38ba8; /* Catppuccin Mocha pink */
-          color: #cdd6f4; /* Catppuccin Mocha text */
-          animation-name: blink;
-          animation-duration: 0.5s;
-          animation-timing-function: linear;
-          animation-iteration-count: infinite;
-          animation-direction: alternate;
-        }
-
         label:focus {
-          background-color: #45475a; /* Catppuccin Mocha surface2 */
+          background-color: #313244; /* Catppuccin Mocha surface0 */
+          border-radius: 6px;
         }
       '';
     };
