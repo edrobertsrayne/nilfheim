@@ -30,12 +30,7 @@ in {
       xwayland.enable = true;
     };
 
-    # Display manager
-    services.displayManager = {
-      ly = {
-        enable = true;
-      };
-    };
+    # Display manager handled by GNOME module when both are enabled
 
     # Audio
     security.rtkit.enable = true;
@@ -72,9 +67,6 @@ in {
       hyprpicker
       wlogout
 
-      # Plugin manager
-      hyprpm
-
       # App launcher
       rofi-wayland
 
@@ -110,7 +102,7 @@ in {
 
       # File manager
       nautilus
-      thunar
+      xfce.thunar
 
       # System monitor
       btop
@@ -627,59 +619,6 @@ in {
               keybind = "r";
             }
           ];
-
-          style = ''
-            * {
-              background-image: none;
-              box-shadow: none;
-            }
-
-            window {
-              background-color: rgba(12, 12, 12, 0.9);
-            }
-
-            button {
-              border-radius: 0;
-              border-color: white;
-              text-decoration-color: white;
-              color: white;
-              background-color: rgba(12, 12, 12, 0.3);
-              border-style: solid;
-              border-width: 1px;
-              background-repeat: no-repeat;
-              background-position: center;
-              background-size: 25%;
-            }
-
-            button:focus, button:active, button:hover {
-              background-color: rgba(12, 12, 12, 0.5);
-              outline-style: none;
-            }
-
-            #lock {
-              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/lock.png"));
-            }
-
-            #logout {
-              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/logout.png"));
-            }
-
-            #suspend {
-              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/suspend.png"));
-            }
-
-            #hibernate {
-              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/hibernate.png"));
-            }
-
-            #shutdown {
-              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/shutdown.png"));
-            }
-
-            #reboot {
-              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/reboot.png"));
-            }
-          '';
         };
       };
 
@@ -718,124 +657,6 @@ in {
             hide-on-action = true;
             script-fail-notify = true;
           };
-
-          style = ''
-            .floating-notifications.background .notification-row .notification-background {
-              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-              border-radius: 12.6px;
-              margin: 18px;
-              background-color: rgba(46, 52, 64, 0.7);
-              color: white;
-              padding: 0;
-            }
-
-            .floating-notifications.background .notification-row .notification-background .notification {
-              padding: 7px;
-              border-radius: 12.6px;
-            }
-
-            .floating-notifications.background .notification-row .notification-background .notification.critical {
-              box-shadow: inset 0 0 7px 0 rgba(235, 160, 172, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-            }
-
-            .floating-notifications.background .notification-row .notification-background .notification .notification-content {
-              margin: 7px;
-            }
-
-            .floating-notifications.background .notification-row .notification-background .notification .notification-content .summary {
-              color: white;
-            }
-
-            .floating-notifications.background .notification-row .notification-background .notification .notification-content .time {
-              color: rgba(255, 255, 255, 0.7);
-            }
-
-            .floating-notifications.background .notification-row .notification-background .notification .notification-content .body {
-              color: rgba(255, 255, 255, 0.7);
-            }
-
-            .control-center {
-              box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-              border-radius: 12.6px;
-              margin: 18px;
-              background-color: rgba(46, 52, 64, 0.7);
-              color: white;
-              padding: 14px;
-            }
-
-            .control-center .widget-title > label {
-              color: white;
-              font-size: 1.3em;
-            }
-
-            .control-center .widget-title button {
-              border-radius: 7px;
-              color: white;
-              background-color: rgba(255, 255, 255, 0.1);
-              border: 1px solid rgba(255, 255, 255, 0.2);
-              box-shadow: none;
-              outline: none;
-            }
-
-            .control-center .notification-row .notification-background {
-              border-radius: 7px;
-              background-color: rgba(255, 255, 255, 0.1);
-              color: white;
-              margin-top: 14px;
-            }
-
-            .control-center .notification-row .notification-background .notification {
-              padding: 7px;
-              border-radius: 7px;
-            }
-
-            .control-center .notification-row .notification-background .notification.critical {
-              box-shadow: inset 0 0 7px 0 rgba(235, 160, 172, 0.5);
-            }
-
-            .control-center .notification-row .notification-background .notification .notification-content .summary {
-              color: white;
-            }
-
-            .control-center .notification-row .notification-background .notification .notification-content .time {
-              color: rgba(255, 255, 255, 0.7);
-            }
-
-            .control-center .notification-row .notification-background .notification .notification-content .body {
-              color: rgba(255, 255, 255, 0.7);
-            }
-
-            .close-button {
-              background: rgba(255, 255, 255, 0.1);
-              color: white;
-              text-shadow: none;
-              padding: 0;
-              border-radius: 50%;
-              margin-top: 10px;
-              margin-right: 16px;
-            }
-
-            .close-button:hover {
-              box-shadow: none;
-              background: rgba(255, 255, 255, 0.2);
-              transition: all 0.15s ease-in-out;
-              border: none;
-            }
-
-            .notification-action {
-              border: 2px solid rgba(255, 255, 255, 0.2);
-              border-top: none;
-              border-radius: 0 0 7px 7px;
-              background-color: rgba(68, 71, 90, 0.7);
-              color: white;
-            }
-
-            .notification-default-action:hover,
-            .notification-action:hover {
-              color: white;
-              background: rgba(255, 255, 255, 0.1);
-            }
-          '';
         };
 
         # Hypridle idle daemon configuration
