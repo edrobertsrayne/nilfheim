@@ -9,7 +9,9 @@ This document contains all keyboard shortcuts configured for the Hyprland window
 | Shortcut | Action | Description |
 |----------|---------|-------------|
 | `Super + Enter` | Launch Terminal | Opens foot terminal |
-| `Super + R` | App Launcher | Opens rofi application launcher |
+| `Super + Space` | App Launcher | Opens rofi application launcher |
+| `Super + B` | Launch Browser | Opens Firefox browser |
+| `Super + R` | App Launcher | Opens rofi application launcher (alternative) |
 | `Super + E` | File Manager | Opens Nautilus file manager |
 | `Super + Shift + E` | Alternative File Manager | Opens Thunar file manager |
 | `Super + L` | Lock Screen | Activates hyprlock screen locker |
@@ -163,11 +165,13 @@ The workspaces are organized thematically:
 
 ## 💡 Tips
 
-1. **Floating Windows**: Use `Super + V` to toggle floating mode for any window
-2. **Quick Access**: The scratchpad (`Super + S`) is great for temporary windows
-3. **Screenshots**: Use the interactive screenshot tools for quick editing
-4. **Focus**: Both arrow keys and vim-style navigation (hjkl) work for focus movement
-5. **Efficiency**: Mouse wheel navigation with Super key for quick workspace switching
+1. **Quick Launch**: `Super + Space` is the fastest way to launch applications
+2. **Browser Access**: `Super + B` for instant Firefox access
+3. **Floating Windows**: Use `Super + V` to toggle floating mode for any window
+4. **Quick Access**: The scratchpad (`Super + S`) is great for temporary windows
+5. **Screenshots**: Use the interactive screenshot tools for quick editing
+6. **Focus**: Both arrow keys and vim-style navigation (hjkl) work for focus movement
+7. **Efficiency**: Mouse wheel navigation with Super key for quick workspace switching
 
 ---
 

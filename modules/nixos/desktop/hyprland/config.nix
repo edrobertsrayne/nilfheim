@@ -127,6 +127,8 @@ _: {
       bind = [
         # Applications
         "$mod, Return, exec, foot"
+        "$mod, Space, exec, rofi -show drun"
+        "$mod, B, exec, firefox"
         "$mod, Q, killactive"
         "$mod, M, exit"
         "$mod, E, exec, nautilus"
