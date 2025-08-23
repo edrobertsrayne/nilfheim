@@ -51,7 +51,6 @@ _: {
           passes = 1;
           vibrancy = 0.1696;
         };
-        "drop_shadow" = false;
       };
 
       # Animations
