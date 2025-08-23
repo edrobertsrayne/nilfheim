@@ -316,9 +316,17 @@ in {
             "$mod, mouse_down, workspace, e+1"
             "$mod, mouse_up, workspace, e-1"
 
-            # Screenshot
+            # Screenshots (grim + slurp + swappy)
             ", Print, exec, grim -g \"$(slurp)\" - | swappy -f -"
             "$mod, Print, exec, grim - | swappy -f -"
+            "$mod SHIFT, S, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png"
+            "$mod SHIFT, Print, exec, grim ~/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png"
+            "$mod ALT, Print, exec, grim -g \"$(slurp)\" - | wl-copy"
+
+            # Screenshots (hyprshot - Hyprland optimized)
+            "$mod CTRL, Print, exec, hyprshot -m output -o ~/Pictures/Screenshots"
+            "$mod CTRL, S, exec, hyprshot -m region -o ~/Pictures/Screenshots"
+            "$mod CTRL SHIFT, S, exec, hyprshot -m window -o ~/Pictures/Screenshots"
 
             # Audio controls
             ", XF86AudioRaiseVolume, exec, pamixer -i 5"
@@ -748,6 +756,9 @@ in {
         };
       };
 
+      # Create Screenshots directory
+      home.file."Pictures/Screenshots/.keep".text = "";
+
       # Additional utility programs
       home.packages = with pkgs; [
         # Wallpaper manager
@@ -761,6 +772,7 @@ in {
         grim
         slurp
         swappy
+        hyprshot # Hyprland-specific screenshot tool
       ];
     };
   };
