@@ -74,5 +74,11 @@ in {
     vlc
     # kicad
     bambu-studio
+
+    # Desktop applications
+    discord
+    gimp
+    inkscape
+    zathura
   ];
 }
