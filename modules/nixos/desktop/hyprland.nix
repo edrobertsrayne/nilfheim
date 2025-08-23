@@ -120,16 +120,7 @@ in {
       # System monitor
       btop
 
-      # Communication
-      discord
-
-      # Document viewer
-      zathura
-
-      # Media and graphics
-      vlc
-      gimp
-      inkscape
+      # Applications moved to workstation role for broader availability
 
       # Authentication
       polkit_gnome
@@ -137,9 +128,13 @@ in {
 
     # Home Manager configuration
     home-manager.users.${user.name} = mkMerge [
-      (mkIf cfg.enable (import ./hyprland/config.nix null))
-      (mkIf cfg.enable (import ./hyprland/programs.nix {inherit pkgs;}))
-      (mkIf cfg.enable (import ./hyprland/services.nix null))
+      (mkIf cfg.enable {
+        imports = [
+          ./hyprland/config.nix
+          ./hyprland/programs.nix
+          ./hyprland/services.nix
+        ];
+      })
       (mkIf cfg.enable {
         # Create Screenshots directory
         home.file."Pictures/Screenshots/.keep".text = "";
