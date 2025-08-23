@@ -11,6 +11,7 @@
 ## ⚠️ High Priority Infrastructure
 
 - [X] Add nginx proxyWebSockets to all exposed services
+- [X] Add NFS server/client for shared storage over tailscale network
 - [ ] Create Restic backup service (`modules/nixos/services/utilities/restic.nix`)
 - [X] Enable ZFS auto-snapshots with retention policies
 - [ ] Add backup monitoring with Prometheus integration
@@ -30,11 +31,11 @@
 - [X] Standardize service configuration patterns
 - [X] Centralize port assignments
 - [X] Create service category modules (implemented selectively - only mkArrService abstraction provides value)
+- [X] Eliminate mount point path duplication using centralized constants
+- [X] Consolidate ZFS snapshot retention settings
 
 ## 🛡️ Enhanced Security
 
-- [ ] Add Authelia for SSO
-- [ ] Configure service integration with Authelia
 - [ ] Implement fail2ban for intrusion prevention
 - [ ] Review Tailscale security settings
 - [ ] Enhance Samba security restrictions
