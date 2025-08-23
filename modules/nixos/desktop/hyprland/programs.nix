@@ -112,6 +112,7 @@
       };
 
       style = ''
+        /* Catppuccin Mocha color scheme */
         * {
           border: none;
           border-radius: 0;
@@ -122,8 +123,9 @@
         }
 
         window#waybar {
-          background-color: transparent;
-          border-bottom: 3px solid transparent;
+          background-color: #1e1e2e; /* Catppuccin Mocha base */
+          color: #cdd6f4; /* Catppuccin Mocha text */
+          border-bottom: 3px solid #313244; /* Catppuccin Mocha surface0 */
           transition-property: background-color;
           transition-duration: 0.5s;
         }
@@ -132,23 +134,29 @@
           box-shadow: inset 0 -3px transparent;
           border: none;
           border-radius: 0;
+          color: #cdd6f4; /* Catppuccin Mocha text */
         }
 
         #workspaces button {
           padding: 0 8px;
           background-color: transparent;
+          color: #6c7086; /* Catppuccin Mocha overlay1 */
         }
 
         #workspaces button:hover {
+          background-color: #45475a; /* Catppuccin Mocha surface2 */
+          color: #cdd6f4; /* Catppuccin Mocha text */
           box-shadow: inherit;
         }
 
         #workspaces button.active {
-          background-color: rgba(255, 255, 255, 0.1);
+          background-color: #89b4fa; /* Catppuccin Mocha blue */
+          color: #1e1e2e; /* Catppuccin Mocha base */
         }
 
         #workspaces button.urgent {
-          background-color: #eb4d4b;
+          background-color: #f38ba8; /* Catppuccin Mocha pink */
+          color: #1e1e2e; /* Catppuccin Mocha base */
         }
 
         #window,
@@ -172,11 +180,14 @@
           padding: 0 10px;
           margin: 0 3px;
           border-radius: 6px;
+          background-color: #313244; /* Catppuccin Mocha surface0 */
+          color: #cdd6f4; /* Catppuccin Mocha text */
         }
 
         #window {
           font-weight: normal;
           padding: 0 10px;
+          color: #cdd6f4; /* Catppuccin Mocha text */
         }
 
         #tray > .passive {
@@ -185,22 +196,39 @@
 
         #tray > .needs-attention {
           -gtk-icon-effect: highlight;
+          background-color: #f9e2af; /* Catppuccin Mocha yellow */
         }
 
         #battery.charging, #battery.plugged {
-          background-color: #26A65B;
+          background-color: #a6e3a1; /* Catppuccin Mocha green */
+          color: #1e1e2e; /* Catppuccin Mocha base */
+        }
+
+        #pulseaudio {
+          background-color: #fab387; /* Catppuccin Mocha peach */
+          color: #1e1e2e; /* Catppuccin Mocha base */
+        }
+
+        #network {
+          background-color: #89dceb; /* Catppuccin Mocha sky */
+          color: #1e1e2e; /* Catppuccin Mocha base */
+        }
+
+        #clock {
+          background-color: #b4befe; /* Catppuccin Mocha lavender */
+          color: #1e1e2e; /* Catppuccin Mocha base */
         }
 
         @keyframes blink {
           to {
-            background-color: #ffffff;
-            color: #000000;
+            background-color: #cdd6f4; /* Catppuccin Mocha text */
+            color: #1e1e2e; /* Catppuccin Mocha base */
           }
         }
 
         #battery.critical:not(.charging) {
-          background-color: #f53c3c;
-          color: #ffffff;
+          background-color: #f38ba8; /* Catppuccin Mocha pink */
+          color: #cdd6f4; /* Catppuccin Mocha text */
           animation-name: blink;
           animation-duration: 0.5s;
           animation-timing-function: linear;
@@ -209,7 +237,7 @@
         }
 
         label:focus {
-          background-color: #000000;
+          background-color: #45475a; /* Catppuccin Mocha surface2 */
         }
       '';
     };
