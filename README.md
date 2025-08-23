@@ -50,7 +50,8 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 - **📥 Downloads**: *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr), Transmission, Recyclarr, Flaresolverr
 - **📈 Monitoring**: Grafana, Prometheus, AlertManager, Uptime Kuma, Glances, Loki, Promtail
 - **🌐 Network**: Nginx reverse proxy, Blocky DNS, Tailscale, SSH, Cloudflared tunnels
-- **🛠️ Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Samba shares, Stirling PDF, N8N automation
+- **💾 Storage**: NFS server for shared storage over tailscale network, Samba shares for local access
+- **🛠️ Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Stirling PDF, N8N automation
 - **🐳 Virtualization**: Podman containers (Home Assistant, Tdarr)
 
 ### 💻 Freya - Desktop/Laptop
@@ -58,6 +59,7 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 - **👨‍💻 Development**: VSCode, Firefox, Foot terminal
 - **🎨 Creative**: Arduino IDE, Spotify, Obsidian
 - **🖱️ Virtualization**: virt-manager support
+- **💾 Storage**: NFS client for accessing Thor's shared storage
 
 ### 🍎 Odin - macOS
 - **🍺 Homebrew**: Managed application installation
@@ -105,7 +107,7 @@ nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host 
 - **🔐 Secrets**: agenix encrypted secrets management with age keys
 - **🌐 Network**: Tailscale mesh VPN for secure remote access
 - **🛡️ Isolation**: Firewall configuration per service with minimal exposure
-- **💾 Storage**: Samba with authentication, encryption, and access controls
+- **💾 Storage**: NFS over tailscale network, Samba with authentication and access controls
 - **🔀 Proxying**: Nginx reverse proxy with WebSocket support
 - **🌉 Tunneling**: Cloudflared secure tunnels for external access
 

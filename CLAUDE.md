@@ -257,21 +257,67 @@ services.nginx.virtualHosts."${cfg.url}" = {
 **Configuration:**
 
 ```nix
-services.zfs.autoSnapshot = {
+services.zfs.autoSnapshot = constants.snapshotRetention // {
   enable = true;
-  frequent = 4;   # 15-minute snapshots
-  hourly = 24;
-  daily = 7;
-  weekly = 4;
-  monthly = 12;
 };
 ```
+
+**Standard Retention Policy (from lib/constants.nix):**
+- frequent = 4 (15-minute snapshots)
+- hourly = 24
+- daily = 14 (2 weeks)
+- weekly = 8 (2 months)  
+- monthly = 6 (6 months)
 
 **Requirements:**
 
 - ZFS datasets must have `com.sun:auto-snapshot=true` property
 - Only for NixOS systems with ZFS pools
 - Not applicable to Darwin or non-ZFS systems
+
+### NFS Shared Storage
+
+**Server Configuration (Thor):**
+
+```nix
+services.nfs-server = {
+  enable = true;
+  shares = {
+    downloads = {
+      source = constants.paths.downloads;  # Uses centralized paths
+      permissions = "rw";
+    };
+    media = {
+      source = constants.paths.media;
+      permissions = "ro";
+    };
+    # ... additional shares
+  };
+};
+```
+
+**Client Configuration (Freya):**
+
+```nix
+services.nfs-client = {
+  enable = true;
+  server = "thor";  # Uses tailscale MagicDNS
+  mounts = {
+    media = {
+      remotePath = "/media";
+      localPath = "/mnt/media";
+      options = ["soft" "intr" "bg" "vers=4" "ro"];
+    };
+    # ... additional mounts
+  };
+};
+```
+
+**Features:**
+- Automatic export over tailscale network (100.64.0.0/10)
+- Proper firewall configuration for NFS ports (2049, 111, 20048)
+- Soft mounting with background and interrupt support
+- Integration with existing Samba shares
 
 ## Service Development Guidelines
 
@@ -301,8 +347,17 @@ services.zfs.autoSnapshot = {
 ### Refactoring Existing Services
 1. Identify code duplication patterns
 2. Consider if abstraction would benefit (see guidelines above)
-3. Test thoroughly with `nixos-rebuild build-vm`
-4. Ensure `just check` passes with zero warnings
+3. **CRITICAL**: Only add abstraction if it has immediate benefit - avoid creating unused layers
+4. Focus on eliminating actual duplication (paths, settings, configurations)
+5. Test thoroughly with `nixos-rebuild build-vm`
+6. Ensure `just check` passes with zero warnings
+
+### Refactoring Best Practices
+- **Immediate Benefit Only**: Don't create abstractions that aren't actively used
+- **Single Source of Truth**: Eliminate duplicate definitions across files
+- **Use Existing Centralization**: Reference `lib/constants.nix` for paths, ports, settings
+- **Keep It Simple**: Prefer simple reference to constants over complex abstractions
+- **Test Impact**: Ensure refactoring doesn't break existing functionality
 
 ## Code Quality Standards
 
