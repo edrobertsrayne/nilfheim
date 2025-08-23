@@ -52,8 +52,16 @@ in {
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
       ];
+      config.common.default = ["hyprland" "gtk"];
     };
+
+    # Polkit for authentication
+    security.polkit.enable = true;
+
+    # Enable gamemode for gaming
+    programs.gamemode.enable = true;
 
     # System packages for Hyprland ecosystem
     environment.systemPackages = with pkgs; [
@@ -63,6 +71,9 @@ in {
       hypridle
       hyprpicker
       wlogout
+
+      # Plugin manager
+      hyprpm
 
       # App launcher
       rofi-wayland
@@ -91,11 +102,21 @@ in {
       playerctl
       pamixer
 
+      # Clipboard management
+      cliphist
+
+      # Network management
+      networkmanagerapplet
+
       # File manager
       nautilus
+      thunar
 
       # System monitor
       btop
+
+      # Authentication
+      polkit_gnome
     ];
 
     # Home Manager configuration
@@ -118,6 +139,9 @@ in {
             "XDG_SESSION_DESKTOP,Hyprland"
             "MOZ_ENABLE_WAYLAND,1"
             "MOZ_WEBRENDER,1"
+            "NIXOS_OZONE_WL,1"
+            "GBM_BACKEND,nvidia-drm"
+            "__GLX_VENDOR_LIBRARY_NAME,nvidia"
           ];
 
           # Input configuration
@@ -192,6 +216,14 @@ in {
             "float,^(pavucontrol)$"
             "float,^(nm-connection-editor)$"
             "float,^(file-roller)$"
+            "float,^(thunar)$"
+            "float,^(cliphist)$"
+            "float,^(polkit-gnome-authentication-agent-1)$"
+            "float,^(gcr-prompter)$"
+            "float,title:^(Picture-in-Picture)$"
+            "pin,title:^(Picture-in-Picture)$"
+            "opacity 0.85,^(thunar)$"
+            "opacity 0.9,^(foot)$"
           ];
 
           # Workspace rules
@@ -217,6 +249,8 @@ in {
             "$mod, J, togglesplit"
             "$mod, F, fullscreen"
             "$mod, L, exec, hyprlock"
+            "$mod SHIFT, E, exec, thunar"
+            "$mod SHIFT, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
 
             # Move focus
             "$mod, left, movefocus, l"
@@ -291,6 +325,10 @@ in {
             "swaync"
             "hyprpaper"
             "hypridle"
+            "nm-applet --indicator"
+            "/run/current-system/sw/libexec/polkit-gnome-authentication-agent-1"
+            "wl-paste --type text --watch cliphist store"
+            "wl-paste --type image --watch cliphist store"
           ];
         };
       };
