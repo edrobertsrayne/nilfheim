@@ -1,23 +1,25 @@
 {username, ...}: let
+  constants = import ../../lib/constants.nix;
+
   # Centralized share configuration to reduce duplication
   shareConfig = {
     downloads = {
-      path = "/mnt/downloads";
+      path = constants.paths.downloads;
       nfsPermissions = "rw";
       sambaReadOnly = false;
     };
     media = {
-      path = "/mnt/media";
+      path = constants.paths.media;
       nfsPermissions = "ro";
       sambaReadOnly = true;
     };
     backup = {
-      path = "/mnt/backup";
+      path = constants.paths.backup;
       nfsPermissions = "rw";
       sambaReadOnly = false;
     };
     share = {
-      path = "/mnt/share";
+      path = constants.paths.share;
       nfsPermissions = "rw";
       sambaReadOnly = false;
     };
@@ -44,13 +46,11 @@ in {
   # Configure services
   services = {
     # Configure ZFS auto-snapshots for /srv directory
-    zfs.autoSnapshot = {
-      enable = true;
-      # Keep more snapshots to match previous retention policy
-      daily = 14; # Keep 14 daily snapshots (2 weeks)
-      weekly = 8; # Keep 8 weekly snapshots (2 months)
-      monthly = 6; # Keep 6 monthly snapshots (6 months)
-    };
+    zfs.autoSnapshot =
+      constants.snapshotRetention
+      // {
+        enable = true;
+      };
 
     # Configure SMART monitoring with explicit devices
     smartctl-exporter = {

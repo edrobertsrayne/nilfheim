@@ -82,8 +82,10 @@
     usenet = "/mnt/downloads/usenet";
 
     # Backup paths
+    backup = "/mnt/backup";
     backups = "/mnt/backups";
     snapshots = "/mnt/snapshots";
+    share = "/mnt/share";
 
     # Configuration paths
     configs = "/etc/nixos";
@@ -169,9 +171,9 @@
   snapshotRetention = {
     frequent = 4; # 15-minute snapshots
     hourly = 24;
-    daily = 7;
-    weekly = 4;
-    monthly = 12;
+    daily = 14; # Keep 14 daily snapshots (2 weeks) - Thor's current setting
+    weekly = 8; # Keep 8 weekly snapshots (2 months) - Thor's current setting
+    monthly = 6; # Keep 6 monthly snapshots (6 months) - Thor's current setting
   };
 
   # Common user groups
