@@ -124,6 +124,11 @@ in {
       # Document viewer
       zathura
 
+      # Media and graphics
+      vlc
+      gimp
+      inkscape
+
       # Authentication
       polkit_gnome
     ];
@@ -240,15 +245,20 @@ in {
             "size 700 500,^(blueman-manager)$"
             "workspace 4,^(discord)$"
             "workspace 4,^(Discord)$"
+            "workspace 3,^(vlc)$"
+            "workspace 2,^(gimp)$"
+            "workspace 2,^(Gimp)$"
+            "workspace 2,^(inkscape)$"
+            "workspace 2,^(Inkscape)$"
           ];
 
           # Workspace rules
           workspace = [
-            "1, monitor:DP-1, default:true"
-            "2, monitor:DP-1"
-            "3, monitor:DP-1"
-            "4, monitor:DP-1"
-            "5, monitor:DP-1"
+            "1, monitor:DP-1, default:true" # General workspace
+            "2, monitor:DP-1" # Graphics/Design (GIMP, Inkscape)
+            "3, monitor:DP-1" # Media (VLC)
+            "4, monitor:DP-1" # Communication (Discord)
+            "5, monitor:DP-1" # Additional workspace
           ];
 
           # Key bindings
@@ -273,6 +283,11 @@ in {
             "$mod SHIFT, B, exec, blueman-manager"
             "$mod SHIFT, N, exec, nm-connection-editor"
             "$mod SHIFT, D, exec, discord"
+
+            # Media and graphics
+            "$mod SHIFT, V, exec, vlc"
+            "$mod SHIFT, G, exec, gimp"
+            "$mod SHIFT, I, exec, inkscape"
 
             # Move focus
             "$mod, left, movefocus, l"
