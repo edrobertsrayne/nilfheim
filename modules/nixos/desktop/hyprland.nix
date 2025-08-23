@@ -30,6 +30,7 @@ in {
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
+      withUWSM = true;
     };
 
     # Display manager handled by GNOME module when both are enabled
@@ -121,8 +122,6 @@ in {
 
       # Authentication
       hyprpolkitagent
-
-      # Applications moved to workstation role for broader availability
     ];
 
     # Home Manager configuration
