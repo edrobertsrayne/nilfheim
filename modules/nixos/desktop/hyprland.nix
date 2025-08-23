@@ -295,372 +295,568 @@ in {
         };
       };
 
-      # Rofi configuration
-      programs.rofi = {
-        enable = true;
-        package = pkgs.rofi-wayland;
-        terminal = "foot";
-        font = "JetBrainsMono Nerd Font 14";
-        extraConfig = {
-          modi = "drun,run";
-          icon-theme = "Papirus";
-          show-icons = true;
-          drun-display-format = "{icon} {name}";
-          disable-history = false;
-          hide-scrollbar = true;
-          display-drun = " Apps ";
-          display-run = " Run ";
-          sidebar-mode = true;
-        };
-      };
-
-      # Waybar configuration
-      programs.waybar = {
-        enable = true;
-        settings = {
-          mainBar = {
-            layer = "top";
-            position = "top";
-            height = 32;
-            spacing = 4;
-
-            modules-left = ["hyprland/workspaces" "hyprland/mode"];
-            modules-center = ["hyprland/window"];
-            modules-right = ["tray" "pulseaudio" "network" "battery" "clock"];
-
-            # Workspaces configuration
-            "hyprland/workspaces" = {
-              disable-scroll = true;
-              all-outputs = true;
-              format = "{icon}";
-              format-icons = {
-                "1" = "1";
-                "2" = "2";
-                "3" = "3";
-                "4" = "4";
-                "5" = "5";
-                default = "";
-              };
-            };
-
-            # Window title
-            "hyprland/window" = {
-              format = "{class}";
-              separate-outputs = true;
-              max-length = 50;
-            };
-
-            # System tray
-            tray = {
-              spacing = 10;
-            };
-
-            # Audio
-            pulseaudio = {
-              format = "{volume}% {icon}";
-              format-bluetooth = "{volume}% {icon}";
-              format-bluetooth-muted = " {icon}";
-              format-muted = "";
-              format-icons = {
-                headphone = "";
-                hands-free = "";
-                headset = "";
-                phone = "";
-                portable = "";
-                car = "";
-                default = ["" "" ""];
-              };
-              on-click = "pavucontrol";
-            };
-
-            # Network
-            network = {
-              format-wifi = "{essid} ";
-              format-ethernet = "{ipaddr}/{cidr} ";
-              tooltip-format = "{ifname} via {gwaddr} ";
-              format-linked = "{ifname} (No IP) ";
-              format-disconnected = "Disconnected ⚠";
-              format-alt = "{ifname}: {ipaddr}/{cidr}";
-              on-click-right = "nm-connection-editor";
-            };
-
-            # Battery
-            battery = {
-              states = {
-                warning = 30;
-                critical = 15;
-              };
-              format = "{capacity}% {icon}";
-              format-charging = "{capacity}% ";
-              format-plugged = "{capacity}% ";
-              format-alt = "{time} {icon}";
-              format-icons = ["" "" "" "" ""];
-            };
-
-            # Clock
-            clock = {
-              tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-              format = "{:%a %b %d  %I:%M %p}";
-              format-alt = "{:%Y-%m-%d}";
-            };
+      # Program configurations
+      programs = {
+        # Rofi configuration
+        rofi = {
+          enable = true;
+          package = pkgs.rofi-wayland;
+          terminal = "foot";
+          font = "JetBrainsMono Nerd Font 14";
+          extraConfig = {
+            modi = "drun,run";
+            icon-theme = "Papirus";
+            show-icons = true;
+            drun-display-format = "{icon} {name}";
+            disable-history = false;
+            hide-scrollbar = true;
+            display-drun = " Apps ";
+            display-run = " Run ";
+            sidebar-mode = true;
           };
         };
 
-        style = ''
-          * {
-            border: none;
-            border-radius: 0;
-            font-family: "JetBrainsMono Nerd Font";
-            font-weight: bold;
-            font-size: 13px;
-            min-height: 0;
-          }
+        # Waybar configuration
+        waybar = {
+          enable = true;
+          settings = {
+            mainBar = {
+              layer = "top";
+              position = "top";
+              height = 32;
+              spacing = 4;
 
-          window#waybar {
-            background-color: transparent;
-            border-bottom: 3px solid transparent;
-            transition-property: background-color;
-            transition-duration: 0.5s;
-          }
+              modules-left = ["hyprland/workspaces" "hyprland/mode"];
+              modules-center = ["hyprland/window"];
+              modules-right = ["tray" "pulseaudio" "network" "battery" "clock"];
 
-          button {
-            box-shadow: inset 0 -3px transparent;
-            border: none;
-            border-radius: 0;
-          }
+              # Workspaces configuration
+              "hyprland/workspaces" = {
+                disable-scroll = true;
+                all-outputs = true;
+                format = "{icon}";
+                format-icons = {
+                  "1" = "1";
+                  "2" = "2";
+                  "3" = "3";
+                  "4" = "4";
+                  "5" = "5";
+                  default = "";
+                };
+              };
 
-          #workspaces button {
-            padding: 0 8px;
-            background-color: transparent;
-          }
+              # Window title
+              "hyprland/window" = {
+                format = "{class}";
+                separate-outputs = true;
+                max-length = 50;
+              };
 
-          #workspaces button:hover {
-            box-shadow: inherit;
-          }
+              # System tray
+              tray = {
+                spacing = 10;
+              };
 
-          #workspaces button.active {
-            background-color: rgba(255, 255, 255, 0.1);
-          }
+              # Audio
+              pulseaudio = {
+                format = "{volume}% {icon}";
+                format-bluetooth = "{volume}% {icon}";
+                format-bluetooth-muted = " {icon}";
+                format-muted = "";
+                format-icons = {
+                  headphone = "";
+                  hands-free = "";
+                  headset = "";
+                  phone = "";
+                  portable = "";
+                  car = "";
+                  default = ["" "" ""];
+                };
+                on-click = "pavucontrol";
+              };
 
-          #workspaces button.urgent {
-            background-color: #eb4d4b;
-          }
+              # Network
+              network = {
+                format-wifi = "{essid} ";
+                format-ethernet = "{ipaddr}/{cidr} ";
+                tooltip-format = "{ifname} via {gwaddr} ";
+                format-linked = "{ifname} (No IP) ";
+                format-disconnected = "Disconnected ⚠";
+                format-alt = "{ifname}: {ipaddr}/{cidr}";
+                on-click-right = "nm-connection-editor";
+              };
 
-          #window,
-          #workspaces {
-            margin: 0 4px;
-          }
+              # Battery
+              battery = {
+                states = {
+                  warning = 30;
+                  critical = 15;
+                };
+                format = "{capacity}% {icon}";
+                format-charging = "{capacity}% ";
+                format-plugged = "{capacity}% ";
+                format-alt = "{time} {icon}";
+                format-icons = ["" "" "" "" ""];
+              };
 
-          .modules-left > widget:first-child > #workspaces {
-            margin-left: 0;
-          }
+              # Clock
+              clock = {
+                tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+                format = "{:%a %b %d  %I:%M %p}";
+                format-alt = "{:%Y-%m-%d}";
+              };
+            };
+          };
 
-          .modules-right > widget:last-child > #workspaces {
-            margin-right: 0;
-          }
-
-          #clock,
-          #battery,
-          #pulseaudio,
-          #network,
-          #tray {
-            padding: 0 10px;
-            margin: 0 3px;
-            border-radius: 6px;
-          }
-
-          #window {
-            font-weight: normal;
-            padding: 0 10px;
-          }
-
-          #tray > .passive {
-            -gtk-icon-effect: dim;
-          }
-
-          #tray > .needs-attention {
-            -gtk-icon-effect: highlight;
-          }
-
-          #battery.charging, #battery.plugged {
-            background-color: #26A65B;
-          }
-
-          @keyframes blink {
-            to {
-              background-color: #ffffff;
-              color: #000000;
+          style = ''
+            * {
+              border: none;
+              border-radius: 0;
+              font-family: "JetBrainsMono Nerd Font";
+              font-weight: bold;
+              font-size: 13px;
+              min-height: 0;
             }
-          }
 
-          #battery.critical:not(.charging) {
-            background-color: #f53c3c;
-            color: #ffffff;
-            animation-name: blink;
-            animation-duration: 0.5s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-          }
+            window#waybar {
+              background-color: transparent;
+              border-bottom: 3px solid transparent;
+              transition-property: background-color;
+              transition-duration: 0.5s;
+            }
 
-          label:focus {
-            background-color: #000000;
-          }
-        '';
-      };
+            button {
+              box-shadow: inset 0 -3px transparent;
+              border: none;
+              border-radius: 0;
+            }
 
-      # SwayNC (Sway Notification Center) configuration
-      services.swaync = {
-        enable = true;
-        settings = {
-          positionX = "right";
-          positionY = "top";
-          layer = "overlay";
-          control-center-layer = "top";
-          layer-shell = true;
-          cssPriority = "application";
-          control-center-margin-top = 8;
-          control-center-margin-bottom = 8;
-          control-center-margin-right = 8;
-          control-center-margin-left = 8;
-          notification-2fa-action = true;
-          notification-inline-replies = false;
-          notification-icon-size = 64;
-          notification-body-image-height = 100;
-          notification-body-image-width = 200;
-          timeout = 10;
-          timeout-low = 5;
-          timeout-critical = 0;
-          fit-to-screen = true;
-          control-center-width = 500;
-          control-center-height = 600;
-          notification-window-width = 500;
-          keyboard-shortcuts = true;
-          image-visibility = "when-available";
-          transition-time = 200;
-          hide-on-clear = false;
-          hide-on-action = true;
-          script-fail-notify = true;
+            #workspaces button {
+              padding: 0 8px;
+              background-color: transparent;
+            }
+
+            #workspaces button:hover {
+              box-shadow: inherit;
+            }
+
+            #workspaces button.active {
+              background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            #workspaces button.urgent {
+              background-color: #eb4d4b;
+            }
+
+            #window,
+            #workspaces {
+              margin: 0 4px;
+            }
+
+            .modules-left > widget:first-child > #workspaces {
+              margin-left: 0;
+            }
+
+            .modules-right > widget:last-child > #workspaces {
+              margin-right: 0;
+            }
+
+            #clock,
+            #battery,
+            #pulseaudio,
+            #network,
+            #tray {
+              padding: 0 10px;
+              margin: 0 3px;
+              border-radius: 6px;
+            }
+
+            #window {
+              font-weight: normal;
+              padding: 0 10px;
+            }
+
+            #tray > .passive {
+              -gtk-icon-effect: dim;
+            }
+
+            #tray > .needs-attention {
+              -gtk-icon-effect: highlight;
+            }
+
+            #battery.charging, #battery.plugged {
+              background-color: #26A65B;
+            }
+
+            @keyframes blink {
+              to {
+                background-color: #ffffff;
+                color: #000000;
+              }
+            }
+
+            #battery.critical:not(.charging) {
+              background-color: #f53c3c;
+              color: #ffffff;
+              animation-name: blink;
+              animation-duration: 0.5s;
+              animation-timing-function: linear;
+              animation-iteration-count: infinite;
+              animation-direction: alternate;
+            }
+
+            label:focus {
+              background-color: #000000;
+            }
+          '';
         };
 
-        style = ''
-          .floating-notifications.background .notification-row .notification-background {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-            border-radius: 12.6px;
-            margin: 18px;
-            background-color: rgba(46, 52, 64, 0.7);
-            color: white;
-            padding: 0;
-          }
+        # Hyprlock screen locker configuration
+        hyprlock = {
+          enable = true;
+          settings = {
+            general = {
+              disable_loading_bar = true;
+              grace = 300;
+              hide_cursor = true;
+              no_fade_in = false;
+            };
 
-          .floating-notifications.background .notification-row .notification-background .notification {
-            padding: 7px;
-            border-radius: 12.6px;
-          }
+            background = [
+              {
+                path = "screenshot";
+                blur_passes = 3;
+                blur_size = 8;
+              }
+            ];
 
-          .floating-notifications.background .notification-row .notification-background .notification.critical {
-            box-shadow: inset 0 0 7px 0 rgba(235, 160, 172, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-          }
+            input-field = [
+              {
+                size = "200, 50";
+                position = "0, -80";
+                monitor = "";
+                dots_center = true;
+                fade_on_empty = false;
+                font_color = "rgb(202, 211, 245)";
+                inner_color = "rgb(91, 96, 120)";
+                outer_color = "rgb(24, 25, 38)";
+                outline_thickness = 5;
+                placeholder_text = ''<span foreground="##cad3f5">Password...</span>'';
+                shadow_passes = 2;
+              }
+            ];
+          };
+        };
 
-          .floating-notifications.background .notification-row .notification-background .notification .notification-content {
-            margin: 7px;
-          }
+        # Wlogout configuration
+        wlogout = {
+          enable = true;
+          layout = [
+            {
+              label = "lock";
+              action = "hyprlock";
+              text = "Lock";
+              keybind = "l";
+            }
+            {
+              label = "hibernate";
+              action = "systemctl hibernate";
+              text = "Hibernate";
+              keybind = "h";
+            }
+            {
+              label = "logout";
+              action = "hyprctl dispatch exit";
+              text = "Logout";
+              keybind = "e";
+            }
+            {
+              label = "shutdown";
+              action = "systemctl poweroff";
+              text = "Shutdown";
+              keybind = "s";
+            }
+            {
+              label = "suspend";
+              action = "systemctl suspend";
+              text = "Suspend";
+              keybind = "u";
+            }
+            {
+              label = "reboot";
+              action = "systemctl reboot";
+              text = "Reboot";
+              keybind = "r";
+            }
+          ];
 
-          .floating-notifications.background .notification-row .notification-background .notification .notification-content .summary {
-            color: white;
-          }
+          style = ''
+            * {
+              background-image: none;
+              box-shadow: none;
+            }
 
-          .floating-notifications.background .notification-row .notification-background .notification .notification-content .time {
-            color: rgba(255, 255, 255, 0.7);
-          }
+            window {
+              background-color: rgba(12, 12, 12, 0.9);
+            }
 
-          .floating-notifications.background .notification-row .notification-background .notification .notification-content .body {
-            color: rgba(255, 255, 255, 0.7);
-          }
+            button {
+              border-radius: 0;
+              border-color: white;
+              text-decoration-color: white;
+              color: white;
+              background-color: rgba(12, 12, 12, 0.3);
+              border-style: solid;
+              border-width: 1px;
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: 25%;
+            }
 
-          .control-center {
-            box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
-            border-radius: 12.6px;
-            margin: 18px;
-            background-color: rgba(46, 52, 64, 0.7);
-            color: white;
-            padding: 14px;
-          }
+            button:focus, button:active, button:hover {
+              background-color: rgba(12, 12, 12, 0.5);
+              outline-style: none;
+            }
 
-          .control-center .widget-title > label {
-            color: white;
-            font-size: 1.3em;
-          }
+            #lock {
+              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/lock.png"));
+            }
 
-          .control-center .widget-title button {
-            border-radius: 7px;
-            color: white;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: none;
-            outline: none;
-          }
+            #logout {
+              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/logout.png"));
+            }
 
-          .control-center .notification-row .notification-background {
-            border-radius: 7px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            margin-top: 14px;
-          }
+            #suspend {
+              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/suspend.png"));
+            }
 
-          .control-center .notification-row .notification-background .notification {
-            padding: 7px;
-            border-radius: 7px;
-          }
+            #hibernate {
+              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/hibernate.png"));
+            }
 
-          .control-center .notification-row .notification-background .notification.critical {
-            box-shadow: inset 0 0 7px 0 rgba(235, 160, 172, 0.5);
-          }
+            #shutdown {
+              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/shutdown.png"));
+            }
 
-          .control-center .notification-row .notification-background .notification .notification-content .summary {
-            color: white;
-          }
-
-          .control-center .notification-row .notification-background .notification .notification-content .time {
-            color: rgba(255, 255, 255, 0.7);
-          }
-
-          .control-center .notification-row .notification-background .notification .notification-content .body {
-            color: rgba(255, 255, 255, 0.7);
-          }
-
-          .close-button {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-shadow: none;
-            padding: 0;
-            border-radius: 50%;
-            margin-top: 10px;
-            margin-right: 16px;
-          }
-
-          .close-button:hover {
-            box-shadow: none;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.15s ease-in-out;
-            border: none;
-          }
-
-          .notification-action {
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-top: none;
-            border-radius: 0 0 7px 7px;
-            background-color: rgba(68, 71, 90, 0.7);
-            color: white;
-          }
-
-          .notification-default-action:hover,
-          .notification-action:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-          }
-        '';
+            #reboot {
+              background-image: image(url("${pkgs.wlogout}/share/wlogout/icons/reboot.png"));
+            }
+          '';
+        };
       };
+
+      # Service configurations
+      services = {
+        # SwayNC (Sway Notification Center) configuration
+        swaync = {
+          enable = true;
+          settings = {
+            positionX = "right";
+            positionY = "top";
+            layer = "overlay";
+            control-center-layer = "top";
+            layer-shell = true;
+            cssPriority = "application";
+            control-center-margin-top = 8;
+            control-center-margin-bottom = 8;
+            control-center-margin-right = 8;
+            control-center-margin-left = 8;
+            notification-2fa-action = true;
+            notification-inline-replies = false;
+            notification-icon-size = 64;
+            notification-body-image-height = 100;
+            notification-body-image-width = 200;
+            timeout = 10;
+            timeout-low = 5;
+            timeout-critical = 0;
+            fit-to-screen = true;
+            control-center-width = 500;
+            control-center-height = 600;
+            notification-window-width = 500;
+            keyboard-shortcuts = true;
+            image-visibility = "when-available";
+            transition-time = 200;
+            hide-on-clear = false;
+            hide-on-action = true;
+            script-fail-notify = true;
+          };
+
+          style = ''
+            .floating-notifications.background .notification-row .notification-background {
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+              border-radius: 12.6px;
+              margin: 18px;
+              background-color: rgba(46, 52, 64, 0.7);
+              color: white;
+              padding: 0;
+            }
+
+            .floating-notifications.background .notification-row .notification-background .notification {
+              padding: 7px;
+              border-radius: 12.6px;
+            }
+
+            .floating-notifications.background .notification-row .notification-background .notification.critical {
+              box-shadow: inset 0 0 7px 0 rgba(235, 160, 172, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+            }
+
+            .floating-notifications.background .notification-row .notification-background .notification .notification-content {
+              margin: 7px;
+            }
+
+            .floating-notifications.background .notification-row .notification-background .notification .notification-content .summary {
+              color: white;
+            }
+
+            .floating-notifications.background .notification-row .notification-background .notification .notification-content .time {
+              color: rgba(255, 255, 255, 0.7);
+            }
+
+            .floating-notifications.background .notification-row .notification-background .notification .notification-content .body {
+              color: rgba(255, 255, 255, 0.7);
+            }
+
+            .control-center {
+              box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+              border-radius: 12.6px;
+              margin: 18px;
+              background-color: rgba(46, 52, 64, 0.7);
+              color: white;
+              padding: 14px;
+            }
+
+            .control-center .widget-title > label {
+              color: white;
+              font-size: 1.3em;
+            }
+
+            .control-center .widget-title button {
+              border-radius: 7px;
+              color: white;
+              background-color: rgba(255, 255, 255, 0.1);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              box-shadow: none;
+              outline: none;
+            }
+
+            .control-center .notification-row .notification-background {
+              border-radius: 7px;
+              background-color: rgba(255, 255, 255, 0.1);
+              color: white;
+              margin-top: 14px;
+            }
+
+            .control-center .notification-row .notification-background .notification {
+              padding: 7px;
+              border-radius: 7px;
+            }
+
+            .control-center .notification-row .notification-background .notification.critical {
+              box-shadow: inset 0 0 7px 0 rgba(235, 160, 172, 0.5);
+            }
+
+            .control-center .notification-row .notification-background .notification .notification-content .summary {
+              color: white;
+            }
+
+            .control-center .notification-row .notification-background .notification .notification-content .time {
+              color: rgba(255, 255, 255, 0.7);
+            }
+
+            .control-center .notification-row .notification-background .notification .notification-content .body {
+              color: rgba(255, 255, 255, 0.7);
+            }
+
+            .close-button {
+              background: rgba(255, 255, 255, 0.1);
+              color: white;
+              text-shadow: none;
+              padding: 0;
+              border-radius: 50%;
+              margin-top: 10px;
+              margin-right: 16px;
+            }
+
+            .close-button:hover {
+              box-shadow: none;
+              background: rgba(255, 255, 255, 0.2);
+              transition: all 0.15s ease-in-out;
+              border: none;
+            }
+
+            .notification-action {
+              border: 2px solid rgba(255, 255, 255, 0.2);
+              border-top: none;
+              border-radius: 0 0 7px 7px;
+              background-color: rgba(68, 71, 90, 0.7);
+              color: white;
+            }
+
+            .notification-default-action:hover,
+            .notification-action:hover {
+              color: white;
+              background: rgba(255, 255, 255, 0.1);
+            }
+          '';
+        };
+
+        # Hypridle idle daemon configuration
+        hypridle = {
+          enable = true;
+          settings = {
+            general = {
+              after_sleep_cmd = "hyprctl dispatch dpms on";
+              ignore_dbus_inhibit = false;
+              lock_cmd = "hyprlock";
+            };
+
+            listener = [
+              {
+                timeout = 900;
+                on-timeout = "hyprlock";
+              }
+              {
+                timeout = 1200;
+                on-timeout = "hyprctl dispatch dpms off";
+                on-resume = "hyprctl dispatch dpms on";
+              }
+            ];
+          };
+        };
+
+        # Hyprpaper wallpaper daemon configuration
+        hyprpaper = {
+          enable = true;
+          settings = {
+            ipc = "on";
+            splash = false;
+            splash_offset = 2.0;
+
+            preload = [
+              "~/Pictures/Wallpapers/among-trees-campsite.jpg"
+            ];
+
+            wallpaper = [
+              ",~/Pictures/Wallpapers/among-trees-campsite.jpg"
+            ];
+          };
+        };
+      };
+
+      # Additional utility programs
+      home.packages = with pkgs; [
+        # Wallpaper manager
+        waypaper
+
+        # Color picker
+        hyprpicker
+
+        # Additional utilities for screenshots and clipboard
+        wl-clipboard-rs
+        grim
+        slurp
+        swappy
+      ];
     };
   };
 }
