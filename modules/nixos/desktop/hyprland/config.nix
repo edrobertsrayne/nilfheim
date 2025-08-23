@@ -51,9 +51,7 @@ _: {
           passes = 1;
           vibrancy = 0.1696;
         };
-        drop_shadow = true;
-        shadow_range = 4;
-        shadow_render_power = 3;
+        "drop_shadow" = false;
       };
 
       # Animations
@@ -89,31 +87,31 @@ _: {
       };
 
       # Window rules
-      windowrule = [
-        "float,^(rofi)$"
-        "float,^(pavucontrol)$"
-        "float,^(blueman-manager)$"
-        "float,^(nm-connection-editor)$"
-        "float,^(file-roller)$"
-        "float,^(thunar)$"
-        "float,^(cliphist)$"
-        "float,^(polkit-gnome-authentication-agent-1)$"
-        "float,^(gcr-prompter)$"
+      windowrulev2 = [
+        "float,class:^(rofi)$"
+        "float,class:^(pavucontrol)$"
+        "float,class:^(blueman-manager)$"
+        "float,class:^(nm-connection-editor)$"
+        "float,class:^(file-roller)$"
+        "float,class:^(thunar)$"
+        "float,class:^(cliphist)$"
+        "float,class:^(polkit-gnome-authentication-agent-1)$"
+        "float,class:^(gcr-prompter)$"
         "float,title:^(Picture-in-Picture)$"
         "pin,title:^(Picture-in-Picture)$"
-        "opacity 0.85,^(thunar)$"
-        "opacity 0.9,^(foot)$"
-        "opacity 0.95,^(pavucontrol)$"
-        "opacity 0.95,^(blueman-manager)$"
-        "size 800 600,^(pavucontrol)$"
-        "size 700 500,^(blueman-manager)$"
-        "workspace 4,^(discord)$"
-        "workspace 4,^(Discord)$"
-        "workspace 3,^(vlc)$"
-        "workspace 2,^(gimp)$"
-        "workspace 2,^(Gimp)$"
-        "workspace 2,^(inkscape)$"
-        "workspace 2,^(Inkscape)$"
+        "opacity 0.85,class:^(thunar)$"
+        "opacity 0.9,class:^(foot)$"
+        "opacity 0.95,class:^(pavucontrol)$"
+        "opacity 0.95,class:^(blueman-manager)$"
+        "size 800 600,class:^(pavucontrol)$"
+        "size 700 500,class:^(blueman-manager)$"
+        "workspace 4,class:^(discord)$"
+        "workspace 4,class:^(Discord)$"
+        "workspace 3,class:^(vlc)$"
+        "workspace 2,class:^(gimp)$"
+        "workspace 2,class:^(Gimp)$"
+        "workspace 2,class:^(inkscape)$"
+        "workspace 2,class:^(Inkscape)$"
       ];
 
       # Workspace rules
@@ -228,12 +226,9 @@ _: {
         "$mod, mouse:273, resizewindow"
       ];
 
-      # Autostart
+      # Autostart (swaync, hyprpaper, hypridle handled by home-manager services)
       exec-once = [
         "waybar"
-        "swaync"
-        "hyprpaper"
-        "hypridle"
         "nm-applet --indicator"
         "/run/current-system/sw/libexec/polkit-gnome-authentication-agent-1"
         "wl-paste --type text --watch cliphist store"
