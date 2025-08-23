@@ -200,11 +200,11 @@ _: {
 
       /* Colored text for different modules */
       #pulseaudio {
-        color: #fab387; /* Catppuccin Mocha peach */
+        color: #cdd6f4; /* Catppuccin Mocha text */
       }
 
       #network {
-        color: #89dceb; /* Catppuccin Mocha sky */
+        color: #cdd6f4; /* Catppuccin Mocha text */
       }
 
       #network.disconnected {
@@ -212,7 +212,7 @@ _: {
       }
 
       #battery {
-        color: #a6e3a1; /* Catppuccin Mocha green */
+        color: #cdd6f4; /* Catppuccin Mocha text */
       }
 
       #battery.warning {
@@ -229,11 +229,11 @@ _: {
       }
 
       #clock {
-        color: #b4befe; /* Catppuccin Mocha lavender */
+        color: #cdd6f4; /* Catppuccin Mocha text */
       }
 
       #custom-hypridle {
-        color: #f9e2af; /* Catppuccin Mocha yellow */
+        color: #cdd6f4; /* Catppuccin Mocha text */
         font-size: 16px;
       }
 
