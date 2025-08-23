@@ -33,7 +33,7 @@ in {
       withUWSM = true;
     };
 
-    # Display manager handled by GNOME module when both are enabled
+    # Display manager handled by workstation role (GDM shared between desktops)
 
     # Audio
     security.rtkit.enable = true;

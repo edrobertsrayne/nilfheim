@@ -5,7 +5,7 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 ## 🏗️ Architecture
 
 - **🖥️ Hosts**: `freya` (ThinkPad T480s), `thor` (homelab server), `loki` (additional server), `odin` (macOS), `iso` (installer)
-- **🎭 Roles**: common, desktop, laptop, homelab, gaming
+- **🎭 Roles**: common, workstation, laptop, server, homelab, gaming, vps
 - **📦 Modules**: organized by platform (nixos/darwin/home) and functionality
 - **🔐 Secrets**: managed with agenix encryption
 
@@ -54,8 +54,9 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 - **🛠️ Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Stirling PDF, N8N automation
 - **🐳 Virtualization**: Podman containers (Home Assistant, Tdarr)
 
-### 💻 Freya - Desktop/Laptop
-- **🖥️ Desktop**: GNOME with custom theming and fonts
+### 💻 Freya - Workstation/Laptop
+- **🖥️ Desktop**: GNOME and Hyprland with shared GDM display manager
+- **🎨 Theming**: Catppuccin Mocha color scheme across all applications
 - **👨‍💻 Development**: VSCode, Firefox, Foot terminal
 - **🎨 Creative**: Arduino IDE, Spotify, Obsidian
 - **🖱️ Virtualization**: virt-manager support
