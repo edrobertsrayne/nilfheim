@@ -115,15 +115,14 @@ in {
 
       # File manager
       nautilus
-      xfce.thunar
 
       # System monitor
       btop
 
-      # Applications moved to workstation role for broader availability
-
       # Authentication
-      polkit_gnome
+      hyprpolkitagent
+
+      # Applications moved to workstation role for broader availability
     ];
 
     # Home Manager configuration
