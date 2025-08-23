@@ -58,6 +58,13 @@ in {
     # Enable gamemode for gaming
     programs.gamemode.enable = true;
 
+    # Enable Bluetooth
+    hardware.bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+    services.blueman.enable = true;
+
     # System packages for Hyprland ecosystem
     environment.systemPackages = with pkgs; [
       # Core Hyprland utilities
@@ -100,12 +107,22 @@ in {
       # Network management
       networkmanagerapplet
 
+      # System utilities
+      pavucontrol
+      blueman
+
       # File manager
       nautilus
       xfce.thunar
 
       # System monitor
       btop
+
+      # Communication
+      discord
+
+      # Document viewer
+      zathura
 
       # Authentication
       polkit_gnome
@@ -206,6 +223,7 @@ in {
           windowrule = [
             "float,^(rofi)$"
             "float,^(pavucontrol)$"
+            "float,^(blueman-manager)$"
             "float,^(nm-connection-editor)$"
             "float,^(file-roller)$"
             "float,^(thunar)$"
@@ -216,6 +234,12 @@ in {
             "pin,title:^(Picture-in-Picture)$"
             "opacity 0.85,^(thunar)$"
             "opacity 0.9,^(foot)$"
+            "opacity 0.95,^(pavucontrol)$"
+            "opacity 0.95,^(blueman-manager)$"
+            "size 800 600,^(pavucontrol)$"
+            "size 700 500,^(blueman-manager)$"
+            "workspace 4,^(discord)$"
+            "workspace 4,^(Discord)$"
           ];
 
           # Workspace rules
@@ -243,6 +267,12 @@ in {
             "$mod, L, exec, hyprlock"
             "$mod SHIFT, E, exec, thunar"
             "$mod SHIFT, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+
+            # System utilities
+            "$mod, A, exec, pavucontrol"
+            "$mod SHIFT, B, exec, blueman-manager"
+            "$mod SHIFT, N, exec, nm-connection-editor"
+            "$mod SHIFT, D, exec, discord"
 
             # Move focus
             "$mod, left, movefocus, l"
@@ -699,6 +729,22 @@ in {
               ",~/Pictures/Wallpapers/among-trees-campsite.jpg"
             ];
           };
+        };
+      };
+
+      # Configure zathura PDF viewer
+      programs.zathura = {
+        enable = true;
+        options = {
+          selection-clipboard = "clipboard";
+          adjust-open = "best-fit";
+          pages-per-row = 1;
+          scroll-page-aware = "true";
+          scroll-full-overlap = 0.01;
+          scroll-step = 50;
+          zoom-min = 10;
+          guioptions = "none";
+          font = "JetBrainsMono Nerd Font 12";
         };
       };
 
