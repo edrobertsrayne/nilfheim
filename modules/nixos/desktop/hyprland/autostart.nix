@@ -5,7 +5,7 @@ _: {
     exec-once = [
       "waybar"
       "nm-applet --indicator"
-      "/run/current-system/sw/libexec/polkit-gnome-authentication-agent-1"
+      "hyprpolkitagent"
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"
     ];
