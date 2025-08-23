@@ -136,8 +136,6 @@ in {
             gaps_in = 5;
             gaps_out = 10;
             border_size = 2;
-            "col.active_border" = "rgba(89b4faff) rgba(cba6f7ff) 45deg";
-            "col.inactive_border" = "rgba(313244aa)";
             layout = "dwindle";
             allow_tearing = false;
           };
@@ -154,7 +152,6 @@ in {
             drop_shadow = true;
             shadow_range = 4;
             shadow_render_power = 3;
-            "col.shadow" = "rgba(1a1a1aee)";
           };
 
           # Animations
@@ -303,107 +300,7 @@ in {
         enable = true;
         package = pkgs.rofi-wayland;
         terminal = "foot";
-        theme = let
-          inherit (config.lib.formats.rasi) mkLiteral;
-        in {
-          "*" = {
-            bg-col = mkLiteral "#1e1e2e";
-            bg-col-light = mkLiteral "#1e1e2e";
-            border-col = mkLiteral "#89b4fa";
-            selected-col = mkLiteral "#313244";
-            blue = mkLiteral "#89b4fa";
-            fg-col = mkLiteral "#cdd6f4";
-            fg-col2 = mkLiteral "#f38ba8";
-            grey = mkLiteral "#6c7086";
-
-            width = 600;
-            font = "JetBrainsMono Nerd Font 14";
-          };
-
-          "element-text, element-icon , mode-switcher" = {
-            background-color = mkLiteral "inherit";
-            text-color = mkLiteral "inherit";
-          };
-
-          "window" = {
-            height = mkLiteral "360px";
-            border = mkLiteral "3px";
-            border-color = mkLiteral "@border-col";
-            background-color = mkLiteral "@bg-col";
-          };
-
-          "mainbox" = {
-            background-color = mkLiteral "@bg-col";
-          };
-
-          "inputbar" = {
-            children = mkLiteral "[prompt,entry]";
-            background-color = mkLiteral "@bg-col";
-            border-radius = mkLiteral "5px";
-            padding = mkLiteral "2px";
-          };
-
-          "prompt" = {
-            background-color = mkLiteral "@blue";
-            padding = mkLiteral "6px";
-            text-color = mkLiteral "@bg-col";
-            border-radius = mkLiteral "3px";
-            margin = mkLiteral "20px 0px 0px 20px";
-          };
-
-          "textbox-prompt-colon" = {
-            expand = false;
-            str = ":";
-          };
-
-          "entry" = {
-            padding = mkLiteral "6px";
-            margin = mkLiteral "20px 0px 0px 10px";
-            text-color = mkLiteral "@fg-col";
-            background-color = mkLiteral "@bg-col";
-          };
-
-          "listview" = {
-            border = mkLiteral "0px 0px 0px";
-            padding = mkLiteral "6px 0px 0px";
-            margin = mkLiteral "10px 0px 0px 20px";
-            columns = 2;
-            lines = 5;
-            background-color = mkLiteral "@bg-col";
-          };
-
-          "element" = {
-            padding = mkLiteral "5px";
-            background-color = mkLiteral "@bg-col";
-            text-color = mkLiteral "@fg-col";
-          };
-
-          "element-icon" = {
-            size = mkLiteral "25px";
-          };
-
-          "element selected" = {
-            background-color = mkLiteral "@selected-col";
-            text-color = mkLiteral "@fg-col2";
-          };
-
-          "mode-switcher" = {
-            spacing = 0;
-          };
-
-          "button" = {
-            padding = mkLiteral "10px";
-            background-color = mkLiteral "@bg-col-light";
-            text-color = mkLiteral "@grey";
-            vertical-align = mkLiteral "0.5";
-            horizontal-align = mkLiteral "0.5";
-          };
-
-          "button selected" = {
-            background-color = mkLiteral "@bg-col";
-            text-color = mkLiteral "@blue";
-          };
-        };
+        font = "JetBrainsMono Nerd Font 14";
         extraConfig = {
           modi = "drun,run";
           icon-theme = "Papirus";
@@ -414,33 +311,6 @@ in {
           display-drun = " Apps ";
           display-run = " Run ";
           sidebar-mode = true;
-        };
-      };
-
-      # Foot terminal configuration (extends existing foot.nix)
-      programs.foot = mkIf config.desktop.foot.enable {
-        settings = {
-          colors = {
-            # Catppuccin Mocha theme
-            background = "1e1e2e";
-            foreground = "cdd6f4";
-            regular0 = "45475a"; # black
-            regular1 = "f38ba8"; # red
-            regular2 = "a6e3a1"; # green
-            regular3 = "f9e2af"; # yellow
-            regular4 = "89b4fa"; # blue
-            regular5 = "f5c2e7"; # magenta
-            regular6 = "94e2d5"; # cyan
-            regular7 = "bac2de"; # white
-            bright0 = "585b70"; # bright black
-            bright1 = "f38ba8"; # bright red
-            bright2 = "a6e3a1"; # bright green
-            bright3 = "f9e2af"; # bright yellow
-            bright4 = "89b4fa"; # bright blue
-            bright5 = "f5c2e7"; # bright magenta
-            bright6 = "94e2d5"; # bright cyan
-            bright7 = "a6adc8"; # bright white
-          };
         };
       };
     };
