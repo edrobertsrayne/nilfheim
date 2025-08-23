@@ -13,7 +13,9 @@ in {
   };
 
   desktop = {
+    # Desktop Environment - choose one
     gnome.enable = true;
+    # hyprland.enable = true;  # Alternative to GNOME
 
     arduino.enable = true;
     foot.enable = true;
