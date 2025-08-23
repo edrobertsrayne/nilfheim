@@ -70,13 +70,6 @@ in {
       ++ cfg.extraExtensions;
 
     services = {
-      displayManager = {
-        gdm = {
-          enable = true;
-          wayland = true;
-          autoSuspend = true;
-        };
-      };
       libinput.enable = true;
       desktopManager.gnome.enable = true;
     };

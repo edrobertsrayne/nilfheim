@@ -44,6 +44,17 @@ in {
 
   hardware.audio.enable = true;
 
+  # Display manager - shared between GNOME and Hyprland
+  services = {
+    displayManager = {
+      gdm = {
+        enable = true;
+        wayland = true;
+        autoSuspend = true;
+      };
+    };
+  };
+
   # Configure NFS client to mount thor's shared storage
   services.nfs-client = {
     enable = true;
