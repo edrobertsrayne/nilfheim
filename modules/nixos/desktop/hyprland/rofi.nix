@@ -16,5 +16,16 @@
       display-run = " Run ";
       sidebar-mode = true;
     };
+    theme = {
+      window = {
+        border-radius = "8px";
+      };
+      element = {
+        border-radius = "4px";
+      };
+      inputbar = {
+        border-radius = "6px";
+      };
+    };
   };
 }
