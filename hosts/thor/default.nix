@@ -1,4 +1,28 @@
-{username, ...}: {
+{username, ...}: let
+  # Centralized share configuration to reduce duplication
+  shareConfig = {
+    downloads = {
+      path = "/mnt/downloads";
+      nfsPermissions = "rw";
+      sambaReadOnly = false;
+    };
+    media = {
+      path = "/mnt/media";
+      nfsPermissions = "ro";
+      sambaReadOnly = true;
+    };
+    backup = {
+      path = "/mnt/backup";
+      nfsPermissions = "rw";
+      sambaReadOnly = false;
+    };
+    share = {
+      path = "/mnt/share";
+      nfsPermissions = "rw";
+      sambaReadOnly = false;
+    };
+  };
+in {
   imports = [
     ./disko-configuration.nix
     ./hardware-configuration.nix
@@ -12,12 +36,10 @@
   users.groups.tank.members = ["${username}"];
 
   # Configure tank mountpoints
-  systemd.tmpfiles.rules = [
-    "d /mnt/downloads 2775 root tank"
-    "d /mnt/media 2775 root tank"
-    "d /mnt/backup 2775 root tank"
-    "d /mnt/share 2775 root tank"
-  ];
+  systemd.tmpfiles.rules = builtins.attrValues (builtins.mapAttrs (
+      name: share: "d ${share.path} 2775 root tank"
+    )
+    shareConfig);
 
   # Configure services
   services = {
@@ -38,70 +60,38 @@
     # Configure NFS server for tailscale network
     nfs-server = {
       enable = true;
-      shares = {
-        downloads = {
-          source = /mnt/downloads;
-          permissions = "rw";
-        };
-        media = {
-          source = /mnt/media;
-          permissions = "ro";
-        };
-        backup = {
-          source = /mnt/backup;
-          permissions = "rw";
-        };
-        share = {
-          source = /mnt/share;
-          permissions = "rw";
-        };
-      };
+      shares =
+        builtins.mapAttrs (name: share: {
+          source = share.path;
+          permissions = share.nfsPermissions;
+        })
+        shareConfig;
     };
 
     samba = {
       enable = true;
-      settings = {
-        "backup" = {
-          "path" = "/mnt/backup";
+      settings = builtins.mapAttrs (name: share:
+        {
+          "path" = share.path;
           "browseable" = "yes";
-          "read only" = "no";
+          "read only" =
+            if share.sambaReadOnly
+            then "yes"
+            else "no";
           "guest ok" = "no";
           "valid users" = username;
-          "create mask" = "0644";
-          "directory mask" = "0755";
-          "force user" = username;
-          "force group" = "users";
-        };
-        "downloads" = {
-          "path" = "/mnt/downloads";
-          "browseable" = "yes";
-          "read only" = "no";
-          "guest ok" = "no";
-          "valid users" = username;
-          "create mask" = "0644";
-          "directory mask" = "0755";
-          "force user" = username;
-          "force group" = "users";
-        };
-        "media" = {
-          "path" = "/mnt/media";
-          "browseable" = "yes";
-          "read only" = "yes";
-          "guest ok" = "no";
-          "valid users" = username;
-        };
-        "share" = {
-          "path" = "/mnt/share";
-          "browseable" = "yes";
-          "read only" = "no";
-          "guest ok" = "no";
-          "valid users" = username;
-          "create mask" = "0644";
-          "directory mask" = "0755";
-          "force user" = username;
-          "force group" = "users";
-        };
-      };
+        }
+        // (
+          if share.sambaReadOnly
+          then {}
+          else {
+            "create mask" = "0644";
+            "directory mask" = "0755";
+            "force user" = username;
+            "force group" = "users";
+          }
+        ))
+      shareConfig;
     };
   };
 }
