@@ -29,6 +29,7 @@ in {
           noto-fonts-cjk-serif
           noto-fonts-emoji
           nerd-fonts.jetbrains-mono
+          nerd-fonts.noto
         ]
         ++ cfg.fonts;
       fontconfig = {
