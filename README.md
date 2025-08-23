@@ -103,13 +103,22 @@ nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host 
 
 ## 🔒 Security
 
-- **🔑 Authentication**: SSH key-only authentication with hardened config
+### 🛡️ Core Security Features
+- **🔑 Authentication**: SSH key-only authentication with hardened config, sudo password enforcement
+- **🚨 Intrusion Prevention**: Fail2ban with progressive bans for SSH/web attacks
 - **🔐 Secrets**: agenix encrypted secrets management with age keys
 - **🌐 Network**: Tailscale mesh VPN for secure remote access
 - **🛡️ Isolation**: Firewall configuration per service with minimal exposure
-- **💾 Storage**: NFS over tailscale network, Samba with authentication and access controls
-- **🔀 Proxying**: Nginx reverse proxy with WebSocket support
+- **💾 Storage**: NFS over tailscale network, Samba restricted to tailscale with access controls
+- **🔀 Proxying**: Nginx reverse proxy with WebSocket support and security headers
 - **🌉 Tunneling**: Cloudflared secure tunnels for external access
+
+### 🔐 Security Hardening
+- **SSH**: MaxAuthTries=3, ClientAliveInterval=300, no root/password login
+- **Sudo**: Password required for all operations (no NOPASSWD)
+- **Fail2ban**: 24h bans escalating to 7 days, monitors SSH/nginx/auth failures
+- **Network Segmentation**: Services isolated to appropriate network ranges
+- **Service Isolation**: Manual firewall control, interface-specific rules
 
 ## 🛠️ Development Workflow
 

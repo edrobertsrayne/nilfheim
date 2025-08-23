@@ -359,6 +359,54 @@ services.nfs-client = {
 - **Keep It Simple**: Prefer simple reference to constants over complex abstractions
 - **Test Impact**: Ensure refactoring doesn't break existing functionality
 
+## Security Configuration
+
+### Authentication & Access Control
+
+**Sudo Configuration:**
+- Password required for all sudo operations (`wheelNeedsPassword = true`)
+- No passwordless sudo access for security
+
+**SSH Hardening:**
+- Key-based authentication only (`PasswordAuthentication = false`)
+- Root login disabled (`PermitRootLogin = "no"`)
+- Maximum 3 authentication attempts before connection drop
+- Connection timeout after 5 minutes of inactivity
+
+### Intrusion Prevention
+
+**Fail2ban Configuration:**
+```nix
+services.fail2ban = {
+  enable = true;
+  # SSH protection: 3 attempts, 10min window, 24h ban
+  # Progressive ban time increases up to 7 days
+  # Nginx HTTP auth and bad request detection
+  # Custom filtering for security monitoring
+};
+```
+
+**Features:**
+- SSH brute force protection (3 attempts → 24h ban)
+- Nginx HTTP authentication failure detection
+- Request rate limiting protection
+- Progressive ban time increases (exponential backoff)
+- Comprehensive log monitoring and analysis
+
+### Network Security
+
+**Service Isolation:**
+- SMB/Samba restricted to tailscale network only (100.64.0.0/10)
+- NFS exports limited to tailscale CGNAT range
+- Manual firewall rules for enhanced control
+- Avahi/Jellyfin accessible to local network (per requirement)
+
+**Network Architecture:**
+- Tailscale mesh VPN for secure remote access
+- Interface-specific firewall rules
+- Service-specific port restrictions
+- Proper network segmentation
+
 ## Code Quality Standards
 
 ### Required Before Any Commit
