@@ -508,6 +508,159 @@ in {
           }
         '';
       };
+
+      # SwayNC (Sway Notification Center) configuration
+      services.swaync = {
+        enable = true;
+        settings = {
+          positionX = "right";
+          positionY = "top";
+          layer = "overlay";
+          control-center-layer = "top";
+          layer-shell = true;
+          cssPriority = "application";
+          control-center-margin-top = 8;
+          control-center-margin-bottom = 8;
+          control-center-margin-right = 8;
+          control-center-margin-left = 8;
+          notification-2fa-action = true;
+          notification-inline-replies = false;
+          notification-icon-size = 64;
+          notification-body-image-height = 100;
+          notification-body-image-width = 200;
+          timeout = 10;
+          timeout-low = 5;
+          timeout-critical = 0;
+          fit-to-screen = true;
+          control-center-width = 500;
+          control-center-height = 600;
+          notification-window-width = 500;
+          keyboard-shortcuts = true;
+          image-visibility = "when-available";
+          transition-time = 200;
+          hide-on-clear = false;
+          hide-on-action = true;
+          script-fail-notify = true;
+        };
+
+        style = ''
+          .floating-notifications.background .notification-row .notification-background {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+            border-radius: 12.6px;
+            margin: 18px;
+            background-color: rgba(46, 52, 64, 0.7);
+            color: white;
+            padding: 0;
+          }
+
+          .floating-notifications.background .notification-row .notification-background .notification {
+            padding: 7px;
+            border-radius: 12.6px;
+          }
+
+          .floating-notifications.background .notification-row .notification-background .notification.critical {
+            box-shadow: inset 0 0 7px 0 rgba(235, 160, 172, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+          }
+
+          .floating-notifications.background .notification-row .notification-background .notification .notification-content {
+            margin: 7px;
+          }
+
+          .floating-notifications.background .notification-row .notification-background .notification .notification-content .summary {
+            color: white;
+          }
+
+          .floating-notifications.background .notification-row .notification-background .notification .notification-content .time {
+            color: rgba(255, 255, 255, 0.7);
+          }
+
+          .floating-notifications.background .notification-row .notification-background .notification .notification-content .body {
+            color: rgba(255, 255, 255, 0.7);
+          }
+
+          .control-center {
+            box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+            border-radius: 12.6px;
+            margin: 18px;
+            background-color: rgba(46, 52, 64, 0.7);
+            color: white;
+            padding: 14px;
+          }
+
+          .control-center .widget-title > label {
+            color: white;
+            font-size: 1.3em;
+          }
+
+          .control-center .widget-title button {
+            border-radius: 7px;
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+            outline: none;
+          }
+
+          .control-center .notification-row .notification-background {
+            border-radius: 7px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-top: 14px;
+          }
+
+          .control-center .notification-row .notification-background .notification {
+            padding: 7px;
+            border-radius: 7px;
+          }
+
+          .control-center .notification-row .notification-background .notification.critical {
+            box-shadow: inset 0 0 7px 0 rgba(235, 160, 172, 0.5);
+          }
+
+          .control-center .notification-row .notification-background .notification .notification-content .summary {
+            color: white;
+          }
+
+          .control-center .notification-row .notification-background .notification .notification-content .time {
+            color: rgba(255, 255, 255, 0.7);
+          }
+
+          .control-center .notification-row .notification-background .notification .notification-content .body {
+            color: rgba(255, 255, 255, 0.7);
+          }
+
+          .close-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-shadow: none;
+            padding: 0;
+            border-radius: 50%;
+            margin-top: 10px;
+            margin-right: 16px;
+          }
+
+          .close-button:hover {
+            box-shadow: none;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.15s ease-in-out;
+            border: none;
+          }
+
+          .notification-action {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top: none;
+            border-radius: 0 0 7px 7px;
+            background-color: rgba(68, 71, 90, 0.7);
+            color: white;
+          }
+
+          .notification-default-action:hover,
+          .notification-action:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+          }
+        '';
+      };
     };
   };
 }
