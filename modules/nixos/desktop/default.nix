@@ -6,6 +6,7 @@
     ./foot.nix
     ./gnome.nix
     ./gtk.nix
+    ./hyprland.nix
     ./obsidian.nix
     ./spotify.nix
     ./virt-manager.nix
