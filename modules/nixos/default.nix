@@ -14,6 +14,7 @@
     ./services/media
     ./services/monitoring
     ./services/network
+    ./services/security
     ./services/utilities
 
     # Virtualization and containers
