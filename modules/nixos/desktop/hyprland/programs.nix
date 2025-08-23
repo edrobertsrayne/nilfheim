@@ -97,13 +97,13 @@
             tooltip-format = "Volume: {volume}%";
           };
 
-          # Network with dynamic icons
+          # Network with dynamic icons and network name
           network = {
-            format-wifi = "  {signalStrength}%";
-            format-ethernet = " ";
-            tooltip-format = "{essid} ({signalStrength}%) - {ipaddr}/{cidr}";
+            format-wifi = "  {essid}";
+            format-ethernet = "  Wired";
+            tooltip-format = "{ipaddr}";
             format-linked = "  No IP";
-            format-disconnected = " ";
+            format-disconnected = "  Disconnected";
             format-alt = "{ifname}: {ipaddr}/{cidr}";
             on-click = "nm-connection-editor";
             interval = 5;
@@ -116,18 +116,18 @@
               critical = 15;
             };
             format = "{icon} {capacity}%";
-            format-charging = " {capacity}%";
-            format-plugged = " {capacity}%";
-            format-full = " {capacity}%";
+            format-charging = "  {capacity}%";
+            format-plugged = "  {capacity}%";
+            format-full = "  {capacity}%";
             format-alt = "{icon} {time}";
             format-icons = ["" "" "" "" ""];
             tooltip-format = "{capacity}% - {timeTo}";
           };
 
-          # Clock with icon
+          # Clock with icon and date
           clock = {
-            format = "  {:%H:%M}";
-            format-alt = "  {:%a %b %d}";
+            format = "  {:%a %b %d  %H:%M}";
+            format-alt = "  {:%Y-%m-%d  %H:%M:%S}";
             tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
           };
         };
@@ -168,8 +168,8 @@
         }
 
         #workspaces button:hover {
-          background-color: #313244; /* Catppuccin Mocha surface0 */
-          color: #cdd6f4; /* Catppuccin Mocha text */
+          background-color: #89b4fa; /* Catppuccin Mocha blue - inverted from active text */
+          color: #1e1e2e; /* Catppuccin Mocha base - inverted from active background */
           border-radius: 6px;
         }
 
