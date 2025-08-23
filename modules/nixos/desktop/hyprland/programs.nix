@@ -27,7 +27,7 @@
           layer = "top";
           position = "top";
           height = 32;
-          spacing = 4;
+          spacing = 2;
 
           modules-left = ["hyprland/workspaces" "hyprland/mode"];
           modules-center = ["hyprland/window"];
@@ -62,8 +62,9 @@
             max-length = 50;
           };
 
-          # System tray
+          # System tray with nerd font icon support
           tray = {
+            icon-size = 21;
             spacing = 10;
           };
 
@@ -76,58 +77,58 @@
             interval = 5;
           };
 
-          # Audio with proper icons
+          # Audio with nerd font icons
           pulseaudio = {
             format = "{icon} {volume}%";
             format-bluetooth = "{icon}  {volume}%";
-            format-bluetooth-muted = " ";
-            format-muted = " ";
-            format-source = "{volume}% ";
-            format-source-muted = "";
+            format-bluetooth-muted = "󰂲 ";
+            format-muted = "󰖁 ";
+            format-source = "󰍬 {volume}%";
+            format-source-muted = "󰍭 ";
             format-icons = {
-              headphone = "";
-              hands-free = "";
-              headset = "";
-              phone = "";
-              portable = "";
-              car = "";
-              default = ["" "" ""];
+              headphone = "󰋋";
+              hands-free = "󱡒";
+              headset = "󰋎";
+              phone = "󰄜";
+              portable = "󰦧";
+              car = "󰄋";
+              default = ["󰕿" "󰖀" "󰕾"];
             };
             on-click = "pavucontrol";
             tooltip-format = "Volume: {volume}%";
           };
 
-          # Network with dynamic icons and network name
+          # Network with nerd font icons and network name
           network = {
-            format-wifi = "  {essid}";
-            format-ethernet = "  Wired";
+            format-wifi = "󰖩  {essid}";
+            format-ethernet = "󰈀  Wired";
             tooltip-format = "{ipaddr}";
-            format-linked = "  No IP";
-            format-disconnected = "  Disconnected";
+            format-linked = "󰖪  No IP";
+            format-disconnected = "󰖪  Disconnected";
             format-alt = "{ifname}: {ipaddr}/{cidr}";
             on-click = "nm-connection-editor";
             interval = 5;
           };
 
-          # Battery with charging states and proper icons
+          # Battery with nerd font icons and charging states
           battery = {
             states = {
               warning = 30;
               critical = 15;
             };
             format = "{icon} {capacity}%";
-            format-charging = "  {capacity}%";
-            format-plugged = "  {capacity}%";
-            format-full = "  {capacity}%";
+            format-charging = "󰂄 {capacity}%";
+            format-plugged = "󰚥 {capacity}%";
+            format-full = "󱈑 {capacity}%";
             format-alt = "{icon} {time}";
-            format-icons = ["" "" "" "" ""];
+            format-icons = ["󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󱈑"];
             tooltip-format = "{capacity}% - {timeTo}";
           };
 
-          # Clock with icon and date
+          # Clock without icon for cleaner look
           clock = {
-            format = "  {:%a %b %d  %H:%M}";
-            format-alt = "  {:%Y-%m-%d  %H:%M:%S}";
+            format = "{:%a %b %d  %H:%M}";
+            format-alt = "{:%Y-%m-%d  %H:%M:%S}";
             tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
           };
         };
@@ -138,7 +139,7 @@
         * {
           border: none;
           border-radius: 0;
-          font-family: "JetBrainsMono Nerd Font";
+          font-family: "Noto Sans Nerd Font", "Noto Sans", sans-serif;
           font-weight: bold;
           font-size: 13px;
           min-height: 0;
@@ -160,10 +161,10 @@
         }
 
         #workspaces button {
-          padding: 0 12px;
+          padding: 0 8px;
           background-color: transparent;
           color: #6c7086; /* Catppuccin Mocha overlay1 */
-          margin: 0 2px;
+          margin: 0 1px;
           transition: all 0.3s ease;
         }
 
@@ -187,7 +188,7 @@
 
         #window,
         #workspaces {
-          margin: 0 4px;
+          margin: 0 2px;
         }
 
         .modules-left > widget:first-child > #workspaces {
@@ -205,8 +206,8 @@
         #network,
         #tray,
         #custom-hypridle {
-          padding: 0 12px;
-          margin: 0 2px;
+          padding: 0 8px;
+          margin: 0 1px;
           background-color: transparent;
           border-radius: 0;
         }
