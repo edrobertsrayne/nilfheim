@@ -99,6 +99,9 @@ _: {
       ", XF86AudioPlay, exec, playerctl play-pause"
       ", XF86AudioNext, exec, playerctl next"
       ", XF86AudioPrev, exec, playerctl previous"
+
+      # Keyboard layout toggle
+      "$mod SHIFT, L, exec, hyprctl switchxkblayout at-translated-set-2-keyboard next"
     ];
 
     # Mouse bindings

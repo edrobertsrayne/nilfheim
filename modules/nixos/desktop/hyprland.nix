@@ -17,6 +17,11 @@ in {
       default = true;
       description = "Whether to prefer dark mode.";
     };
+    keyboardLayout = mkOption {
+      type = str;
+      default = "gb,us";
+      description = "Keyboard layout(s) for Hyprland. Use comma-separated list for multiple layouts.";
+    };
   };
 
   config = mkIf cfg.enable {

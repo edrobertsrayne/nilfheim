@@ -1,4 +1,7 @@
-_: {
+{osConfig ? {}, ...}: let
+  cfg = osConfig.desktop.hyprland or {};
+  keyboardLayout = cfg.keyboardLayout or "gb,us";
+in {
   # Hyprland environment and system configuration
   wayland.windowManager.hyprland.settings = {
     # Monitor configuration
@@ -22,7 +25,7 @@ _: {
 
     # Input configuration
     input = {
-      kb_layout = "us";
+      kb_layout = keyboardLayout;
       follow_mouse = 1;
       touchpad = {
         natural_scroll = true;
