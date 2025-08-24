@@ -111,6 +111,30 @@ in {
               vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
               vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
               vim.opt.winminwidth = 5 -- Minimum window width
+
+              -- Tmux navigator function
+              local function tmux_navigate(direction)
+                local tmux_cmd = {
+                  h = 'tmux select-pane -L',
+                  j = 'tmux select-pane -D', 
+                  k = 'tmux select-pane -U',
+                  l = 'tmux select-pane -R'
+                }
+                
+                -- Check if we're in tmux
+                if vim.env.TMUX then
+                  -- Try tmux navigation first
+                  local result = vim.fn.system(tmux_cmd[direction] .. ' 2>/dev/null')
+                  if vim.v.shell_error == 0 then
+                    return
+                  end
+                end
+                
+                -- Fall back to vim window navigation
+                vim.cmd('wincmd ' .. direction)
+              end
+              
+              _G.tmux_navigate = tmux_navigate
             '';
           };
         };

@@ -16,30 +16,30 @@
         expr = true;
       }
 
-      # Move to window using <ctrl> hjkl keys
+      # Move to window using <ctrl> hjkl keys (tmux-aware)
       {
         key = "<C-h>";
         mode = "n";
-        action = "<C-w>h";
-        desc = "Go to left window";
+        action = "<cmd>lua tmux_navigate('h')<cr>";
+        desc = "Go to left window or tmux pane";
       }
       {
         key = "<C-j>";
         mode = "n";
-        action = "<C-w>j";
-        desc = "Go to lower window";
+        action = "<cmd>lua tmux_navigate('j')<cr>";
+        desc = "Go to lower window or tmux pane";
       }
       {
         key = "<C-k>";
         mode = "n";
-        action = "<C-w>k";
-        desc = "Go to upper window";
+        action = "<cmd>lua tmux_navigate('k')<cr>";
+        desc = "Go to upper window or tmux pane";
       }
       {
         key = "<C-l>";
         mode = "n";
-        action = "<C-w>l";
-        desc = "Go to right window";
+        action = "<cmd>lua tmux_navigate('l')<cr>";
+        desc = "Go to right window or tmux pane";
       }
 
       # Resize window using <ctrl> arrow keys
