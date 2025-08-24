@@ -1,0 +1,104 @@
+* {
+  font-family: "Noto Sans Nerd Font", "Noto Sans", sans-serif;
+  font-size: 14px;
+  min-height: 0;
+}
+
+#waybar {
+  background: @mantle;
+  color: @text;
+  margin: 5px 5px;
+}
+
+#workspaces {
+  margin: 5px 0px;
+  background-color: @mantle;
+  margin-left: 1rem;
+}
+
+#workspaces button {
+  color: @lavender;
+  padding: 0 0.4rem;
+}
+
+#workspaces button.active {
+  background-color: @sky;
+  color: @mantle;
+}
+
+#workspaces button:hover {
+  color: @sapphire;
+  background-color: @crust;
+}
+
+#window,
+#memory,
+#cpu,
+#tray,
+#clock,
+#battery,
+#pulseaudio,
+#network,
+#custom-hypridle,
+#custom-lock,
+#custom-power,
+#custom-hyprsunset {
+  background-color: @mantle;
+  padding: 0.5rem;
+  margin: 5px 0;
+}
+
+#window {
+  font-weight: normal;
+  color: @text;
+}
+
+#clock {
+  color: @blue;
+}
+
+#battery {
+  color: @green;
+}
+
+#battery.charging {
+  color: @green;
+}
+
+#battery.warning:not(.charging) {
+  color: @red;
+}
+
+#network {
+  color: @teal;
+}
+
+#network.disconnected {
+  color: @red;
+}
+
+#pulseaudio {
+  color: @maroon;
+}
+
+#custom-hypridle {
+  color: @text;
+}
+
+#custom-hyprsunset {
+  color: @yellow;
+}
+
+#tray {
+  color: @text;
+  margin-right: 1.0rem;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  color: @yellow;
+}
