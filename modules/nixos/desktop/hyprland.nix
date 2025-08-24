@@ -75,6 +75,7 @@ in {
       hyprlock
       hypridle
       hyprpicker
+      hyprsunset
       wlogout
 
       # App launcher

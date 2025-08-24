@@ -11,7 +11,7 @@ _: {
 
         modules-left = ["hyprland/workspaces" "hyprland/mode"];
         modules-center = ["hyprland/window"];
-        modules-right = ["tray" "custom/hypridle" "pulseaudio" "network" "battery" "clock"];
+        modules-right = ["tray" "custom/hypridle" "custom/hyprsunset" "pulseaudio" "network" "battery" "clock"];
 
         # Workspaces configuration - show first 5 workspaces
         "hyprland/workspaces" = {
@@ -54,6 +54,15 @@ _: {
           exec = ''if pgrep hypridle > /dev/null; then echo "󰅶"; else echo "󰛊"; fi'';
           on-click = ''if pgrep hypridle > /dev/null; then pkill hypridle && notify-send "Hypridle" "Disabled"; else hypridle & notify-send "Hypridle" "Enabled"; fi'';
           tooltip-format = "Toggle hypridle (caffeine mode)";
+          interval = 5;
+        };
+
+        # Custom hyprsunset toggle (blue light filter)
+        "custom/hyprsunset" = {
+          format = "{}";
+          exec = ''if pgrep hyprsunset > /dev/null; then echo "󰌶"; else echo "󰌵"; fi'';
+          on-click = ''if pgrep hyprsunset > /dev/null; then pkill hyprsunset && notify-send "Hyprsunset" "Blue light filter disabled"; else hyprsunset & notify-send "Hyprsunset" "Blue light filter enabled"; fi'';
+          tooltip-format = "Toggle blue light filter";
           interval = 5;
         };
 
@@ -185,7 +194,8 @@ _: {
       #pulseaudio,
       #network,
       #tray,
-      #custom-hypridle {
+      #custom-hypridle,
+      #custom-hyprsunset {
         padding: 0 8px;
         margin: 0 1px;
         background-color: transparent;
@@ -234,6 +244,11 @@ _: {
 
       #custom-hypridle {
         color: #cdd6f4; /* Catppuccin Mocha text */
+        font-size: 16px;
+      }
+
+      #custom-hyprsunset {
+        color: #f9e2af; /* Catppuccin Mocha yellow - warm/sunset color */
         font-size: 16px;
       }
 
