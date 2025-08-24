@@ -116,11 +116,11 @@ in {
               local function tmux_navigate(direction)
                 local tmux_cmd = {
                   h = 'tmux select-pane -L',
-                  j = 'tmux select-pane -D', 
+                  j = 'tmux select-pane -D',
                   k = 'tmux select-pane -U',
                   l = 'tmux select-pane -R'
                 }
-                
+
                 -- Check if we're in tmux
                 if vim.env.TMUX then
                   -- Try tmux navigation first
@@ -129,11 +129,11 @@ in {
                     return
                   end
                 end
-                
+
                 -- Fall back to vim window navigation
                 vim.cmd('wincmd ' .. direction)
               end
-              
+
               _G.tmux_navigate = tmux_navigate
             '';
           };
