@@ -21,7 +21,7 @@ in {
       # Configure the built-in pgAdmin service
       pgadmin = {
         port = constants.ports.pgadmin;
-        initialEmail = "admin@${config.homelab.domain}";
+        initialEmail = config.user.email;
         initialPasswordFile = pkgs.writeText "pgadmin-password" "admin123";
       };
 
