@@ -113,7 +113,7 @@ in {
           };
           queryLog = {
             type = "postgresql";
-            target = "postgres://blocky@localhost:${toString constants.ports.postgresql}/blocky_logs?sslmode=disable";
+            target = "postgres://blocky:blocky_password_2024@localhost:${toString constants.ports.postgresql}/blocky_logs?sslmode=disable";
             logRetentionDays = 90; # Keep logs for 3 months
             flushInterval = "30s"; # Flush to database every 30 seconds
             fields = [

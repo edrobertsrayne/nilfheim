@@ -16,13 +16,19 @@ in {
       # Enable TCP/IP connections
       enableTCPIP = true;
 
-      # Authentication configuration
-      authentication = ''
+      # Authentication configuration for blocky user
+      authentication = mkForce ''
         # TYPE  DATABASE        USER            ADDRESS                 METHOD
         local   all             postgres                                peer
-        local   all             all                                     md5
+        local   all             all                                     trust
+        host    all             all             127.0.0.1/32            trust
+        host    all             all             ::1/128                 trust
         host    blocky_logs     blocky          127.0.0.1/32           md5
         host    blocky_logs     blocky          ::1/128                md5
+        # Allow replication connections
+        local   replication     all                                     trust
+        host    replication     all             127.0.0.1/32            trust
+        host    replication     all             ::1/128                 trust
       '';
 
       # PostgreSQL configuration
