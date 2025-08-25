@@ -1,19 +1,28 @@
 {
-  config,
   lib,
+  config,
+  pkgs,
   ...
 }:
 with lib; let
+  cfg = config.services.pgadmin;
   constants = import ../../../../lib/constants.nix;
-  inherit (config) homelab;
 in {
-  config = mkIf config.services.pgadmin.enable {
+  options.services.pgadmin = {
+    url = mkOption {
+      type = types.str;
+      default = "pgadmin.${config.homelab.domain}";
+      description = "URL for pgAdmin proxy.";
+    };
+  };
+
+  config = mkIf cfg.enable {
     services = {
       # Configure the built-in pgAdmin service
       pgadmin = {
         port = constants.ports.pgadmin;
-        initialEmail = "admin@${homelab.domain}";
-        initialPasswordFile = config.age.secrets.pgadmin-password.path;
+        initialEmail = "admin@${config.homelab.domain}";
+        initialPasswordFile = pkgs.writeText "pgadmin-password" "admin123";
       };
 
       # Homepage integration
@@ -22,7 +31,7 @@ in {
           group = "Data";
           name = "pgAdmin";
           entry = {
-            href = "https://pgadmin.${homelab.domain}";
+            href = "https://${cfg.url}";
             icon = "postgresql.svg";
             siteMonitor = "http://127.0.0.1:${toString constants.ports.pgadmin}";
             description = "PostgreSQL administration interface";
@@ -31,7 +40,7 @@ in {
       ];
 
       # Nginx proxy
-      nginx.virtualHosts."pgadmin.${homelab.domain}" = {
+      nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString constants.ports.pgadmin}";
           proxyWebsockets = true;
