@@ -10,6 +10,7 @@
 
     # Services organized by category
     ./services/backup
+    ./services/data
     ./services/downloads
     ./services/media
     ./services/monitoring
