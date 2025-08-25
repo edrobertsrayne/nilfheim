@@ -168,6 +168,10 @@ in {
               name = "Blocky Enhanced";
               options.path = ../monitoring/grafana/blocky-enhanced.json;
             }
+            {
+              name = "Blocky PostgreSQL Analytics";
+              options.path = ../monitoring/grafana/blocky-postgres.json;
+            }
           ];
         };
       };
