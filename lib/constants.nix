@@ -59,6 +59,9 @@
     nfs = 2049;
     rpcbind = 111;
     nfs-status = 20048;
+
+    # Database Services
+    postgresql = 5432;
   };
 
   # Default paths for services
@@ -147,6 +150,9 @@
     blocky = "DNS proxy and ad-blocker";
     samba = "File sharing service";
     nfs = "Network File System for remote file access";
+
+    # Database Services
+    postgresql = "PostgreSQL relational database server";
   };
 
   # Default authentication settings for *arr services
