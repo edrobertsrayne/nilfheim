@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 with lib; let
@@ -21,7 +22,11 @@ in {
       pgadmin = {
         port = constants.ports.pgadmin;
         initialEmail = config.user.email;
-        initialPasswordFile = config.age.secrets.pgadmin-password.path;
+        initialPasswordFile =
+          pkgs.writeText "pgadmin_password"
+          ''
+            password123
+          '';
       };
 
       # Homepage integration
