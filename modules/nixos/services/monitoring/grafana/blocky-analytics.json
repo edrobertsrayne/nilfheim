@@ -1395,9 +1395,9 @@
             "uid": "postgres-blocky-logs"
           },
           "editorMode": "code",
-          "format": "time_series",
+          "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\n  CASE \n    WHEN LENGTH(COALESCE(answer, '')) = 0 THEN 'Empty'\n    WHEN LENGTH(answer) <= 20 THEN '1-20 chars'\n    WHEN LENGTH(answer) <= 50 THEN '21-50 chars'\n    WHEN LENGTH(answer) <= 100 THEN '51-100 chars'\n    WHEN LENGTH(answer) <= 200 THEN '101-200 chars'\n    ELSE '200+ chars'\n  END as time,\n  'distribution' as metric,\n  count(*) as value\nFROM log_entries\nWHERE $__timeFilter(request_ts)\nGROUP BY \n  CASE \n    WHEN LENGTH(COALESCE(answer, '')) = 0 THEN 'Empty'\n    WHEN LENGTH(answer) <= 20 THEN '1-20 chars'\n    WHEN LENGTH(answer) <= 50 THEN '21-50 chars'\n    WHEN LENGTH(answer) <= 100 THEN '51-100 chars'\n    WHEN LENGTH(answer) <= 200 THEN '101-200 chars'\n    ELSE '200+ chars'\n  END\nORDER BY value DESC",
+          "rawSql": "SELECT\n  CASE \n    WHEN LENGTH(COALESCE(answer, '')) = 0 THEN 'Empty'\n    WHEN LENGTH(answer) <= 20 THEN '1-20 chars'\n    WHEN LENGTH(answer) <= 50 THEN '21-50 chars'\n    WHEN LENGTH(answer) <= 100 THEN '51-100 chars'\n    WHEN LENGTH(answer) <= 200 THEN '101-200 chars'\n    ELSE '200+ chars'\n  END as \"Answer Length Range\",\n  count(*) as value\nFROM log_entries\nWHERE $__timeFilter(request_ts)\nGROUP BY \n  CASE \n    WHEN LENGTH(COALESCE(answer, '')) = 0 THEN 'Empty'\n    WHEN LENGTH(answer) <= 20 THEN '1-20 chars'\n    WHEN LENGTH(answer) <= 50 THEN '21-50 chars'\n    WHEN LENGTH(answer) <= 100 THEN '51-100 chars'\n    WHEN LENGTH(answer) <= 200 THEN '101-200 chars'\n    ELSE '200+ chars'\n  END\nORDER BY value DESC",
           "refId": "A"
         }
       ],
