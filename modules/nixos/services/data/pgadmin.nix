@@ -39,15 +39,19 @@ in {
         }
       ];
 
-      # Nginx proxy
+      # Nginx proxy using recommended defaults
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString constants.ports.pgadmin}";
-          proxyWebsockets = true;
-          extraConfig = ''
+          inherit (constants.nginxDefaults) proxyWebsockets;
+          extraConfig = constants.nginxDefaults.extraConfig + ''
+            # pgAdmin specific settings
             proxy_set_header X-Script-Name /;
             proxy_set_header X-Scheme $scheme;
-            proxy_redirect off;
+            proxy_redirect http://$host/ https://$host/;
+            proxy_redirect http://$host:${toString constants.ports.pgadmin}/ https://$host/;
+            proxy_cookie_domain localhost $host;
+            proxy_cookie_path / /;
           '';
         };
       };
