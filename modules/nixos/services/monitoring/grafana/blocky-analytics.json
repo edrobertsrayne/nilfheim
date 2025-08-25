@@ -1171,6 +1171,479 @@
       ],
       "title": "Response Status Codes",
       "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-blocky-logs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          }
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 40
+      },
+      "id": 16,
+      "options": {
+        "calculate": false,
+        "cellGap": 2,
+        "cellValues": {
+          "unit": "ms"
+        },
+        "color": {
+          "exponent": 0.5,
+          "fill": "dark-orange",
+          "mode": "spectrum",
+          "reverse": false,
+          "scale": "exponential",
+          "scheme": "Spectral",
+          "steps": 64
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-9
+        },
+        "legend": {
+          "show": true
+        },
+        "rowsFrame": {
+          "layout": "auto"
+        },
+        "tooltip": {
+          "show": true,
+          "yHistogram": false
+        },
+        "yAxis": {
+          "axisPlacement": "left",
+          "reverse": false,
+          "unit": "short"
+        }
+      },
+      "pluginVersion": "12.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-blocky-logs"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  date_trunc('hour', request_ts) as time,\n  CASE \n    WHEN duration_ms <= 10 THEN '0-10ms'\n    WHEN duration_ms <= 25 THEN '10-25ms'\n    WHEN duration_ms <= 50 THEN '25-50ms'\n    WHEN duration_ms <= 100 THEN '50-100ms'\n    WHEN duration_ms <= 250 THEN '100-250ms'\n    ELSE '250ms+'\n  END as metric,\n  count(*) as value\nFROM log_entries\nWHERE $__timeFilter(request_ts) AND duration_ms > 0\nGROUP BY date_trunc('hour', request_ts), \n  CASE \n    WHEN duration_ms <= 10 THEN '0-10ms'\n    WHEN duration_ms <= 25 THEN '10-25ms'\n    WHEN duration_ms <= 50 THEN '25-50ms'\n    WHEN duration_ms <= 100 THEN '50-100ms'\n    WHEN duration_ms <= 250 THEN '100-250ms'\n    ELSE '250ms+'\n  END\nORDER BY time",
+          "refId": "A"
+        }
+      ],
+      "title": "Response Time Heatmap",
+      "type": "heatmap"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-blocky-logs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 48
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": ["value", "percent"]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-blocky-logs"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  effective_tldp as \"Top Level Domain\",\n  count(*) as value\nFROM log_entries \nWHERE $__timeFilter(request_ts)\n  AND effective_tldp IS NOT NULL\n  AND effective_tldp != ''\nGROUP BY effective_tldp\nORDER BY value DESC\nLIMIT 15",
+          "refId": "A"
+        }
+      ],
+      "title": "Top-Level Domains",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-blocky-logs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisColorMode": "text",
+            "axisLabel": "Answer Length (characters)",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 48
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-blocky-logs"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  CASE \n    WHEN LENGTH(COALESCE(answer, '')) = 0 THEN 'Empty'\n    WHEN LENGTH(answer) <= 20 THEN '1-20 chars'\n    WHEN LENGTH(answer) <= 50 THEN '21-50 chars'\n    WHEN LENGTH(answer) <= 100 THEN '51-100 chars'\n    WHEN LENGTH(answer) <= 200 THEN '101-200 chars'\n    ELSE '200+ chars'\n  END as time,\n  'distribution' as metric,\n  count(*) as value\nFROM log_entries\nWHERE $__timeFilter(request_ts)\nGROUP BY \n  CASE \n    WHEN LENGTH(COALESCE(answer, '')) = 0 THEN 'Empty'\n    WHEN LENGTH(answer) <= 20 THEN '1-20 chars'\n    WHEN LENGTH(answer) <= 50 THEN '21-50 chars'\n    WHEN LENGTH(answer) <= 100 THEN '51-100 chars'\n    WHEN LENGTH(answer) <= 200 THEN '101-200 chars'\n    ELSE '200+ chars'\n  END\nORDER BY value DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "Answer Length Distribution",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-blocky-logs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "queries"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Queries"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 48
+      },
+      "id": 19,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Queries"
+          }
+        ]
+      },
+      "pluginVersion": "12.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-blocky-logs"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  client_ip as \"Client IP\",\n  client_name as \"Client Name\",\n  count(*) as queries,\n  ROUND(AVG(duration_ms)::numeric, 1) as \"Avg Response (ms)\"\nFROM log_entries \nWHERE $__timeFilter(request_ts)\n  AND client_name != client_ip\nGROUP BY client_ip, client_name\nORDER BY queries DESC\nLIMIT 20",
+          "refId": "A"
+        }
+      ],
+      "title": "Client Network Mapping",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-blocky-logs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ads"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "trackers"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 56
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true,
+          "values": ["value", "percent"]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-blocky-logs"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  CASE \n    WHEN reason LIKE '%ads%' AND reason LIKE '%trackers%' THEN 'ads,trackers'\n    WHEN reason LIKE '%ads%' THEN 'ads'\n    WHEN reason LIKE '%trackers%' THEN 'trackers'\n    WHEN reason LIKE '%BLOCKED%' THEN 'other blocking'\n    WHEN reason LIKE '%CACHED%' THEN 'cached'\n    WHEN reason LIKE '%RESOLVED%' THEN 'resolved'\n    ELSE 'other'\n  END as blocking_category,\n  count(*) as value\nFROM log_entries \nWHERE $__timeFilter(request_ts)\nGROUP BY \n  CASE \n    WHEN reason LIKE '%ads%' AND reason LIKE '%trackers%' THEN 'ads,trackers'\n    WHEN reason LIKE '%ads%' THEN 'ads'\n    WHEN reason LIKE '%trackers%' THEN 'trackers'\n    WHEN reason LIKE '%BLOCKED%' THEN 'other blocking'\n    WHEN reason LIKE '%CACHED%' THEN 'cached'\n    WHEN reason LIKE '%RESOLVED%' THEN 'resolved'\n    ELSE 'other'\n  END\nORDER BY value DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "Blocking Analysis by Category",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "postgres-blocky-logs"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 70
+              },
+              {
+                "color": "green",
+                "value": 85
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 56
+      },
+      "id": 21,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "postgres-blocky-logs"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH health_metrics AS (\n  SELECT\n    -- Error rate (lower is better, max 25 points)\n    LEAST(25, GREATEST(0, 25 - (COUNT(CASE WHEN response_code != 'NOERROR' THEN 1 END) * 100.0 / COUNT(*)) * 2.5)) as error_score,\n    -- Response time score (lower is better, max 25 points)\n    LEAST(25, GREATEST(0, 25 - (AVG(COALESCE(duration_ms, 0)) / 10.0))) as response_score,\n    -- Cache hit rate (higher is better, max 25 points)\n    (COUNT(CASE WHEN response_type = 'CACHED' THEN 1 END) * 25.0 / COUNT(*)) as cache_score,\n    -- Block effectiveness (higher is better, max 25 points)\n    LEAST(25, (COUNT(CASE WHEN response_type = 'BLOCKED' THEN 1 END) * 25.0 / COUNT(*))) as block_score\n  FROM log_entries\n  WHERE $__timeFilter(request_ts)\n)\nSELECT \n  ROUND((error_score + response_score + cache_score + block_score)::numeric, 1) as value\nFROM health_metrics",
+          "refId": "A"
+        }
+      ],
+      "title": "DNS Query Health Score",
+      "type": "stat"
     }
   ],
   "refresh": "5s",
