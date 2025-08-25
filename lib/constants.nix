@@ -62,6 +62,7 @@
 
     # Database Services
     postgresql = 5432;
+    pgadmin = 5050;
   };
 
   # Default paths for services
@@ -153,6 +154,7 @@
 
     # Database Services
     postgresql = "PostgreSQL relational database server";
+    pgadmin = "PostgreSQL administration web interface";
   };
 
   # Default authentication settings for *arr services

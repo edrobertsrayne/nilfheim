@@ -15,6 +15,7 @@ in {
   "cloudflare-homelab.age".publicKeys = systems ++ users;
   "karakeep.age".publicKeys = systems ++ users;
   "postgresql-blocky-password.age".publicKeys = systems ++ users;
+  "pgadmin-password.age".publicKeys = systems ++ users;
   # *arr service API keys
   "sonarr-api.age".publicKeys = systems ++ users;
   "radarr-api.age".publicKeys = systems ++ users;
