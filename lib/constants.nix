@@ -191,15 +191,6 @@
     "downloads" # Downloads access
   ];
 
-  # Database configuration
-  database = {
-    blocky = {
-      user = "blocky";
-      password = "blocky_password_2024"; # Centralized password
-      database = "blocky_logs";
-    };
-  };
-
   # Network access configuration
   networks = {
     localhost = ["127.0.0.1/32" "::1/128"];
