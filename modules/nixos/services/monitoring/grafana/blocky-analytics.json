@@ -109,7 +109,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT\n  $__timeGroupAlias(request_ts, $__interval),\n  response_type as metric,\n  count(*) as value\nFROM log_entries\nWHERE $__timeFilter(request_ts)\nGROUP BY $__timeGroup(request_ts, $__interval), response_type\nORDER BY $__timeGroup(request_ts, $__interval)",
+          "rawSql": "SELECT\n  date_trunc('minute', request_ts) as time,\n  response_type,\n  count(*) as value\nFROM log_entries\nWHERE $__timeFilter(request_ts)\nGROUP BY date_trunc('minute', request_ts), response_type\nORDER BY time",
           "refId": "A"
         }
       ],
@@ -865,7 +865,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT\n  $__timeGroupAlias(request_ts, '1h'),\n  'queries' as metric,\n  count(*) as value\nFROM log_entries\nWHERE $__timeFilter(request_ts)\nGROUP BY $__timeGroup(request_ts, '1h')\nORDER BY $__timeGroup(request_ts, '1h')",
+          "rawSql": "SELECT\n  date_trunc('hour', request_ts) as time,\n  'queries' as metric,\n  count(*) as value\nFROM log_entries\nWHERE $__timeFilter(request_ts)\nGROUP BY date_trunc('hour', request_ts)\nORDER BY time",
           "refId": "A"
         }
       ],
