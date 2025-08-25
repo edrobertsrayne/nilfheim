@@ -7,6 +7,7 @@
 with lib; let
   cfg = config.services.blocky;
   inherit (cfg.settings) ports;
+  constants = import ../../../../lib/constants.nix;
 in {
   config = mkIf cfg.enable {
     services = {
@@ -109,6 +110,20 @@ in {
             clientGroupsBlock = {
               default = ["ads" "trackers"];
             };
+          };
+          queryLog = {
+            type = "postgresql";
+            target = "postgres://blocky@localhost:${toString constants.ports.postgresql}/blocky_logs?sslmode=disable";
+            logRetentionDays = 90; # Keep logs for 3 months
+            flushInterval = "30s"; # Flush to database every 30 seconds
+            fields = [
+              "clientIP"
+              "clientName"
+              "responseReason"
+              "responseAnswer"
+              "question"
+              "duration"
+            ];
           };
         };
       };

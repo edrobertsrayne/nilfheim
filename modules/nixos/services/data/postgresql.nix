@@ -15,7 +15,6 @@ in {
 
       # Enable TCP/IP connections
       enableTCPIP = true;
-      port = constants.ports.postgresql;
 
       # Authentication configuration
       authentication = ''
@@ -29,6 +28,7 @@ in {
       # PostgreSQL configuration
       settings = {
         # Connection settings
+        port = constants.ports.postgresql;
         max_connections = 100;
         shared_buffers = "256MB";
         effective_cache_size = "1GB";
@@ -54,7 +54,7 @@ in {
       # Initialize database and user for Blocky
       initialScript = pkgs.writeText "postgresql-init.sql" ''
         CREATE DATABASE blocky_logs;
-        CREATE USER blocky WITH PASSWORD 'placeholder';
+        CREATE USER blocky WITH PASSWORD 'blocky_password_2024';
         GRANT ALL PRIVILEGES ON DATABASE blocky_logs TO blocky;
         \c blocky_logs;
         GRANT ALL ON SCHEMA public TO blocky;
@@ -62,29 +62,8 @@ in {
       '';
     };
 
-    # Set up proper password from agenix secret after service starts
-    systemd.services.postgresql-setup-blocky = {
-      description = "Setup Blocky PostgreSQL user password";
-      after = ["postgresql.service"];
-      wantedBy = ["multi-user.target"];
-
-      serviceConfig = {
-        Type = "oneshot";
-        User = "postgres";
-        RemainAfterExit = true;
-      };
-
-      script = ''
-        # Wait for PostgreSQL to be ready
-        while ! ${cfg.package}/bin/pg_isready -h localhost -p ${toString constants.ports.postgresql} -U postgres; do
-          sleep 1
-        done
-
-        # Set the actual password from secret
-        PASSWORD=$(cat ${config.age.secrets.postgresql-blocky-password.path})
-        ${cfg.package}/bin/psql -c "ALTER USER blocky PASSWORD '$PASSWORD';"
-      '';
-    };
+    # TODO: Set up proper password from agenix secret later
+    # For now using simple password in initialScript
 
     # Firewall configuration - only allow local connections
     networking.firewall.allowedTCPPorts = mkIf cfg.enableTCPIP [];
