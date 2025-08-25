@@ -119,7 +119,7 @@
             "type": "loki",
             "uid": "LOKI001"
           },
-          "expr": "rate({job=\"nginx-access\"}[5m])",
+          "expr": "sum(rate({job=\"nginx-access\"}[5m]))",
           "queryType": "",
           "refId": "A"
         }
@@ -521,7 +521,7 @@
             "type": "loki",
             "uid": "LOKI001"
           },
-          "expr": "topk(10, sum by (path) (count_over_time({job=\"nginx-access\"} [$__range])))",
+          "expr": "topk(10, sum by (path) (count_over_time({job=\"nginx-access\"} [$__range] | json | path != \"\" and path !~ \"/static/.*\" and path !~ \".*\\.(css|js|png|jpg|ico|gif|svg|woff|woff2|ttf)$\")))",
           "queryType": "",
           "refId": "A"
         }
