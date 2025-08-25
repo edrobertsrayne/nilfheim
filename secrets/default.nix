@@ -8,6 +8,7 @@
     kavita.file = ./kavita.age;
     cloudflare-homelab.file = ./cloudflare-homelab.age;
     postgresql-blocky-password.file = ./postgresql-blocky-password.age;
+    pgadmin-password.file = ./pgadmin-password.age;
     # *arr service API keys (temporarily disabled until secrets are properly created)
     # sonarr-api.file = ./sonarr-api.age;
     # radarr-api.file = ./radarr-api.age;
