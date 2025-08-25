@@ -9,6 +9,23 @@ with lib; let
   inherit (cfg.settings) ports;
   constants = import ../../../../lib/constants.nix;
 in {
+  options.services.blocky.postgres = {
+    user = mkOption {
+      type = types.str;
+      default = "blocky";
+      description = "PostgreSQL user for Blocky query logging";
+    };
+    password = mkOption {
+      type = types.str;
+      default = "blocky";
+      description = "PostgreSQL password for Blocky query logging";
+    };
+    database = mkOption {
+      type = types.str;
+      default = "blocky_logs";
+      description = "PostgreSQL database name for Blocky query logging";
+    };
+  };
   config = mkIf cfg.enable {
     services = {
       blocky = {
@@ -113,7 +130,7 @@ in {
           };
           queryLog = {
             type = "postgresql";
-            target = "postgres://${constants.database.blocky.user}:${constants.database.blocky.password}@localhost:${toString constants.ports.postgresql}/${constants.database.blocky.database}?sslmode=disable";
+            target = "postgres://${cfg.postgres.user}:${cfg.postgres.password}@localhost:${toString constants.ports.postgresql}/${cfg.postgres.database}?sslmode=disable";
             logRetentionDays = 90; # Keep logs for 3 months
             flushInterval = "30s"; # Flush to database every 30 seconds
             fields = [
@@ -147,8 +164,8 @@ in {
               type = "postgres";
               uid = "postgres-blocky-logs";
               url = "localhost:${toString constants.ports.postgresql}";
-              inherit (constants.database.blocky) database user;
-              secureJsonData.password = constants.database.blocky.password;
+              inherit (cfg.postgres) database user;
+              secureJsonData.password = cfg.postgres.password;
               jsonData = {
                 sslmode = "disable";
                 postgresVersion = 1600;
