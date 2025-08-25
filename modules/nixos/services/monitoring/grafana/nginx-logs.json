@@ -521,7 +521,7 @@
             "type": "loki",
             "uid": "LOKI001"
           },
-          "expr": "topk(10, sum by (path) (count_over_time({job=\"nginx-access\"} [$__range] | json | path != \"\" and path !~ \"/static/.*\" and path !~ \".*\\.(css|js|png|jpg|ico|gif|svg|woff|woff2|ttf)$\")))",
+          "expr": "topk(10, sum by (path) (count_over_time({job=\"nginx-access\"} [$__range] | json | path != \"\")))",
           "queryType": "",
           "refId": "A"
         }
