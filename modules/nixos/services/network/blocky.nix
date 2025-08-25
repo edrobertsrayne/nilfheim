@@ -7,7 +7,25 @@
 with lib; let
   cfg = config.services.blocky;
   inherit (cfg.settings) ports;
+  constants = import ../../../../lib/constants.nix;
 in {
+  options.services.blocky.postgres = {
+    user = mkOption {
+      type = types.str;
+      default = "blocky";
+      description = "PostgreSQL user for Blocky query logging";
+    };
+    password = mkOption {
+      type = types.str;
+      default = "blocky";
+      description = "PostgreSQL password for Blocky query logging";
+    };
+    database = mkOption {
+      type = types.str;
+      default = "blocky_logs";
+      description = "PostgreSQL database name for Blocky query logging";
+    };
+  };
   config = mkIf cfg.enable {
     services = {
       blocky = {
@@ -110,6 +128,20 @@ in {
               default = ["ads" "trackers"];
             };
           };
+          queryLog = {
+            type = "postgresql";
+            target = "postgres://${cfg.postgres.user}:${cfg.postgres.password}@localhost:${toString constants.ports.postgresql}/${cfg.postgres.database}?sslmode=disable";
+            logRetentionDays = 90; # Keep logs for 3 months
+            flushInterval = "30s"; # Flush to database every 30 seconds
+            fields = [
+              "clientIP"
+              "clientName"
+              "responseReason"
+              "responseAnswer"
+              "question"
+              "duration"
+            ];
+          };
         };
       };
       prometheus.scrapeConfigs = [
@@ -125,12 +157,35 @@ in {
       grafana = {
         declarativePlugins = with pkgs.grafanaPlugins; [grafana-piechart-panel];
         settings.panels.disable_sanitize_html = true;
-        provision.dashboards.settings.providers = [
-          {
-            name = "Blocky";
-            options.path = ../monitoring/grafana/blocky.json;
-          }
-        ];
+        provision = {
+          datasources.settings.datasources = [
+            {
+              name = "PostgreSQL Blocky Logs";
+              type = "postgres";
+              uid = "postgres-blocky-logs";
+              url = "127.0.0.1:${toString constants.ports.postgresql}";
+              inherit (cfg.postgres) database user;
+              secureJsonData.password = cfg.postgres.password;
+              jsonData = {
+                sslmode = "disable";
+                postgresVersion = 1600;
+                timescaledb = false;
+                connMaxLifetime = 14400;
+                maxOpenConns = 100;
+                maxIdleConns = 100;
+              };
+              isDefault = false;
+              access = "proxy";
+              editable = true;
+            }
+          ];
+          dashboards.settings.providers = [
+            {
+              name = "Blocky DNS Analytics";
+              options.path = ../monitoring/grafana/blocky-analytics.json;
+            }
+          ];
+        };
       };
     };
     networking.firewall = {

@@ -61,6 +61,8 @@ in {
       lidarr.enable = true;
       n8n.enable = true;
       nginx.enable = true;
+      pgadmin.enable = true;
+      postgresql.enable = true;
       prometheus = {
         enable = true;
         alertmanager.enable = true;

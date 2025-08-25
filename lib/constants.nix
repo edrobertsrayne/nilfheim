@@ -59,6 +59,10 @@
     nfs = 2049;
     rpcbind = 111;
     nfs-status = 20048;
+
+    # Database Services
+    postgresql = 5432;
+    pgadmin = 5050;
   };
 
   # Default paths for services
@@ -147,6 +151,10 @@
     blocky = "DNS proxy and ad-blocker";
     samba = "File sharing service";
     nfs = "Network File System for remote file access";
+
+    # Database Services
+    postgresql = "PostgreSQL relational database server";
+    pgadmin = "PostgreSQL administration web interface";
   };
 
   # Default authentication settings for *arr services
@@ -182,4 +190,10 @@
     "media" # Media files access
     "downloads" # Downloads access
   ];
+
+  # Network access configuration
+  networks = {
+    localhost = ["127.0.0.1/32" "::1/128"];
+    tailscale = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"]; # Tailscale CGNAT range
+  };
 }

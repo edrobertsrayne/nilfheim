@@ -1,7 +1,7 @@
 {
   "id": null,
   "title": "System Health & ZFS Monitoring",
-  "tags": ["health", "monitoring", "system", "zfs"],
+  "tags": ["system", "monitoring", "zfs"],
     "style": "dark",
     "timezone": "browser",
     "refresh": "30s",
