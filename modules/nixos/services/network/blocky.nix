@@ -163,16 +163,20 @@ in {
               name = "PostgreSQL Blocky Logs";
               type = "postgres";
               uid = "postgres-blocky-logs";
-              url = "localhost:${toString constants.ports.postgresql}";
+              url = "127.0.0.1:${toString constants.ports.postgresql}";
               inherit (cfg.postgres) database user;
               secureJsonData.password = cfg.postgres.password;
               jsonData = {
                 sslmode = "disable";
                 postgresVersion = 1600;
                 timescaledb = false;
+                connMaxLifetime = 14400;
+                maxOpenConns = 100;
+                maxIdleConns = 100;
               };
               isDefault = false;
               access = "proxy";
+              editable = true;
             }
           ];
           dashboards.settings.providers = [
@@ -187,6 +191,10 @@ in {
             {
               name = "Blocky PostgreSQL Analytics";
               options.path = ../monitoring/grafana/blocky-postgres.json;
+            }
+            {
+              name = "Blocky DNS Analytics";
+              options.path = ../monitoring/grafana/blocky-analytics.json;
             }
           ];
         };
