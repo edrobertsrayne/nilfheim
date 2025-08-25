@@ -181,18 +181,6 @@ in {
           ];
           dashboards.settings.providers = [
             {
-              name = "Blocky";
-              options.path = ../monitoring/grafana/blocky.json;
-            }
-            {
-              name = "Blocky Enhanced";
-              options.path = ../monitoring/grafana/blocky-enhanced.json;
-            }
-            {
-              name = "Blocky PostgreSQL Analytics";
-              options.path = ../monitoring/grafana/blocky-postgres.json;
-            }
-            {
               name = "Blocky DNS Analytics";
               options.path = ../monitoring/grafana/blocky-analytics.json;
             }
