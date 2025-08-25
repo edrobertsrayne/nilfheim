@@ -140,12 +140,36 @@ in {
       grafana = {
         declarativePlugins = with pkgs.grafanaPlugins; [grafana-piechart-panel];
         settings.panels.disable_sanitize_html = true;
-        provision.dashboards.settings.providers = [
-          {
-            name = "Blocky";
-            options.path = ../monitoring/grafana/blocky.json;
-          }
-        ];
+        provision = {
+          datasources.settings.datasources = [
+            {
+              name = "PostgreSQL Blocky Logs";
+              type = "postgres";
+              uid = "postgres-blocky-logs";
+              url = "localhost:${toString constants.ports.postgresql}";
+              database = "blocky_logs";
+              user = "blocky";
+              secureJsonData.password = "blocky_password_2024"; # TODO: Use secret
+              jsonData = {
+                sslmode = "disable";
+                postgresVersion = 1600;
+                timescaledb = false;
+              };
+              isDefault = false;
+              access = "proxy";
+            }
+          ];
+          dashboards.settings.providers = [
+            {
+              name = "Blocky";
+              options.path = ../monitoring/grafana/blocky.json;
+            }
+            {
+              name = "Blocky Enhanced";
+              options.path = ../monitoring/grafana/blocky-enhanced.json;
+            }
+          ];
+        };
       };
     };
     networking.firewall = {
