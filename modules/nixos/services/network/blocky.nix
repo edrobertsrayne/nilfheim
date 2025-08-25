@@ -113,7 +113,7 @@ in {
           };
           queryLog = {
             type = "postgresql";
-            target = "postgres://blocky:blocky_password_2024@localhost:${toString constants.ports.postgresql}/blocky_logs?sslmode=disable";
+            target = "postgres://${constants.database.blocky.user}:${constants.database.blocky.password}@localhost:${toString constants.ports.postgresql}/${constants.database.blocky.database}?sslmode=disable";
             logRetentionDays = 90; # Keep logs for 3 months
             flushInterval = "30s"; # Flush to database every 30 seconds
             fields = [
@@ -147,9 +147,8 @@ in {
               type = "postgres";
               uid = "postgres-blocky-logs";
               url = "localhost:${toString constants.ports.postgresql}";
-              database = "blocky_logs";
-              user = "blocky";
-              secureJsonData.password = "blocky_password_2024"; # TODO: Use secret
+              inherit (constants.database.blocky) database user;
+              secureJsonData.password = constants.database.blocky.password;
               jsonData = {
                 sslmode = "disable";
                 postgresVersion = 1600;

@@ -190,4 +190,19 @@
     "media" # Media files access
     "downloads" # Downloads access
   ];
+
+  # Database configuration
+  database = {
+    blocky = {
+      user = "blocky";
+      password = "blocky_password_2024"; # Centralized password
+      database = "blocky_logs";
+    };
+  };
+
+  # Network access configuration
+  networks = {
+    localhost = ["127.0.0.1/32" "::1/128"];
+    tailscale = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"]; # Tailscale CGNAT range
+  };
 }

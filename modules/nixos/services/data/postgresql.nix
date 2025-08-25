@@ -23,8 +23,12 @@ in {
         local   all             all                                     trust
         host    all             all             127.0.0.1/32            trust
         host    all             all             ::1/128                 trust
-        host    blocky_logs     blocky          127.0.0.1/32           md5
-        host    blocky_logs     blocky          ::1/128                md5
+
+        # Allow blocky user from localhost and tailscale network
+        host    ${constants.database.blocky.database}     ${constants.database.blocky.user}          127.0.0.1/32           md5
+        host    ${constants.database.blocky.database}     ${constants.database.blocky.user}          ::1/128                md5
+        host    ${constants.database.blocky.database}     ${constants.database.blocky.user}          100.64.0.0/10          md5
+
         # Allow replication connections
         local   replication     all                                     trust
         host    replication     all             127.0.0.1/32            trust
@@ -59,23 +63,18 @@ in {
 
       # Initialize database and user for Blocky
       initialScript = pkgs.writeText "postgresql-init.sql" ''
-        CREATE DATABASE blocky_logs;
-        CREATE USER blocky WITH PASSWORD 'blocky_password_2024';
-        GRANT ALL PRIVILEGES ON DATABASE blocky_logs TO blocky;
-        \c blocky_logs;
-        GRANT ALL ON SCHEMA public TO blocky;
-        ALTER USER blocky CREATEDB;
+        CREATE DATABASE ${constants.database.blocky.database};
+        CREATE USER ${constants.database.blocky.user} WITH PASSWORD '${constants.database.blocky.password}';
+        GRANT ALL PRIVILEGES ON DATABASE ${constants.database.blocky.database} TO ${constants.database.blocky.user};
+        \c ${constants.database.blocky.database};
+        GRANT ALL ON SCHEMA public TO ${constants.database.blocky.user};
+        ALTER USER ${constants.database.blocky.user} CREATEDB;
       '';
     };
 
-    # TODO: Set up proper password from agenix secret later
-    # For now using simple password in initialScript
-
-    # Firewall configuration - only allow local connections
-    networking.firewall.allowedTCPPorts = mkIf cfg.enableTCPIP [];
-
-    # Create database user group for file permissions
-    users.groups.blocky-db = {};
+    # Firewall configuration - allow local and tailscale connections
+    networking.firewall.allowedTCPPorts = mkIf cfg.enableTCPIP [constants.ports.postgresql];
+    networking.firewall.interfaces.tailscale0.allowedTCPPorts = mkIf cfg.enableTCPIP [constants.ports.postgresql];
 
     # Ensure data directory has correct permissions
     systemd.tmpfiles.rules = [
