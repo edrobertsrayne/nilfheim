@@ -93,5 +93,23 @@ in {
         ))
       shareConfig;
     };
+
+    # Music streaming services
+    navidrome = {
+      enable = true;
+      musicFolder = constants.paths.music;
+      dataFolder = "${constants.paths.dataDir}/navidrome";
+    };
+
+    beets = {
+      enable = true;
+    };
+
+    your-spotify = {
+      enable = true;
+      # TODO: Add Spotify API credentials via secrets or environment
+      clientId = "";
+      clientSecret = "";
+    };
   };
 }
