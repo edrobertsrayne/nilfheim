@@ -97,8 +97,12 @@ in {
     # Music streaming services
     navidrome = {
       enable = true;
-      musicFolder = constants.paths.music;
-      dataFolder = "${constants.paths.dataDir}/navidrome";
+      settings = {
+        MusicFolder = constants.paths.music;
+        DataFolder = "${constants.paths.dataDir}/navidrome";
+        Address = "127.0.0.1";
+        Port = constants.ports.navidrome;
+      };
     };
 
     beets = {
