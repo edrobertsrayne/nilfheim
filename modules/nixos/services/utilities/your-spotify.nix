@@ -100,7 +100,7 @@ in {
         # Directory access
         ReadWritePaths = [cfg.dataFolder];
 
-        ExecStart = "${pkgs.your_spotify}/bin/your_spotify --port ${toString cfg.port}";
+        ExecStart = "${pkgs.your_spotify}/bin/your_spotify_server --port ${toString cfg.port}";
       };
 
       environment = {
@@ -110,21 +110,20 @@ in {
         SPOTIFY_PUBLIC = cfg.clientId;
         SPOTIFY_SECRET = cfg.clientSecret;
         CORS = "https://${cfg.url}";
-        MONGO_ENDPOINT = "mongodb://127.0.0.1:27017/yourspotify";
+        DATABASE_URL = "postgresql://yourspotify:yourspotify@127.0.0.1:${toString constants.ports.postgresql}/yourspotify";
+        DB_TYPE = "postgres";
         API_ENDPOINT = "https://${cfg.url}/api";
       };
     };
 
     services = {
-      # MongoDB for Your Spotify data
-      mongodb = {
-        enable = true;
-        bind_ip = "127.0.0.1";
-        extraConfig = ''
-          storage:
-            dbPath: ${constants.paths.dataDir}/mongodb
-        '';
-      };
+      # PostgreSQL database initialization for Your Spotify
+      postgresql.initialScript = pkgs.writeText "your-spotify-init.sql" ''
+        CREATE DATABASE yourspotify;
+        CREATE USER yourspotify WITH PASSWORD 'yourspotify';
+        GRANT ALL PRIVILEGES ON DATABASE yourspotify TO yourspotify;
+        GRANT ALL ON SCHEMA public TO yourspotify;
+      '';
 
       # Homepage integration
       homepage-dashboard.homelabServices = [
