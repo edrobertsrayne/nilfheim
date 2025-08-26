@@ -319,6 +319,81 @@ services.nfs-client = {
 - Soft mounting with background and interrupt support
 - Integration with existing Samba shares
 
+### Database Services
+
+**PostgreSQL Configuration:**
+
+```nix
+services.postgresql = {
+  enable = true;
+  package = pkgs.postgresql_16;
+  dataDir = "${constants.paths.dataDir}/postgresql";
+  enableTCPIP = true;
+  
+  settings = {
+    port = constants.ports.postgresql;
+    max_connections = 100;
+    shared_buffers = "256MB";
+    effective_cache_size = "1GB";
+    log_statement = "all";
+    log_min_duration_statement = 1000;
+  };
+};
+```
+
+**pgAdmin Web Interface:**
+
+```nix
+services.pgadmin = {
+  enable = true;
+  port = constants.ports.pgadmin;
+  initialEmail = config.user.email;
+  initialPasswordFile = pkgs.writeText "pgadmin_password" "password123";
+};
+
+# Homepage integration
+services.homepage-dashboard.homelabServices = [{
+  group = "Data";
+  name = "pgAdmin";
+  entry = {
+    href = "https://pgadmin.${config.homelab.domain}";
+    icon = "postgresql.svg";
+    siteMonitor = "http://127.0.0.1:${toString constants.ports.pgadmin}";
+    description = "PostgreSQL administration interface";
+  };
+}];
+
+# Nginx proxy
+services.nginx.virtualHosts."pgadmin.${config.homelab.domain}" = {
+  locations."/" = {
+    proxyPass = "http://127.0.0.1:${toString constants.ports.pgadmin}";
+    proxyWebsockets = true;
+  };
+};
+```
+
+**Database Integration Patterns:**
+
+- **Centralized Configuration**: Use `lib/constants.nix` for ports, paths, and network settings
+- **Security**: Implement proper authentication with tailscale network restrictions
+- **Monitoring**: Enable query logging and performance metrics for Grafana integration  
+- **Backup Ready**: Configure data directories with proper permissions for backup services
+- **Service Integration**: Automatic database and user creation for dependent services (e.g., Blocky)
+
+**Example Service Database Integration:**
+
+```nix
+# In service module (e.g., Blocky DNS)
+services.postgresql.initialScript = pkgs.writeText "service-init.sql" ''
+  CREATE DATABASE ${config.services.servicename.database.name};
+  CREATE USER ${config.services.servicename.database.user} WITH PASSWORD '${config.services.servicename.database.password}';
+  GRANT ALL PRIVILEGES ON DATABASE ${config.services.servicename.database.name} TO ${config.services.servicename.database.user};
+'';
+
+# Firewall configuration for database access
+networking.firewall.interfaces.tailscale0.allowedTCPPorts = [constants.ports.postgresql];
+```
+
 ## Service Development Guidelines
 
 ### Service Abstractions
@@ -342,7 +417,12 @@ services.nfs-client = {
 3. Use centralized ports from `lib/constants.nix`
 4. Add homepage integration via `homelabServices`
 5. Configure nginx proxy with `proxyWebsockets = true`
-6. Run `just check` before committing
+6. **Database Services**: If adding database-dependent service:
+   - Configure PostgreSQL integration in service module
+   - Add database initialization script
+   - Set up proper authentication and network access
+   - Consider backup requirements and monitoring integration
+7. Run `just check` before committing
 
 ### Refactoring Existing Services
 1. Identify code duplication patterns

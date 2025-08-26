@@ -20,6 +20,10 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 ├── modules/               # Modular system configurations
 │   ├── common/            # Shared across platforms
 │   ├── nixos/             # NixOS-specific modules
+│   │   ├── services/      # Service modules organized by category
+│   │   │   ├── data/      # Database services (PostgreSQL, pgAdmin)
+│   │   │   ├── monitoring/# Monitoring stack (Grafana, Prometheus, Loki)
+│   │   │   └── ...        # Other service categories
 │   ├── darwin/            # macOS-specific modules
 │   └── home/              # Home-manager configurations
 ├── roles/                 # Predefined role combinations
@@ -27,6 +31,14 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 ```
 
 ## 🚀 Modern Infrastructure Features
+
+### 🔍 Advanced DNS Analytics
+- **Real-time Monitoring**: Live DNS query analysis with response type categorization
+- **Performance Insights**: Response time tracking with percentile analysis
+- **Security Analytics**: Block effectiveness monitoring with threat pattern detection
+- **Client Intelligence**: Device and user behavior analysis with anomaly detection
+- **Cache Optimization**: Hit rate analysis for performance tuning
+- **Comprehensive Dashboards**: 21-panel Grafana dashboard with enterprise-grade DNS insights
 
 ### 🐳 Container Management
 - **Podman**: Rootless containerization for Home Assistant and Tdarr
@@ -37,11 +49,13 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 - **Impermanence**: Stateless root with selective persistence
 - **Disko**: Declarative disk partitioning
 
-### 📊 Monitoring Stack
-- **Metrics**: Prometheus + Grafana with custom dashboards
+### 📊 Monitoring & Analytics Stack
+- **Metrics**: Prometheus + Grafana with comprehensive dashboards
 - **Logs**: Loki + Promtail for centralized log aggregation
-- **Health**: Custom exporters for *arr services and system monitoring
+- **DNS Analytics**: PostgreSQL + Grafana for advanced DNS query analysis
+- **Health**: Custom exporters for *arr services and system monitoring  
 - **Alerts**: AlertManager with notification routing
+- **Database**: PostgreSQL with pgAdmin web interface for data exploration
 
 ## ✨ Key Features
 
@@ -49,7 +63,8 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 - **🎬 Media**: Jellyfin, Audiobookshelf, Jellyseerr, Kavita (ebooks)
 - **📥 Downloads**: *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr), Transmission, Recyclarr, Flaresolverr
 - **📈 Monitoring**: Grafana, Prometheus, AlertManager, Uptime Kuma, Glances, Loki, Promtail
-- **🌐 Network**: Nginx reverse proxy, Blocky DNS, Tailscale, SSH, Cloudflared tunnels
+- **📊 Analytics**: PostgreSQL database with pgAdmin for DNS query logging and analysis
+- **🌐 Network**: Nginx reverse proxy, Blocky DNS with logging, Tailscale, SSH, Cloudflared tunnels
 - **💾 Storage**: NFS server for shared storage over tailscale network, Samba shares for local access
 - **🛠️ Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Stirling PDF, N8N automation
 - **🐳 Virtualization**: Podman containers (Home Assistant, Tdarr)
@@ -148,5 +163,9 @@ Commit format: `type(scope): description` (conventional commits)
 
 ## 📚 Documentation
 
-- **📋 CLAUDE.md** - Development commands and workflow
+- **📋 CLAUDE.md** - Development commands and workflow  
 - **📝 TODO.md** - Planned improvements and pending tasks
+- **🗂️ docs/** - Comprehensive documentation directory
+  - **[Database Services](docs/database-services.md)** - PostgreSQL, pgAdmin, and integration patterns
+  - **[Monitoring Dashboards](docs/monitoring-dashboards.md)** - Grafana dashboards and analytics
+  - **[Documentation Index](docs/README.md)** - Complete documentation navigation
