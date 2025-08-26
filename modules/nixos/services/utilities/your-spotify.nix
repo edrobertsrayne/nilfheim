@@ -117,13 +117,7 @@ in {
     };
 
     services = {
-      # PostgreSQL database initialization for Your Spotify
-      postgresql.initialScript = pkgs.writeText "your-spotify-init.sql" ''
-        CREATE DATABASE yourspotify;
-        CREATE USER yourspotify WITH PASSWORD 'yourspotify';
-        GRANT ALL PRIVILEGES ON DATABASE yourspotify TO yourspotify;
-        GRANT ALL ON SCHEMA public TO yourspotify;
-      '';
+      # Note: PostgreSQL database initialization is handled in postgresql.nix
 
       # Homepage integration
       homepage-dashboard.homelabServices = [

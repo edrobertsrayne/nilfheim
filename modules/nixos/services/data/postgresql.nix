@@ -61,14 +61,25 @@ in {
         checkpoint_timeout = "5min";
       };
 
-      # Initialize database and user for Blocky
+      # Initialize databases and users
       initialScript = pkgs.writeText "postgresql-init.sql" ''
+        -- Blocky database
         CREATE DATABASE ${config.services.blocky.postgres.database};
         CREATE USER ${config.services.blocky.postgres.user} WITH PASSWORD '${config.services.blocky.postgres.password}';
         GRANT ALL PRIVILEGES ON DATABASE ${config.services.blocky.postgres.database} TO ${config.services.blocky.postgres.user};
         \c ${config.services.blocky.postgres.database};
         GRANT ALL ON SCHEMA public TO ${config.services.blocky.postgres.user};
         ALTER USER ${config.services.blocky.postgres.user} CREATEDB;
+
+        -- Your Spotify database (if enabled)
+        \c postgres;
+        ${optionalString config.services.your-spotify.enable ''
+          CREATE DATABASE yourspotify;
+          CREATE USER yourspotify WITH PASSWORD 'yourspotify';
+          GRANT ALL PRIVILEGES ON DATABASE yourspotify TO yourspotify;
+          \c yourspotify;
+          GRANT ALL ON SCHEMA public TO yourspotify;
+        ''}
       '';
     };
 
