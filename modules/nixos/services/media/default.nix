@@ -5,5 +5,6 @@
     ./plex.nix
     ./audiobookshelf.nix
     ./kavita.nix
+    ./navidrome.nix
   ];
 }

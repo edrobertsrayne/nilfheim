@@ -63,6 +63,11 @@
     # Database Services
     postgresql = 5432;
     pgadmin = 5050;
+
+    # Music Services
+    navidrome = 4533;
+    your-spotify = 4537;
+    beets = 8337;
   };
 
   # Default paths for services
@@ -155,6 +160,11 @@
     # Database Services
     postgresql = "PostgreSQL relational database server";
     pgadmin = "PostgreSQL administration web interface";
+
+    # Music Services
+    navidrome = "Modern music server compatible with Subsonic/Airsonic clients";
+    your-spotify = "Self-hosted Spotify listening analytics and statistics dashboard";
+    beets = "Music library organization and metadata management tool";
   };
 
   # Default authentication settings for *arr services
