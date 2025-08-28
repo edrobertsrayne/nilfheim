@@ -50,11 +50,6 @@ in {
             upstream = "https://one.one.one.one/dns-query";
             ips = ["1.1.1.1" "1.0.0.1"];
           };
-          customDNS = {
-            mapping = {
-              "greensroad.uk" = "100.105.73.79";
-            };
-          };
           blocking = {
             denylists = {
               ads = [
