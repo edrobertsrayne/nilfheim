@@ -63,6 +63,7 @@
     # Database Services
     postgresql = 5432;
     pgadmin = 5050;
+    mongodb = 27017;
 
     # Music Services
     navidrome = 4533;
@@ -160,6 +161,7 @@
     # Database Services
     postgresql = "PostgreSQL relational database server";
     pgadmin = "PostgreSQL administration web interface";
+    mongodb = "MongoDB document-oriented database server";
 
     # Music Services
     navidrome = "Modern music server compatible with Subsonic/Airsonic clients";

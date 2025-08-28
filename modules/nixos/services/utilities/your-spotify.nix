@@ -73,8 +73,8 @@ in {
     systemd.services.your-spotify = {
       description = "Your Spotify analytics dashboard";
       wantedBy = ["multi-user.target"];
-      after = ["network.target" "postgresql.service"];
-      wants = ["postgresql.service"];
+      after = ["network.target" "mongodb.service"];
+      wants = ["mongodb.service"];
 
       serviceConfig = {
         Type = "simple";
@@ -110,14 +110,23 @@ in {
         SPOTIFY_PUBLIC = cfg.clientId;
         SPOTIFY_SECRET = cfg.clientSecret;
         CORS = "https://${cfg.url}";
-        DATABASE_URL = "postgresql://yourspotify:yourspotify@127.0.0.1:${toString constants.ports.postgresql}/yourspotify";
-        DB_TYPE = "postgres";
+        MONGO_ENDPOINT = "mongodb://127.0.0.1:${toString constants.ports.mongodb}/your_spotify";
         API_ENDPOINT = "https://${cfg.url}/api";
       };
     };
 
     services = {
-      # Note: PostgreSQL database initialization is handled in postgresql.nix
+      # MongoDB for Your Spotify (required - app only supports MongoDB)
+      mongodb = {
+        enable = true;
+        package = pkgs.mongodb;
+        dbpath = "${constants.paths.dataDir}/mongodb";
+        bind_ip = "127.0.0.1";
+        extraConfig = ''
+          net:
+            port: ${toString constants.ports.mongodb}
+        '';
+      };
 
       # Homepage integration
       homepage-dashboard.homelabServices = [
@@ -164,9 +173,10 @@ in {
     # Firewall
     networking.firewall.allowedTCPPorts = mkIf cfg.openFirewall [cfg.port];
 
-    # Ensure data directory exists
+    # Ensure data directories exist
     systemd.tmpfiles.rules = [
       "d '${cfg.dataFolder}' 0755 ${cfg.user} ${cfg.group} - -"
+      "d '${constants.paths.dataDir}/mongodb' 0755 mongodb mongodb - -"
     ];
   };
 }
