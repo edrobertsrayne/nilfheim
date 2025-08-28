@@ -100,7 +100,7 @@ in {
       settings = {
         MusicFolder = constants.paths.music;
         DataFolder = "${constants.paths.dataDir}/navidrome";
-        Address = "127.0.0.1";
+        # Address is configured in navidrome-integration.nix
         Port = constants.ports.navidrome;
       };
     };

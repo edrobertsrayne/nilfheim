@@ -15,7 +15,7 @@ in {
       navidrome = {
         settings = {
           Port = constants.ports.navidrome;
-          Address = "127.0.0.1";
+          Address = "0.0.0.0"; # Allow access from tailscale network for initial setup
         };
       };
 
@@ -51,5 +51,8 @@ in {
 
     # Ensure the navidrome user has access to media groups
     users.users.navidrome.extraGroups = constants.userGroups;
+
+    # Allow access from tailscale network for initial admin user setup
+    networking.firewall.interfaces.tailscale0.allowedTCPPorts = [constants.ports.navidrome];
   };
 }
