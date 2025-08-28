@@ -197,7 +197,7 @@ in {
         name = "Beets";
         entry = {
           href = "https://${cfg.url}";
-          icon = "beets.svg";
+          icon = "si-musicbrainz";
           siteMonitor = "http://127.0.0.1:${toString cfg.port}";
           description = constants.descriptions.beets;
         };
