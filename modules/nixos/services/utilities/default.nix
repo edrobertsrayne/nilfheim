@@ -1,5 +1,6 @@
 {
   imports = [
+    ./beets.nix
     ./code-server.nix
     ./homepage.nix
     ./karakeep.nix
@@ -7,5 +8,6 @@
     ./proxmox-ve.nix
     ./samba.nix
     ./stirling-pdf.nix
+    ./your-spotify.nix
   ];
 }
