@@ -57,5 +57,10 @@ in {
         }
       ];
     };
+
+    # Add Karakeep data directory to persistence
+    system.persist.extraRootDirectories = [
+      "/var/lib/karakeep"
+    ];
   };
 }
