@@ -21,6 +21,15 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # Create /srv/karakeep directory with proper ownership and override DATA_DIR
+    systemd = {
+      tmpfiles.rules = [
+        "d /srv/karakeep 0755 karakeep karakeep -"
+      ];
+      services.karakeep-web.environment.DATA_DIR = lib.mkForce "/srv/karakeep";
+      services.karakeep-workers.environment.DATA_DIR = lib.mkForce "/srv/karakeep";
+    };
+
     services = {
       karakeep = {
         environmentFile = config.age.secrets.karakeep.path;
@@ -36,33 +45,28 @@ in {
           INFERENCE_OUTPUT_SCHEMA = "structured";
         };
       };
-
-      # Nginx proxy configuration
-      nginx.virtualHosts."${cfg.url}" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          proxyWebsockets = true;
-        };
-      };
-
-      # Homepage dashboard integration
-      homepage-dashboard.homelabServices = [
-        {
-          group = "Utilities";
-          name = "Karakeep";
-          entry = {
-            href = "https://${cfg.url}";
-            icon = "mdi-book-open-page-variant";
-            siteMonitor = "https://${cfg.url}";
-            description = "AI-powered bookmark and note management";
-          };
-        }
-      ];
     };
 
-    # Add Karakeep data directory to persistence
-    system.persist.extraRootDirectories = [
-      "/var/lib/karakeep"
+    # Nginx proxy configuration
+    services.nginx.virtualHosts."${cfg.url}" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:${toString cfg.port}";
+        proxyWebsockets = true;
+      };
+    };
+
+    # Homepage dashboard integration
+    services.homepage-dashboard.homelabServices = [
+      {
+        group = "Utilities";
+        name = "Karakeep";
+        entry = {
+          href = "https://${cfg.url}";
+          icon = "mdi-book-open-page-variant";
+          siteMonitor = "https://${cfg.url}";
+          description = "AI-powered bookmark and note management";
+        };
+      }
     ];
   };
 }
