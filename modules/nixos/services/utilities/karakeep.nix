@@ -27,6 +27,8 @@ in {
 
         extraEnvironment = {
           PORT = toString cfg.port;
+          API_URL = "http://localhost:${toString cfg.port}";
+          NEXTAUTH_URL = "https://${cfg.url}";
           DISABLE_NEW_RELEASE_CHECK = "true";
           INFERENCE_ENABLE_AUTO_TAGGING = "true";
           INFERENCE_LANG = "english";
