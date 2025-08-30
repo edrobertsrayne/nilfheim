@@ -9,7 +9,7 @@ in {
   options.services.karakeep = {
     url = mkOption {
       type = types.str;
-      default = "karakeep.${config.homelab.domain}";
+      default = "keep.${config.homelab.domain}";
       description = "URL for karakeep proxy.";
     };
 
