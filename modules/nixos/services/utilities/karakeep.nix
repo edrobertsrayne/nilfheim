@@ -21,14 +21,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Create /srv/karakeep directory with proper ownership and override DATA_DIR
-    systemd = {
-      tmpfiles.rules = [
-        "d /srv/karakeep 0755 karakeep karakeep -"
-      ];
-      services.karakeep-web.environment.DATA_DIR = lib.mkForce "/srv/karakeep";
-      services.karakeep-workers.environment.DATA_DIR = lib.mkForce "/srv/karakeep";
-    };
+    system.persist.extraRootDirectories = ["/var/lib/karakeep"];
 
     services = {
       karakeep = {
