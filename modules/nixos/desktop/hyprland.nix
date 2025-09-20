@@ -83,9 +83,6 @@ in {
       hyprsunset
       wlogout
 
-      # App launcher
-      rofi-wayland
-
       # Terminal
       foot
 
