@@ -45,7 +45,6 @@
     stirling-pdf = 8081;
     karakeep = 8090;
     samba = 445;
-    proxmox-ve = 8006;
 
     # Network Services
     blocky = 4000;
@@ -145,7 +144,6 @@
     code-server = "VS Code running in the browser";
     stirling-pdf = "PDF manipulation and processing tool";
     karakeep = "Karaoke song management system";
-    proxmox-ve = "Virtualization management platform";
 
     # Network Services
     blocky = "DNS proxy and ad-blocker";

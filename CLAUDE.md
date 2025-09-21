@@ -21,6 +21,7 @@ just check
 ```
 
 ### Manual Development Commands
+
 ```bash
 # Individual linting tools (use 'just lint' instead for full suite)
 nix fmt .                    # Format only
@@ -96,6 +97,7 @@ agenix -r
 ## Development Workflow
 
 ### Quick Development Loop
+
 1. **Create feature branch**:
    - Features: `git checkout -b feat/feature-name`
    - Fixes: `git checkout -b fix/issue-name`
@@ -104,14 +106,16 @@ agenix -r
 
 3. **Fast validation**: `just lint` (during development for quick feedback)
 
-4. **Test builds**: 
+4. **Test builds**:
    - NixOS: `nixos-rebuild build-vm --flake .#<hostname>`
    - Darwin: `darwin-rebuild check --flake .#<hostname>`
 
 5. **Repeat** until satisfied with changes
 
 ### Before Commit (MANDATORY)
-1. **Final validation**: `just check` - **MUST PASS completely with zero errors/warnings**
+
+1. **Final validation**: `just check` - **MUST PASS completely with zero
+   errors/warnings**
 
 2. **Test configuration**: Deploy to test environment or VM
 
@@ -124,10 +128,12 @@ agenix -r
 4. **Apply changes**:
    - Quick: `just <hostname>` (freya, odin, thor, loki)
    - Manual NixOS local: `sudo nixos-rebuild switch --flake .#<hostname>`
-   - Manual NixOS remote: `nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo`
+   - Manual NixOS remote:
+     `nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo`
    - Manual Darwin: `darwin-rebuild switch --flake .#<hostname>`
 
 ### Branch Management
+
 - **Before PR**: `git rebase main`
 - **Quality checks**: `just ci-quality-dry` (fast validation)
 - **Local CI testing**: `just ci-validate` (comprehensive validation)
@@ -142,7 +148,9 @@ agenix -r
 - [ ] Rebase against main
 - [ ] Use conventional commit format
 
-**CRITICAL**: `just check` must complete successfully with zero errors and zero warnings before any commit can be made. This includes:
+**CRITICAL**: `just check` must complete successfully with zero errors and zero
+warnings before any commit can be made. This includes:
+
 - ✅ Formatting (alejandra)
 - ✅ Static analysis (statix)
 - ✅ Dead code detection (deadnix)
@@ -179,11 +187,11 @@ curl -s http://api.example.com | nix run nixpkgs#jq -- '.data'
 
 ### Common Issues
 
-| Issue                    | Solution                                           |
-| ------------------------ | -------------------------------------------------- |
+| Issue                    | Solution                                          |
+| ------------------------ | ------------------------------------------------- |
 | Permission errors        | Enter development shell: `nix develop`            |
 | Build failures           | Update flake inputs: `nix flake update`           |
-| Secret access            | Verify agenix keys configuration                   |
+| Secret access            | Verify agenix keys configuration                  |
 | Hardware issues          | Update hardware-configuration.nix                 |
 | Platform mismatch        | Use correct rebuild command for your OS           |
 | Cross-compilation        | Use `--build-host` for remote deployments         |
@@ -248,7 +256,6 @@ services.nginx.virtualHosts."${cfg.url}" = {
 
 **Exceptions:**
 
-- Proxmox VE: Requires `https://` proxy and SSL verification bypass
 - Static assets: May need additional location blocks
 - Service-specific headers: Only if required by the application
 
@@ -263,10 +270,11 @@ services.zfs.autoSnapshot = constants.snapshotRetention // {
 ```
 
 **Standard Retention Policy (from lib/constants.nix):**
+
 - frequent = 4 (15-minute snapshots)
 - hourly = 24
 - daily = 14 (2 weeks)
-- weekly = 8 (2 months)  
+- weekly = 8 (2 months)
 - monthly = 6 (6 months)
 
 **Requirements:**
@@ -314,6 +322,7 @@ services.nfs-client = {
 ```
 
 **Features:**
+
 - Automatic export over tailscale network (100.64.0.0/10)
 - Proper firewall configuration for NFS ports (2049, 111, 20048)
 - Soft mounting with background and interrupt support
@@ -374,11 +383,16 @@ services.nginx.virtualHosts."pgadmin.${config.homelab.domain}" = {
 
 **Database Integration Patterns:**
 
-- **Centralized Configuration**: Use `lib/constants.nix` for ports, paths, and network settings
-- **Security**: Implement proper authentication with tailscale network restrictions
-- **Monitoring**: Enable query logging and performance metrics for Grafana integration  
-- **Backup Ready**: Configure data directories with proper permissions for backup services
-- **Service Integration**: Automatic database and user creation for dependent services (e.g., Blocky)
+- **Centralized Configuration**: Use `lib/constants.nix` for ports, paths, and
+  network settings
+- **Security**: Implement proper authentication with tailscale network
+  restrictions
+- **Monitoring**: Enable query logging and performance metrics for Grafana
+  integration
+- **Backup Ready**: Configure data directories with proper permissions for
+  backup services
+- **Service Integration**: Automatic database and user creation for dependent
+  services (e.g., Blocky)
 
 **Example Service Database Integration:**
 
@@ -399,19 +413,24 @@ networking.firewall.interfaces.tailscale0.allowedTCPPorts = [constants.ports.pos
 ### Service Abstractions
 
 **When to Use lib/services.nix Abstractions:**
+
 - Services with high code similarity (80%+ duplication)
 - Consistent configuration patterns across multiple services
 - Example: *arr services (sonarr, radarr, lidarr) use `mkArrService`
 
 **When NOT to Use Abstractions:**
+
 - Complex services with unique requirements (Jellyfin, Plex, Prometheus)
 - Simple services (30-50 lines) where abstraction adds overhead
 - Services with service-specific configuration needs
 
 **Available Abstractions:**
-- `mkArrService`: For *arr applications with Prometheus exporters, homepage integration, nginx proxy
+
+- `mkArrService`: For *arr applications with Prometheus exporters, homepage
+  integration, nginx proxy
 
 ### Adding a New Service
+
 1. Check if existing abstractions apply (`lib/services.nix`)
 2. Follow existing service patterns in `modules/nixos/services/`
 3. Use centralized ports from `lib/constants.nix`
@@ -425,18 +444,24 @@ networking.firewall.interfaces.tailscale0.allowedTCPPorts = [constants.ports.pos
 7. Run `just check` before committing
 
 ### Refactoring Existing Services
+
 1. Identify code duplication patterns
 2. Consider if abstraction would benefit (see guidelines above)
-3. **CRITICAL**: Only add abstraction if it has immediate benefit - avoid creating unused layers
+3. **CRITICAL**: Only add abstraction if it has immediate benefit - avoid
+   creating unused layers
 4. Focus on eliminating actual duplication (paths, settings, configurations)
 5. Test thoroughly with `nixos-rebuild build-vm`
 6. Ensure `just check` passes with zero warnings
 
 ### Refactoring Best Practices
-- **Immediate Benefit Only**: Don't create abstractions that aren't actively used
+
+- **Immediate Benefit Only**: Don't create abstractions that aren't actively
+  used
 - **Single Source of Truth**: Eliminate duplicate definitions across files
-- **Use Existing Centralization**: Reference `lib/constants.nix` for paths, ports, settings
-- **Keep It Simple**: Prefer simple reference to constants over complex abstractions
+- **Use Existing Centralization**: Reference `lib/constants.nix` for paths,
+  ports, settings
+- **Keep It Simple**: Prefer simple reference to constants over complex
+  abstractions
 - **Test Impact**: Ensure refactoring doesn't break existing functionality
 
 ## Security Configuration
@@ -444,10 +469,12 @@ networking.firewall.interfaces.tailscale0.allowedTCPPorts = [constants.ports.pos
 ### Authentication & Access Control
 
 **Sudo Configuration:**
+
 - Password required for all sudo operations (`wheelNeedsPassword = true`)
 - No passwordless sudo access for security
 
 **SSH Hardening:**
+
 - Key-based authentication only (`PasswordAuthentication = false`)
 - Root login disabled (`PermitRootLogin = "no"`)
 - Maximum 3 authentication attempts before connection drop
@@ -456,6 +483,7 @@ networking.firewall.interfaces.tailscale0.allowedTCPPorts = [constants.ports.pos
 ### Intrusion Prevention
 
 **Fail2ban Configuration:**
+
 ```nix
 services.fail2ban = {
   enable = true;
@@ -467,6 +495,7 @@ services.fail2ban = {
 ```
 
 **Features:**
+
 - SSH brute force protection (3 attempts → 24h ban)
 - Nginx HTTP authentication failure detection
 - Request rate limiting protection
@@ -476,12 +505,14 @@ services.fail2ban = {
 ### Network Security
 
 **Service Isolation:**
+
 - SMB/Samba restricted to tailscale network only (100.64.0.0/10)
 - NFS exports limited to tailscale CGNAT range
 - Manual firewall rules for enhanced control
 - Avahi/Jellyfin accessible to local network (per requirement)
 
 **Network Architecture:**
+
 - Tailscale mesh VPN for secure remote access
 - Interface-specific firewall rules
 - Service-specific port restrictions
@@ -490,12 +521,14 @@ services.fail2ban = {
 ## Code Quality Standards
 
 ### Required Before Any Commit
+
 - ✅ `just check` passes with ZERO errors and ZERO warnings
 - ✅ All services build successfully
 - ✅ Configuration tested (VM for NixOS, check for Darwin)
 - ✅ Conventional commit format used
 
 ### Code Review Guidelines
+
 - Services should use existing abstractions when applicable
 - Avoid code duplication (DRY principle)
 - Follow existing naming conventions

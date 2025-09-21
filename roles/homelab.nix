@@ -72,7 +72,6 @@ in {
       smartctl-exporter.enable = true;
       zfs-exporter.enable = true;
       prowlarr.enable = true;
-      proxmox-ve.enable = false;
       radarr.enable = true;
       recyclarr.enable = true;
       sabnzbd.enable = false;
