@@ -38,6 +38,9 @@ in {
       };
       programs = {
         alacritty.enable = true;
+        wezterm.enable = true;
+        kitty.enable = true;
+        ghostty.enable = true;
       };
     };
   };
