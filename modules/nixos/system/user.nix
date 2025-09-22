@@ -55,7 +55,12 @@ in {
         inherit (cfg) initialHashedPassword;
       };
     };
-    security.sudo.wheelNeedsPassword = true;
+    security.sudo = {
+      wheelNeedsPassword = true;
+      extraConfig = ''
+        Defaults lecture = never
+      '';
+    };
     programs.zsh.enable = true;
   };
 }
