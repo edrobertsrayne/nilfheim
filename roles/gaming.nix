@@ -23,5 +23,6 @@ with lib; {
     lutris
     bottles
     heroic
+    moonlight-qt
   ];
 }
