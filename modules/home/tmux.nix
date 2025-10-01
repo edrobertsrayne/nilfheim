@@ -12,8 +12,11 @@
       mouse = true;
       prefix = "C-s";
       sensibleOnTop = true;
-      shell = "${pkgs.zsh}/bin/zsh";
+      shell = "\${SHELL}";
       extraConfig = ''
+        # Force login shell on Darwin to load shell configuration
+        set-option -g default-command "exec $SHELL -l"
+
         # correct colours in neovim
         set -g default-terminal "screen-256color"
         set -as terminal-features ",xterm-256color:RGB"
