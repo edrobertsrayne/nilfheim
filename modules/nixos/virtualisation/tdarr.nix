@@ -59,8 +59,8 @@ in {
 
         environment = {
           TZ = "Europe/London";
-          PUID = "0";
-          PGID = "0";
+          PUID = "1000";
+          PGID = "1000";
           serverIP = "0.0.0.0";
           serverPort = "${builtins.toString cfg.serverPort}";
           webUIPort = "${builtins.toString cfg.webUIPort}";
@@ -68,6 +68,9 @@ in {
           inContainer = "true";
           ffmpegVersion = "7";
           nodeName = "${cfg.nodeName}";
+          # Fix internal node connection
+          nodeIP = "127.0.0.1";
+          nodePort = "${builtins.toString cfg.serverPort}";
         };
 
         ports = [
@@ -86,8 +89,15 @@ in {
         extraOptions =
           [
             "--network=bridge"
-            "--log-opt=max-size=10m"
-            "--log-opt=max-file=5"
+            "--log-opt=max-size=50m"
+            "--log-opt=max-file=10"
+            "--health-cmd=curl -f http://localhost:${toString cfg.webUIPort} || exit 1"
+            "--health-interval=30s"
+            "--health-retries=3"
+            "--health-start-period=60s"
+            "--dns=1.1.1.1"
+            "--dns=8.8.8.8"
+            "--dns-search=."
           ]
           ++ (
             if cfg.enableVAAPI
@@ -105,10 +115,10 @@ in {
     };
 
     systemd.tmpfiles.rules = [
-      "d ${cfg.dataDir}/server 0755 root root"
-      "d ${cfg.dataDir}/configs 0755 root root"
-      "d ${cfg.dataDir}/logs 0755 root root"
-      "d ${cfg.cacheDir} 0755 root root"
+      "d ${cfg.dataDir}/server 0755 1000 1000"
+      "d ${cfg.dataDir}/configs 0755 1000 1000"
+      "d ${cfg.dataDir}/logs 0755 1000 1000"
+      "d ${cfg.cacheDir} 0755 1000 1000"
     ];
   };
 }
