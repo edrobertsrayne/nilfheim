@@ -11,7 +11,7 @@ in {
     environment.systemPackages = with pkgs; [tailscale];
     services.tailscale = {
       authKeyFile = config.age.secrets.tailscale.path;
-      extraUpFlags = ["--ssh"];
+      extraUpFlags = ["--ssh --accept-routes"];
     };
     system.persist.extraRootDirectories = ["/var/lib/tailscale"];
     networking.firewall = {
