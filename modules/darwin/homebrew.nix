@@ -25,6 +25,7 @@
       "karabiner-elements"
       "kicad"
       "microsoft-edge"
+      "moonlight"
       "processing"
       "raycast"
       "steam"
