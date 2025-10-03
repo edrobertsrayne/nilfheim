@@ -59,8 +59,8 @@ in {
 
         environment = {
           TZ = "Europe/London";
-          PUID = "1000";
-          PGID = "1000";
+          PUID = "0";
+          PGID = "0";
           serverIP = "0.0.0.0";
           serverPort = "${builtins.toString cfg.serverPort}";
           webUIPort = "${builtins.toString cfg.webUIPort}";
@@ -115,10 +115,10 @@ in {
     };
 
     systemd.tmpfiles.rules = [
-      "d ${cfg.dataDir}/server 0755 1000 1000"
-      "d ${cfg.dataDir}/configs 0755 1000 1000"
-      "d ${cfg.dataDir}/logs 0755 1000 1000"
-      "d ${cfg.cacheDir} 0755 1000 1000"
+      "d ${cfg.dataDir}/server 0755 root root"
+      "d ${cfg.dataDir}/configs 0755 root root"
+      "d ${cfg.dataDir}/logs 0755 root root"
+      "d ${cfg.cacheDir} 0755 root root"
     ];
   };
 }
