@@ -5,7 +5,6 @@
 }:
 with lib; let
   cfg = config.services.autobrr;
-  port = "7474";
   constants = import ../../../../lib/constants.nix;
 in {
   options.services.autobrr = {
@@ -13,6 +12,11 @@ in {
       type = types.str;
       default = "autobrr.${config.homelab.domain}";
       description = "URL for autobrr proxy host.";
+    };
+    port = mkOption {
+      type = types.port;
+      default = constants.ports.autobrr;
+      description = "Port for autobrr service to listen on.";
     };
   };
 
@@ -30,14 +34,14 @@ in {
           entry = {
             href = "https://${cfg.url}";
             icon = "autobrr.svg";
-            siteMonitor = "http://127.0.0.1:${toString port}";
+            siteMonitor = "http://127.0.0.1:${toString cfg.port}";
           };
         }
       ];
 
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString port}";
+          proxyPass = "http://127.0.0.1:${toString cfg.port}";
           inherit (constants.nginxDefaults) proxyWebsockets;
         };
       };

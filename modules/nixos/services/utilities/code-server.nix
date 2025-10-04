@@ -5,9 +5,16 @@
 }:
 with lib; let
   cfg = config.services.code-server;
-  url = "code-server.${config.homelab.domain}";
   constants = import ../../../../lib/constants.nix;
 in {
+  options.services.code-server = {
+    url = mkOption {
+      type = types.str;
+      default = "code-server.${config.homelab.domain}";
+      description = "URL for code-server proxy host.";
+    };
+  };
+
   config = mkIf cfg.enable {
     services = {
       code-server = {
@@ -19,7 +26,7 @@ in {
         disableFileDownloads = false;
       };
 
-      nginx.virtualHosts."${url}" = {
+      nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.port}";
           inherit (constants.nginxDefaults) proxyWebsockets;
@@ -32,9 +39,9 @@ in {
           group = "Utilities";
           name = "Code Server";
           entry = {
-            href = "https://${url}";
+            href = "https://${cfg.url}";
             icon = "vscode.svg";
-            siteMonitor = "https://${url}";
+            siteMonitor = "https://${cfg.url}";
             description = "VS Code in the browser";
           };
         }
