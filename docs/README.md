@@ -30,9 +30,18 @@ Comprehensive documentation for the Nilfheim NixOS/Darwin configuration system.
 ### Service Categories
 
 #### 🎬 Media Services
-- Jellyfin, Audiobookshelf, Jellyseerr, Kavita
-- *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr)
-- Integration with monitoring and analytics
+- **Streaming**: Jellyfin, Audiobookshelf, Jellyseerr, Kavita
+- **Music Stack**: Navidrome (streaming), Beets (organization), Your Spotify (analytics)
+- **Content Acquisition**: *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr)
+- **Integration**: Monitoring, analytics, and database services
+
+#### 🎵 Music Streaming Services
+- **[Music Streaming Services](./music-streaming-services.md)** - Complete music ecosystem documentation
+  - Navidrome music streaming server with Subsonic API compatibility
+  - Beets advanced music library organization and metadata management
+  - Your Spotify self-hosted analytics and listening statistics
+  - Integration with existing *arr stack and media infrastructure
+  - PostgreSQL database integration and service architecture
 
 #### 📥 Download Management
 - Transmission, Recyclarr, Flaresolverr

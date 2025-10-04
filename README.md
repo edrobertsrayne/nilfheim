@@ -22,7 +22,9 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 │   ├── nixos/             # NixOS-specific modules
 │   │   ├── services/      # Service modules organized by category
 │   │   │   ├── data/      # Database services (PostgreSQL, pgAdmin)
+│   │   │   ├── media/     # Media services (Jellyfin, Navidrome, Audiobookshelf)
 │   │   │   ├── monitoring/# Monitoring stack (Grafana, Prometheus, Loki)
+│   │   │   ├── utilities/ # Utility services (Beets, Your Spotify, Homepage)
 │   │   │   └── ...        # Other service categories
 │   ├── darwin/            # macOS-specific modules
 │   └── home/              # Home-manager configurations
@@ -70,6 +72,7 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 
 ### ⚡ Thor - Homelab Server
 - **🎬 Media**: Jellyfin, Audiobookshelf, Jellyseerr, Kavita (ebooks)
+- **🎵 Music**: Navidrome (streaming), Beets (organization), Your Spotify (analytics)
 - **📥 Downloads**: *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr), Transmission, Recyclarr, Flaresolverr
 - **📈 Monitoring**: Grafana, Prometheus, AlertManager, Uptime Kuma, Glances, Loki, Promtail
 - **📊 Analytics**: PostgreSQL database with pgAdmin for DNS query logging and analysis
