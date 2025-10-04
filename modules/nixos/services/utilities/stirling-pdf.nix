@@ -11,10 +11,12 @@ in {
     url = mkOption {
       type = types.str;
       default = "stirling-pdf.${config.homelab.domain}";
+      description = "URL for Stirling PDF proxy host.";
     };
     port = mkOption {
       type = types.port;
       default = 8081;
+      description = "Port for Stirling PDF service to listen on.";
     };
   };
 
