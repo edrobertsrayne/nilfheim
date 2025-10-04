@@ -4,6 +4,20 @@
     ./hardware-configuration.nix
   ];
 
+  # Configure backup service for freya
+  services.backup.restic = {
+    enable = true;
+    paths = ["/persist" "/home"];
+    repository = "/mnt/backup/freya/restic";
+    schedule = "daily";
+    retention = {
+      keep-daily = 14;
+      keep-weekly = 8;
+      keep-monthly = 6;
+      keep-yearly = 2;
+    };
+  };
+
   # Configure ZFS auto-snapshots for /home directory
   services.zfs.autoSnapshot = {
     enable = true;

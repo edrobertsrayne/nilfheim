@@ -48,6 +48,11 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 - **ZFS**: Advanced filesystem with snapshots and data integrity
 - **Impermanence**: Stateless root with selective persistence
 - **Disko**: Declarative disk partitioning
+- **Backup**: Restic encrypted backups with Loki monitoring
+  - **Thor**: `/persist` and `/srv` → `/mnt/backup/thor/restic`
+  - **Freya**: `/persist` and `/home` → `/mnt/backup/freya/restic`
+  - **Centralized Storage**: NFS-shared backup repository on Thor
+  - **Monitoring**: SystemD journal logs aggregated via Loki with Grafana dashboard
 
 ### 📊 Monitoring & Analytics Stack
 - **Metrics**: Prometheus + Grafana with comprehensive dashboards
@@ -160,6 +165,112 @@ just ci-pr           # Simulate pull request CI
 - `nix flake check` - Validate flake configuration
 
 Commit format: `type(scope): description` (conventional commits)
+
+## 💾 Backup Management
+
+### 🔄 Automatic Backups
+- **Schedule**: Daily backups with randomized delay
+- **Retention**: 14 daily, 8 weekly, 6 monthly, 2 yearly snapshots
+- **Encryption**: Repository-level encryption with auto-generated passwords
+- **Monitoring**: Backup logs available in Grafana via Loki integration
+
+### 📊 Backup Monitoring
+```bash
+# View backup dashboard
+https://grafana.${domain}/d/restic-backup/restic-backup-monitoring
+
+# Check backup service status
+systemctl status restic-backups-system.service
+journalctl -u restic-backups-system.service -f
+```
+
+### 🔍 Backup Validation & Management
+
+**List Snapshots:**
+```bash
+# On thor
+export RESTIC_REPOSITORY=/mnt/backup/thor/restic
+export RESTIC_PASSWORD_FILE=/etc/restic/password
+restic snapshots
+
+# On freya
+export RESTIC_REPOSITORY=/mnt/backup/freya/restic
+export RESTIC_PASSWORD_FILE=/etc/restic/password
+restic snapshots
+```
+
+**Validate Repository Integrity:**
+```bash
+# Quick check
+restic check
+
+# Thorough check (reads 10% of data)
+restic check --read-data-subset=10%
+
+# Full data verification (slow)
+restic check --read-data
+```
+
+**Repository Information:**
+```bash
+# Show repository stats
+restic stats
+
+# Show storage usage by snapshot
+restic stats --mode raw-data
+
+# Show duplicate data savings
+restic stats --mode restore-size
+```
+
+**Manual Backup Operations:**
+```bash
+# Trigger immediate backup
+systemctl start restic-backups-system.service
+
+# Manual restore (example)
+restic restore latest --target /tmp/restore --include /persist/important-file
+
+# Browse snapshot contents
+restic ls latest
+
+# Find files across snapshots
+restic find "*.nix" --snapshot latest
+```
+
+**Repository Maintenance:**
+```bash
+# Clean up and optimize repository
+restic forget --keep-daily 14 --keep-weekly 8 --keep-monthly 6 --keep-yearly 2 --prune
+
+# Rebuild index (if corrupted)
+restic rebuild-index
+
+# Check and repair repository
+restic check --read-data-subset=5%
+```
+
+### 🚨 Backup Recovery
+
+**Full System Restore:**
+1. Boot from NixOS installer
+2. Set up disk partitioning with disko
+3. Mount restore location: `mkdir /mnt/restore`
+4. Restore critical data: `restic restore latest --target /mnt/restore`
+5. Copy restored data to appropriate locations
+6. Rebuild system: `nixos-rebuild switch --flake`
+
+**Selective File Recovery:**
+```bash
+# List files in specific path
+restic ls latest --long /persist/home
+
+# Restore specific directory
+restic restore latest --target /tmp/restore --include /persist/home/user/documents
+
+# Restore with specific snapshot ID
+restic restore abc123def --target /tmp/restore
+```
 
 ## 📚 Documentation
 

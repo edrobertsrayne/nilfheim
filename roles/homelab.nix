@@ -35,7 +35,10 @@ in {
 
     services = {
       audiobookshelf.enable = true;
-      backup.restic.enable = true;
+      backup.restic = {
+        enable = true;
+        repository = "/mnt/backup/thor/restic";
+      };
       bazarr.enable = true;
       blocky.enable = true;
       code-server.enable = true;

@@ -70,8 +70,8 @@ in {
     monitoring = {
       enable = mkOption {
         type = types.bool;
-        default = true;
-        description = "Enable backup monitoring and alerting";
+        default = false;
+        description = "Enable Prometheus backup monitoring (disabled in favor of Loki)";
       };
 
       port = mkOption {
@@ -83,38 +83,10 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Ensure backup directory exists with proper permissions
-    systemd.tmpfiles.rules = [
-      "d ${cfg.repository} 0750 root root -"
-      "d /etc/restic 0755 root root -"
-    ];
-
-    # Generate a secure password if it doesn't exist
-    systemd.services.restic-init-password = {
-      description = "Initialize restic repository password";
-      wantedBy = ["multi-user.target"];
-      before = ["restic-backups-system.service"];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        User = "root";
-      };
-      script = ''
-        if [ ! -f "${cfg.passwordFile}" ]; then
-          echo "Generating new restic repository password..."
-          ${pkgs.openssl}/bin/openssl rand -base64 32 > "${cfg.passwordFile}"
-          chmod 600 "${cfg.passwordFile}"
-        fi
-      '';
-    };
-
     # Configure restic backup service using the built-in module
     services.restic.backups.system = {
       initialize = true;
-      repository = cfg.repository;
-      passwordFile = cfg.passwordFile;
-      paths = cfg.paths;
-      exclude = cfg.exclude;
+      inherit (cfg) repository passwordFile paths exclude;
 
       # Backup schedule
       timerConfig = {
@@ -149,17 +121,46 @@ in {
       ];
     };
 
-    # Extend service configuration for better performance
-    systemd.services."restic-backups-system" = {
-      serviceConfig = {
-        # Resource limits to prevent system impact
-        MemoryMax = "2G";
-        CPUQuota = "50%";
-        IOSchedulingClass = 3; # Idle priority
-        Nice = 10;
+    # System configuration
+    systemd = {
+      # Ensure backup directory exists with proper permissions
+      tmpfiles.rules = [
+        "d ${cfg.repository} 0750 root root -"
+        "d /etc/restic 0755 root root -"
+      ];
+
+      services = {
+        # Generate a secure password if it doesn't exist
+        restic-init-password = {
+          description = "Initialize restic repository password";
+          wantedBy = ["multi-user.target"];
+          before = ["restic-backups-system.service"];
+          serviceConfig = {
+            Type = "oneshot";
+            RemainAfterExit = true;
+            User = "root";
+          };
+          script = ''
+            if [ ! -f "${cfg.passwordFile}" ]; then
+              echo "Generating new restic repository password..."
+              ${pkgs.openssl}/bin/openssl rand -base64 32 > "${cfg.passwordFile}"
+              chmod 600 "${cfg.passwordFile}"
+            fi
+          '';
+        };
+
+        # Extend service configuration for better performance
+        "restic-backups-system" = {
+          serviceConfig = {
+            # Resource limits to prevent system impact
+            MemoryMax = "2G";
+            CPUQuota = "50%";
+            IOSchedulingClass = 3; # Idle priority
+            Nice = 10;
+          };
+        };
       };
     };
-
 
     # Homepage dashboard integration
     services.homepage-dashboard.homelabServices = mkIf config.services.homepage-dashboard.enable [
@@ -171,35 +172,6 @@ in {
           icon = "mdi-backup-restore";
           description = "System backup monitoring and status";
         };
-      }
-    ];
-
-    # Optional: Prometheus monitoring
-    services.prometheus.exporters.restic = mkIf cfg.monitoring.enable {
-      enable = true;
-      port = cfg.monitoring.port;
-      repository = cfg.repository;
-      passwordFile = cfg.passwordFile;
-    };
-
-    # Firewall for monitoring
-    networking.firewall.interfaces.tailscale0.allowedTCPPorts = mkIf cfg.monitoring.enable [
-      cfg.monitoring.port
-    ];
-
-    # Prometheus scrape configuration
-    services.prometheus.scrapeConfigs = mkIf (cfg.monitoring.enable && config.services.prometheus.enable) [
-      {
-        job_name = "restic-backup";
-        static_configs = [
-          {
-            targets = ["localhost:${toString cfg.monitoring.port}"];
-            labels = {
-              instance = config.networking.hostName;
-              service = "restic-backup";
-            };
-          }
-        ];
       }
     ];
   };
