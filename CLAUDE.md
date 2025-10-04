@@ -653,3 +653,21 @@ services.fail2ban = {
 - Follow existing naming conventions
 - Include proper documentation comments
 - Use centralized constants for ports and paths
+- All custom options must include proper `type` constraints
+- Use conditional blocks for optional service dependencies
+
+### Validation and Error Handling
+
+**Port Conflict Prevention:**
+- Port assignments are validated for uniqueness in `lib/constants.nix`
+- Build-time errors prevent duplicate port conflicts
+- All 66+ service ports are automatically checked
+
+**Type Safety:**
+- All `mkOption` declarations include proper `type` constraints (`types.str`, `types.port`, etc.)
+- Follows standard NixOS module patterns for option definitions
+
+**Service Dependencies:**
+- Optional features use conditional blocks instead of hard dependencies
+- Example: Blocky PostgreSQL logging only enabled when PostgreSQL is available
+- Prevents runtime failures from missing service dependencies
