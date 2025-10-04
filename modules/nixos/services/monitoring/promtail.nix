@@ -36,7 +36,7 @@ in {
           ];
 
           scrape_configs = [
-            # Systemd journal logs
+            # Systemd journal logs (minimal labels to reduce cardinality)
             {
               job_name = "journal";
               journal = {
@@ -51,55 +51,43 @@ in {
                   source_labels = ["__journal__systemd_unit"];
                   target_label = "unit";
                 }
+                # Filter to only include specific important units to reduce cardinality
                 {
-                  source_labels = ["__journal__hostname"];
-                  target_label = "hostname";
-                }
-                {
-                  source_labels = ["__journal_priority_keyword"];
-                  target_label = "level";
-                }
-                {
-                  source_labels = ["__journal_container_name"];
-                  target_label = "container";
+                  source_labels = ["__journal__systemd_unit"];
+                  regex = ".*(restic|nginx|loki|promtail|ssh|systemd).*";
+                  action = "keep";
                 }
               ];
             }
 
-            # Nginx access logs
-            {
-              job_name = "nginx-access";
-              static_configs = [
-                {
-                  targets = ["localhost"];
-                  labels = {
-                    job = "nginx-access";
-                    host = config.networking.hostName;
-                    __path__ = "/var/log/nginx/access.log";
-                  };
-                }
-              ];
-              pipeline_stages = [
-                {
-                  regex = {
-                    expression = "^(?P<remote_addr>[\\w\\.\\:]+) - (?P<remote_user>\\S+) \\[(?P<time_local>[^\\]]+)\\] \"(?P<method>\\S+) (?P<path>\\S+) (?P<protocol>\\S+)\" (?P<status>\\d+) (?P<bytes_sent>\\d+) \"(?P<referer>[^\"]*)\" \"(?P<user_agent>[^\"]*)\"";
-                  };
-                }
-                {
-                  labels = {
-                    method = "";
-                    status = "";
-                    path = "";
-                  };
-                }
-                {
-                  timestamp = {
-                    source = "time_local";
-                    format = "02/Jan/2006:15:04:05 -0700";
-                  };
-                }
-              ];
-            }
+            # Nginx access logs - TEMPORARILY DISABLED to reduce cardinality
+            # Re-enable after systemd journal is working
+            # {
+            #   job_name = "nginx-access";
+            #   static_configs = [
+            #     {
+            #       targets = ["localhost"];
+            #       labels = {
+            #         job = "nginx-access";
+            #         host = config.networking.hostName;
+            #         __path__ = "/var/log/nginx/access.log";
+            #       };
+            #     }
+            #   ];
+            #   pipeline_stages = [
+            #     {
+            #       regex = {
+            #         expression = "^(?P<remote_addr>[\\w\\.\\:]+) - (?P<remote_user>\\S+) \\[(?P<time_local>[^\\]]+)\\] \"(?P<method>\\S+) (?P<path>\\S+) (?P<protocol>\\S+)\" (?P<status>\\d+) (?P<bytes_sent>\\d+) \"(?P<referer>[^\"]*)\" \"(?P<user_agent>[^\"]*)\"";
+            #       };
+            #     }
+            #     {
+            #       timestamp = {
+            #         source = "time_local";
+            #         format = "02/Jan/2006:15:04:05 -0700";
+            #       };
+            #     }
+            #   ];
+            # }
 
             # Nginx error logs
             {
@@ -151,16 +139,18 @@ in {
                   };
                 }
                 {
+                  # Reduce cardinality - only add service name from path
                   labels = {
                     level = "";
-                    logger = "";
                   };
                 }
                 {
-                  timestamp = {
-                    source = "timestamp";
-                    format = "2006-01-02 15:04:05.0";
-                  };
+                  # Skip timestamp parsing to avoid future timestamp issues
+                  # Let Loki use ingestion time instead
+                  # timestamp = {
+                  #   source = "timestamp";
+                  #   format = "2006-01-02 15:04:05.0";
+                  # };
                 }
               ];
             }
