@@ -83,17 +83,9 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Create backup user and group
-    users.groups.backup = {};
-    users.users.backup = {
-      isSystemUser = true;
-      group = "backup";
-      extraGroups = ["tank"]; # Access to backup storage
-    };
-
     # Ensure backup directory exists with proper permissions
     systemd.tmpfiles.rules = [
-      "d ${cfg.repository} 0750 backup backup -"
+      "d ${cfg.repository} 0750 root root -"
       "d /etc/restic 0755 root root -"
     ];
 
@@ -112,12 +104,11 @@ in {
           echo "Generating new restic repository password..."
           ${pkgs.openssl}/bin/openssl rand -base64 32 > "${cfg.passwordFile}"
           chmod 600 "${cfg.passwordFile}"
-          chown backup:backup "${cfg.passwordFile}"
         fi
       '';
     };
 
-    # Configure restic backup service
+    # Configure restic backup service using the built-in module
     services.restic.backups.system = {
       initialize = true;
       repository = cfg.repository;
@@ -158,25 +149,14 @@ in {
       ];
     };
 
-    # Override service configuration for better logging and monitoring
+    # Extend service configuration for better performance
     systemd.services."restic-backups-system" = {
       serviceConfig = {
-        User = lib.mkForce "backup";
-        Group = lib.mkForce "backup";
-        # Enhanced logging
-        StandardOutput = "journal";
-        StandardError = "journal";
-        # Resource limits
-        MemoryLimit = "2G";
+        # Resource limits to prevent system impact
+        MemoryMax = "2G";
         CPUQuota = "50%";
         IOSchedulingClass = 3; # Idle priority
         Nice = 10;
-      };
-
-      # Add environment variables
-      environment = {
-        RESTIC_REPOSITORY = cfg.repository;
-        RESTIC_PASSWORD_FILE = cfg.passwordFile;
       };
     };
 
