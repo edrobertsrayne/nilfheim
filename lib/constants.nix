@@ -107,7 +107,7 @@ let
     network = "Network";
   };
 
-  # Common service descriptions
+  # Common service descriptions (organized to match ports structure)
   descriptions = {
     # *arr Services
     sonarr = "TV series collection manager and downloader";
@@ -144,6 +144,7 @@ let
     code-server = "VS Code running in the browser";
     stirling-pdf = "PDF manipulation and processing tool";
     karakeep = "Karaoke song management system";
+    homeassistant = "Home automation platform";
 
     # Network Services
     blocky = "DNS proxy and ad-blocker";
