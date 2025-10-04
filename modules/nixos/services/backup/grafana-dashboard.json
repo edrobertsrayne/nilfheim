@@ -879,8 +879,8 @@
       {
         "current": {
           "selected": false,
-          "text": "resticprofile",
-          "value": "resticprofile"
+          "text": "restic-backups-system.service",
+          "value": "restic-backups-system.service"
         },
         "description": "Value of a label that can be used to select all resticprofile events.",
         "hide": 2,
@@ -889,11 +889,11 @@
         "options": [
           {
             "selected": true,
-            "text": "restic-backups-system",
-            "value": "restic-backups-system"
+            "text": "restic-backups-system.service",
+            "value": "restic-backups-system.service"
           }
         ],
-        "query": "restic-backups-system",
+        "query": "restic-backups-system.service",
         "skipUrlSync": false,
         "type": "textbox"
       },
