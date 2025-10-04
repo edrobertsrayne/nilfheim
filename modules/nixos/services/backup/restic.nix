@@ -87,7 +87,9 @@ in {
     systemd.tmpfiles.rules = [
       "d ${cfg.repository} 0750 root root -"
       "d /etc/restic 0755 root root -"
-    ];
+    ] ++ (lib.optionals config.services.grafana.enable [
+      "d /etc/grafana/dashboards/restic 0755 grafana grafana -"
+    ]);
 
     # Generate a secure password if it doesn't exist
     systemd.services.restic-init-password = {
@@ -170,10 +172,6 @@ in {
       }
     ];
 
-    # Create dashboard directory and file
-    systemd.tmpfiles.rules = mkIf config.services.grafana.enable [
-      "d /etc/grafana/dashboards/restic 0755 grafana grafana -"
-    ];
 
     environment.etc."grafana/dashboards/restic/restic-backup.json" = mkIf config.services.grafana.enable {
       text = builtins.readFile ./grafana-dashboard.json;
