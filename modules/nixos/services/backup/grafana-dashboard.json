@@ -216,7 +216,7 @@
             "uid": "LOKI001"
           },
           "editorMode": "code",
-          "expr": "count_over_time(\n  {$job_label_name=\"$job_label_value\", host=~\"(${host:pipe})\"}\n    |= `finished 'backup'`\n    [$__auto]\n)",
+          "expr": "count_over_time(\n  {$job_label_name=\"$job_label_value\", host=~\"(${host:pipe})\"}\n    |= `snapshot` |= `saved`\n    [$__auto]\n)",
           "legendFormat": "backups",
           "queryType": "range",
           "refId": "A"
@@ -385,7 +385,7 @@
             "uid": "LOKI001"
           },
           "editorMode": "code",
-          "expr": "sum_over_time(\n  {$job_label_name=\"$job_label_value\", host=~\"(${host:pipe})\"}\n      |~ `processed .*files,.+ in \\d+:\\d+`\n      | regexp `processed \\d+ files, \\d+\\.\\d+ \\w+ in (?P<minutes>\\d+):(?P<seconds>\\d+)`\n      | label_format duration=\"{{.minutes}}m{{.seconds}}s\"\n      | drop minutes, seconds\n      | unwrap duration_seconds(duration)\n      [$__auto]\n)",
+          "expr": "sum_over_time(\n  {$job_label_name=\"$job_label_value\", host=~\"(${host:pipe})\"}\n      |~ `processed .*files,.+ in \\d+:\\d+`\n      | regexp `processed .+ in (?P<minutes>\\d+):(?P<seconds>\\d+)`\n      | label_format duration=\"{{.minutes}}m{{.seconds}}s\"\n      | drop minutes, seconds\n      | unwrap duration_seconds(duration)\n      [$__auto]\n)",
           "legendFormat": "{{host}}",
           "queryType": "range",
           "refId": "A"
@@ -493,7 +493,7 @@
             "uid": "LOKI001"
           },
           "editorMode": "code",
-          "expr": "sum_over_time(\r\n  {$job_label_name=\"$job_label_value\", host=~\"(${host:pipe})\"}\r\n    |= `$added_to_repo_line`\r\n    | regexp `$added_to_repo_regex_start $size_regex`\r\n    | unwrap bytes(size)[$__auto]\r\n)\r\n",
+          "expr": "sum_over_time(\r\n  {$job_label_name=\"$job_label_value\", host=~\"(${host:pipe})\"}\r\n    |= `Added to the repository:`\r\n    | regexp `Added to the repository: (?P<size>[\\d\\.]+ \\w+B)`\r\n    | unwrap bytes(size)[$__auto]\r\n)\r\n",
           "legendFormat": "",
           "queryType": "range",
           "refId": "A"
@@ -602,7 +602,7 @@
             "uid": "LOKI001"
           },
           "editorMode": "code",
-          "expr": "sum_over_time(\r\n  {$job_label_name=\"$job_label_value\", host=~\"(${host:pipe})\"}\r\n    | regexp `processed \\d+ files, $size_regex`\r\n    | unwrap bytes(size)[$__auto]\r\n)",
+          "expr": "sum_over_time(\r\n  {$job_label_name=\"$job_label_value\", host=~\"(${host:pipe})\"}\r\n    | regexp `processed \\d+ files, (?P<size>[\\d\\.]+ \\w+B)`\r\n    | unwrap bytes(size)[$__auto]\r\n)",
           "legendFormat": "{{data}}",
           "queryType": "range",
           "refId": "A"
