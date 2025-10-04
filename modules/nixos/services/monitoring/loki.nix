@@ -131,6 +131,10 @@ in {
             name = "Promtail Monitoring";
             options.path = "${./grafana/promtail-monitoring.json}";
           }
+          {
+            name = "Restic Backup";
+            options.path = "${../backup/grafana-dashboard.json}";
+          }
         ];
       };
     };
