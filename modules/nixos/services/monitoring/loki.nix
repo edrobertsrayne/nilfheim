@@ -67,6 +67,11 @@ in {
             reject_old_samples = true;
             reject_old_samples_max_age = "168h";
             retention_period = "744h"; # 31 days
+            # Increase stream limits to handle nginx access logs
+            max_streams_per_user = 100000;
+            max_global_streams_per_user = 100000;
+            ingestion_rate_mb = 16;
+            ingestion_burst_size_mb = 32;
           };
 
           table_manager = {
