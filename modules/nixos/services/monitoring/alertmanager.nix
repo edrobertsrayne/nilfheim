@@ -6,6 +6,7 @@
 with lib; let
   cfg = config.services.prometheus.alertmanager;
   inherit (config) homelab;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.prometheus.alertmanager = {
     url = mkOption {
@@ -124,7 +125,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          proxyWebsockets = true;
+          inherit (constants.nginxDefaults) proxyWebsockets;
         };
       };
     };

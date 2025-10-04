@@ -5,6 +5,7 @@
 }:
 with lib; let
   cfg = config.services.bazarr;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.bazarr = {
     url = mkOption {
@@ -55,7 +56,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";
-          proxyWebsockets = true;
+          inherit (constants.nginxDefaults) proxyWebsockets;
         };
       };
     };

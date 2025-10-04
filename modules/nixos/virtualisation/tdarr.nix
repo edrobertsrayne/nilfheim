@@ -5,6 +5,7 @@
 }:
 with lib; let
   cfg = config.virtualisation.tdarr;
+  constants = import ../../../lib/constants.nix;
 in {
   options.virtualisation.tdarr = with lib.types; {
     enable = mkEnableOption "Whether to enable tdarr server.";
@@ -110,7 +111,7 @@ in {
     services.nginx.virtualHosts."${cfg.url}" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString cfg.webUIPort}";
-        proxyWebsockets = true;
+        inherit (constants.nginxDefaults) proxyWebsockets;
       };
     };
 
