@@ -53,12 +53,16 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
   - **Freya**: `/persist` and `/home` → `/mnt/backup/freya/restic`
   - **Centralized Storage**: NFS-shared backup repository on Thor
   - **Monitoring**: SystemD journal logs aggregated via Loki with Grafana dashboard
+  - **Status**: ✅ Active monitoring with backup completion/failure alerts
 
 ### 📊 Monitoring & Analytics Stack
 - **Metrics**: Prometheus + Grafana with comprehensive dashboards
 - **Logs**: Loki + Promtail for centralized log aggregation
+  - **SystemD Journal**: Core system services, backup monitoring
+  - **Application Logs**: *arr services, Jellyfin, Kavita, nginx errors
+  - **Status**: ✅ Active with stream limit optimization
 - **DNS Analytics**: PostgreSQL + Grafana for advanced DNS query analysis
-- **Health**: Custom exporters for *arr services and system monitoring  
+- **Health**: Custom exporters for *arr services and system monitoring
 - **Alerts**: AlertManager with notification routing
 - **Database**: PostgreSQL with pgAdmin web interface for data exploration
 
@@ -166,6 +170,39 @@ just ci-pr           # Simulate pull request CI
 
 Commit format: `type(scope): description` (conventional commits)
 
+## 📋 Log Collection Status
+
+### ✅ **Active Log Sources**
+- **SystemD Journal**: Core system services including backup monitoring
+- **Nginx Error Logs**: Server errors and configuration issues
+- **Application Logs**: *arr services (Sonarr, Radarr, etc.), Jellyfin, Kavita
+- **Service Logs**: Nginx errors, service failures, authentication
+
+### ⏸️ **Optimizing**
+- **Nginx Access Logs**: Temporarily disabled due to high cardinality ([Issue #69](https://github.com/edrobertsrayne/nilfheim/issues/69))
+
+### 🔧 **Log Query Examples**
+```bash
+# Backup monitoring
+{job="systemd-journal", unit="restic-backups-system.service"}
+
+# Service errors across all services
+{job="systemd-journal"} |= "ERROR"
+
+# Application logs by service
+{job="arr-services", level="Error"}
+{job="jellyfin"} |= "ERROR"
+
+# System authentication
+{job="systemd-journal", unit="sshd.service"}
+```
+
+### 📊 **Metrics Available**
+- **Stream Count**: ~50,000 active streams (under 100k limit)
+- **Ingestion Rate**: ~5MB/hr average
+- **Retention**: 31 days (744 hours)
+- **Dashboard**: [Loki monitoring](https://grafana.${domain}/explore)
+
 ## 💾 Backup Management
 
 ### 🔄 Automatic Backups
@@ -175,13 +212,35 @@ Commit format: `type(scope): description` (conventional commits)
 - **Monitoring**: Backup logs available in Grafana via Loki integration
 
 ### 📊 Backup Monitoring
+
+**Grafana Dashboard:**
 ```bash
-# View backup dashboard
+# View backup dashboard (✅ ACTIVE - shows backup completion/failures)
 https://grafana.${domain}/d/restic-backup/restic-backup-monitoring
 
+# Key metrics available:
+# - Backup completion status
+# - Backup duration and timing
+# - Repository size and growth
+# - Error and warning detection
+```
+
+**Service Status:**
+```bash
 # Check backup service status
 systemctl status restic-backups-system.service
 journalctl -u restic-backups-system.service -f
+
+# Check backup timer schedule
+systemctl list-timers | grep restic
+```
+
+**Log Query Examples:**
+```bash
+# Loki queries for backup monitoring
+{job="systemd-journal", unit="restic-backups-system.service"}
+{job="systemd-journal", unit="restic-backups-system.service"} |= "ERROR"
+{job="systemd-journal", unit="restic-backups-system.service"} |= "completed"
 ```
 
 ### 🔍 Backup Validation & Management
