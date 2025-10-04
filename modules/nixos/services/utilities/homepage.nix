@@ -5,6 +5,7 @@
 }:
 with lib; let
   cfg = config.services.homepage-dashboard;
+  constants = import ../../../../lib/constants.nix;
 
   dashboardServiceType = types.submodule {
     options = {
@@ -100,7 +101,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";
-          proxyWebsockets = true;
+          inherit (constants.nginxDefaults) proxyWebsockets;
         };
         locations."~* \.(css|js|png|jpg|jpeg|gif|ico|svg)$" = {
           proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";

@@ -163,15 +163,9 @@
   };
 
   # Default nginx proxy settings
+  # Note: proxy headers are provided by NixOS recommendedProxySettings
   nginxDefaults = {
     proxyWebsockets = true;
-    extraConfig = ''
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_buffering off;
-    '';
   };
 
   # ZFS snapshot retention policies

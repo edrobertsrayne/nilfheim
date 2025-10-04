@@ -5,6 +5,7 @@
 }:
 with lib; let
   cfg = config.services.stirling-pdf;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.stirling-pdf = {
     url = mkOption {
@@ -27,7 +28,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          proxyWebsockets = true;
+          inherit (constants.nginxDefaults) proxyWebsockets;
         };
       };
 

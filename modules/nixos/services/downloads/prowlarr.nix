@@ -6,6 +6,7 @@
 with lib; let
   cfg = config.services.prowlarr;
   inherit (cfg.settings.server) port;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.prowlarr = {
     url = mkOption {
@@ -75,7 +76,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString port}";
-          proxyWebsockets = true;
+          inherit (constants.nginxDefaults) proxyWebsockets;
         };
       };
     };

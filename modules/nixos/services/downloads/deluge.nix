@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.services.deluge;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.deluge = with types; {
     url = mkOption {
@@ -41,7 +42,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.web.port}";
-          proxyWebsockets = true;
+          inherit (constants.nginxDefaults) proxyWebsockets;
         };
       };
 

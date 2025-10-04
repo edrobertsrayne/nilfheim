@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.services.transmission;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.transmission = with types; {
     url = mkOption {
@@ -63,7 +64,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.settings.rpc-port}";
-          proxyWebsockets = true;
+          inherit (constants.nginxDefaults) proxyWebsockets;
         };
       };
 

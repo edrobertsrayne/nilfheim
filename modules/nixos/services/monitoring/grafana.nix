@@ -6,6 +6,7 @@
 with lib; let
   inherit (config) homelab;
   cfg = config.services.grafana;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.grafana = {
     url = mkOption {
@@ -55,7 +56,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.settings.server.http_port}";
-          proxyWebsockets = true;
+          inherit (constants.nginxDefaults) proxyWebsockets;
         };
       };
     };

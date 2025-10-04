@@ -5,6 +5,7 @@
 }: let
   inherit (lib) mkIf mkOption types;
   cfg = config.services.n8n;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.n8n = {
     url = mkOption {
@@ -52,7 +53,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          proxyWebsockets = true;
+          inherit (constants.nginxDefaults) proxyWebsockets;
           extraConfig = ''
             # n8n specific headers for webhook functionality
             proxy_set_header Connection $connection_upgrade;

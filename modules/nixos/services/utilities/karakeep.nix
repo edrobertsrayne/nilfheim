@@ -5,6 +5,7 @@
 }: let
   inherit (lib) mkIf mkOption types;
   cfg = config.services.karakeep;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.karakeep = {
     url = mkOption {
@@ -44,7 +45,7 @@ in {
     services.nginx.virtualHosts."${cfg.url}" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString cfg.port}";
-        proxyWebsockets = true;
+        inherit (constants.nginxDefaults) proxyWebsockets;
       };
     };
 
