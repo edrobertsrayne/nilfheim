@@ -226,6 +226,125 @@ nixos-rebuild build-vm --flake .#<hostname> --option builders ''
 nix eval .#nixosConfigurations.<hostname>.config.system.build.toplevel --dry-run
 ```
 
+## Backup and Monitoring
+
+### Backup System Management
+
+**Check Backup Status:**
+```bash
+# Check backup service and timer status
+systemctl status restic-backups-system.service
+systemctl status restic-backups-system.timer
+systemctl list-timers | grep restic
+
+# View backup logs
+journalctl -u restic-backups-system.service -f
+journalctl -u restic-backups-system.service --since "24 hours ago"
+```
+
+**Manual Backup Operations:**
+```bash
+# Trigger immediate backup
+systemctl start restic-backups-system.service
+
+# Check repository status
+export RESTIC_REPOSITORY=/mnt/backup/$(hostname)/restic
+export RESTIC_PASSWORD_FILE=/etc/restic/password
+restic snapshots
+restic stats
+
+# Validate repository integrity
+restic check
+restic check --read-data-subset=10%
+```
+
+**Repository Management:**
+```bash
+# Manual cleanup (retention policy is automated)
+restic forget --keep-daily 14 --keep-weekly 8 --keep-monthly 6 --keep-yearly 2 --prune
+
+# Emergency unlock (if repository is locked)
+restic unlock
+
+# Browse snapshot contents
+restic ls latest
+restic find "*.nix" --snapshot latest
+```
+
+**Backup Recovery:**
+```bash
+# List files in snapshot
+restic ls latest --long /persist/home
+
+# Restore specific files
+restic restore latest --target /tmp/restore --include /persist/important-file
+
+# Restore full directory
+restic restore latest --target /tmp/restore --include /persist/home/user
+```
+
+### Monitoring and Logging
+
+**Loki Log Queries:**
+```bash
+# Backup monitoring
+{job="systemd-journal", unit="restic-backups-system.service"}
+{job="systemd-journal", unit="restic-backups-system.service"} |= "ERROR"
+{job="systemd-journal", unit="restic-backups-system.service"} |= "completed"
+
+# System service errors
+{job="systemd-journal"} |= "ERROR"
+{job="systemd-journal"} |= "failed"
+
+# Application logs
+{job="arr-services", level="Error"}
+{job="jellyfin"} |= "ERROR"
+{job="nginx-error"}
+
+# SSH and authentication
+{job="systemd-journal", unit="sshd.service"}
+{job="systemd-journal"} |= "authentication"
+```
+
+**Monitor System Health:**
+```bash
+# Check Loki/Promtail status
+systemctl status loki.service
+systemctl status promtail.service
+
+# Check stream limits and metrics
+curl -s localhost:3100/metrics | grep -E "stream|ingester"
+curl -s localhost:3100/loki/api/v1/label/job/values
+
+# View Grafana dashboards
+https://grafana.${domain}/d/restic-backup/restic-backup-monitoring
+https://grafana.${domain}/explore  # Loki explorer
+```
+
+**Log Collection Troubleshooting:**
+```bash
+# Check Promtail configuration
+journalctl -u promtail.service | grep -E "(error|warn)"
+
+# Verify log file access
+ls -la /var/log/nginx/
+ls -la /srv/*/logs/
+
+# Test Loki connectivity
+curl -G localhost:3100/ready
+curl -G localhost:3100/loki/api/v1/labels
+```
+
+**Common Monitoring Issues:**
+
+| Issue                    | Solution                                          |
+| ------------------------ | ------------------------------------------------- |
+| Stream limit exceeded    | Check cardinality, reduce labels                 |
+| Timestamp errors         | Disable timestamp parsing, use ingestion time    |
+| No backup logs          | Verify systemd journal collection               |
+| High memory usage        | Adjust retention, stream limits                   |
+| Missing application logs | Check file permissions, service groups           |
+
 ## Service Configuration
 
 ### Nginx Proxy Services
