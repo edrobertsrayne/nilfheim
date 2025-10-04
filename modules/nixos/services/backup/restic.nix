@@ -160,13 +160,35 @@ in {
       };
     };
 
+    # Grafana dashboard integration
+    services.grafana.provision.dashboards.settings.providers = mkIf config.services.grafana.enable [
+      {
+        name = "restic-backup";
+        type = "file";
+        updateIntervalSeconds = 30;
+        options.path = "/etc/grafana/dashboards/restic";
+      }
+    ];
+
+    # Create dashboard directory and file
+    systemd.tmpfiles.rules = mkIf config.services.grafana.enable [
+      "d /etc/grafana/dashboards/restic 0755 grafana grafana -"
+    ];
+
+    environment.etc."grafana/dashboards/restic/restic-backup.json" = mkIf config.services.grafana.enable {
+      text = builtins.readFile ./grafana-dashboard.json;
+      user = "grafana";
+      group = "grafana";
+      mode = "0644";
+    };
+
     # Homepage dashboard integration
     services.homepage-dashboard.homelabServices = mkIf config.services.homepage-dashboard.enable [
       {
         group = constants.serviceGroups.utilities;
         name = "Backup Status";
         entry = {
-          href = "https://grafana.${config.homelab.domain}/d/restic/backup-monitoring";
+          href = "https://grafana.${config.homelab.domain}/d/restic-backup/restic-backup-monitoring";
           icon = "mdi-backup-restore";
           description = "System backup monitoring and status";
         };
