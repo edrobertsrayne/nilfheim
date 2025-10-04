@@ -21,7 +21,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    system.persist.extraRootDirectories = ["/var/lib/karakeep"];
+    system.persist.extraRootDirectories = ["/var/lib/karakeep" "/var/lib/meilisearch"];
 
     services = {
       karakeep = {
