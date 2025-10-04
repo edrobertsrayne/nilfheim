@@ -5,6 +5,7 @@
 }:
 with lib; let
   cfg = config.services.plex;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.plex = {
     url = mkOption {
@@ -70,7 +71,7 @@ in {
             proxy_buffering off;
           '';
           locations."/" = {
-            proxyPass = "http://127.0.0.1:32400";
+            proxyPass = "http://127.0.0.1:${toString constants.ports.plex}";
             proxyWebsockets = true;
           };
         };
