@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.services.service-health;
+  constants = import ../../../../lib/constants.nix;
 
   serviceHealthScript = pkgs.writeShellScript "service-health-check" ''
     #!/bin/bash
@@ -79,17 +80,17 @@ with lib; let
       # HTTP health checks for web services
       check_http_service "nginx" "http://localhost" "200"
       check_http_service "prometheus" "http://localhost:9090/-/healthy" "200"
-      check_http_service "grafana" "http://localhost:3000/api/health" "200"
+      check_http_service "grafana" "http://localhost:${toString constants.ports.grafana}/api/health" "200"
 
       # Check alertmanager if enabled
       if ${pkgs.systemd}/bin/systemctl is-enabled --quiet alertmanager >/dev/null 2>&1; then
         check_systemd_service "alertmanager"
-        check_http_service "alertmanager" "http://localhost:9093/-/healthy" "200"
+        check_http_service "alertmanager" "http://localhost:${toString constants.ports.alertmanager}/-/healthy" "200"
       fi
 
       # Check additional services that might be running
       if ${pkgs.systemd}/bin/systemctl list-unit-files --quiet jellyfin.service >/dev/null 2>&1; then
-        check_http_service "jellyfin" "http://localhost:8096/health" "200"
+        check_http_service "jellyfin" "http://localhost:${toString constants.ports.jellyfin}/health" "200"
       fi
 
       # Database connectivity checks

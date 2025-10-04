@@ -45,6 +45,7 @@
     stirling-pdf = 8081;
     karakeep = 8090;
     samba = 445;
+    homeassistant = 8123;
 
     # Network Services
     blocky = 4000;

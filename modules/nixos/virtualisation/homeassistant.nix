@@ -5,6 +5,7 @@
 }:
 with lib; let
   cfg = config.virtualisation.homeassistant;
+  constants = import ../../../lib/constants.nix;
 in {
   options.virtualisation.homeassistant = with lib.types; {
     enable = mkEnableOption "Whether to enable Home Assistant container.";
@@ -38,7 +39,7 @@ in {
 
     services.nginx.virtualHosts."${cfg.url}" = {
       locations."/" = {
-        proxyPass = "http://127.0.0.1:8123";
+        proxyPass = "http://127.0.0.1:${toString constants.ports.homeassistant}";
         proxyWebsockets = true;
       };
     };

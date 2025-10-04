@@ -5,6 +5,7 @@
 }:
 with lib; let
   cfg = config.services.uptime-kuma;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.uptime-kuma = {
     url = mkOption {
@@ -16,7 +17,7 @@ in {
   config = mkIf cfg.enable {
     services.nginx.virtualHosts."${cfg.url}" = {
       locations."/" = {
-        proxyPass = "http://127.0.0.1:3001";
+        proxyPass = "http://127.0.0.1:${toString constants.ports.uptime-kuma}";
         proxyWebsockets = true;
       };
     };

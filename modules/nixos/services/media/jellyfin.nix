@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.services.jellyfin;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.jellyfin = {
     url = mkOption {
@@ -39,7 +40,7 @@ in {
 
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:8096";
+          proxyPass = "http://127.0.0.1:${toString constants.ports.jellyfin}";
           proxyWebsockets = true;
         };
       };

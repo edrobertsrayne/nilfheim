@@ -5,7 +5,7 @@
 }:
 with lib; let
   cfg = config.services.sabnzbd;
-  port = 8080;
+  constants = import ../../../../lib/constants.nix;
 in {
   options.services.sabnzbd = {
     url = mkOption {
@@ -27,14 +27,14 @@ in {
           entry = {
             href = "https://${cfg.url}";
             icon = "sabnzbd.svg";
-            siteMonitor = "http://127.0.0.1:${toString port}";
+            siteMonitor = "http://127.0.0.1:${toString constants.ports.sabnzbd}";
           };
         }
       ];
 
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString port}";
+          proxyPass = "http://127.0.0.1:${toString constants.ports.sabnzbd}";
           proxyWebsockets = true;
         };
       };
