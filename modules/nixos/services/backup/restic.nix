@@ -161,8 +161,8 @@ in {
     # Override service configuration for better logging and monitoring
     systemd.services."restic-backups-system" = {
       serviceConfig = {
-        User = "backup";
-        Group = "backup";
+        User = lib.mkForce "backup";
+        Group = lib.mkForce "backup";
         # Enhanced logging
         StandardOutput = "journal";
         StandardError = "journal";
