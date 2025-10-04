@@ -1,5 +1,4 @@
-{
-  # Port assignments for services (centralized to prevent conflicts)
+let
   ports = {
     # *arr Services
     sonarr = 8989;
@@ -189,4 +188,31 @@
     localhost = ["127.0.0.1/32" "::1/128"];
     tailscale = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"]; # Tailscale CGNAT range
   };
-}
+
+  # Port conflict validation - check for duplicate port assignments
+  portValues = builtins.attrValues ports;
+  sortedPorts = builtins.sort (a: b: a < b) portValues;
+
+  # Simple duplicate detection: if sorted list has adjacent duplicates, we have conflicts
+  hasDuplicates = builtins.any (
+    i:
+      i
+      < (builtins.length sortedPorts - 1)
+      && builtins.elemAt sortedPorts i == builtins.elemAt sortedPorts (i + 1)
+  ) (builtins.genList (i: i) (builtins.length sortedPorts));
+in
+  # Validate no port conflicts exist
+  assert !hasDuplicates
+  || throw "Port conflict detected in constants.ports. Check for duplicate port assignments."; {
+    inherit
+      ports
+      paths
+      serviceGroups
+      descriptions
+      arrAuthDefaults
+      nginxDefaults
+      snapshotRetention
+      userGroups
+      networks
+      ;
+  }
