@@ -1,13 +1,13 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
   cfg = config.services.promtail;
   lokiCfg = config.services.loki;
   inherit (config) homelab;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.promtail = {
     url = mkOption {
@@ -205,7 +205,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.configuration.server.http_listen_port}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          inherit (nilfheim.constants.nginxDefaults) proxyWebsockets;
         };
       };
     };
