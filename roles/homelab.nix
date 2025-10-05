@@ -63,6 +63,7 @@ in {
       karakeep.enable = true;
       kavita.enable = true;
       lidarr.enable = true;
+      mealie.enable = true;
       n8n.enable = true;
       nginx.enable = true;
       pgadmin.enable = true;
