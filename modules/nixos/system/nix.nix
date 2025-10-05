@@ -16,6 +16,7 @@ in {
         experimental-features = ["nix-command" "flakes"];
         auto-optimise-store = true;
         warn-dirty = false;
+        trusted-users = ["root" config.user.name];
         substituters = [
           "https://cache.nixos.org"
           "https://nix-community.cachix.org"
