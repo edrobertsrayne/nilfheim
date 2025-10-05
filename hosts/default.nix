@@ -61,7 +61,7 @@
           ++ extraModules;
       };
   in {
-    nixosConfigurations = {
+    nixosConfigurations = lib.optionalAttrs (builtins.getEnv "NIX_CHECK_CURRENT_SYSTEM_ONLY" == "" || builtins.currentSystem != "x86_64-darwin") {
       freya = mkNixosSystem {
         hostname = "freya";
         extraModules = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s];

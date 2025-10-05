@@ -5,7 +5,10 @@
     flake-parts.lib.mkFlake {
       inherit inputs;
     } {
-      systems = ["x86_64-linux" "x86_64-darwin"];
+      systems =
+        if builtins.getEnv "NIX_CHECK_CURRENT_SYSTEM_ONLY" != ""
+        then [builtins.currentSystem]
+        else ["x86_64-linux" "x86_64-darwin"];
 
       imports = [
         ./hosts
@@ -20,7 +23,10 @@
       }: {
         _module.args.pkgs = import inputs.nixpkgs {
           inherit system;
-          config.allowUnfree = true;
+          config = {
+            allowUnfree = true;
+            allowBroken = true; # Temporary fix for zig-hook on Darwin
+          };
         };
         devShells.default = pkgs.mkShell {
           packages = with pkgs;

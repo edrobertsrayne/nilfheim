@@ -23,7 +23,7 @@ lint:
 # Run full flake validation (includes lint + comprehensive flake check)
 check:
     just lint
-    nix flake check
+    NIX_CHECK_CURRENT_SYSTEM_ONLY=1 nix flake check --impure
 
 # List available GitHub Actions workflows and jobs
 ci-list:

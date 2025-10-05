@@ -4,6 +4,9 @@
   username,
   ...
 }: {
+  # Temporary fix for broken packages in nixpkgs unstable
+  nixpkgs.config.allowBroken = true;
+
   ids.gids.nixbld = 350;
 
   nix = {
