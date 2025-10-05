@@ -2,31 +2,80 @@
   config,
   lib,
   pkgs,
+  nilfheim,
   ...
 }:
 with lib; let
   cfg = config.services.blocky;
   inherit (cfg.settings) ports;
-  constants = import ../../../../lib/constants.nix;
 in {
-  options.services.blocky.postgres = {
-    user = mkOption {
-      type = types.str;
-      default = "blocky";
-      description = "PostgreSQL user for Blocky query logging";
+  options.services.blocky = {
+    database = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Enable PostgreSQL database integration for query logging.";
+      };
+
+      name = mkOption {
+        type = types.str;
+        default = "blocky_logs";
+        description = "Database name for Blocky query logging.";
+      };
+
+      user = mkOption {
+        type = types.str;
+        default = "blocky";
+        description = "Database user for Blocky query logging.";
+      };
+
+      password = mkOption {
+        type = types.str;
+        default = "blocky";
+        description = "Database password for Blocky query logging.";
+      };
     };
-    password = mkOption {
-      type = types.str;
-      default = "blocky";
-      description = "PostgreSQL password for Blocky query logging";
-    };
-    database = mkOption {
-      type = types.str;
-      default = "blocky_logs";
-      description = "PostgreSQL database name for Blocky query logging";
+
+    # Legacy options for backward compatibility
+    postgres = {
+      user = mkOption {
+        type = types.str;
+        default = cfg.database.user;
+        description = "Legacy option - use services.blocky.database.user instead";
+      };
+      password = mkOption {
+        type = types.str;
+        default = cfg.database.password;
+        description = "Legacy option - use services.blocky.database.password instead";
+      };
+      database = mkOption {
+        type = types.str;
+        default = cfg.database.name;
+        description = "Legacy option - use services.blocky.database.name instead";
+      };
     };
   };
   config = mkIf cfg.enable {
+    # Database setup (only if PostgreSQL is enabled and database integration is enabled)
+    services.postgresql = mkIf (cfg.database.enable && config.services.postgresql.enable) {
+      ensureDatabases = [cfg.database.name];
+      ensureUsers = [
+        {
+          name = cfg.database.user;
+          ensureClauses = {
+            superuser = false;
+            createdb = true;
+          };
+        }
+      ];
+      initialScript = pkgs.writeText "blocky-db-init.sql" ''
+        \c ${cfg.database.name};
+        GRANT ALL ON SCHEMA public TO ${cfg.database.user};
+        GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${cfg.database.user};
+        GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ${cfg.database.user};
+      '';
+    };
+
     services = {
       blocky = {
         settings =
@@ -130,10 +179,10 @@ in {
               };
             };
           }
-          // (lib.optionalAttrs config.services.postgresql.enable {
+          // (lib.optionalAttrs (cfg.database.enable && config.services.postgresql.enable) {
             queryLog = {
               type = "postgresql";
-              target = "postgres://${cfg.postgres.user}:${cfg.postgres.password}@localhost:${toString constants.ports.postgresql}/${cfg.postgres.database}?sslmode=disable";
+              target = "postgres://${cfg.database.user}:${cfg.database.password}@localhost:${toString nilfheim.constants.ports.postgresql}/${cfg.database.name}?sslmode=disable";
               logRetentionDays = 90; # Keep logs for 3 months
               flushInterval = "30s"; # Flush to database every 30 seconds
               fields = [
@@ -162,16 +211,17 @@ in {
           declarativePlugins = with pkgs.grafanaPlugins; [grafana-piechart-panel];
           settings.panels.disable_sanitize_html = true;
         }
-        (mkIf config.services.postgresql.enable {
+        (mkIf (cfg.database.enable && config.services.postgresql.enable) {
           provision = {
             datasources.settings.datasources = [
               {
                 name = "PostgreSQL Blocky Logs";
                 type = "postgres";
                 uid = "postgres-blocky-logs";
-                url = "127.0.0.1:${toString constants.ports.postgresql}";
-                inherit (cfg.postgres) database user;
-                secureJsonData.password = cfg.postgres.password;
+                url = "127.0.0.1:${toString nilfheim.constants.ports.postgresql}";
+                database = cfg.database.name;
+                inherit (cfg.database) user;
+                secureJsonData.password = cfg.database.password;
                 jsonData = {
                   sslmode = "disable";
                   postgresVersion = 1600;
