@@ -1,16 +1,16 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }: let
   inherit (lib) mkIf mkOption types;
   cfg = config.services.karakeep;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.karakeep = {
     url = mkOption {
       type = types.str;
-      default = "keep.${config.homelab.domain}";
+      default = nilfheim.helpers.mkServiceUrl "keep" config.homelab.domain;
       description = "URL for karakeep proxy.";
     };
 
@@ -22,7 +22,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    system.persist.extraRootDirectories = ["/var/lib/karakeep" "/var/lib/meilisearch"];
+    system.persist.extraRootDirectories = ["/var/lib/karakeep"];
+    # Note: /var/lib/meilisearch is managed by systemd StateDirectory
 
     services = {
       karakeep = {
@@ -45,7 +46,7 @@ in {
     services.nginx.virtualHosts."${cfg.url}" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString cfg.port}";
-        inherit (constants.nginxDefaults) proxyWebsockets;
+        inherit (nilfheim.constants.nginxDefaults) proxyWebsockets;
       };
     };
 
