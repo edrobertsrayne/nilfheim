@@ -59,3 +59,26 @@ ci-validate:
     nix run nixpkgs#act -- --job format --dryrun
     nix run nixpkgs#act -- --job check --dryrun
     @echo "✅ All workflows validated successfully"
+
+# Performance measurement and profiling targets
+perf-baseline:
+    @echo "📊 Measuring performance baseline..."
+    @echo "Flake evaluation time:" && time nix flake show > /dev/null
+    @echo "Flake check time:" && time nix flake check > /dev/null
+    @echo "Thor build time:" && time nixos-rebuild build --flake .#thor > /dev/null
+    @echo "Thor VM build time:" && time nixos-rebuild build-vm --flake .#thor > /dev/null
+
+# Detailed performance profiling
+perf-profile:
+    @echo "🔍 Profiling flake evaluation..."
+    time nix eval --json .#nixosConfigurations.thor.config.system.build.toplevel.drvPath
+    @echo "🔍 Profiling each host configuration..."
+    @echo "Profiling freya:" && time nix eval .#nixosConfigurations.freya.config.system.build.toplevel.drvPath > /dev/null
+    @echo "Profiling thor:" && time nix eval .#nixosConfigurations.thor.config.system.build.toplevel.drvPath > /dev/null
+    @echo "Profiling loki:" && time nix eval .#nixosConfigurations.loki.config.system.build.toplevel.drvPath > /dev/null
+
+# Quick performance check (flake operations only)
+perf-check:
+    @echo "⚡ Quick performance check..."
+    @echo "Flake show:" && time nix flake show > /dev/null
+    @echo "Flake check:" && time nix flake check > /dev/null
