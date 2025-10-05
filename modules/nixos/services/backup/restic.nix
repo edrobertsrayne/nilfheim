@@ -29,7 +29,7 @@ in {
 
     paths = mkOption {
       type = types.listOf types.str;
-      default = ["/persist" "/srv"];
+      default = ["/persist" "/srv" "/var/lib/private"];
       description = "Paths to backup";
     };
 
