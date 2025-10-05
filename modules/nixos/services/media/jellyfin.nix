@@ -2,16 +2,16 @@
   config,
   lib,
   pkgs,
+  nilfheim,
   ...
 }:
 with lib; let
   cfg = config.services.jellyfin;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.jellyfin = {
     url = mkOption {
       type = types.str;
-      default = "jellyfin.${config.homelab.domain}";
+      default = nilfheim.helpers.mkServiceUrl "jellyfin" config.homelab.domain;
       description = "URL for Jellyfin proxy.";
     };
   };
@@ -21,27 +21,27 @@ in {
 
     services = {
       jellyfin = {
-        dataDir = "/srv/jellyfin";
+        dataDir = "${nilfheim.constants.paths.dataDir}/jellyfin";
         openFirewall = true;
       };
 
       homepage-dashboard.homelabServices = [
         {
-          group = "Media";
+          group = nilfheim.helpers.getServiceCategory "jellyfin";
           name = "Jellyfin";
           entry = {
             href = "https://${cfg.url}";
             icon = "jellyfin.svg";
             siteMonitor = "https://${cfg.url}";
-            description = "Open-source media server for movies, shows, and music";
+            description = nilfheim.helpers.getServiceDescription "jellyfin";
           };
         }
       ];
 
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString constants.ports.jellyfin}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          proxyPass = "http://127.0.0.1:${toString nilfheim.constants.ports.jellyfin}";
+          inherit (nilfheim.constants.nginxDefaults) proxyWebsockets;
         };
       };
     };

@@ -21,6 +21,8 @@
         inherit system;
         specialArgs = {
           inherit inputs lib hostname username system;
+          # Add our custom library namespace
+          nilfheim = import ../lib {inherit lib;};
         };
         modules =
           [
@@ -46,6 +48,8 @@
         inherit system;
         specialArgs = {
           inherit inputs lib hostname username system;
+          # Add our custom library namespace
+          nilfheim = import ../lib {inherit lib;};
         };
         modules =
           [

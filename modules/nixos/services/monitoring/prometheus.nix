@@ -1,18 +1,18 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
   cfg = config.services.prometheus;
   inherit (config) homelab;
   inherit (cfg.exporters) node;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.prometheus = {
     url = mkOption {
       type = types.str;
-      default = "prometheus.${homelab.domain}";
+      default = nilfheim.helpers.mkServiceUrl "prometheus" homelab.domain;
       description = "URL for prometheus proxy.";
     };
   };
@@ -93,7 +93,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          inherit (nilfheim.constants.nginxDefaults) proxyWebsockets;
         };
       };
       grafana.provision = {

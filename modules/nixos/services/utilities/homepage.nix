@@ -1,11 +1,11 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
   cfg = config.services.homepage-dashboard;
-  constants = import ../../../../lib/constants.nix;
 
   dashboardServiceType = types.submodule {
     options = {
@@ -18,7 +18,7 @@ in {
   options.services.homepage-dashboard = {
     url = mkOption {
       type = types.str;
-      default = "home.${config.homelab.domain}";
+      default = nilfheim.helpers.mkServiceUrl "home" config.homelab.domain;
       description = "URL for the homepage dashboard proxy.";
     };
     homelabServices = mkOption {
@@ -101,7 +101,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          inherit (nilfheim.constants.nginxDefaults) proxyWebsockets;
         };
         locations."~* \.(css|js|png|jpg|jpeg|gif|ico|svg)$" = {
           proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";

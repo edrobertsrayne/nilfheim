@@ -2,16 +2,16 @@
   config,
   lib,
   pkgs,
+  nilfheim,
   ...
 }:
 with lib; let
   cfg = config.services.postgresql;
-  constants = import ../../../../lib/constants.nix;
 in {
   config = mkIf cfg.enable {
     services.postgresql = {
       package = pkgs.postgresql_16;
-      dataDir = "${constants.paths.dataDir}/postgresql";
+      dataDir = "${nilfheim.constants.paths.dataDir}/postgresql";
 
       # Enable TCP/IP connections
       enableTCPIP = true;
@@ -38,7 +38,7 @@ in {
       # PostgreSQL configuration
       settings = {
         # Connection settings
-        port = constants.ports.postgresql;
+        port = nilfheim.constants.ports.postgresql;
         max_connections = 100;
         shared_buffers = "256MB";
         effective_cache_size = "1GB";
@@ -73,12 +73,12 @@ in {
     };
 
     # Firewall configuration - allow local and tailscale connections
-    networking.firewall.allowedTCPPorts = mkIf cfg.enableTCPIP [constants.ports.postgresql];
-    networking.firewall.interfaces.tailscale0.allowedTCPPorts = mkIf cfg.enableTCPIP [constants.ports.postgresql];
+    networking.firewall.allowedTCPPorts = mkIf cfg.enableTCPIP [nilfheim.constants.ports.postgresql];
+    networking.firewall.interfaces.tailscale0.allowedTCPPorts = mkIf cfg.enableTCPIP [nilfheim.constants.ports.postgresql];
 
     # Ensure data directory has correct permissions
     systemd.tmpfiles.rules = [
-      "d ${constants.paths.dataDir}/postgresql 0750 postgres postgres -"
+      "d ${nilfheim.constants.paths.dataDir}/postgresql 0750 postgres postgres -"
     ];
   };
 }
