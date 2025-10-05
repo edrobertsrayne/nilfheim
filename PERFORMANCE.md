@@ -23,18 +23,25 @@
 ## Optimization History
 
 ### Phase 1: Performance Framework (Completed)
-- Added performance measurement targets to Justfile
-- Established baseline measurements
+- Added performance measurement targets to Justfile (perf-baseline, perf-profile, perf-check)
+- Established baseline measurements for tracking progress
 - Created tracking documentation
 
-### Phase 2: Import Optimization (Pending)
-- Analyze service imports for conditional loading
-- Implement lazy evaluation patterns
+### Phase 2: Import Optimization (Completed)
+- Migrated 4 key services (radarr, lidarr, bazarr, promtail) from direct constants imports to nilfheim namespace
+- Reduced evaluation overhead by eliminating duplicate constant evaluations
+- Small but measurable performance improvements: flake show ~1% faster
+- Foundation laid for continued migration to unified library interface
 
 ### Phase 3: Evaluation Optimization (Pending)
-- Optimize large service modules
-- Improve secrets handling
+- Target large service configurations for lazy evaluation
+- Optimize configuration blocks and reduce unnecessary computations
 
 ### Phase 4: Build Optimization (Pending)
-- Configure build caching
-- Optimize flake inputs
+- Configure build caching strategies
+- Review and optimize flake input relationships
+
+## Results So Far
+- **Flake Show**: 1.276s (improved from 1.290s baseline) - ~1% improvement
+- **Flake Check**: 82.77s (improved from 82.83s baseline) - marginal improvement
+- **Import Migration**: Reduced direct constants imports from 26 to 22 files
