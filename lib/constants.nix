@@ -43,6 +43,7 @@ let
     code-server = 8443;
     stirling-pdf = 8081;
     karakeep = 8090;
+    mealie = 9000;
     samba = 445;
     homeassistant = 8123;
 
@@ -144,6 +145,7 @@ let
     code-server = "VS Code running in the browser";
     stirling-pdf = "PDF manipulation and processing tool";
     karakeep = "Karaoke song management system";
+    mealie = "Recipe manager and meal planner";
     homeassistant = "Home automation platform";
 
     # Network Services
