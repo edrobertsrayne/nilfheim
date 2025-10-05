@@ -1,20 +1,18 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }: let
-  libServices = import ../../../../lib/services.nix {inherit lib;};
-  constants = import ../../../../lib/constants.nix;
-
   # Use the abstraction but call it to get the actual module
-  arrModule = libServices.mkArrService {
+  arrModule = nilfheim.services.mkArrService {
     name = "radarr";
-    exporterPort = constants.ports.exportarr-radarr;
-    description = constants.descriptions.radarr;
+    exporterPort = nilfheim.constants.ports.exportarr-radarr;
+    description = nilfheim.constants.descriptions.radarr;
     useSecretApiKey = false;
     defaultApiKey = "45f0ce64ed8b4d34b51908c60b7a70fc"; # Temporarily hardcoded
     extraConfig = {
-      settings.server.port = constants.ports.radarr;
+      settings.server.port = nilfheim.constants.ports.radarr;
     };
   };
 in
