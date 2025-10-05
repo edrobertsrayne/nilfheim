@@ -70,28 +70,21 @@ in {
 
     samba = {
       enable = true;
-      settings = builtins.mapAttrs (name: share:
-        {
+      settings =
+        builtins.mapAttrs (name: share: {
           "path" = share.path;
           "browseable" = "yes";
           "read only" =
             if share.sambaReadOnly
             then "yes"
             else "no";
-          "guest ok" = "no";
-          "valid users" = username;
-        }
-        // (
-          if share.sambaReadOnly
-          then {}
-          else {
-            "create mask" = "0644";
-            "directory mask" = "0755";
-            "force user" = username;
-            "force group" = "users";
-          }
-        ))
-      shareConfig;
+          "guest ok" = "yes";
+          "force user" = username;
+          "force group" = "tank";
+          "create mask" = "0644";
+          "directory mask" = "0755";
+        })
+        shareConfig;
     };
   };
 }
