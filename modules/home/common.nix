@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
   imports = [
     ./nvf
     ./tmux.nix
@@ -7,8 +7,22 @@
   config = {
     home.stateVersion = "25.05";
 
+    home.packages = with pkgs; [
+      # Data processing
+      yq-go
+
+      # Nix utilities
+      nix-tree
+
+      # File system tools
+      tree
+      ncdu
+      rsync
+    ];
+
     programs = {
       bat.enable = true;
+      btop.enable = true;
       dircolors.enable = true;
       direnv = {
         enable = true;
@@ -25,16 +39,42 @@
         ignores = [".git/" "*.bak"];
       };
       fzf.enable = true;
+      gh = {
+        enable = true;
+        extensions = with pkgs; [gh-markdown-preview];
+        settings = {
+          git_protocol = "ssh";
+          editor = "nvim";
+          prompt = "enabled";
+        };
+      };
       git = {
         enable = true;
         userName = "Ed Roberts Rayne";
         userEmail = "ed.rayne@gmail.com";
-        extraConfig = {init.defaultBranch = "main";};
+        extraConfig = {
+          init.defaultBranch = "main";
+        };
+        delta = {
+          enable = true;
+          options = {
+            navigate = true;
+            line-numbers = true;
+            side-by-side = false;
+          };
+        };
       };
+      jq.enable = true;
       lazygit.enable = true;
       nh.enable = true;
       password-store.enable = true;
       starship.enable = true;
+      tealdeer = {
+        enable = true;
+        settings = {
+          updates.auto_update = true;
+        };
+      };
       zoxide = {
         enable = true;
         options = ["--cmd cd"];
@@ -52,6 +92,12 @@
           ll = "eza -al";
           lt = "eza -a --tree --level=2";
           tmux = "tmux -u";
+          cat = "bat";
+          top = "btop";
+          du = "ncdu";
+          diff = "delta";
+          prs = "gh pr list";
+          issues = "gh issue list";
         };
       };
     };

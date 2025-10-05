@@ -13,6 +13,39 @@
       wezterm.apply = true;
     };
 
+    # Karabiner Elements configuration for Caps Lock -> Escape/Ctrl
+    # Tap: Escape, Hold: Control
+    home.file.".config/karabiner/karabiner.json".text = builtins.toJSON {
+      global = {
+        check_for_updates_on_startup = false;
+        show_in_menu_bar = false;
+      };
+      profiles = [
+        {
+          name = "Default";
+          selected = true;
+          complex_modifications = {
+            rules = [
+              {
+                description = "Caps Lock: Escape on tap, Control on hold";
+                manipulators = [
+                  {
+                    type = "basic";
+                    from = {
+                      key_code = "caps_lock";
+                      modifiers.optional = ["any"];
+                    };
+                    to = [{key_code = "left_control";}];
+                    to_if_alone = [{key_code = "escape";}];
+                  }
+                ];
+              }
+            ];
+          };
+        }
+      ];
+    };
+
     programs = {
       alacritty = {
         enable = true;

@@ -94,5 +94,8 @@ in {
     gimp
     inkscape
     zathura
+
+    # LaTeX support
+    texlive.combined.scheme-medium
   ];
 }
