@@ -14,6 +14,12 @@ freya:
 odin:
     sudo darwin-rebuild switch --flake .#odin
 
+# Build Raspberry Pi SD card image
+nixpi:
+    nix build .#nixosConfigurations.nixpi.config.system.build.sdImage
+    @echo "SD image built: result/sd-image/*.img.zst"
+    @echo "Flash with: zstd -d result/sd-image/*.img.zst -c | sudo dd of=/dev/sdX bs=4M status=progress"
+
 # Run linting tools (formatting, static analysis, dead code detection)
 lint:
     nix fmt .

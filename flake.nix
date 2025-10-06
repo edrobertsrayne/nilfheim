@@ -8,7 +8,7 @@
       systems =
         if builtins.getEnv "NIX_CHECK_CURRENT_SYSTEM_ONLY" != ""
         then [builtins.currentSystem]
-        else ["x86_64-linux" "x86_64-darwin"];
+        else ["x86_64-linux" "x86_64-darwin" "aarch64-linux"];
 
       imports = [
         ./hosts
