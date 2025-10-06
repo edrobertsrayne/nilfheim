@@ -2,12 +2,28 @@
 
 Comprehensive documentation for the Nilfheim NixOS/Darwin configuration system.
 
+> **Note**: Thor-specific server documentation is now available! See [Thor Server Documentation](#-thor-homelab-server) below.
+
 ## 📚 Documentation Index
 
 ### Core Documentation
 - **[Main README](../README.md)** - Project overview and quick start guide
 - **[Development Workflow](../CLAUDE.md)** - Complete development commands and patterns
 - **[TODO List](../TODO.md)** - Planned improvements and pending tasks
+
+### 🖥️ Thor Homelab Server
+
+**Complete operational documentation for the thor homelab server:**
+
+- **[Thor Overview](thor/README.md)** - System overview and quick start guide
+- **[System Architecture](thor/system-architecture.md)** - Hardware, ZFS pools, and storage configuration
+- **[Network Configuration](thor/network-configuration.md)** - Networking, firewall, proxy, and DNS setup
+- **[Storage & Shares](thor/storage-and-shares.md)** - ZFS management, NFS exports, and Samba shares
+- **[Services Inventory](thor/services/README.md)** - Complete catalog of all 40+ running services
+- **[Monitoring & Alerting](thor/monitoring-and-alerting.md)** - Prometheus, Grafana, Loki monitoring stack
+- **[Backup & Recovery](thor/backup-and-recovery.md)** - Restic backups and ZFS snapshot management
+- **[Troubleshooting Guide](thor/troubleshooting-guide.md)** - Common issues and resolution procedures
+- **[Security](thor/security.md)** - Security configuration, hardening, and access control
 
 ### Infrastructure Documentation
 
