@@ -75,6 +75,12 @@
         hostname = "loki";
         roles = [vps];
       };
+      nixpi = mkNixosSystem {
+        system = "aarch64-linux";
+        hostname = "nixpi";
+        extraModules = [inputs.nixos-hardware.nixosModules.raspberry-pi-4];
+        roles = [];
+      };
       iso = lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
