@@ -68,7 +68,7 @@ let
     portainer = 9443;
     portainer-http = 9002;
     portainer-agent = 9001;
-    cadvisor = 8082;
+    cadvisor = 9800;
   };
 
   # Default paths for services

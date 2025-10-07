@@ -56,7 +56,15 @@ in {
             scrape_interval = "60s";
             scrape_timeout = "30s";
           }
-        ];
+        ]
+        ++ (lib.optional config.services.cadvisor.enable {
+          job_name = "cadvisor";
+          static_configs = [
+            {
+              targets = ["localhost:${toString nilfheim.constants.ports.cadvisor}"];
+            }
+          ];
+        });
         ruleFiles = [
           ./alerts/logging.yml
           ./alerts/health-checks.yml
@@ -107,16 +115,21 @@ in {
             uid = "PBFA97CFB590B2093";
           }
         ];
-        dashboards.settings.providers = [
-          {
-            name = "Node Exporter";
-            options.path = ./grafana/node.json;
-          }
-          {
-            name = "System Health";
-            options.path = ./grafana/system-health.json;
-          }
-        ];
+        dashboards.settings.providers =
+          [
+            {
+              name = "Node Exporter";
+              options.path = ./grafana/node.json;
+            }
+            {
+              name = "System Health";
+              options.path = ./grafana/system-health.json;
+            }
+          ]
+          ++ (lib.optional config.services.cadvisor.enable {
+            name = "Docker Containers";
+            options.path = ./grafana/docker-cadvisor.json;
+          });
       };
     };
     system.persist.extraRootDirectories = ["/var/lib/${cfg.stateDir}"];

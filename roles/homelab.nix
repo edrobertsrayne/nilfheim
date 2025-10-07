@@ -41,6 +41,7 @@ in {
       };
       bazarr.enable = true;
       blocky.enable = true;
+      cadvisor.enable = true;
       code-server.enable = true;
       cloudflared = {
         enable = true;
