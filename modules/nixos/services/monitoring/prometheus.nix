@@ -119,6 +119,10 @@ in {
         dashboards.settings.providers =
           [
             {
+              name = "Homelab Overview";
+              options.path = ./grafana/homelab-overview.json;
+            }
+            {
               name = "Node Exporter";
               options.path = ./grafana/node.json;
             }

@@ -58,11 +58,18 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
   - **Status**: ✅ Active monitoring with backup completion/failure alerts
 
 ### 📊 Monitoring & Analytics Stack
+- **Dashboards**: Grafana with 9 comprehensive dashboards
+  - **Homelab Overview**: Single-screen view of entire infrastructure (23 panels)
+  - **DNS Analytics**: Blocky query analysis (21 panels)
+  - **System Health**: ZFS and hardware monitoring
+  - **Container Monitoring**: Docker metrics via cAdvisor
+  - **Log Analysis**: Centralized log dashboards
 - **Metrics**: Prometheus + Grafana with comprehensive dashboards
 - **Logs**: Loki + Promtail for centralized log aggregation
   - **SystemD Journal**: Core system services, backup monitoring
-  - **Application Logs**: *arr services, Jellyfin, Kavita, nginx errors
-  - **Status**: ✅ Active with stream limit optimization
+  - **Docker Containers**: Container logs via socket scraping
+  - **Application Logs**: *arr services, Jellyfin, nginx
+  - **Status**: ✅ Active with stream limit optimization (27 streams)
 - **DNS Analytics**: PostgreSQL + Grafana for advanced DNS query analysis
 - **Health**: Custom exporters for *arr services and system monitoring
 - **Alerts**: AlertManager with notification routing

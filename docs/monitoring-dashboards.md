@@ -8,11 +8,104 @@ The Nilfheim monitoring stack includes comprehensive Grafana dashboards for syst
 
 ### Dashboard Categories
 
-1. **DNS Analytics**: Advanced Blocky DNS monitoring with 21 comprehensive panels
-2. **System Health**: ZFS monitoring, hardware health, and system metrics
-3. **Service Monitoring**: Application logs, performance metrics, and health checks
-4. **Network Monitoring**: Nginx access logs, request patterns, and security events
-5. **Infrastructure**: Promtail log processing, database performance, and resource utilization
+1. **Homelab Overview**: Unified single-screen view of entire infrastructure (23 panels)
+2. **DNS Analytics**: Advanced Blocky DNS monitoring with 21 comprehensive panels
+3. **System Health**: ZFS monitoring, hardware health, and system metrics
+4. **Service Monitoring**: Application logs, performance metrics, and health checks
+5. **Network Monitoring**: Nginx access logs, request patterns, and security events
+6. **Infrastructure**: Promtail log processing, database performance, and resource utilization
+
+## 🏠 Homelab Overview Dashboard
+
+**File**: `modules/nixos/services/monitoring/grafana/homelab-overview.json`
+**Panels**: 23 comprehensive overview panels
+**Refresh**: 30 seconds
+**Purpose**: Single-screen at-a-glance view of entire homelab infrastructure
+
+### Dashboard Sections
+
+#### 1. Critical Status (Row 1 - 3 panels)
+- **System Uptime** - Time since last boot with color coding
+- **Active Alerts** - Count of firing alerts from AlertManager
+- **Critical Services Status** - Up/down indicators for nginx, prometheus, grafana, loki
+
+#### 2. Resource Overview (Row 2 - 4 panels)
+- **CPU Usage** - Percentage gauge with thresholds
+- **Memory Usage** - Available vs used memory gauge
+- **Network I/O** - TX/RX rates over time
+- **System Load** - 1m, 5m, 15m load averages
+
+#### 3. Storage Health (Row 3 - 3 panels)
+- **ZFS Pool Health** - ONLINE/DEGRADED/FAULTED status for all pools
+- **ZFS Pool Capacity** - Usage percentage bar gauges
+- **Critical Mount Points** - /srv, /var/lib, /mnt/media, /mnt/downloads usage
+
+#### 4. Container Metrics (Row 4 - 3 panels)
+- **Running Containers** - Total container count with trend
+- **Container CPU Usage** - Top 3 containers by CPU
+- **Container Memory Usage** - Top 3 containers by memory
+
+#### 5. Network & DNS (Row 5 - 3 panels)
+- **DNS Query Rate** - Queries per second from PostgreSQL logs
+- **DNS Block Rate** - Percentage of blocked queries
+- **Nginx Request Rate** - HTTP requests by method with stacking
+
+#### 6. Application Services (Row 6 - 4 panels)
+- **Media Services Status** - Jellyfin, Sonarr, Radarr, Lidarr, Prowlarr health
+- **Active Downloads** - Transmission active torrent count
+- **Last Successful Backup** - Timestamp of last completed Restic backup
+- (Reserved for future expansion)
+
+#### 7. Observability Health (Row 7 - 4 panels)
+- **Loki Active Streams** - Current stream count (target <100k)
+- **Loki Ingestion Rate** - Logs per second ingestion
+- **SMART Disk Health** - Per-disk SMART status
+- **Database Connections** - PostgreSQL active connections to blocky_logs
+
+### Conditional Panel Behavior
+
+The dashboard gracefully handles missing services:
+
+**Metrics-based panels** (automatic):
+- If a metric doesn't exist, the panel shows "No data"
+- Queries use conditional expressions where possible (e.g., `OR vector(0)`)
+
+**Service-specific panels** (conditional on service enablement):
+- **ZFS panels** - Require ZFS exporter to be enabled
+- **Container panels** - Require Docker and cAdvisor to be enabled
+- **DNS panels** - Require Blocky with PostgreSQL integration
+- **Backup panel** - Require Restic backup service
+- **Database panel** - Require PostgreSQL service
+
+### Data Sources Used
+
+- **Prometheus** - System metrics, service health, container metrics
+- **Loki** - Backup completion logs, application logs
+- **PostgreSQL** - Blocky DNS query logs (when enabled)
+
+### Key Metrics Displayed
+
+**Infrastructure:**
+- System uptime, CPU/memory/network utilization
+- ZFS pool health and capacity
+- Disk SMART status
+- Critical mount point usage
+
+**Services:**
+- Service up/down status (nginx, prometheus, grafana, loki, media services)
+- Active alert count
+- Container resource usage
+
+**Applications:**
+- DNS query rate and block effectiveness
+- Nginx request rate by method
+- Active downloads
+- Backup status
+
+**Observability:**
+- Loki stream count and ingestion rate
+- Database connection count
+- Log collection health
 
 ## 🔍 Blocky DNS Analytics Dashboard
 

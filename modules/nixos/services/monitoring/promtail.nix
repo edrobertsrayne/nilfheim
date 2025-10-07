@@ -172,21 +172,6 @@ in {
               ];
             }
 
-            # Kavita logs
-            {
-              job_name = "kavita";
-              static_configs = [
-                {
-                  targets = ["localhost"];
-                  labels = {
-                    job = "kavita";
-                    host = config.networking.hostName;
-                    __path__ = "/srv/kavita/config/logs/*.log";
-                  };
-                }
-              ];
-            }
-
             # Bazarr logs (if they exist in expected location)
             {
               job_name = "bazarr";
