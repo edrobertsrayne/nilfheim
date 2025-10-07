@@ -8,26 +8,24 @@ The Nilfheim monitoring stack includes comprehensive Grafana dashboards for syst
 
 ### Dashboard Categories
 
-1. **Homelab Overview**: Unified single-screen view of entire infrastructure (23 panels)
+1. **Homelab Overview**: Unified single-screen view of entire infrastructure (16 panels)
 2. **DNS Analytics**: Advanced Blocky DNS monitoring with 21 comprehensive panels
-3. **System Health**: ZFS monitoring, hardware health, and system metrics
-4. **Service Monitoring**: Application logs, performance metrics, and health checks
-5. **Network Monitoring**: Nginx access logs, request patterns, and security events
-6. **Infrastructure**: Promtail log processing, database performance, and resource utilization
+3. **Service Monitoring**: Application logs, performance metrics, and health checks
+4. **Network Monitoring**: Nginx access logs, request patterns, and security events
+5. **Infrastructure**: Promtail log processing, database performance, and resource utilization
 
 ## 🏠 Homelab Overview Dashboard
 
 **File**: `modules/nixos/services/monitoring/grafana/homelab-overview.json`
-**Panels**: 23 comprehensive overview panels
+**Panels**: 16 comprehensive overview panels
 **Refresh**: 30 seconds
 **Purpose**: Single-screen at-a-glance view of entire homelab infrastructure
 
 ### Dashboard Sections
 
-#### 1. Critical Status (Row 1 - 3 panels)
+#### 1. Critical Status (Row 1 - 2 panels)
 - **System Uptime** - Time since last boot with color coding
 - **Active Alerts** - Count of firing alerts from AlertManager
-- **Critical Services Status** - Up/down indicators for nginx, prometheus, grafana, loki
 
 #### 2. Resource Overview (Row 2 - 4 panels)
 - **CPU Usage** - Percentage gauge with thresholds
@@ -178,31 +176,6 @@ HAVING count(*) > 100
 ORDER BY "Blocked" DESC
 LIMIT 20;
 ```
-
-## 🖥️ System Health Dashboard
-
-**File**: `modules/nixos/services/monitoring/grafana/system-health.json`  
-**Focus**: Hardware monitoring, ZFS analytics, system performance
-
-### Key Monitoring Areas
-
-#### 🗄️ ZFS Pool Management
-- **Pool Status**: Real-time health monitoring (ONLINE/DEGRADED/FAULTED)
-- **Capacity Analysis**: Usage trends with capacity planning insights
-- **Scrub Monitoring**: Error detection and maintenance scheduling
-- **Performance Metrics**: I/O statistics and throughput analysis
-
-#### 💽 Storage Intelligence  
-- **SMART Health**: Disk health monitoring with predictive failure detection
-- **Temperature Tracking**: Thermal monitoring with threshold alerts
-- **Mount Point Analysis**: Critical storage usage with capacity alerts
-- **I/O Performance**: Read/write patterns and bottleneck identification
-
-#### ⚙️ System Performance
-- **Service Status**: Application health with uptime monitoring
-- **Process Monitoring**: Resource usage by service with optimization insights
-- **Network Interfaces**: Traffic analysis and connectivity health
-- **Memory Utilization**: RAM usage patterns with leak detection
 
 ## 📋 Service Logs Dashboard
 

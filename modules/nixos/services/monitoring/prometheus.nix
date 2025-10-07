@@ -68,7 +68,6 @@ in {
           });
         ruleFiles = [
           ./alerts/logging.yml
-          ./alerts/health-checks.yml
         ];
         alertmanagers = [
           {
@@ -125,10 +124,6 @@ in {
             {
               name = "Node Exporter";
               options.path = ./grafana/node.json;
-            }
-            {
-              name = "System Health";
-              options.path = ./grafana/system-health.json;
             }
           ]
           ++ (lib.optional config.services.cadvisor.enable {
