@@ -79,13 +79,6 @@ in {
             };
           }
           {
-            resources = {
-              label = "Storage";
-              disk = ["/" "/mnt/media"];
-              units = "metric";
-            };
-          }
-          {
             openmeteo = {
               label = "Cambridge";
               latitude = 52.2157;
