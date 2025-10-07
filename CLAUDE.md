@@ -292,6 +292,11 @@ restic restore latest --target /tmp/restore --include /persist/home/user
 {job="systemd-journal", unit="restic-backups-system.service"} |= "ERROR"
 {job="systemd-journal", unit="restic-backups-system.service"} |= "completed"
 
+# Docker container logs
+{job="docker", container="homeassistant"}
+{job="docker", container="portainer"}
+{job="docker", container="tdarr"}
+
 # System service errors
 {job="systemd-journal"} |= "ERROR"
 {job="systemd-journal"} |= "failed"
@@ -300,6 +305,10 @@ restic restore latest --target /tmp/restore --include /persist/home/user
 {job="arr-services", level="Error"}
 {job="jellyfin"} |= "ERROR"
 {job="nginx-error"}
+
+# Nginx access logs (optimized with status classes)
+{job="nginx-access"} | json | status_class="4xx"
+{job="nginx-access"} | json | method="POST"
 
 # SSH and authentication
 {job="systemd-journal", unit="sshd.service"}
@@ -446,6 +455,44 @@ services.nfs-client = {
 - Proper firewall configuration for NFS ports (2049, 111, 20048)
 - Soft mounting with background and interrupt support
 - Integration with existing Samba shares
+
+### Container Services
+
+**Docker Configuration:**
+
+```nix
+virtualisation.docker = {
+  enable = true;
+  autoPrune.enable = true;
+  daemon.settings = {
+    log-driver = "json-file";
+    log-opts = {
+      max-size = "50m";
+      max-file = "10";
+    };
+  };
+};
+```
+
+**Container Modules (Home Assistant, Tdarr, Portainer):**
+
+- Use systemd service integration for lifecycle management
+- Configure Docker logging to json-file for Promtail collection
+- Add homepage dashboard integration
+- Configure nginx reverse proxy with SSL
+
+**Container Monitoring:**
+
+```nix
+services.cadvisor = {
+  enable = true;
+  port = constants.ports.cadvisor;
+};
+
+# Prometheus scrapes cAdvisor metrics
+# Grafana dashboard: docker-cadvisor.json
+# Promtail collects logs via Docker socket
+```
 
 ### Database Services
 

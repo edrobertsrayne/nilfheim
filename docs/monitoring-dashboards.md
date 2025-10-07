@@ -130,11 +130,17 @@ LIMIT 20;
 - **Kavita Reading**: E-book access patterns and library usage
 
 #### 🐳 Container Monitoring
-- **Docker Containers**: cAdvisor metrics for CPU, memory, and network usage
+- **Docker Containers**: Home Assistant, Tdarr, and Portainer container monitoring
+- **cAdvisor Integration**: Real-time CPU, memory, and network usage metrics
 - **Container Lifecycle**: Resource consumption and performance analysis
-- **Grafana Dashboard**: Real-time container metrics visualization
+- **Grafana Dashboard**: `docker-cadvisor.json` with 4 key panels
+  - CPU Usage by Container
+  - Memory Usage by Container
+  - Network I/O (RX/TX rates)
+  - Running Container Count
 - **Service Dependencies**: Inter-service communication and dependency health
 - **Performance Bottlenecks**: Resource constraints and optimization opportunities
+- **Log Collection**: Docker socket scraping via Promtail for centralized logs
 
 ### Advanced Filtering
 
@@ -142,8 +148,10 @@ LIMIT 20;
 # Media services error detection
 {job="systemd-journal", unit=~"(sonarr|radarr|lidarr).service", level="error"}
 
-# Container resource monitoring
-{job="systemd-journal", container!=""} | json | level="warn" or level="error"
+# Docker container monitoring (via Docker socket)
+{job="docker", container="homeassistant"}
+{job="docker", container="portainer"}
+{job="docker", container="tdarr"}
 
 # Jellyfin transcoding analysis
 {job="systemd-journal", unit="jellyfin.service"} | json | message=~".*transcode.*"
@@ -174,9 +182,12 @@ LIMIT 20;
 - **Cache Effectiveness**: Static asset performance and CDN efficiency
 - **User Experience**: Page load times and interaction patterns
 
-### Fixed Issues
+### Recent Improvements
 
-Recent dashboard improvements include:
+- ✅ **Cardinality Optimization**: Reduced nginx access log streams from ~50k to 27 streams
+- ✅ **Label Reduction**: Simplified to `method` and `status_class` labels only
+- ✅ **Status Grouping**: Group status codes into classes (2xx, 3xx, 4xx, 5xx, other)
+- ✅ **Full Data Preservation**: All log details preserved as queryable fields
 - ✅ **Series Limit Resolution**: Fixed "maximum of series (500) reached" errors
 - ✅ **Query Optimization**: Simplified LogQL queries for better performance
 - ✅ **Parse Error Fixes**: Resolved regex escaping and JSON pipeline issues

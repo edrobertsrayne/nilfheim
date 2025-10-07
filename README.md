@@ -71,14 +71,14 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 ## ✨ Key Features
 
 ### ⚡ Thor - Homelab Server
-- **🎬 Media**: Jellyfin, Audiobookshelf, Jellyseerr, Kavita (ebooks)
+- **🎬 Media**: Jellyfin, Jellyseerr
 - **📥 Downloads**: *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr), Transmission, Recyclarr, Flaresolverr
-- **📈 Monitoring**: Grafana, Prometheus, AlertManager, Uptime Kuma, Glances, Loki, Promtail
+- **📈 Monitoring**: Grafana, Prometheus, AlertManager, Uptime Kuma, Glances, Loki, Promtail, cAdvisor
 - **📊 Analytics**: PostgreSQL database with pgAdmin for DNS query logging and analysis
 - **🌐 Network**: Nginx reverse proxy, Blocky DNS with logging, Tailscale, SSH, Cloudflared tunnels
 - **💾 Storage**: NFS server for shared storage over tailscale network, Samba shares for local access
-- **🛠️ Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Stirling PDF, N8N automation
-- **🐳 Virtualization**: Docker containers (Home Assistant, Tdarr, Portainer, cAdvisor)
+- **🛠️ Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Stirling PDF, N8N automation, Mealie
+- **🐳 Virtualization**: Docker containers (Home Assistant, Tdarr), Portainer management interface
 
 ### 💻 Freya - Workstation/Laptop
 - **🖥️ Desktop**: GNOME and Hyprland with shared GDM display manager
@@ -176,17 +176,19 @@ Commit format: `type(scope): description` (conventional commits)
 
 ### ✅ **Active Log Sources**
 - **SystemD Journal**: Core system services including backup monitoring
-- **Nginx Error Logs**: Server errors and configuration issues
-- **Application Logs**: *arr services (Sonarr, Radarr, etc.), Jellyfin, Kavita
-- **Service Logs**: Nginx errors, service failures, authentication
-
-### ⏸️ **Optimizing**
-- **Nginx Access Logs**: Temporarily disabled due to high cardinality ([Issue #69](https://github.com/edrobertsrayne/nilfheim/issues/69))
+- **Docker Containers**: Container logs collected via Docker socket (Home Assistant, Tdarr, Portainer)
+- **Nginx Logs**: Error logs and optimized access logs with reduced cardinality
+- **Application Logs**: *arr services (Sonarr, Radarr, etc.), Jellyfin
+- **Service Logs**: Service failures, authentication, system events
 
 ### 🔧 **Log Query Examples**
 ```bash
 # Backup monitoring
 {job="systemd-journal", unit="restic-backups-system.service"}
+
+# Docker container logs
+{job="docker", container="homeassistant"}
+{job="docker", container="portainer"}
 
 # Service errors across all services
 {job="systemd-journal"} |= "ERROR"
@@ -195,12 +197,15 @@ Commit format: `type(scope): description` (conventional commits)
 {job="arr-services", level="Error"}
 {job="jellyfin"} |= "ERROR"
 
+# Nginx access logs (optimized)
+{job="nginx-access"} | json | status_class="4xx"
+
 # System authentication
 {job="systemd-journal", unit="sshd.service"}
 ```
 
 ### 📊 **Metrics Available**
-- **Stream Count**: ~50,000 active streams (under 100k limit)
+- **Stream Count**: ~27 active streams (optimized from 50k, well under 100k limit)
 - **Ingestion Rate**: ~5MB/hr average
 - **Retention**: 31 days (744 hours)
 - **Dashboard**: [Loki monitoring](https://grafana.${domain}/explore)
