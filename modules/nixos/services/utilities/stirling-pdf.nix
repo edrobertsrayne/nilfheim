@@ -1,3 +1,16 @@
+# Stirling PDF Service Configuration
+#
+# Database: Uses embedded H2 database stored in /var/lib/private/stirling-pdf/configs/
+# Persistence: Data is persisted via /var/lib/private mount in ZFS persist volume
+#
+# Database Reset Procedure (if schema migration fails):
+#   1. Stop service: systemctl stop stirling-pdf.service
+#   2. Backup data: tar czf /tmp/stirling-pdf-backup-$(date +%Y%m%d).tar.gz -C /var/lib/private/stirling-pdf/configs .
+#   3. Remove databases: rm -f /var/lib/private/stirling-pdf/configs/*.db /var/lib/private/stirling-pdf/configs/*.trace.db
+#   4. Remove old backups (if schema mismatch): mv /var/lib/private/stirling-pdf/configs/backup /var/lib/private/stirling-pdf/configs/backup.old
+#   5. Restart service: systemctl start stirling-pdf.service
+#
+# Note: Stirling PDF will automatically create fresh database with correct schema on startup
 {
   config,
   lib,
