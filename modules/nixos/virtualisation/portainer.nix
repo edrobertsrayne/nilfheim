@@ -46,7 +46,6 @@ in {
 
           extraOptions = [
             "--pull=always"
-            "--restart=unless-stopped"
           ];
         };
       };
