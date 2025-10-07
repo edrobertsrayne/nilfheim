@@ -55,7 +55,7 @@ in {
                 # Filter to only include specific important units to reduce cardinality
                 {
                   source_labels = ["__journal__systemd_unit"];
-                  regex = ".*(restic|nginx|loki|promtail|ssh|systemd).*";
+                  regex = ".*(restic|nginx|loki|promtail|ssh|systemd|docker).*";
                   action = "keep";
                 }
               ];
