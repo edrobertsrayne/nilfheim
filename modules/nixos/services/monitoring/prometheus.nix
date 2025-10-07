@@ -21,42 +21,51 @@ in {
     services = {
       prometheus = {
         globalConfig.scrape_interval = "10s";
-        scrapeConfigs = [
-          {
-            job_name = "node";
+        scrapeConfigs =
+          [
+            {
+              job_name = "node";
+              static_configs = [
+                {
+                  targets = ["localhost:${toString node.port}"];
+                }
+              ];
+            }
+            {
+              job_name = "promtail";
+              static_configs = [
+                {
+                  targets = ["localhost:9080"];
+                }
+              ];
+            }
+            {
+              job_name = "alertmanager";
+              static_configs = [
+                {
+                  targets = ["localhost:9093"];
+                }
+              ];
+            }
+            {
+              job_name = "smartctl";
+              static_configs = [
+                {
+                  targets = ["localhost:9633"];
+                }
+              ];
+              scrape_interval = "60s";
+              scrape_timeout = "30s";
+            }
+          ]
+          ++ (lib.optional config.services.cadvisor.enable {
+            job_name = "cadvisor";
             static_configs = [
               {
-                targets = ["localhost:${toString node.port}"];
+                targets = ["localhost:${toString nilfheim.constants.ports.cadvisor}"];
               }
             ];
-          }
-          {
-            job_name = "promtail";
-            static_configs = [
-              {
-                targets = ["localhost:9080"];
-              }
-            ];
-          }
-          {
-            job_name = "alertmanager";
-            static_configs = [
-              {
-                targets = ["localhost:9093"];
-              }
-            ];
-          }
-          {
-            job_name = "smartctl";
-            static_configs = [
-              {
-                targets = ["localhost:9633"];
-              }
-            ];
-            scrape_interval = "60s";
-            scrape_timeout = "30s";
-          }
-        ];
+          });
         ruleFiles = [
           ./alerts/logging.yml
           ./alerts/health-checks.yml
@@ -107,16 +116,21 @@ in {
             uid = "PBFA97CFB590B2093";
           }
         ];
-        dashboards.settings.providers = [
-          {
-            name = "Node Exporter";
-            options.path = ./grafana/node.json;
-          }
-          {
-            name = "System Health";
-            options.path = ./grafana/system-health.json;
-          }
-        ];
+        dashboards.settings.providers =
+          [
+            {
+              name = "Node Exporter";
+              options.path = ./grafana/node.json;
+            }
+            {
+              name = "System Health";
+              options.path = ./grafana/system-health.json;
+            }
+          ]
+          ++ (lib.optional config.services.cadvisor.enable {
+            name = "Docker Containers";
+            options.path = ./grafana/docker-cadvisor.json;
+          });
       };
     };
     system.persist.extraRootDirectories = ["/var/lib/${cfg.stateDir}"];

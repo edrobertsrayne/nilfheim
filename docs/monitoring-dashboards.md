@@ -130,7 +130,9 @@ LIMIT 20;
 - **Kavita Reading**: E-book access patterns and library usage
 
 #### 🐳 Container Monitoring
-- **Podman Activity**: Container lifecycle and resource consumption
+- **Docker Containers**: cAdvisor metrics for CPU, memory, and network usage
+- **Container Lifecycle**: Resource consumption and performance analysis
+- **Grafana Dashboard**: Real-time container metrics visualization
 - **Service Dependencies**: Inter-service communication and dependency health
 - **Performance Bottlenecks**: Resource constraints and optimization opportunities
 

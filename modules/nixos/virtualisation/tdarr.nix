@@ -51,9 +51,9 @@ in {
   };
   config = mkIf cfg.enable {
     virtualisation = {
-      podman.enable = true;
+      docker.enable = true;
 
-      oci-containers.backend = "podman";
+      oci-containers.backend = "docker";
       oci-containers.containers."tdarr" = {
         image = "ghcr.io/haveagitgat/tdarr";
         autoStart = true;
@@ -90,8 +90,6 @@ in {
         extraOptions =
           [
             "--network=bridge"
-            "--log-opt=max-size=50m"
-            "--log-opt=max-file=10"
             "--health-cmd=curl -f http://localhost:${toString cfg.webUIPort} || exit 1"
             "--health-interval=30s"
             "--health-retries=3"

@@ -41,7 +41,9 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 - **Comprehensive Dashboards**: 21-panel Grafana dashboard with enterprise-grade DNS insights
 
 ### 🐳 Container Management
-- **Podman**: Rootless containerization for Home Assistant and Tdarr
+- **Docker**: Rootful containerization for Home Assistant, Tdarr, and Portainer
+- **Portainer**: Web-based container management interface
+- **cAdvisor**: Container metrics collection and monitoring
 - **Systemd Integration**: Native service management for containers
 
 ### 💾 Storage & Persistence
@@ -76,7 +78,7 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 - **🌐 Network**: Nginx reverse proxy, Blocky DNS with logging, Tailscale, SSH, Cloudflared tunnels
 - **💾 Storage**: NFS server for shared storage over tailscale network, Samba shares for local access
 - **🛠️ Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Stirling PDF, N8N automation
-- **🐳 Virtualization**: Podman containers (Home Assistant, Tdarr)
+- **🐳 Virtualization**: Docker containers (Home Assistant, Tdarr, Portainer, cAdvisor)
 
 ### 💻 Freya - Workstation/Laptop
 - **🖥️ Desktop**: GNOME and Hyprland with shared GDM display manager

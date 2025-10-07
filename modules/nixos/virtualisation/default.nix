@@ -2,7 +2,7 @@
   imports = [
     ./docker.nix
     ./homeassistant.nix
-    ./podman.nix
+    ./portainer.nix
     ./tdarr.nix
   ];
 }

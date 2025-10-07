@@ -1,6 +1,7 @@
 {
   imports = [
     ./alertmanager.nix
+    ./cadvisor-integration.nix
     ./glances.nix
     ./grafana.nix
     ./loki.nix

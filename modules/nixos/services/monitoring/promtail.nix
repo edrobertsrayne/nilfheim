@@ -53,6 +53,7 @@ in {
                   target_label = "unit";
                 }
                 # Filter to only include specific important units to reduce cardinality
+                # Note: docker containers are scraped directly via Docker socket (see docker job below)
                 {
                   source_labels = ["__journal__systemd_unit"];
                   regex = ".*(restic|nginx|loki|promtail|ssh|systemd).*";
@@ -61,34 +62,49 @@ in {
               ];
             }
 
-            # Nginx access logs - TEMPORARILY DISABLED to reduce cardinality
-            # Re-enable after systemd journal is working
-            # {
-            #   job_name = "nginx-access";
-            #   static_configs = [
-            #     {
-            #       targets = ["localhost"];
-            #       labels = {
-            #         job = "nginx-access";
-            #         host = config.networking.hostName;
-            #         __path__ = "/var/log/nginx/access.log";
-            #       };
-            #     }
-            #   ];
-            #   pipeline_stages = [
-            #     {
-            #       regex = {
-            #         expression = "^(?P<remote_addr>[\\w\\.\\:]+) - (?P<remote_user>\\S+) \\[(?P<time_local>[^\\]]+)\\] \"(?P<method>\\S+) (?P<path>\\S+) (?P<protocol>\\S+)\" (?P<status>\\d+) (?P<bytes_sent>\\d+) \"(?P<referer>[^\"]*)\" \"(?P<user_agent>[^\"]*)\"";
-            #       };
-            #     }
-            #     {
-            #       timestamp = {
-            #         source = "time_local";
-            #         format = "02/Jan/2006:15:04:05 -0700";
-            #       };
-            #     }
-            #   ];
-            # }
+            # Nginx access logs with reduced cardinality
+            # Labels limited to method + status_class to prevent stream explosion
+            # Full log data (path, user_agent, etc) available via LogQL queries
+            {
+              job_name = "nginx-access";
+              static_configs = [
+                {
+                  targets = ["localhost"];
+                  labels = {
+                    job = "nginx-access";
+                    host = config.networking.hostName;
+                    __path__ = "/var/log/nginx/access.log";
+                  };
+                }
+              ];
+              pipeline_stages = [
+                {
+                  regex = {
+                    expression = "^(?P<remote_addr>[\\w\\.\\:]+) - (?P<remote_user>\\S+) \\[(?P<time_local>[^\\]]+)\\] \"(?P<method>\\S+) (?P<path>\\S+) (?P<protocol>\\S+)\" (?P<status>\\d+) (?P<bytes_sent>\\d+) \"(?P<referer>[^\"]*)\" \"(?P<user_agent>[^\"]*)\"";
+                  };
+                }
+                {
+                  # Map status codes to classes (2xx, 3xx, 4xx, 5xx) to reduce cardinality
+                  template = {
+                    source = "status_class";
+                    template = "{{ if eq (substr 0 1 .status) \"2\" }}2xx{{ else if eq (substr 0 1 .status) \"3\" }}3xx{{ else if eq (substr 0 1 .status) \"4\" }}4xx{{ else if eq (substr 0 1 .status) \"5\" }}5xx{{ else }}other{{ end }}";
+                  };
+                }
+                {
+                  # Only add low-cardinality labels
+                  labels = {
+                    method = "";
+                    status_class = "";
+                  };
+                }
+                {
+                  timestamp = {
+                    source = "time_local";
+                    format = "02/Jan/2006:15:04:05 -0700";
+                  };
+                }
+              ];
+            }
 
             # Nginx error logs
             {
@@ -185,6 +201,29 @@ in {
                 }
               ];
             }
+
+            # Docker container logs (for containers not managed by systemd)
+            # Scrapes from Docker socket for containers using json-file driver
+            {
+              job_name = "docker";
+              docker_sd_configs = [
+                {
+                  host = "unix:///var/run/docker.sock";
+                  refresh_interval = "5s";
+                }
+              ];
+              relabel_configs = [
+                {
+                  source_labels = ["__meta_docker_container_name"];
+                  regex = "/(.*)";
+                  target_label = "container";
+                }
+                {
+                  source_labels = ["__meta_docker_container_log_stream"];
+                  target_label = "stream";
+                }
+              ];
+            }
           ];
         };
       };
@@ -221,6 +260,7 @@ in {
     # Ensure promtail can read various log sources
     users.users.promtail.extraGroups = [
       "systemd-journal" # For systemd journal access
+      "docker" # For Docker socket access
       "nginx" # For nginx log access
       "jellyfin" # For Jellyfin log access
       "sonarr" # For Sonarr log access
