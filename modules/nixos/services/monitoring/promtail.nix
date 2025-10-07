@@ -62,34 +62,49 @@ in {
               ];
             }
 
-            # Nginx access logs - TEMPORARILY DISABLED to reduce cardinality
-            # Re-enable after systemd journal is working
-            # {
-            #   job_name = "nginx-access";
-            #   static_configs = [
-            #     {
-            #       targets = ["localhost"];
-            #       labels = {
-            #         job = "nginx-access";
-            #         host = config.networking.hostName;
-            #         __path__ = "/var/log/nginx/access.log";
-            #       };
-            #     }
-            #   ];
-            #   pipeline_stages = [
-            #     {
-            #       regex = {
-            #         expression = "^(?P<remote_addr>[\\w\\.\\:]+) - (?P<remote_user>\\S+) \\[(?P<time_local>[^\\]]+)\\] \"(?P<method>\\S+) (?P<path>\\S+) (?P<protocol>\\S+)\" (?P<status>\\d+) (?P<bytes_sent>\\d+) \"(?P<referer>[^\"]*)\" \"(?P<user_agent>[^\"]*)\"";
-            #       };
-            #     }
-            #     {
-            #       timestamp = {
-            #         source = "time_local";
-            #         format = "02/Jan/2006:15:04:05 -0700";
-            #       };
-            #     }
-            #   ];
-            # }
+            # Nginx access logs with reduced cardinality
+            # Labels limited to method + status_class to prevent stream explosion
+            # Full log data (path, user_agent, etc) available via LogQL queries
+            {
+              job_name = "nginx-access";
+              static_configs = [
+                {
+                  targets = ["localhost"];
+                  labels = {
+                    job = "nginx-access";
+                    host = config.networking.hostName;
+                    __path__ = "/var/log/nginx/access.log";
+                  };
+                }
+              ];
+              pipeline_stages = [
+                {
+                  regex = {
+                    expression = "^(?P<remote_addr>[\\w\\.\\:]+) - (?P<remote_user>\\S+) \\[(?P<time_local>[^\\]]+)\\] \"(?P<method>\\S+) (?P<path>\\S+) (?P<protocol>\\S+)\" (?P<status>\\d+) (?P<bytes_sent>\\d+) \"(?P<referer>[^\"]*)\" \"(?P<user_agent>[^\"]*)\"";
+                  };
+                }
+                {
+                  # Map status codes to classes (2xx, 3xx, 4xx, 5xx) to reduce cardinality
+                  template = {
+                    source = "status_class";
+                    template = "{{ if eq (substr 0 1 .status) \"2\" }}2xx{{ else if eq (substr 0 1 .status) \"3\" }}3xx{{ else if eq (substr 0 1 .status) \"4\" }}4xx{{ else if eq (substr 0 1 .status) \"5\" }}5xx{{ else }}other{{ end }}";
+                  };
+                }
+                {
+                  # Only add low-cardinality labels
+                  labels = {
+                    method = "";
+                    status_class = "";
+                  };
+                }
+                {
+                  timestamp = {
+                    source = "time_local";
+                    format = "02/Jan/2006:15:04:05 -0700";
+                  };
+                }
+              ];
+            }
 
             # Nginx error logs
             {

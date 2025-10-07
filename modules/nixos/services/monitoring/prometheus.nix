@@ -21,50 +21,51 @@ in {
     services = {
       prometheus = {
         globalConfig.scrape_interval = "10s";
-        scrapeConfigs = [
-          {
-            job_name = "node";
-            static_configs = [
-              {
-                targets = ["localhost:${toString node.port}"];
-              }
-            ];
-          }
-          {
-            job_name = "promtail";
-            static_configs = [
-              {
-                targets = ["localhost:9080"];
-              }
-            ];
-          }
-          {
-            job_name = "alertmanager";
-            static_configs = [
-              {
-                targets = ["localhost:9093"];
-              }
-            ];
-          }
-          {
-            job_name = "smartctl";
-            static_configs = [
-              {
-                targets = ["localhost:9633"];
-              }
-            ];
-            scrape_interval = "60s";
-            scrape_timeout = "30s";
-          }
-        ]
-        ++ (lib.optional config.services.cadvisor.enable {
-          job_name = "cadvisor";
-          static_configs = [
+        scrapeConfigs =
+          [
             {
-              targets = ["localhost:${toString nilfheim.constants.ports.cadvisor}"];
+              job_name = "node";
+              static_configs = [
+                {
+                  targets = ["localhost:${toString node.port}"];
+                }
+              ];
             }
-          ];
-        });
+            {
+              job_name = "promtail";
+              static_configs = [
+                {
+                  targets = ["localhost:9080"];
+                }
+              ];
+            }
+            {
+              job_name = "alertmanager";
+              static_configs = [
+                {
+                  targets = ["localhost:9093"];
+                }
+              ];
+            }
+            {
+              job_name = "smartctl";
+              static_configs = [
+                {
+                  targets = ["localhost:9633"];
+                }
+              ];
+              scrape_interval = "60s";
+              scrape_timeout = "30s";
+            }
+          ]
+          ++ (lib.optional config.services.cadvisor.enable {
+            job_name = "cadvisor";
+            static_configs = [
+              {
+                targets = ["localhost:${toString nilfheim.constants.ports.cadvisor}"];
+              }
+            ];
+          });
         ruleFiles = [
           ./alerts/logging.yml
           ./alerts/health-checks.yml

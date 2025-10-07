@@ -68,15 +68,17 @@ in {
     ];
 
     # Homepage dashboard integration
-    services.homepage-dashboard.homelabServices = [{
-      group = constants.serviceGroups.monitoring;
-      name = "Portainer";
-      entry = {
-        href = "https://${cfg.url}";
-        icon = "portainer.svg";
-        siteMonitor = "https://127.0.0.1:${toString constants.ports.portainer}";
-        description = constants.descriptions.portainer;
-      };
-    }];
+    services.homepage-dashboard.homelabServices = [
+      {
+        group = constants.serviceGroups.monitoring;
+        name = "Portainer";
+        entry = {
+          href = "https://${cfg.url}";
+          icon = "portainer.svg";
+          siteMonitor = "https://127.0.0.1:${toString constants.ports.portainer}";
+          description = constants.descriptions.portainer;
+        };
+      }
+    ];
   };
 }
