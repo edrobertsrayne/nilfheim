@@ -34,7 +34,7 @@ in {
     };
 
     services = {
-      audiobookshelf.enable = true;
+      audiobookshelf.enable = false;
       backup.restic = {
         enable = true;
         repository = "/mnt/backup/thor/restic";
@@ -62,7 +62,7 @@ in {
       jellyfin.enable = true;
       jellyseerr.enable = true;
       karakeep.enable = true;
-      kavita.enable = true;
+      kavita.enable = false;
       lidarr.enable = true;
       mealie.enable = true;
       n8n.enable = true;
