@@ -64,8 +64,9 @@ Comprehensive documentation for the Nilfheim NixOS/Darwin configuration system.
 - Service isolation and access control
 
 #### 🐳 Container Management
-- Podman rootless containerization  
+- Docker containerization with Portainer web interface
 - Systemd integration for containers
+- cAdvisor metrics collection and Grafana dashboards
 - Container monitoring and log analysis
 
 #### 🏗️ Infrastructure as Code
