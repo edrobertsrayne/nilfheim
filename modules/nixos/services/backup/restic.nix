@@ -161,18 +161,5 @@ in {
         };
       };
     };
-
-    # Homepage dashboard integration
-    services.homepage-dashboard.homelabServices = mkIf config.services.homepage-dashboard.enable [
-      {
-        group = constants.serviceGroups.utilities;
-        name = "Backup Status";
-        entry = {
-          href = "https://grafana.${config.homelab.domain}/d/restic-backup/restic-backup-monitoring";
-          icon = "mdi-backup-restore";
-          description = "System backup monitoring and status";
-        };
-      }
-    ];
   };
 }
