@@ -63,6 +63,12 @@ let
     # Database Services
     postgresql = 5432;
     pgadmin = 5050;
+
+    # Container Management
+    portainer = 9443;
+    portainer-http = 9002;
+    portainer-agent = 9001;
+    cadvisor = 8082;
   };
 
   # Default paths for services
@@ -156,6 +162,10 @@ let
     # Database Services
     postgresql = "PostgreSQL relational database server";
     pgadmin = "PostgreSQL administration web interface";
+
+    # Container Management
+    portainer = "Docker container management web interface";
+    cadvisor = "Container resource usage and performance analysis";
   };
 
   # Default authentication settings for *arr services

@@ -20,9 +20,9 @@ in {
   };
   config = mkIf cfg.enable {
     virtualisation = {
-      podman.enable = true;
+      docker.enable = true;
       oci-containers = {
-        backend = "podman";
+        backend = "docker";
         containers = {
           homeassistant = {
             image = "ghcr.io/home-assistant/home-assistant:stable";

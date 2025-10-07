@@ -29,7 +29,7 @@ in {
 
     virtualisation = {
       homeassistant.enable = true;
-      podman.enable = true;
+      portainer.enable = false; # Will enable after migrating containers to Docker
       tdarr.enable = true;
     };
 
