@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.prometheus.alertmanager;
   inherit (config) homelab;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.prometheus.alertmanager = {
     url = mkOption {

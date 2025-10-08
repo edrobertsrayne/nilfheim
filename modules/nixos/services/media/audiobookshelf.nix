@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.audiobookshelf;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.audiobookshelf = {
     url = mkOption {

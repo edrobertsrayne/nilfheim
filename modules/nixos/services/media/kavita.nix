@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.kavita;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.kavita = {
     url = mkOption {

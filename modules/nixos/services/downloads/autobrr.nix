@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.autobrr;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.autobrr = {
     url = mkOption {

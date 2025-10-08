@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }: let
   inherit (lib) mkIf mkOption types;
+  inherit (nilfheim) constants;
   cfg = config.services.n8n;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.n8n = {
     url = mkOption {

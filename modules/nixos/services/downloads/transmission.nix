@@ -2,11 +2,12 @@
   config,
   lib,
   pkgs,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.transmission;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.transmission = with types; {
     url = mkOption {

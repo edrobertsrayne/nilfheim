@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.plex;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.plex = {
     url = mkOption {

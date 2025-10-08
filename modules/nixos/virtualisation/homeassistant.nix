@@ -1,11 +1,12 @@
 {
   lib,
   config,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.virtualisation.homeassistant;
-  constants = import ../../../lib/constants.nix;
 in {
   options.virtualisation.homeassistant = with lib.types; {
     enable = mkEnableOption "Whether to enable Home Assistant container.";

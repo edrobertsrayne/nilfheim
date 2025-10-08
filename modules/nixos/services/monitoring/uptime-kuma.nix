@@ -1,11 +1,12 @@
 {
   lib,
   config,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.uptime-kuma;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.uptime-kuma = {
     url = mkOption {

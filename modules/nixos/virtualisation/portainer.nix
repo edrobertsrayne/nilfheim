@@ -1,11 +1,12 @@
 {
   lib,
   config,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.virtualisation.portainer;
-  constants = import ../../../lib/constants.nix;
 in {
   options.virtualisation.portainer = {
     enable = mkEnableOption "Portainer container management interface";

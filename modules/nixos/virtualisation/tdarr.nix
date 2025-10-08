@@ -1,11 +1,12 @@
 {
   lib,
   config,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.virtualisation.tdarr;
-  constants = import ../../../lib/constants.nix;
 in {
   options.virtualisation.tdarr = with lib.types; {
     enable = mkEnableOption "Whether to enable tdarr server.";

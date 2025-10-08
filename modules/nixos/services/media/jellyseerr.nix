@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   service = "jellyseerr";
   cfg = config.services."${service}";
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services."${service}" = {
     url = mkOption {
