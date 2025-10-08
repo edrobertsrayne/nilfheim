@@ -71,7 +71,7 @@ in {
     # Homepage dashboard integration
     services.homepage-dashboard.homelabServices = [
       {
-        group = constants.serviceGroups.monitoring;
+        group = "Monitoring";
         name = "Portainer";
         entry = {
           href = "https://${cfg.url}";
