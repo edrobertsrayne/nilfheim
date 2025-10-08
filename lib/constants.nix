@@ -72,6 +72,7 @@ let
   };
 
   # Default paths for services
+  # Only commonly used paths that appear in multiple service configurations
   paths = {
     # Service data directories
     dataDir = "/srv";
@@ -81,25 +82,11 @@ let
     movies = "/mnt/media/movies";
     tv = "/mnt/media/tv";
     music = "/mnt/media/music";
-    audiobooks = "/mnt/media/audiobooks";
-    comics = "/mnt/media/comics";
 
-    # Download paths
+    # Download and backup paths
     downloads = "/mnt/downloads";
-    incomplete = "/mnt/downloads/incomplete";
-    complete = "/mnt/downloads/complete";
-    torrents = "/mnt/downloads/torrents";
-    usenet = "/mnt/downloads/usenet";
-
-    # Backup paths
     backup = "/mnt/backup";
-    backups = "/mnt/backups";
-    snapshots = "/mnt/snapshots";
     share = "/mnt/share";
-
-    # Configuration paths
-    configs = "/etc/nixos";
-    secrets = "/run/agenix";
   };
 
   # API keys are now managed through agenix secrets
