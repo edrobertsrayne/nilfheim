@@ -50,11 +50,14 @@ in {
   # Configure services
   services = {
     # Configure ZFS auto-snapshots for /srv directory
-    zfs.autoSnapshot =
-      constants.snapshotRetention
-      // {
-        enable = true;
-      };
+    zfs.autoSnapshot = {
+      enable = true;
+      frequent = 4; # 15-minute snapshots
+      hourly = 24;
+      daily = 14; # Keep 14 daily snapshots (2 weeks)
+      weekly = 8; # Keep 8 weekly snapshots (2 months)
+      monthly = 6; # Keep 6 monthly snapshots (6 months)
+    };
 
     # Configure SMART monitoring with explicit devices
     smartctl-exporter = {

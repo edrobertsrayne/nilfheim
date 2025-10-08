@@ -101,15 +101,6 @@ let
     network = "Network";
   };
 
-  # ZFS snapshot retention policies
-  snapshotRetention = {
-    frequent = 4; # 15-minute snapshots
-    hourly = 24;
-    daily = 14; # Keep 14 daily snapshots (2 weeks) - Thor's current setting
-    weekly = 8; # Keep 8 weekly snapshots (2 months) - Thor's current setting
-    monthly = 6; # Keep 6 monthly snapshots (6 months) - Thor's current setting
-  };
-
   # Port conflict validation - check for duplicate port assignments
   portValues = builtins.attrValues ports;
   sortedPorts = builtins.sort (a: b: a < b) portValues;
@@ -129,6 +120,5 @@ in
       ports
       paths
       serviceGroups
-      snapshotRetention
       ;
   }
