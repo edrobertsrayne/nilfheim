@@ -59,7 +59,7 @@ in {
         extraConfig = ''
           proxy_ssl_verify off;
         '';
-        inherit (constants.nginxDefaults) proxyWebsockets;
+        proxyWebsockets = true;
       };
     };
 

@@ -552,3 +552,4 @@ Transmission: 9091       Nginx: 80/443
 - [Nix Package Search](https://search.nixos.org/packages)
 - [Home Manager Manual](https://nix-community.github.io/home-manager/)
 - All development is done on NixOS. You can run missing commands using the command `nix run`.
+- When merging pull requests, use rebase rather than squash to preserve git history.

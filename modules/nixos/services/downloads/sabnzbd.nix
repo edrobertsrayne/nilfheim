@@ -36,7 +36,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString constants.ports.sabnzbd}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          proxyWebsockets = true;
         };
       };
     };

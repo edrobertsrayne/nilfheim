@@ -5,7 +5,6 @@
   ...
 }:
 with lib; let
-  inherit (nilfheim) constants;
   cfg = config.services.kavita;
 in {
   options.services.kavita = {
@@ -41,7 +40,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.settings.Port}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          proxyWebsockets = true;
         };
       };
     };

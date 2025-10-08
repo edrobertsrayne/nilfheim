@@ -94,7 +94,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";
-          inherit (nilfheim.constants.nginxDefaults) proxyWebsockets;
+          proxyWebsockets = true;
         };
         locations."~* \.(css|js|png|jpg|jpeg|gif|ico|svg)$" = {
           proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";

@@ -17,7 +17,7 @@ in {
       nginx.virtualHosts."cadvisor.${config.homelab.domain}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString constants.ports.cadvisor}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          proxyWebsockets = true;
         };
       };
 

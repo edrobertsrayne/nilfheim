@@ -101,7 +101,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          inherit (nilfheim.constants.nginxDefaults) proxyWebsockets;
+          proxyWebsockets = true;
         };
       };
       grafana.provision = {

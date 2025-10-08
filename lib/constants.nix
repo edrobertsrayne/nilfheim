@@ -168,18 +168,6 @@ let
     cadvisor = "Container resource usage and performance analysis";
   };
 
-  # Default authentication settings for *arr services
-  arrAuthDefaults = {
-    method = "External";
-    type = "DisabledForLocalAddresses";
-  };
-
-  # Default nginx proxy settings
-  # Note: proxy headers are provided by NixOS recommendedProxySettings
-  nginxDefaults = {
-    proxyWebsockets = true;
-  };
-
   # ZFS snapshot retention policies
   snapshotRetention = {
     frequent = 4; # 15-minute snapshots
@@ -222,8 +210,6 @@ in
       paths
       serviceGroups
       descriptions
-      arrAuthDefaults
-      nginxDefaults
       snapshotRetention
       userGroups
       networks

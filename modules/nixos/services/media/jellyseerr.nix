@@ -5,7 +5,6 @@
   ...
 }:
 with lib; let
-  inherit (nilfheim) constants;
   service = "jellyseerr";
   cfg = config.services."${service}";
 in {
@@ -35,7 +34,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          proxyWebsockets = true;
         };
       };
     };
