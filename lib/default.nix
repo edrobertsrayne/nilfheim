@@ -4,7 +4,6 @@ in {
   # Re-export all our libraries with consistent interface
   inherit constants;
   services = import ./services.nix {inherit lib;};
-  nginx = import ./nginx.nix {inherit lib;};
 
   # Add convenience helpers that work across modules
   helpers = {
