@@ -47,7 +47,7 @@ in {
 
   # Configure tank mountpoints
   systemd.tmpfiles.rules = builtins.attrValues (builtins.mapAttrs (
-      name: share: "d ${share.path} 2775 root tank"
+      _name: share: "d ${share.path} 2775 root tank"
     )
     shareConfig);
 
@@ -72,7 +72,7 @@ in {
     nfs-server = {
       enable = true;
       shares =
-        builtins.mapAttrs (name: share: {
+        builtins.mapAttrs (_name: share: {
           source = share.path;
           permissions = share.nfsPermissions;
         })
@@ -82,7 +82,7 @@ in {
     samba = {
       enable = true;
       settings =
-        builtins.mapAttrs (name: share: {
+        builtins.mapAttrs (_name: share: {
           "path" = share.path;
           "browseable" = "yes";
           "read only" =

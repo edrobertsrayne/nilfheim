@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  nilfheim,
   ...
 }:
 with lib; let

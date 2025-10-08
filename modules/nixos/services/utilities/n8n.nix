@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  nilfheim,
   ...
 }: let
   inherit (lib) mkIf mkOption types;
