@@ -8,7 +8,7 @@
   arrModule = nilfheim.services.mkArrService {
     name = "radarr";
     exporterPort = nilfheim.constants.ports.exportarr-radarr;
-    description = nilfheim.constants.descriptions.radarr;
+    description = "Movie collection manager and downloader";
     useSecretApiKey = false;
     defaultApiKey = "45f0ce64ed8b4d34b51908c60b7a70fc"; # Temporarily hardcoded
     extraConfig = {

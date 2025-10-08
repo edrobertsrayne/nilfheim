@@ -8,7 +8,7 @@
   arrModule = nilfheim.services.mkArrService {
     name = "sonarr";
     exporterPort = nilfheim.constants.ports.exportarr-sonarr;
-    description = nilfheim.constants.descriptions.sonarr;
+    description = "TV series collection manager and downloader";
     useSecretApiKey = false;
     defaultApiKey = "e6619670253d4b17baaa8a640a3aafed"; # Temporarily back to hardcoded for testing
     extraConfig = {

@@ -8,7 +8,7 @@
   arrModule = nilfheim.services.mkArrService {
     name = "lidarr";
     exporterPort = nilfheim.constants.ports.exportarr-lidarr;
-    description = nilfheim.constants.descriptions.lidarr;
+    description = "Music collection manager and downloader";
     useSecretApiKey = false;
     defaultApiKey = "f6a4315040e94c7c9eb2aefe5bfc4445"; # Temporarily hardcoded
     extraConfig = {

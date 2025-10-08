@@ -30,7 +30,7 @@ in {
             href = "https://cadvisor.${config.homelab.domain}";
             icon = "cadvisor.svg";
             siteMonitor = "http://127.0.0.1:${toString constants.ports.cadvisor}";
-            description = constants.descriptions.cadvisor;
+            description = "Container resource usage and performance analysis";
           };
         }
       ];
