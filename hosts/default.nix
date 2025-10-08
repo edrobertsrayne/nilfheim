@@ -6,7 +6,6 @@
     common = ../roles/common.nix;
     workstation = ../roles/workstation.nix;
     server = ../roles/server.nix;
-    vps = ../roles/vps.nix;
 
     mkNixosSystem = {
       system ? "x86_64-linux",
@@ -71,7 +70,7 @@
       };
       loki = mkNixosSystem {
         hostname = "loki";
-        roles = [vps];
+        roles = [server];
       };
       iso = lib.nixosSystem {
         system = "x86_64-linux";
