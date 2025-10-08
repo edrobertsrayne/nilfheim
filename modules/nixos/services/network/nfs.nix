@@ -127,7 +127,7 @@ in {
       services.rpcbind.enable = true;
 
       # Configure file systems for NFS mounts
-      fileSystems = builtins.listToAttrs (builtins.attrValues (builtins.mapAttrs (name: mount: {
+      fileSystems = builtins.listToAttrs (builtins.attrValues (builtins.mapAttrs (_name: mount: {
           name = mount.localPath;
           value = {
             device = "${clientCfg.server}:${mount.remotePath}";
@@ -139,7 +139,7 @@ in {
 
       # Create mount point directories
       systemd.tmpfiles.rules = builtins.attrValues (builtins.mapAttrs (
-          name: mount: "d ${mount.localPath} 0755 root root -"
+          _name: mount: "d ${mount.localPath} 0755 root root -"
         )
         clientCfg.mounts);
 

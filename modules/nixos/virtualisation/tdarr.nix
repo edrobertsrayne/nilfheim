@@ -5,7 +5,6 @@
   ...
 }:
 with lib; let
-  inherit (nilfheim) constants;
   cfg = config.virtualisation.tdarr;
 in {
   options.virtualisation.tdarr = with lib.types; {
@@ -110,7 +109,7 @@ in {
     services.nginx.virtualHosts."${cfg.url}" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:${toString cfg.webUIPort}";
-        inherit (constants.nginxDefaults) proxyWebsockets;
+        proxyWebsockets = true;
       };
     };
 

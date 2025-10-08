@@ -6,7 +6,6 @@
   ...
 }:
 with lib; let
-  inherit (nilfheim) constants;
   cfg = config.services.deluge;
 in {
   options.services.deluge = with types; {
@@ -43,7 +42,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString cfg.web.port}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          proxyWebsockets = true;
         };
       };
 

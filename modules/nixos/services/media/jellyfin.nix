@@ -41,7 +41,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString nilfheim.constants.ports.jellyfin}";
-          inherit (nilfheim.constants.nginxDefaults) proxyWebsockets;
+          proxyWebsockets = true;
         };
       };
     };
@@ -59,8 +59,8 @@ in {
     # Enable intro skipper plugin
     nixpkgs.overlays = with pkgs; [
       (
-        final: prev: {
-          jellyfin-web = prev.jellyfin-web.overrideAttrs (finalAttrs: previousAttrs: {
+        _final: prev: {
+          jellyfin-web = prev.jellyfin-web.overrideAttrs (_finalAttrs: _previousAttrs: {
             installPhase = ''
               runHook preInstall
 

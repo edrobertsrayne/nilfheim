@@ -5,7 +5,6 @@
   ...
 }:
 with lib; let
-  inherit (nilfheim) constants;
   cfg = config.services.prowlarr;
   inherit (cfg.settings.server) port;
 in {
@@ -77,7 +76,7 @@ in {
       nginx.virtualHosts."${cfg.url}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString port}";
-          inherit (constants.nginxDefaults) proxyWebsockets;
+          proxyWebsockets = true;
         };
       };
     };
