@@ -14,17 +14,18 @@ Darwin flake configuration for system management across multiple hosts.
 Nilfheim manages four hosts with distinct roles:
 
 - **Freya** - Lenovo ThinkPad T480s workstation/laptop
-  - Roles: workstation, laptop, gaming
+  - Roles: common, workstation, gaming
   - Desktop: GNOME/Hyprland with GDM
   - Storage: ZFS with impermanence, NFS client
   - Persistence: `/persist` (system) + `/home` (user data)
 
 - **Thor** - Homelab server (primary infrastructure)
-  - Role: homelab
+  - Role: server
   - Services: Media (*arr suite, Jellyfin), monitoring stack, databases
   - Storage: ZFS pool (`tank`), NFS server, Samba shares
   - Network: Central hub for tailscale mesh, runs DNS (Blocky), reverse proxy
     (Nginx)
+  - All homelab services configured directly in host config
 
 - **Loki** - VPS server
   - Role: vps
@@ -58,9 +59,8 @@ nilfheim/
 │   └── home/              # Home-manager user environment
 ├── roles/                 # Predefined role combinations
 │   ├── common.nix         # Base configuration for all hosts
-│   ├── workstation.nix    # Desktop environment, applications
-│   ├── laptop.nix         # Laptop-specific (power, portability)
-│   ├── homelab.nix        # Server infrastructure services
+│   ├── server.nix         # Server-specific (Docker, tailscale routing, portainer)
+│   ├── workstation.nix    # Desktop environment, applications, power management
 │   ├── gaming.nix         # Gaming packages and config
 │   └── vps.nix            # VPS-optimized configuration
 ├── lib/
@@ -130,11 +130,11 @@ Development: VSCode, Firefox, terminal tools
 
 **Why Role-Based Configuration?**
 
-- Roles compose related modules: `homelab = server base + all homelab services`
-- Hosts select roles: `thor = [homelab]`,
-  `freya = [common workstation laptop gaming]`
+- Roles compose related modules for common use cases
+- Hosts select roles: `thor = [server]`, `freya = [common workstation gaming]`
 - Avoids repeating module lists per host
 - Easy to test new combinations (e.g., add gaming role to any host)
+- Host-specific services (like Thor's homelab stack) live in host configs
 
 **Why Tailscale + NFS + Samba?**
 

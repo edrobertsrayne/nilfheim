@@ -36,8 +36,8 @@ Nilfheim manages four hosts with specialized roles:
 
 **Design principles:**
 
-- **Role-based composition** - Hosts select from predefined roles (homelab,
-  workstation, laptop, gaming, vps)
+- **Role-based composition** - Hosts select from predefined roles (server,
+  workstation, gaming, vps, common)
 - **Centralized constants** - Single source of truth for ports, paths, network
   settings (`lib/constants.nix`)
 - **Service abstractions** - DRY configuration for similar services (e.g., *arr
