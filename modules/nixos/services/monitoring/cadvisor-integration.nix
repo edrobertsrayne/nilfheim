@@ -24,7 +24,7 @@ in {
       # Homepage dashboard integration
       homepage-dashboard.homelabServices = [
         {
-          group = constants.serviceGroups.monitoring;
+          group = "Monitoring";
           name = "cAdvisor";
           entry = {
             href = "https://cadvisor.${config.homelab.domain}";

@@ -89,18 +89,6 @@ let
     share = "/mnt/share";
   };
 
-  # API keys are now managed through agenix secrets
-  # See secrets/sonarr-api.age, secrets/radarr-api.age, etc.
-
-  # Service groups for homepage dashboard
-  serviceGroups = {
-    media = "Media";
-    downloads = "Downloads";
-    monitoring = "Monitoring";
-    utilities = "Utilities";
-    network = "Network";
-  };
-
   # Port conflict validation - check for duplicate port assignments
   portValues = builtins.attrValues ports;
   sortedPorts = builtins.sort (a: b: a < b) portValues;
@@ -119,6 +107,5 @@ in
     inherit
       ports
       paths
-      serviceGroups
       ;
   }
