@@ -5,13 +5,12 @@
   ...
 }:
 with lib; let
-  inherit (config) homelab;
   cfg = config.services.grafana;
 in {
   options.services.grafana = {
     url = mkOption {
       type = types.str;
-      default = "grafana.${homelab.domain}";
+      default = "grafana.${config.domain.name}";
       description = "URL for Grafana proxy.";
     };
   };

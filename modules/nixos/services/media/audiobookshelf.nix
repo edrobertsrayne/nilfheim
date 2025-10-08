@@ -10,7 +10,7 @@ in {
   options.services.audiobookshelf = {
     url = mkOption {
       type = types.str;
-      default = "audiobookshelf.${config.homelab.domain}";
+      default = "audiobookshelf.${config.domain.name}";
       description = "URL for audiobookshelf proxy host.";
     };
   };

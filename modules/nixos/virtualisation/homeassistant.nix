@@ -16,7 +16,7 @@ in {
     };
     url = mkOption {
       type = types.str;
-      default = "homeassistant.${config.homelab.domain}";
+      default = "homeassistant.${config.domain.name}";
     };
   };
   config = mkIf cfg.enable {

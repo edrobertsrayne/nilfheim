@@ -10,7 +10,7 @@ in {
   options.services.code-server = {
     url = mkOption {
       type = types.str;
-      default = "code-server.${config.homelab.domain}";
+      default = "code-server.${config.domain.name}";
       description = "URL for code-server proxy host.";
     };
   };

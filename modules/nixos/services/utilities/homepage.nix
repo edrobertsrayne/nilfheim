@@ -18,7 +18,7 @@ in {
   options.services.homepage-dashboard = {
     url = mkOption {
       type = types.str;
-      default = nilfheim.helpers.mkServiceUrl "home" config.homelab.domain;
+      default = nilfheim.helpers.mkServiceUrl "home" config.domain.name;
       description = "URL for the homepage dashboard proxy.";
     };
     homelabServices = mkOption {

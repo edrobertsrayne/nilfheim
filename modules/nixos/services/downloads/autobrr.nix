@@ -11,7 +11,7 @@ in {
   options.services.autobrr = {
     url = mkOption {
       type = types.str;
-      default = "autobrr.${config.homelab.domain}";
+      default = "autobrr.${config.domain.name}";
       description = "URL for autobrr proxy host.";
     };
     port = mkOption {

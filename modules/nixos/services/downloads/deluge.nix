@@ -11,7 +11,7 @@ in {
   options.services.deluge = with types; {
     url = mkOption {
       type = str;
-      default = "deluge.${config.homelab.domain}";
+      default = "deluge.${config.domain.name}";
       description = "URL for deluge proxy.";
     };
   };

@@ -6,12 +6,11 @@
 with lib; let
   cfg = config.services.promtail;
   lokiCfg = config.services.loki;
-  inherit (config) homelab;
 in {
   options.services.promtail = {
     url = mkOption {
       type = types.str;
-      default = "promtail.${homelab.domain}";
+      default = "promtail.${config.domain.name}";
       description = "URL for Promtail proxy.";
     };
   };

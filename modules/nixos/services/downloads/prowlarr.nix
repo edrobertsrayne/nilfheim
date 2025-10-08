@@ -11,7 +11,7 @@ in {
   options.services.prowlarr = {
     url = mkOption {
       type = types.str;
-      default = "prowlarr.${config.homelab.domain}";
+      default = "prowlarr.${config.domain.name}";
       description = "URL for prowlarr proxy host.";
     };
     apikey = mkOption {

@@ -29,7 +29,7 @@ in {
       options.services.${name} = {
         url = mkOption {
           type = types.str;
-          default = "${name}.${config.homelab.domain}";
+          default = "${name}.${config.domain.name}";
           description = "URL for ${name} proxy host.";
         };
         apikey = mkOption {

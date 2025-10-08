@@ -10,7 +10,7 @@ in {
   options.services.n8n = {
     url = mkOption {
       type = types.str;
-      default = "n8n.${config.homelab.domain}";
+      default = "n8n.${config.domain.name}";
       description = "URL for n8n proxy.";
     };
 

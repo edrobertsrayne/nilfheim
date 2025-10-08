@@ -6,12 +6,11 @@
 }:
 with lib; let
   cfg = config.services.prometheus.alertmanager;
-  inherit (config) homelab;
 in {
   options.services.prometheus.alertmanager = {
     url = mkOption {
       type = types.str;
-      default = "alertmanager.${homelab.domain}";
+      default = "alertmanager.${config.domain.name}";
       description = "URL for AlertManager proxy.";
     };
   };
@@ -22,7 +21,7 @@ in {
         configuration = {
           global = {
             smtp_smarthost = "localhost:587";
-            smtp_from = "alertmanager@${homelab.domain}";
+            smtp_from = "alertmanager@${config.domain.name}";
           };
 
           route = {

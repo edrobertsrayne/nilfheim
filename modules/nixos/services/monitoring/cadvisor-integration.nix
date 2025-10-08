@@ -14,7 +14,7 @@ in {
       cadvisor.port = constants.ports.cadvisor;
 
       # Nginx reverse proxy
-      nginx.virtualHosts."cadvisor.${config.homelab.domain}" = {
+      nginx.virtualHosts."cadvisor.${config.domain.name}" = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString constants.ports.cadvisor}";
           proxyWebsockets = true;
@@ -27,7 +27,7 @@ in {
           group = "Monitoring";
           name = "cAdvisor";
           entry = {
-            href = "https://cadvisor.${config.homelab.domain}";
+            href = "https://cadvisor.${config.domain.name}";
             icon = "cadvisor.svg";
             siteMonitor = "http://127.0.0.1:${toString constants.ports.cadvisor}";
             description = "Container resource usage and performance analysis";

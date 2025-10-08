@@ -19,7 +19,7 @@ in {
 
     url = mkOption {
       type = types.str;
-      default = "portainer.${config.homelab.domain}";
+      default = "portainer.${config.domain.name}";
       description = "URL for accessing Portainer web interface";
     };
   };

@@ -9,7 +9,7 @@ in {
   options.services.bazarr = {
     url = mkOption {
       type = types.str;
-      default = "bazarr.${config.homelab.domain}";
+      default = "bazarr.${config.domain.name}";
       description = "URL for bazarr proxy host.";
     };
   };

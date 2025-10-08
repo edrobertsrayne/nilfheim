@@ -10,7 +10,7 @@ in {
   options.services.kavita = {
     url = mkOption {
       type = types.str;
-      default = "kavita.${config.homelab.domain}";
+      default = "kavita.${config.domain.name}";
       description = "URL for kavita proxy host.";
     };
   };

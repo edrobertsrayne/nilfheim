@@ -12,7 +12,7 @@ in {
   options.services.pgadmin = {
     url = mkOption {
       type = types.str;
-      default = "pgadmin.${config.homelab.domain}";
+      default = "pgadmin.${config.domain.name}";
       description = "URL for pgAdmin proxy.";
     };
   };

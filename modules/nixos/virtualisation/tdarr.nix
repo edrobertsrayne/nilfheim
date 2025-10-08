@@ -46,7 +46,7 @@ in {
     };
     url = mkOption {
       type = str;
-      default = "tdarr.${config.homelab.domain}";
+      default = "tdarr.${config.domain.name}";
     };
   };
   config = mkIf cfg.enable {

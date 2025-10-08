@@ -11,7 +11,7 @@ in {
   options.services.transmission = with types; {
     url = mkOption {
       type = str;
-      default = "transmission.${config.homelab.domain}";
+      default = "transmission.${config.domain.name}";
       description = "URL for transmission proxy.";
     };
   };

@@ -23,7 +23,7 @@ in {
   options.services.stirling-pdf = {
     url = mkOption {
       type = types.str;
-      default = "stirling-pdf.${config.homelab.domain}";
+      default = "stirling-pdf.${config.domain.name}";
       description = "URL for Stirling PDF proxy host.";
     };
     port = mkOption {

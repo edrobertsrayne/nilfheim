@@ -10,7 +10,7 @@ in {
   options.services.mealie = {
     url = mkOption {
       type = types.str;
-      default = nilfheim.helpers.mkServiceUrl "mealie" config.homelab.domain;
+      default = nilfheim.helpers.mkServiceUrl "mealie" config.domain.name;
       description = "URL for Mealie proxy.";
     };
   };
@@ -25,7 +25,7 @@ in {
           # Enable production mode
           PRODUCTION = "true";
           # Optional: Configure default credentials
-          DEFAULT_EMAIL = "admin@${config.homelab.domain}";
+          DEFAULT_EMAIL = "admin@${config.domain.name}";
           DEFAULT_GROUP = "Home";
           # Disable signup (can be enabled later via admin panel)
           ALLOW_SIGNUP = "false";

@@ -11,7 +11,7 @@ in {
   options.services.sabnzbd = {
     url = mkOption {
       type = types.str;
-      default = "sabnzbd.${config.homelab.domain}";
+      default = "sabnzbd.${config.domain.name}";
       description = "URL for sabnzbd proxy host.";
     };
   };

@@ -11,7 +11,7 @@ in {
   options.services.jellyfin = {
     url = mkOption {
       type = types.str;
-      default = nilfheim.helpers.mkServiceUrl "jellyfin" config.homelab.domain;
+      default = nilfheim.helpers.mkServiceUrl "jellyfin" config.domain.name;
       description = "URL for Jellyfin proxy.";
     };
   };

@@ -11,7 +11,7 @@ in {
   options.services."${service}" = {
     url = mkOption {
       type = types.str;
-      default = "${service}.${config.homelab.domain}";
+      default = "${service}.${config.domain.name}";
       description = "URL for ${service} proxy host.";
     };
   };

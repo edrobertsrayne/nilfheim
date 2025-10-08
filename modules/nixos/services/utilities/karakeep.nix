@@ -10,7 +10,7 @@ in {
   options.services.karakeep = {
     url = mkOption {
       type = types.str;
-      default = nilfheim.helpers.mkServiceUrl "keep" config.homelab.domain;
+      default = nilfheim.helpers.mkServiceUrl "keep" config.domain.name;
       description = "URL for karakeep proxy.";
     };
 

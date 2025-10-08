@@ -11,7 +11,7 @@ in {
   options.services.uptime-kuma = {
     url = mkOption {
       type = types.str;
-      default = "uptime.${config.homelab.domain}";
+      default = "uptime.${config.domain.name}";
     };
   };
 

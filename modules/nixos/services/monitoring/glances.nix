@@ -10,7 +10,7 @@ in {
   options.services.glances = {
     url = mkOption {
       type = types.str;
-      default = "glances.${config.homelab.domain}";
+      default = "glances.${config.domain.name}";
       description = "URL for glances proxy host.";
     };
   };

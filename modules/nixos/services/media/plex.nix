@@ -11,7 +11,7 @@ in {
   options.services.plex = {
     url = mkOption {
       type = types.str;
-      default = "plex.${config.homelab.domain}";
+      default = "plex.${config.domain.name}";
       description = "URL for Plex proxy.";
     };
   };

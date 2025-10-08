@@ -6,13 +6,13 @@
 }:
 with lib; let
   cfg = config.services.prometheus;
-  inherit (config) homelab;
+
   inherit (cfg.exporters) node;
 in {
   options.services.prometheus = {
     url = mkOption {
       type = types.str;
-      default = nilfheim.helpers.mkServiceUrl "prometheus" homelab.domain;
+      default = nilfheim.helpers.mkServiceUrl "prometheus" config.domain.name;
       description = "URL for prometheus proxy.";
     };
   };
