@@ -41,7 +41,7 @@ in {
             href = "https://${cfg.url}";
             icon = "mealie.svg";
             siteMonitor = "http://127.0.0.1:${toString nilfheim.constants.ports.mealie}";
-            description = nilfheim.constants.descriptions.mealie;
+            description = "Recipe manager and meal planner";
           };
         }
       ];

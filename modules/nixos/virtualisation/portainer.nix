@@ -77,7 +77,7 @@ in {
           href = "https://${cfg.url}";
           icon = "portainer.svg";
           siteMonitor = "https://127.0.0.1:${toString constants.ports.portainer}";
-          description = constants.descriptions.portainer;
+          description = "Docker container management web interface";
         };
       }
     ];

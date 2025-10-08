@@ -101,60 +101,6 @@ let
     network = "Network";
   };
 
-  # Common service descriptions (organized to match ports structure)
-  descriptions = {
-    # *arr Services
-    sonarr = "TV series collection manager and downloader";
-    radarr = "Movie collection manager and downloader";
-    lidarr = "Music collection manager and downloader";
-    bazarr = "Subtitle collection manager for Sonarr and Radarr";
-    prowlarr = "Indexer manager for *arr applications";
-
-    # Media Services
-    plex = "Media server for streaming movies, TV, and music";
-    jellyfin = "Open-source media server for movies, shows, and music";
-    jellyseerr = "Request management system for Jellyfin";
-    audiobookshelf = "Self-hosted audiobook and podcast server";
-    kavita = "Cross-platform digital library for comics and ebooks";
-
-    # Download Clients
-    transmission = "Lightweight BitTorrent client";
-    deluge = "Full-featured BitTorrent client";
-    sabnzbd = "Binary newsreader for Usenet";
-    autobrr = "Automated torrent management";
-
-    # Monitoring Services
-    prometheus = "Metrics collection and monitoring system";
-    grafana = "Analytics and monitoring dashboards";
-    alertmanager = "Alert routing and management for Prometheus";
-    uptime-kuma = "Self-hosted uptime monitoring tool";
-    loki = "Log aggregation system";
-    promtail = "Log collection agent for Loki";
-    glances = "System monitoring and process management";
-
-    # Utility Services
-    homepage = "Self-hosted application dashboard";
-    n8n = "Workflow automation platform";
-    code-server = "VS Code running in the browser";
-    stirling-pdf = "PDF manipulation and processing tool";
-    karakeep = "Karaoke song management system";
-    mealie = "Recipe manager and meal planner";
-    homeassistant = "Home automation platform";
-
-    # Network Services
-    blocky = "DNS proxy and ad-blocker";
-    samba = "File sharing service";
-    nfs = "Network File System for remote file access";
-
-    # Database Services
-    postgresql = "PostgreSQL relational database server";
-    pgadmin = "PostgreSQL administration web interface";
-
-    # Container Management
-    portainer = "Docker container management web interface";
-    cadvisor = "Container resource usage and performance analysis";
-  };
-
   # ZFS snapshot retention policies
   snapshotRetention = {
     frequent = 4; # 15-minute snapshots
@@ -196,7 +142,6 @@ in
       ports
       paths
       serviceGroups
-      descriptions
       snapshotRetention
       userGroups
       networks

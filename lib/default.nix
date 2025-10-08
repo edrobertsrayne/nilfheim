@@ -23,10 +23,6 @@ in {
       else if builtins.elem serviceName ["homepage" "n8n" "code-server" "stirling-pdf" "karakeep"]
       then "Utilities"
       else "Utilities";
-
-    # Standard service description lookup
-    getServiceDescription = serviceName:
-      constants.descriptions.${serviceName} or "Service: ${serviceName}";
   };
 
   # Library metadata
