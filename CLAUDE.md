@@ -1,720 +1,521 @@
 # Nilfheim - NixOS/Darwin Configuration
 
-**See README.md for project overview and TODO.md for pending improvements.**
+AI assistant context document for developing Nilfheim, a modular NixOS and
+Darwin flake configuration for system management across multiple hosts.
 
-## Essential Commands
+**See README.md for project overview and features.**
 
-### Development Environment
+---
 
-```bash
-# Enter development shell (includes claude-code, gh, git, alejandra, just)
-nix develop
+## Architecture Overview
 
-# See all available commands
-just --list
+### System Topology
 
-# Run linting (format + static analysis + dead code detection) - REQUIRED before committing
-just lint
+Nilfheim manages four hosts with distinct roles:
 
-# Run full validation (lint + comprehensive flake check) - REQUIRED before committing
-just check
+- **Freya** - Lenovo ThinkPad T480s workstation/laptop
+  - Roles: workstation, laptop, gaming
+  - Desktop: GNOME/Hyprland with GDM
+  - Storage: ZFS with impermanence, NFS client
+  - Persistence: `/persist` (system) + `/home` (user data)
+
+- **Thor** - Homelab server (primary infrastructure)
+  - Role: homelab
+  - Services: Media (*arr suite, Jellyfin), monitoring stack, databases
+  - Storage: ZFS pool (`tank`), NFS server, Samba shares
+  - Network: Central hub for tailscale mesh, runs DNS (Blocky), reverse proxy
+    (Nginx)
+
+- **Loki** - VPS server
+  - Role: vps
+  - Lightweight configuration for cloud deployment
+
+- **Odin** - macOS system
+  - Platform: Darwin (x86_64)
+  - Cross-platform development environment
+
+### Module Organization
+
+```
+nilfheim/
+├── flake.nix              # Flake outputs, dev shell, host configurations
+├── hosts/                 # Host-specific configurations
+│   ├── default.nix        # Host factory functions (mkNixosSystem, mkDarwinSystem)
+│   ├── freya/             # Laptop-specific config, disko, hardware
+│   ├── thor/              # Server-specific config, ZFS, shares
+│   ├── loki/              # VPS-specific config
+│   └── odin/              # macOS-specific config
+├── modules/
+│   ├── common/            # Shared across all platforms
+│   ├── nixos/             # NixOS-specific modules
+│   │   ├── services/      # Service modules by category
+│   │   │   ├── data/      # PostgreSQL, pgAdmin
+│   │   │   ├── monitoring/# Grafana, Prometheus, Loki, Promtail
+│   │   │   ├── media/     # *arr services, Jellyfin, Jellyseerr
+│   │   │   ├── network/   # Blocky DNS, Nginx, Tailscale, NFS
+│   │   │   └── ...
+│   ├── darwin/            # macOS-specific modules
+│   └── home/              # Home-manager user environment
+├── roles/                 # Predefined role combinations
+│   ├── common.nix         # Base configuration for all hosts
+│   ├── workstation.nix    # Desktop environment, applications
+│   ├── laptop.nix         # Laptop-specific (power, portability)
+│   ├── homelab.nix        # Server infrastructure services
+│   ├── gaming.nix         # Gaming packages and config
+│   └── vps.nix            # VPS-optimized configuration
+├── lib/
+│   ├── constants.nix      # Centralized ports, paths, settings
+│   ├── services.nix       # Service abstraction helpers (mkArrService)
+│   └── default.nix        # Library namespace
+└── secrets/               # agenix encrypted secrets
 ```
 
-### Manual Development Commands
+### Service Architecture
 
-```bash
-# Individual linting tools (use 'just lint' instead for full suite)
-nix fmt .                    # Format only
-statix check .               # Static analysis only  
-deadnix -l .                 # Dead code detection only
-nix flake check              # Flake validation only
+**Homelab Stack (Thor):**
+
 ```
-
-### System Management
-
-#### Quick Deployments (via Just)
-
-```bash
-# Deploy to hosts
-just freya    # Local NixOS rebuild
-just odin     # Local macOS rebuild
-just thor     # Remote deployment to thor
-just loki     # Remote deployment to loki
-```
-
-#### Manual NixOS (Linux)
-
-```bash
-# Local rebuild
-sudo nixos-rebuild switch --flake .#<hostname>
-
-# Remote rebuild (avoids cross-compilation)
-nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo
-
-# Example: Deploy to thor
-nixos-rebuild switch --flake .#thor --target-host thor --build-host thor --sudo
-
-# Test in VM
-nixos-rebuild build-vm --flake .#<hostname>
-
-# Dry run (local)
-sudo nixos-rebuild dry-run --flake .#<hostname>
-
-# Dry run (remote)
-nixos-rebuild dry-run --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo
-```
-
-#### Manual Darwin (macOS)
-
-```bash
-# Rebuild system
-darwin-rebuild switch --flake .#<hostname>
-
-# Check configuration
-darwin-rebuild check --flake .#<hostname>
-```
-
-#### Universal
-
-```bash
-# Update flake inputs
-nix flake update
-
-# Show system configuration
-nix flake show
-```
-
-### Secrets Management
-
-```bash
-# Edit secrets (Linux only)
-agenix -e secrets/<secret-name>.age
-
-# Rekey all secrets
-agenix -r
-```
-
-## Development Workflow
-
-### Quick Development Loop
-
-1. **Create feature branch**:
-   - Features: `git checkout -b feat/feature-name`
-   - Fixes: `git checkout -b fix/issue-name`
-
-2. **Make changes** in `modules/` or `hosts/`
-
-3. **Fast validation**: `just lint` (during development for quick feedback)
-
-4. **Test builds**:
-   - NixOS: `nixos-rebuild build-vm --flake .#<hostname>`
-   - Darwin: `darwin-rebuild check --flake .#<hostname>`
-
-5. **Repeat** until satisfied with changes
-
-### Before Commit (MANDATORY)
-
-1. **Final validation**: `just check` - **MUST PASS completely with zero
-   errors/warnings**
-
-2. **Test configuration**: Deploy to test environment or VM
-
-3. **Commit**: Use conventional format `type(scope): description`
-   - Examples:
-     - `feat(homelab): add navidrome music server`
-     - `fix(security): enable sudo password requirement`
-     - `refactor(services): create service abstraction library`
-
-4. **Apply changes**:
-   - Quick: `just <hostname>` (freya, odin, thor, loki)
-   - Manual NixOS local: `sudo nixos-rebuild switch --flake .#<hostname>`
-   - Manual NixOS remote:
-     `nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo`
-   - Manual Darwin: `darwin-rebuild switch --flake .#<hostname>`
-
-### Branch Management
-
-- **Before PR**: `git rebase main`
-- **Quality checks**: `just ci-quality-dry` (fast validation)
-- **Local CI testing**: `just ci-validate` (comprehensive validation)
-
-### Pre-commit Checklist
-
-- [ ] Run `just check` - **MUST PASS without errors or warnings**
-- [ ] Run `just ci-quality-dry` (fast validation)
-- [ ] Verify no formatting changes: `git diff`
-- [ ] Test configuration builds
-- [ ] Test in VM (NixOS) or check (Darwin)
-- [ ] Rebase against main
-- [ ] Use conventional commit format
-
-**CRITICAL**: `just check` must complete successfully with zero errors and zero
-warnings before any commit can be made. This includes:
-
-- ✅ Formatting (alejandra)
-- ✅ Static analysis (statix)
-- ✅ Dead code detection (deadnix)
-- ✅ Flake validation (nix flake check)
-
-### Local CI Testing
-
-```bash
-# Quick validation
-just ci-quality-dry    # Dry run quality checks
-just ci-validate       # Full validation suite
-
-# Run specific workflows
-just ci-list           # See available workflows
-just ci-quality        # Run quality checks
-just ci-format         # Run formatting workflow
-just ci-pr             # Simulate pull request
-```
-
-### Running Commands Without Installation
-
-```bash
-# Syntax: nix run nixpkgs#<package>
-nix run nixpkgs#jq
-nix run nixpkgs#curl
-nix run nixpkgs#tree
-nix run nixpkgs#htop
-
-# Example with pipes
-curl -s http://api.example.com | nix run nixpkgs#jq -- '.data'
-```
-
-## Troubleshooting
-
-### Common Issues
-
-| Issue                    | Solution                                          |
-| ------------------------ | ------------------------------------------------- |
-| Permission errors        | Enter development shell: `nix develop`            |
-| Build failures           | Update flake inputs: `nix flake update`           |
-| Secret access            | Verify agenix keys configuration                  |
-| Hardware issues          | Update hardware-configuration.nix                 |
-| Platform mismatch        | Use correct rebuild command for your OS           |
-| Cross-compilation        | Use `--build-host` for remote deployments         |
-| **Linting errors**       | **Run `just lint` and fix all warnings**          |
-| **Flake check failures** | **Run `nix flake check` and resolve errors**      |
-| **Service conflicts**    | **Check port assignments in `lib/constants.nix`** |
-| **Module import errors** | **Verify file paths and module structure**        |
-
-### Debug Commands
-
-```bash
-# Check flake evaluation (current architecture only)
-nix flake check --systems "$(nix eval --impure --raw --expr 'builtins.currentSystem')"
-
-# Show build logs
-nix log .#nixosConfigurations.<hostname>.config.system.build.toplevel
-```
-
-### Performance Tips
-
-```bash
-# Faster flake checks (current system only)
-nix flake check --systems "$(nix eval --impure --raw --expr 'builtins.currentSystem')"
-
-# Parallel builds for faster rebuilds
-nixos-rebuild switch --flake .#<hostname> --builders 'ssh://build-host x86_64-linux'
-
-# Local development with build caching
-nixos-rebuild build-vm --flake .#<hostname> --option builders ''
-
-# Quick syntax check without full build
-nix eval .#nixosConfigurations.<hostname>.config.system.build.toplevel --dry-run
-```
-
-## Backup and Monitoring
-
-### Backup System Management
-
-**Check Backup Status:**
-```bash
-# Check backup service and timer status
-systemctl status restic-backups-system.service
-systemctl status restic-backups-system.timer
-systemctl list-timers | grep restic
-
-# View backup logs
-journalctl -u restic-backups-system.service -f
-journalctl -u restic-backups-system.service --since "24 hours ago"
-```
-
-**Manual Backup Operations:**
-```bash
-# Trigger immediate backup
-systemctl start restic-backups-system.service
-
-# Check repository status
-export RESTIC_REPOSITORY=/mnt/backup/$(hostname)/restic
-export RESTIC_PASSWORD_FILE=/etc/restic/password
-restic snapshots
-restic stats
-
-# Validate repository integrity
-restic check
-restic check --read-data-subset=10%
-```
-
-**Repository Management:**
-```bash
-# Manual cleanup (retention policy is automated)
-restic forget --keep-daily 14 --keep-weekly 8 --keep-monthly 6 --keep-yearly 2 --prune
-
-# Emergency unlock (if repository is locked)
-restic unlock
-
-# Browse snapshot contents
-restic ls latest
-restic find "*.nix" --snapshot latest
-```
-
-**Backup Recovery:**
-```bash
-# List files in snapshot
-restic ls latest --long /persist/home
-
-# Restore specific files
-restic restore latest --target /tmp/restore --include /persist/important-file
-
-# Restore full directory
-restic restore latest --target /tmp/restore --include /persist/home/user
-```
-
-### Monitoring and Logging
-
-**Loki Log Queries:**
-```bash
-# Backup monitoring
-{job="systemd-journal", unit="restic-backups-system.service"}
-{job="systemd-journal", unit="restic-backups-system.service"} |= "ERROR"
-{job="systemd-journal", unit="restic-backups-system.service"} |= "completed"
-
-# Docker container logs
-{job="docker", container="homeassistant"}
-{job="docker", container="portainer"}
-{job="docker", container="tdarr"}
-
-# System service errors
-{job="systemd-journal"} |= "ERROR"
-{job="systemd-journal"} |= "failed"
-
-# Application logs
-{job="arr-services", level="Error"}
-{job="jellyfin"} |= "ERROR"
-{job="nginx-error"}
-
-# Nginx access logs (optimized with status classes)
-{job="nginx-access"} | json | status_class="4xx"
-{job="nginx-access"} | json | method="POST"
-
-# SSH and authentication
-{job="systemd-journal", unit="sshd.service"}
-{job="systemd-journal"} |= "authentication"
-```
-
-**Monitor System Health:**
-```bash
-# Check Loki/Promtail status
-systemctl status loki.service
-systemctl status promtail.service
-
-# Check stream limits and metrics
-curl -s localhost:3100/metrics | grep -E "stream|ingester"
-curl -s localhost:3100/loki/api/v1/label/job/values
-
-# View Grafana dashboards
-https://grafana.${domain}/d/restic-backup/restic-backup-monitoring
-https://grafana.${domain}/explore  # Loki explorer
-```
-
-**Log Collection Troubleshooting:**
-```bash
-# Check Promtail configuration
-journalctl -u promtail.service | grep -E "(error|warn)"
-
-# Verify log file access
-ls -la /var/log/nginx/
-ls -la /srv/*/logs/
-
-# Test Loki connectivity
-curl -G localhost:3100/ready
-curl -G localhost:3100/loki/api/v1/labels
-```
-
-**Common Monitoring Issues:**
-
-| Issue                    | Solution                                          |
-| ------------------------ | ------------------------------------------------- |
-| Stream limit exceeded    | Check cardinality, reduce labels                 |
-| Timestamp errors         | Disable timestamp parsing, use ingestion time    |
-| No backup logs          | Verify systemd journal collection               |
-| High memory usage        | Adjust retention, stream limits                   |
-| Missing application logs | Check file permissions, service groups           |
-
-## Service Configuration
-
-### Nginx Proxy Services
-
-**Standard Configuration:**
-
-```nix
-services.nginx.virtualHosts."${cfg.url}" = {
-  locations."/" = {
-    proxyPass = "http://127.0.0.1:${toString port}";
-    proxyWebsockets = true;  # Enables WebSocket support
-  };
-};
-```
-
-**Avoid:**
-
-- Custom proxy headers in `extraConfig`
-- Duplicate WebSocket headers
-- Override timeout/buffer settings
-
-**Reason:** NixOS provides recommended proxy settings automatically, including:
-
-- Proxy headers (Host, X-Forwarded-*, X-Real-IP)
-- WebSocket upgrade mapping
-- Optimal timeouts and buffers
-- Security headers
-
-**Exceptions:**
-
-- Static assets: May need additional location blocks
-- Service-specific headers: Only if required by the application
-
-### ZFS Snapshots
-
-**Configuration:**
-
-```nix
-services.zfs.autoSnapshot = constants.snapshotRetention // {
-  enable = true;
-};
-```
-
-**Standard Retention Policy (from lib/constants.nix):**
-
-- frequent = 4 (15-minute snapshots)
-- hourly = 24
-- daily = 14 (2 weeks)
-- weekly = 8 (2 months)
-- monthly = 6 (6 months)
-
-**Requirements:**
-
-- ZFS datasets must have `com.sun:auto-snapshot=true` property
-- Only for NixOS systems with ZFS pools
-- Not applicable to Darwin or non-ZFS systems
-
-### NFS Shared Storage
-
-**Server Configuration (Thor):**
-
-```nix
-services.nfs-server = {
-  enable = true;
-  shares = {
-    downloads = {
-      source = constants.paths.downloads;  # Uses centralized paths
-      permissions = "rw";
-    };
-    media = {
-      source = constants.paths.media;
-      permissions = "ro";
-    };
-    # ... additional shares
-  };
-};
+Network Layer:
+  Tailscale (mesh VPN) → Blocky (DNS) → Nginx (reverse proxy) → Services
+
+Storage Layer:
+  ZFS (tank pool) → NFS exports → Samba shares
+  ├── /mnt/media (read-only)
+  ├── /mnt/downloads (read-write)
+  └── /mnt/backup (restic repositories)
+
+Services Layer:
+  Media: Jellyfin, Jellyseerr, *arr suite (Sonarr/Radarr/Lidarr/Bazarr/Prowlarr)
+  Download: Transmission, Flaresolverr, Recyclarr
+  Monitoring: Grafana ← Prometheus ← Exporters (node, exportarr, cAdvisor)
+              Loki ← Promtail ← Logs (systemd, docker, apps)
+  Data: PostgreSQL (DNS analytics) ← Blocky queries
+  Containers: Docker (Home Assistant, Tdarr, Portainer)
+  Utilities: Homepage (dashboard), Code-server, N8N, Mealie
+
+Backup System:
+  Restic → Local repositories → Monitored via Loki/Grafana
 ```
 
 **Client Configuration (Freya):**
 
-```nix
-services.nfs-client = {
-  enable = true;
-  server = "thor";  # Uses tailscale MagicDNS
-  mounts = {
-    media = {
-      remotePath = "/media";
-      localPath = "/mnt/media";
-      options = ["soft" "intr" "bg" "vers=4" "ro"];
-    };
-    # ... additional mounts
-  };
-};
+```
+Desktop: GNOME/Hyprland → GDM display manager
+Storage: ZFS + impermanence (ephemeral root, persistent /home)
+Network: Tailscale client → NFS mounts from Thor
+Development: VSCode, Firefox, terminal tools
 ```
 
-**Features:**
+### Key Design Decisions
 
-- Automatic export over tailscale network (100.64.0.0/10)
-- Proper firewall configuration for NFS ports (2049, 111, 20048)
-- Soft mounting with background and interrupt support
-- Integration with existing Samba shares
+**Why Service Abstractions?**
 
-### Container Services
+- The *arr services (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr) share 80%+
+  identical configuration
+- `lib/services.nix` provides `mkArrService` to eliminate duplication
+- Each service gets: nginx proxy, homepage integration, Prometheus exporter,
+  standardized paths
+- Trade-off: Only used when duplication is high; complex services (Jellyfin,
+  Prometheus) remain standalone
 
-**Docker Configuration:**
+**Why Centralized Constants?**
 
-```nix
-virtualisation.docker = {
-  enable = true;
-  autoPrune.enable = true;
-  daemon.settings = {
-    log-driver = "json-file";
-    log-opts = {
-      max-size = "50m";
-      max-file = "10";
-    };
-  };
-};
-```
-
-**Container Modules (Home Assistant, Tdarr, Portainer):**
-
-- Use systemd service integration for lifecycle management
-- Configure Docker logging to json-file for Promtail collection
-- Add homepage dashboard integration
-- Configure nginx reverse proxy with SSL
-
-**Container Monitoring:**
-
-```nix
-services.cadvisor = {
-  enable = true;
-  port = constants.ports.cadvisor;
-};
-
-# Prometheus scrapes cAdvisor metrics
-# Grafana dashboard: docker-cadvisor.json
-# Promtail collects logs via Docker socket
-```
-
-### Database Services
-
-**PostgreSQL Configuration:**
-
-```nix
-services.postgresql = {
-  enable = true;
-  package = pkgs.postgresql_16;
-  dataDir = "${constants.paths.dataDir}/postgresql";
-  enableTCPIP = true;
-  
-  settings = {
-    port = constants.ports.postgresql;
-    max_connections = 100;
-    shared_buffers = "256MB";
-    effective_cache_size = "1GB";
-    log_statement = "all";
-    log_min_duration_statement = 1000;
-  };
-};
-```
-
-**pgAdmin Web Interface:**
-
-```nix
-services.pgadmin = {
-  enable = true;
-  port = constants.ports.pgadmin;
-  initialEmail = config.user.email;
-  initialPasswordFile = pkgs.writeText "pgadmin_password" "password123";
-};
-
-# Homepage integration
-services.homepage-dashboard.homelabServices = [{
-  group = "Data";
-  name = "pgAdmin";
-  entry = {
-    href = "https://pgadmin.${config.homelab.domain}";
-    icon = "postgresql.svg";
-    siteMonitor = "http://127.0.0.1:${toString constants.ports.pgadmin}";
-    description = "PostgreSQL administration interface";
-  };
-}];
-
-# Nginx proxy
-services.nginx.virtualHosts."pgadmin.${config.homelab.domain}" = {
-  locations."/" = {
-    proxyPass = "http://127.0.0.1:${toString constants.ports.pgadmin}";
-    proxyWebsockets = true;
-  };
-};
-```
-
-**Database Integration Patterns:**
-
-- **Centralized Configuration**: Use `lib/constants.nix` for ports, paths, and
+- `lib/constants.nix` is single source of truth for 66+ service ports, paths,
   network settings
-- **Security**: Implement proper authentication with tailscale network
-  restrictions
-- **Monitoring**: Enable query logging and performance metrics for Grafana
-  integration
-- **Backup Ready**: Configure data directories with proper permissions for
-  backup services
-- **Service Integration**: Automatic database and user creation for dependent
-  services (e.g., Blocky)
+- Build-time validation prevents port conflicts (automatically checks for
+  duplicates)
+- Consistent paths across services reduce configuration errors
+- Changes propagate automatically (e.g., changing data directory affects all
+  services)
 
-**Example Service Database Integration:**
+**Why Role-Based Configuration?**
 
-```nix
-# In service module (e.g., Blocky DNS)
-services.postgresql.initialScript = pkgs.writeText "service-init.sql" ''
-  CREATE DATABASE ${config.services.servicename.database.name};
-  CREATE USER ${config.services.servicename.database.user} WITH PASSWORD '${config.services.servicename.database.password}';
-  GRANT ALL PRIVILEGES ON DATABASE ${config.services.servicename.database.name} TO ${config.services.servicename.database.user};
-'';
+- Roles compose related modules: `homelab = server base + all homelab services`
+- Hosts select roles: `thor = [homelab]`,
+  `freya = [common workstation laptop gaming]`
+- Avoids repeating module lists per host
+- Easy to test new combinations (e.g., add gaming role to any host)
 
-# Firewall configuration for database access
-networking.firewall.interfaces.tailscale0.allowedTCPPorts = [constants.ports.postgresql];
+**Why Tailscale + NFS + Samba?**
+
+- Tailscale: Secure mesh network, MagicDNS simplifies hostnames
+- NFS: High-performance file sharing over tailscale for authenticated clients
+- Samba: Local network access for devices without tailscale (TVs, phones on LAN)
+- Security: NFS restricted to tailscale network (100.64.0.0/10), Samba requires
+  authentication
+
+---
+
+## Development Guide
+
+### Standard Workflow
+
+```bash
+# 1. Enter development environment
+nix develop
+
+# 2. Create feature branch
+git checkout -b feat/add-service-name
+
+# 3. Make changes in modules/ or hosts/
+
+# 4. Update documentation (if applicable)
+# - Add/update service documentation
+# - Update relevant guides (CLAUDE.md, README.md, docs/)
+# - Follow docs/documentation-standards.md
+
+# 5. Lint during development (fast feedback)
+just lint
+
+# 6. Full validation before commit (MANDATORY)
+just check  # MUST pass with zero errors/warnings
+
+# 7. Test configuration
+just thor   # or freya/odin/loki
+
+# 8. Commit with conventional format
+git commit -m "feat(services): add service-name with monitoring"
+
+# 9. Deploy
+just <hostname>
 ```
 
-## Service Development Guidelines
+### Quality Requirements (Non-Negotiable)
 
-### Service Abstractions
+Before **any** commit:
 
-**When to Use lib/services.nix Abstractions:**
+- ✅ `just check` passes with **ZERO errors and ZERO warnings**
+- ✅ Configuration builds successfully
+- ✅ Changes tested (VM for NixOS, check for Darwin)
+- ✅ Conventional commit format: `type(scope): description`
 
-- Services with high code similarity (80%+ duplication)
-- Consistent configuration patterns across multiple services
-- Example: *arr services (sonarr, radarr, lidarr) use `mkArrService`
+`just check` runs:
 
-**When NOT to Use Abstractions:**
+1. `alejandra` - Nix code formatting
+2. `statix` - Static analysis for anti-patterns
+3. `deadnix` - Dead code detection
+4. `nix flake check` - Flake validation
 
-- Complex services with unique requirements (Jellyfin, Plex, Prometheus)
-- Simple services (30-50 lines) where abstraction adds overhead
-- Services with service-specific configuration needs
+### Branch Management
 
-**Available Abstractions:**
+- Feature branches: `feat/feature-name`
+- Bug fixes: `fix/issue-name`
+- Refactoring: `refactor/scope`
+- Before PR: `git rebase main`
 
-- `mkArrService`: For *arr applications with Prometheus exporters, homepage
-  integration, nginx proxy
+---
 
-### Adding a New Service
+## Configuration Patterns
 
-1. Check if existing abstractions apply (`lib/services.nix`)
-2. Follow existing service patterns in `modules/nixos/services/`
-3. Use centralized ports from `lib/constants.nix`
-4. Add homepage integration via `homelabServices`
-5. Configure nginx proxy with `proxyWebsockets = true`
-6. **Database Services**: If adding database-dependent service:
-   - Configure PostgreSQL integration in service module
-   - Add database initialization script
-   - Set up proper authentication and network access
-   - Consider backup requirements and monitoring integration
-7. Run `just check` before committing
+### Service Development
 
-### Refactoring Existing Services
+#### When to Use Service Abstractions
 
-1. Identify code duplication patterns
-2. Consider if abstraction would benefit (see guidelines above)
-3. **CRITICAL**: Only add abstraction if it has immediate benefit - avoid
-   creating unused layers
-4. Focus on eliminating actual duplication (paths, settings, configurations)
-5. Test thoroughly with `nixos-rebuild build-vm`
-6. Ensure `just check` passes with zero warnings
+**Use `lib/services.nix` abstractions when:**
 
-### Refactoring Best Practices
+- Services have 80%+ code similarity
+- Consistent configuration patterns across multiple instances
+- Example: `mkArrService` for *arr applications (Sonarr, Radarr, Lidarr, Bazarr,
+  Prowlarr)
 
-- **Immediate Benefit Only**: Don't create abstractions that aren't actively
-  used
-- **Single Source of Truth**: Eliminate duplicate definitions across files
-- **Use Existing Centralization**: Reference `lib/constants.nix` for paths,
-  ports, settings
-- **Keep It Simple**: Prefer simple reference to constants over complex
-  abstractions
-- **Test Impact**: Ensure refactoring doesn't break existing functionality
+**Do NOT use abstractions when:**
 
-## Security Configuration
+- Service has unique requirements (Jellyfin, Plex, Prometheus)
+- Service is simple (30-50 lines) and abstraction adds overhead
+- Service has service-specific configuration that doesn't fit pattern
 
-### Authentication & Access Control
+**Critical Rule:** Only create abstractions with immediate benefit. Avoid unused
+layers.
 
-**Sudo Configuration:**
+#### Adding a New Service
 
-- Password required for all sudo operations (`wheelNeedsPassword = true`)
-- No passwordless sudo access for security
+1. **Check for existing patterns**: Review `lib/services.nix` for applicable
+   abstractions
+2. **Choose port**: Add to `lib/constants.nix` (automatic conflict detection)
+3. **Create module**: Follow structure in `modules/nixos/services/<category>/`
+4. **Configure service**:
+   ```nix
+   # Use centralized ports and paths
+   port = constants.ports.servicename;
+   dataDir = "${constants.paths.dataDir}/servicename";
+   ```
+5. **Add nginx proxy**:
+   ```nix
+   services.nginx.virtualHosts."${cfg.url}" = {
+     locations."/" = {
+       proxyPass = "http://127.0.0.1:${toString port}";
+       proxyWebsockets = true;  # NixOS handles headers automatically
+     };
+   };
+   ```
+6. **Homepage integration**:
+   ```nix
+   services.homepage-dashboard.homelabServices = [{
+     group = "Category";
+     name = "ServiceName";
+     entry = {
+       href = "https://${cfg.url}";
+       icon = "icon.svg";
+       siteMonitor = "http://127.0.0.1:${toString port}";
+     };
+   }];
+   ```
+7. **Database integration** (if needed):
+   ```nix
+   services.postgresql.initialScript = pkgs.writeText "init.sql" ''
+     CREATE DATABASE ${dbName};
+     CREATE USER ${dbUser} WITH PASSWORD '${dbPass}';
+     GRANT ALL PRIVILEGES ON DATABASE ${dbName} TO ${dbUser};
+   '';
 
-**SSH Hardening:**
+   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [constants.ports.postgresql];
+   ```
+8. **Update documentation** (follow [docs/documentation-standards.md](docs/documentation-standards.md)):
+   - Add service to README.md capabilities section (if user-facing)
+   - Update docs/README.md with any new operational guides
+   - Document configuration in service-specific docs (if complex)
+9. **Run `just check`** before committing
 
-- Key-based authentication only (`PasswordAuthentication = false`)
-- Root login disabled (`PermitRootLogin = "no"`)
-- Maximum 3 authentication attempts before connection drop
-- Connection timeout after 5 minutes of inactivity
+#### Service Configuration Standards
 
-### Intrusion Prevention
+**Nginx Proxy:**
 
-**Fail2ban Configuration:**
+- Use `proxyWebsockets = true` for WebSocket support
+- NixOS automatically provides: Host header, X-Forwarded-* headers, timeouts,
+  buffers
+- Avoid custom `extraConfig` unless service requires specific headers
 
-```nix
-services.fail2ban = {
-  enable = true;
-  # SSH protection: 3 attempts, 10min window, 24h ban
-  # Progressive ban time increases up to 7 days
-  # Nginx HTTP auth and bad request detection
-  # Custom filtering for security monitoring
-};
-```
+**Port Allocation:**
 
-**Features:**
+- All ports defined in `lib/constants.nix`
+- Automatic validation prevents conflicts
+- Ports organized by category (monitoring, media, network, etc.)
 
-- SSH brute force protection (3 attempts → 24h ban)
-- Nginx HTTP authentication failure detection
-- Request rate limiting protection
-- Progressive ban time increases (exponential backoff)
-- Comprehensive log monitoring and analysis
+**Data Directories:**
 
-### Network Security
-
-**Service Isolation:**
-
-- SMB/Samba restricted to tailscale network only (100.64.0.0/10)
-- NFS exports limited to tailscale CGNAT range
-- Manual firewall rules for enhanced control
-- Avahi/Jellyfin accessible to local network (per requirement)
-
-**Network Architecture:**
-
-- Tailscale mesh VPN for secure remote access
-- Interface-specific firewall rules
-- Service-specific port restrictions
-- Proper network segmentation
-
-## Code Quality Standards
-
-### Required Before Any Commit
-
-- ✅ `just check` passes with ZERO errors and ZERO warnings
-- ✅ All services build successfully
-- ✅ Configuration tested (VM for NixOS, check for Darwin)
-- ✅ Conventional commit format used
-
-### Code Review Guidelines
-
-- Services should use existing abstractions when applicable
-- Avoid code duplication (DRY principle)
-- Follow existing naming conventions
-- Include proper documentation comments
-- Use centralized constants for ports and paths
-- All custom options must include proper `type` constraints
-- Use conditional blocks for optional service dependencies
-
-### Validation and Error Handling
-
-**Port Conflict Prevention:**
-- Port assignments are validated for uniqueness in `lib/constants.nix`
-- Build-time errors prevent duplicate port conflicts
-- All 66+ service ports are automatically checked
+- Use `constants.paths.dataDir` as base (`/srv`)
+- Service data: `${constants.paths.dataDir}/servicename`
+- Media paths: `constants.paths.media`, `.movies`, `.tv`, `.music`
+- Download path: `constants.paths.downloads`
 
 **Type Safety:**
-- All `mkOption` declarations include proper `type` constraints (`types.str`, `types.port`, etc.)
-- Follows standard NixOS module patterns for option definitions
 
-**Service Dependencies:**
-- Optional features use conditional blocks instead of hard dependencies
-- Example: Blocky PostgreSQL logging only enabled when PostgreSQL is available
-- Prevents runtime failures from missing service dependencies
+- All `mkOption` declarations include `type` constraints
+- Use `types.str`, `types.port`, `types.path`, `types.bool`, etc.
+- Prevents configuration errors at build time
+
+**Conditional Dependencies:**
+
+- Use conditional blocks for optional features
+- Example: Blocky PostgreSQL logging only when PostgreSQL is enabled
+- Prevents runtime failures from missing dependencies
+
+### Security Architecture
+
+#### Authentication & Access Control
+
+- **SSH**: Key-based only, no password authentication, no root login
+- **Sudo**: Password required for all operations (`wheelNeedsPassword = true`)
+- **Fail2ban**: Progressive bans (24h → 7d) for SSH/nginx attacks
+- **Secrets**: agenix encryption with age keys per host
+
+#### Network Segmentation
+
+```
+Internet
+  ↓
+Cloudflare Tunnel (public services)
+  ↓
+Tailscale Mesh (100.64.0.0/10)
+  ↓
+Services (interface-specific firewall rules)
+  ├── SMB/NFS: tailscale0 only
+  ├── Web services: reverse proxy (nginx)
+  └── Local services: lo (loopback)
+
+Exceptions:
+- Avahi: Local network (for discovery)
+- Jellyfin: Local network + tailscale (for devices)
+```
+
+**Firewall Strategy:**
+
+- Manual control over interface-specific rules
+- Tailscale network: `networking.firewall.interfaces.tailscale0.allowedTCPPorts`
+- Local network: `networking.firewall.allowedTCPPorts` (minimal)
+- Service isolation: Only required ports exposed per interface
+
+#### Security Features
+
+- **SSH Hardening**: MaxAuthTries=3, ClientAliveInterval=300, key-only auth
+- **Intrusion Prevention**: Fail2ban monitors SSH, nginx auth, bad requests
+- **Storage Security**: NFS over tailscale, Samba with authentication
+- **Service Isolation**: Minimal port exposure, interface-specific rules
+- **Encryption**: Secrets (agenix), backups (Restic), tunnels
+  (Tailscale/Cloudflare)
+
+---
+
+## Project Conventions
+
+### File Organization
+
+- **Modules**: Category-based (`services/<category>/<service>.nix`)
+- **Hosts**: One directory per host with `default.nix`,
+  `disko-configuration.nix`, `hardware-configuration.nix`
+- **Roles**: Predefined combinations of modules
+- **Library**: Shared functions, constants, abstractions
+
+### Naming Conventions
+
+- **Modules**: Lowercase with hyphens (`blocky-dns.nix`)
+- **Options**: Camel case (`services.serviceName.enable`)
+- **Constants**: Lowercase with hyphens (`constants.ports.service-name`)
+- **Secrets**: Lowercase with `.age` extension (`secret-name.age`)
+
+### Critical Constraints
+
+**Port Uniqueness:**
+
+- All ports in `lib/constants.nix` are validated at build time
+- Duplicate port assignment causes build failure
+- 66+ ports automatically checked
+
+**Type Constraints:**
+
+- Every `mkOption` must include `type` parameter
+- Follows NixOS module system best practices
+- Build-time validation prevents runtime errors
+
+**Dependency Management:**
+
+- Optional features use conditional blocks
+- Hard dependencies avoided when feature is optional
+- Example:
+  ```nix
+  config = mkIf cfg.enable {
+    services.postgresql = mkIf cfg.database.enable {
+      # PostgreSQL configuration
+    };
+  };
+  ```
+
+**Single Source of Truth:**
+
+- Ports: `lib/constants.nix`
+- Paths: `lib/constants.nix`
+- Network ranges: `lib/constants.nix`
+- No duplicate definitions across files
+
+---
+
+## NixOS Best Practices
+
+### Simplicity First
+
+- Prefer simple, explicit configuration over clever abstractions
+- Avoid premature optimization - solve real problems, not hypothetical ones
+- If configuration is hard to understand, it's hard to maintain
+
+### Incremental Development
+
+- Break features into small, testable tasks
+- Implement one task completely before moving to the next
+- Test each task: build, deploy to test host, verify functionality
+- Commit working increments - avoid large, untested changesets
+- If a task fails, rollback and debug before continuing
+
+### Configuration Readability
+
+- Use descriptive variable names and option values
+- Extract complex expressions into `let` bindings with clear names
+- Add comments for non-obvious decisions or workarounds
+- Remove unused code immediately - don't leave it "just in case"
+
+---
+
+## Quick Reference
+
+### Essential Commands
+
+```bash
+# Development
+nix develop              # Enter dev environment
+just lint                # Quick validation
+just check               # Full validation (required before commit)
+
+# Deployment
+just freya               # Deploy to freya
+just thor                # Deploy to thor
+just odin                # Deploy to odin
+just loki                # Deploy to loki
+```
+
+### Key Files
+
+```
+lib/constants.nix        # Ports, paths, network settings
+lib/services.nix         # Service abstractions (mkArrService)
+hosts/default.nix        # Host factory functions
+roles/                   # Role compositions
+modules/nixos/services/  # Service modules
+secrets/                 # Encrypted secrets (agenix)
+```
+
+### Commit Format
+
+```
+feat(scope): add new feature
+fix(scope): fix bug
+refactor(scope): restructure code
+docs(scope): update documentation
+chore(scope): maintenance tasks
+```
+
+### Port Quick Lookup
+
+```
+Grafana: 3000            Homepage: 3002          Loki: 3100
+Prometheus: 9090         Blocky: 4000            PostgreSQL: 5432
+Jellyfin: 8096           Sonarr: 8989            Radarr: 7878
+Transmission: 9091       Nginx: 80/443
+```
+
+---
+
+## Additional Resources
+
+**Documentation Index:**
+
+- [docs/README.md](docs/README.md) - Complete documentation index and navigation
+
+**Operational Documentation:**
+
+- [Backup Operations](docs/backup-operations.md) - Restic backup management,
+  recovery procedures
+- [Monitoring](docs/monitoring.md) - Loki queries, Prometheus metrics, Grafana
+  dashboards
+- [Troubleshooting](docs/troubleshooting.md) - Common issues and solutions
+- [Command Reference](docs/command-reference.md) - Complete command
+  documentation
+
+**Project Documentation:**
+
+- [README.md](README.md) - Project overview, features, quick start
+- [TODO.md](TODO.md) - Planned improvements and pending tasks
+- [docs/database-services.md](docs/database-services.md) - PostgreSQL and
+  pgAdmin setup
+- [docs/monitoring-dashboards.md](docs/monitoring-dashboards.md) - Dashboard
+  details
+- [docs/service-module-template.md](docs/service-module-template.md) - Service
+  development templates
+- [docs/documentation-standards.md](docs/documentation-standards.md) -
+  Documentation guidelines and standards
+
+**External Resources:**
+
+- [NixOS Manual](https://nixos.org/manual/nixos/stable/)
+- [NixOS Options Search](https://search.nixos.org/options)
+- [Nix Package Search](https://search.nixos.org/packages)
+- [Home Manager Manual](https://nix-community.github.io/home-manager/)
+- All development is done on NixOS. You can run missing commands using the command `nix run`.

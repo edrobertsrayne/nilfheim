@@ -2,129 +2,130 @@
 
 Comprehensive documentation for the Nilfheim NixOS/Darwin configuration system.
 
-## 📚 Documentation Index
+## 📚 Documentation Overview
+
+Nilfheim documentation is organized into three main categories: **Architecture & Development**, **Operations**, and **Project Management**.
+
+---
+
+## Architecture & Development
 
 ### Core Documentation
-- **[Main README](../README.md)** - Project overview and quick start guide
-- **[Development Workflow](../CLAUDE.md)** - Complete development commands and patterns
-- **[TODO List](../TODO.md)** - Planned improvements and pending tasks
+- **[Main README](../README.md)** - Project overview, capabilities, quick start
+- **[CLAUDE.md](../CLAUDE.md)** - Architecture overview, development guide, configuration patterns
+- **[Command Reference](command-reference.md)** - Complete command documentation for all tools
+- **[Documentation Standards](documentation-standards.md)** - Guidelines for creating and maintaining documentation
+
+### Service Development
+- **[Service Module Template](service-module-template.md)** - Standardized patterns for creating service modules
+  - Code templates and examples
+  - Best practices and naming conventions
+  - Integration patterns (nginx, homepage, monitoring)
+
+---
+
+## Operations
+
+### Infrastructure Management
+- **[Backup Operations](backup-operations.md)** - Restic backup management and recovery
+  - Checking backup status and viewing logs
+  - Manual backup operations and repository management
+  - Recovery procedures (selective and full system restore)
+  - Repository maintenance and troubleshooting
+
+- **[Monitoring](monitoring.md)** - Comprehensive monitoring and logging guide
+  - Grafana dashboards and visualization
+  - Loki log queries and patterns
+  - Prometheus metrics and alerts
+  - Database analytics (PostgreSQL/pgAdmin)
+  - System health monitoring
+
+- **[Troubleshooting](troubleshooting.md)** - Common issues and solutions
+  - Development and build issues
+  - Service and networking problems
+  - Monitoring and logging issues
+  - Backup, database, and container issues
+  - Debug commands and performance tips
+
+---
+
+## Project Management
 
 ### Infrastructure Documentation
-
-#### 🗄️ Database Services
-- **[Database Services](./database-services.md)** - PostgreSQL, pgAdmin, and integration patterns
+- **[Database Services](database-services.md)** - PostgreSQL and pgAdmin setup
   - PostgreSQL configuration and optimization
-  - pgAdmin web interface setup
+  - pgAdmin web interface
   - Service database integration patterns
-  - Security configuration and access control
-  - Administration tasks and maintenance
+  - Security and access control
 
-#### 📊 Monitoring & Analytics  
-- **[Monitoring Dashboards](./monitoring-dashboards.md)** - Grafana dashboards and analytics
-  - Blocky DNS analytics dashboard (21 panels)
-  - System health and ZFS monitoring  
-  - Service logs and application monitoring
-  - Nginx access logs and security analytics
-  - Promtail log pipeline monitoring
+- **[Monitoring Dashboards](monitoring-dashboards.md)** - Grafana dashboard details
+  - Homelab Overview dashboard (23 panels)
+  - DNS Analytics dashboard (21 panels)
+  - Restic Backup Monitoring
+  - Docker container metrics
+  - System health and ZFS monitoring
 
-### Service Categories
+### Planning
+- **[TODO List](../TODO.md)** - Roadmap, planned improvements, pending tasks
 
-#### 🎬 Media Services
-- Jellyfin, Audiobookshelf, Jellyseerr, Kavita
-- *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr)
-- Integration with monitoring and analytics
-
-#### 📥 Download Management
-- Transmission, Recyclarr, Flaresolverr
-- Automated media acquisition workflows
-
-#### 🌐 Network Services  
-- Nginx reverse proxy configuration
-- Blocky DNS with logging and analytics
-- Tailscale mesh networking
-- NFS shared storage over secure networks
-
-#### 📈 Monitoring Stack
-- Prometheus metrics collection
-- Grafana visualization and dashboards
-- Loki log aggregation with Promtail
-- AlertManager notification routing
-
-#### 💾 Storage & Backup
-- ZFS filesystem with snapshots
-- NFS server/client for shared storage
-- Automated backup planning (Restic)
-
-### Advanced Topics
-
-#### 🔐 Security Configuration
-- SSH hardening and key-based authentication
-- Fail2ban intrusion prevention
-- Network segmentation with Tailscale
-- Service isolation and access control
-
-#### 🐳 Container Management
-- Docker containerization with Portainer web interface
-- Systemd integration for containers
-- cAdvisor metrics collection and Grafana dashboards
-- Container monitoring and log analysis
-
-#### 🏗️ Infrastructure as Code
-- NixOS modular configuration patterns
-- Service abstraction and reusability
-- Centralized configuration management
-- Declarative system management
+---
 
 ## 🚀 Quick Navigation
 
 ### Getting Started
-1. Read the [Main README](../README.md) for project overview
-2. Follow [Development Workflow](../CLAUDE.md) for setup instructions
-3. Review [Database Services](./database-services.md) for data infrastructure
-4. Explore [Monitoring Dashboards](./monitoring-dashboards.md) for analytics
+1. **[Main README](../README.md)** - Start here for project overview
+2. **[CLAUDE.md](../CLAUDE.md)** - Architecture and development workflow
+3. **[Command Reference](command-reference.md)** - Commands you'll need
 
 ### For Developers
-- Service development patterns in [CLAUDE.md](../CLAUDE.md)
-- Database integration examples in [Database Services](./database-services.md)
-- Monitoring setup in [Monitoring Dashboards](./monitoring-dashboards.md)
+- **Architecture**: See [CLAUDE.md Architecture Overview](../CLAUDE.md#architecture-overview)
+- **Service Development**: See [CLAUDE.md Configuration Patterns](../CLAUDE.md#configuration-patterns)
+- **Service Templates**: See [Service Module Template](service-module-template.md)
+- **Documentation Guidelines**: See [Documentation Standards](documentation-standards.md)
+- **Commands**: See [Command Reference](command-reference.md)
 
-### For System Administration
-- Daily operations covered in individual service documentation
-- Monitoring and alerting setup in dashboard documentation
-- Security hardening guidelines in main documentation
+### For Operations
+- **Backups**: See [Backup Operations](backup-operations.md)
+- **Monitoring**: See [Monitoring](monitoring.md)
+- **Troubleshooting**: See [Troubleshooting](troubleshooting.md)
+- **Database Admin**: See [Database Services](database-services.md)
+
+### For Infrastructure Planning
+- **Dashboard Details**: See [Monitoring Dashboards](monitoring-dashboards.md)
+- **Database Patterns**: See [Database Services](database-services.md)
+- **Roadmap**: See [TODO.md](../TODO.md)
+
+---
 
 ## 📝 Documentation Standards
 
-### Writing Guidelines
-- **Clear Structure**: Use consistent headings and organization
-- **Code Examples**: Include practical configuration examples
-- **Troubleshooting**: Document common issues and solutions
-- **Cross-References**: Link related documentation sections
+### Structure
+- **Clear hierarchy** - Use consistent heading levels
+- **Practical examples** - Include working code snippets
+- **Cross-references** - Link to related documentation
+- **Concise** - Focus on essential information
 
-### Maintenance
-- Update documentation with any configuration changes
-- Validate code examples during system updates
-- Keep screenshots and examples current with actual system state
-- Review and update quarterly for accuracy
+### Content Guidelines
+- **Code examples** - Test all commands and configurations
+- **Troubleshooting** - Document common issues and solutions
+- **Context** - Explain why, not just how
+- **Updates** - Keep documentation current with system changes
 
-## 🤝 Contributing
+### For Contributors
+When contributing:
+1. **Update relevant docs** - Changes should include documentation updates
+2. **Follow patterns** - Use established structure and style
+3. **Test examples** - Verify all code examples are functional
+4. **Link appropriately** - Cross-reference related sections
 
-When contributing to the project:
+---
 
-1. **Document Changes**: Update relevant documentation files
-2. **Follow Patterns**: Use established documentation patterns and structure
-3. **Include Examples**: Provide practical configuration examples
-4. **Cross-Reference**: Link to related documentation sections
-5. **Test Examples**: Verify all code examples are functional
+## 📖 External Resources
 
-## 📞 Support
-
-For questions or issues:
-
-1. Check relevant documentation section first
-2. Review [TODO.md](../TODO.md) for known issues
-3. Search existing GitHub issues
-4. Create new GitHub issue with detailed description
+- **[NixOS Manual](https://nixos.org/manual/nixos/stable/)** - Official NixOS documentation
+- **[NixOS Options Search](https://search.nixos.org/options)** - Search available options
+- **[Home Manager](https://nix-community.github.io/home-manager/)** - User environment management
+- **[Nix Package Search](https://search.nixos.org/packages)** - Find packages in nixpkgs
 
 ---
 

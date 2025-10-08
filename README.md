@@ -1,13 +1,55 @@
 # 🏔️ Nilfheim - NixOS/Darwin Configuration
 
-Ed's modular NixOS and Darwin flake configuration for system management across multiple hosts.
+A declarative, modular infrastructure-as-code configuration for personal homelab
+and development workstations.
 
-## 🏗️ Architecture
+## Overview
 
-- **🖥️ Hosts**: `freya` (ThinkPad T480s), `thor` (homelab server), `loki` (additional server), `odin` (macOS), `iso` (installer)
-- **🎭 Roles**: common, workstation, laptop, server, homelab, gaming, vps
-- **📦 Modules**: organized by platform (nixos/darwin/home) and functionality
-- **🔐 Secrets**: managed with agenix encryption
+Nilfheim is a NixOS flake-based configuration managing self-hosted services,
+enterprise-grade infrastructure, and cross-platform development environments.
+Built for reproducibility, security, and ease of management.
+
+**What it provides:**
+
+- **Self-hosted homelab services** - Media streaming, automation, monitoring,
+  and utilities
+- **Enterprise infrastructure** - ZFS storage, mesh networking, centralized
+  logging, encrypted backups
+- **Reproducible deployments** - Declarative configuration across Linux and
+  macOS hosts
+- **Developer-friendly workflow** - Automated validation, one-command deploys,
+  modular design
+
+**Target audience**: NixOS users building homelabs, learning declarative
+infrastructure, or managing multi-host environments.
+
+## Architecture
+
+Nilfheim manages four hosts with specialized roles:
+
+- **Thor** (homelab server) - Media services, monitoring stack, centralized
+  storage, network infrastructure
+- **Freya** (ThinkPad T480s laptop) - Workstation with GNOME/Hyprland, connects
+  to Thor via NFS
+- **Loki** (VPS) - Lightweight cloud deployment
+- **Odin** (macOS) - Cross-platform development environment
+
+**Design principles:**
+
+- **Role-based composition** - Hosts select from predefined roles (homelab,
+  workstation, laptop, gaming, vps)
+- **Centralized constants** - Single source of truth for ports, paths, network
+  settings (`lib/constants.nix`)
+- **Service abstractions** - DRY configuration for similar services (e.g., *arr
+  suite via `mkArrService`)
+- **Modular organization** - Services by category, clear separation of
+  platform-specific code
+
+**Technologies**: NixOS, ZFS with impermanence, Tailscale mesh network, agenix
+secrets management.
+
+See [CLAUDE.md Architecture Overview](CLAUDE.md#architecture-overview) for
+detailed system design.
 
 ## 📁 Project Structure
 
@@ -16,88 +58,96 @@ Ed's modular NixOS and Darwin flake configuration for system management across m
 ├── hosts/                 # Host-specific configurations
 │   ├── freya/             # ThinkPad laptop
 │   ├── thor/              # Homelab server
+│   ├── loki/              # VPS server
 │   └── odin/              # macOS system
 ├── modules/               # Modular system configurations
 │   ├── common/            # Shared across platforms
 │   ├── nixos/             # NixOS-specific modules
-│   │   ├── services/      # Service modules organized by category
-│   │   │   ├── data/      # Database services (PostgreSQL, pgAdmin)
-│   │   │   ├── monitoring/# Monitoring stack (Grafana, Prometheus, Loki)
-│   │   │   └── ...        # Other service categories
+│   │   └── services/      # Service modules by category
 │   ├── darwin/            # macOS-specific modules
 │   └── home/              # Home-manager configurations
 ├── roles/                 # Predefined role combinations
+├── lib/                   # Shared functions and constants
 └── secrets/               # Encrypted secrets with agenix
 ```
 
-## 🚀 Modern Infrastructure Features
+## Capabilities
 
-### 🔍 Advanced DNS Analytics
-- **Real-time Monitoring**: Live DNS query analysis with response type categorization
-- **Performance Insights**: Response time tracking with percentile analysis
-- **Security Analytics**: Block effectiveness monitoring with threat pattern detection
-- **Client Intelligence**: Device and user behavior analysis with anomaly detection
-- **Cache Optimization**: Hit rate analysis for performance tuning
-- **Comprehensive Dashboards**: 21-panel Grafana dashboard with enterprise-grade DNS insights
+### 🏠 Home Server (Thor)
 
-### 🐳 Container Management
-- **Docker**: Rootful containerization for Home Assistant, Tdarr, and Portainer
-- **Portainer**: Web-based container management interface
-- **cAdvisor**: Container metrics collection and monitoring
-- **Systemd Integration**: Native service management for containers
+**Media & Downloads**
 
-### 💾 Storage & Persistence
-- **ZFS**: Advanced filesystem with snapshots and data integrity
-- **Impermanence**: Stateless root with selective persistence
-- **Disko**: Declarative disk partitioning
-- **Backup**: Restic encrypted backups with Loki monitoring
-  - **Thor**: `/persist` and `/srv` → `/mnt/backup/thor/restic`
-  - **Freya**: `/persist` and `/home` → `/mnt/backup/freya/restic`
-  - **Centralized Storage**: NFS-shared backup repository on Thor
-  - **Monitoring**: SystemD journal logs aggregated via Loki with Grafana dashboard
-  - **Status**: ✅ Active monitoring with backup completion/failure alerts
+- Jellyfin streaming server with Jellyseerr request management
+- *arr automation suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr)
+- Transmission with VPN, Flaresolverr, Recyclarr quality management
 
-### 📊 Monitoring & Analytics Stack
-- **Dashboards**: Grafana with 9 comprehensive dashboards
-  - **Homelab Overview**: Single-screen view of entire infrastructure (23 panels)
-  - **DNS Analytics**: Blocky query analysis (21 panels)
-  - **System Health**: ZFS and hardware monitoring
-  - **Container Monitoring**: Docker metrics via cAdvisor
-  - **Log Analysis**: Centralized log dashboards
-- **Metrics**: Prometheus + Grafana with comprehensive dashboards
-- **Logs**: Loki + Promtail for centralized log aggregation
-  - **SystemD Journal**: Core system services, backup monitoring
-  - **Docker Containers**: Container logs via socket scraping
-  - **Application Logs**: *arr services, Jellyfin, nginx
-  - **Status**: ✅ Active with stream limit optimization (27 streams)
-- **DNS Analytics**: PostgreSQL + Grafana for advanced DNS query analysis
-- **Health**: Custom exporters for *arr services and system monitoring
-- **Alerts**: AlertManager with notification routing
-- **Database**: PostgreSQL with pgAdmin web interface for data exploration
+**Monitoring & Analytics**
 
-## ✨ Key Features
+- Grafana dashboards (9 comprehensive dashboards including Homelab Overview)
+- Prometheus metrics collection with custom exporters
+- Loki log aggregation with Promtail (systemd, Docker, applications)
+- PostgreSQL with advanced DNS query analytics via Blocky
+- Uptime monitoring, AlertManager notifications
 
-### ⚡ Thor - Homelab Server
-- **🎬 Media**: Jellyfin, Jellyseerr
-- **📥 Downloads**: *arr suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr), Transmission, Recyclarr, Flaresolverr
-- **📈 Monitoring**: Grafana, Prometheus, AlertManager, Uptime Kuma, Glances, Loki, Promtail, cAdvisor
-- **📊 Analytics**: PostgreSQL database with pgAdmin for DNS query logging and analysis
-- **🌐 Network**: Nginx reverse proxy, Blocky DNS with logging, Tailscale, SSH, Cloudflared tunnels
-- **💾 Storage**: NFS server for shared storage over tailscale network, Samba shares for local access
-- **🛠️ Utilities**: Homepage dashboard, Code-server, Karakeep (AI bookmarks), Stirling PDF, N8N automation, Mealie
-- **🐳 Virtualization**: Docker containers (Home Assistant, Tdarr), Portainer management interface
+**Utilities & Automation**
 
-### 💻 Freya - Workstation/Laptop
-- **🖥️ Desktop**: GNOME and Hyprland with shared GDM display manager
-- **🎨 Theming**: Catppuccin Mocha color scheme across all applications
-- **👨‍💻 Development**: VSCode, Firefox, Foot terminal
-- **🎨 Creative**: Arduino IDE, Spotify, Obsidian
-- **🖱️ Virtualization**: virt-manager support
-- **💾 Storage**: NFS client for accessing Thor's shared storage
+- Homepage dashboard for unified service access
+- N8N workflow automation
+- Code-server for web-based development
+- Document management (Stirling PDF), recipe manager (Mealie)
+- AI-powered bookmark organizer (Karakeep)
 
-### 🍎 Odin - macOS
-- **🍺 Homebrew**: Managed application installation
-- **⚙️ Development**: Cross-platform development environment
+**Containers**
+
+- Docker with systemd integration (Home Assistant, Tdarr, Portainer)
+- cAdvisor for container metrics and monitoring
+
+### 🛡️ Infrastructure
+
+**Storage**
+
+- ZFS filesystem with automatic snapshots and data integrity
+- NFS server for high-performance network shares over Tailscale
+- Samba shares for local network access
+- Restic encrypted backups with monitoring and alerting
+- Impermanence for stateless root with selective persistence
+
+**Networking**
+
+- Tailscale mesh VPN for secure remote access with MagicDNS
+- Blocky DNS with ad-blocking, logging, and analytics
+- Nginx reverse proxy with automatic SSL and WebSocket support
+- Cloudflare tunnels for external access
+- Interface-specific firewall rules for service isolation
+
+**Security**
+
+- SSH hardening (key-only auth, no root login, rate limiting)
+- Fail2ban intrusion prevention with progressive bans
+- agenix encrypted secrets management with per-host age keys
+- Sudo password enforcement, no NOPASSWD access
+
+### 💻 Development Environment
+
+**Workstation (Freya)**
+
+- GNOME and Hyprland desktop environments with GDM
+- Catppuccin Mocha theming across all applications
+- Development tools (VSCode, Firefox, terminals)
+- NFS client for accessing Thor's shared storage
+- ZFS with impermanence for clean system state
+
+**Cross-Platform (Odin)**
+
+- Darwin (macOS) support with Homebrew integration
+- Consistent development environment across platforms
+
+**Tooling**
+
+- Nix flakes for reproducible builds
+- Automated CI/CD validation (format, lint, static analysis)
+- One-command deployments via Just recipes
+- Development shell with all required tools
 
 ## 🚀 Quick Start
 
@@ -117,12 +167,13 @@ just check
 
 # Deploy to hosts
 just freya    # Local NixOS rebuild
-just odin     # Local macOS rebuild  
+just odin     # Local macOS rebuild
 just thor     # Remote deployment to thor
 just loki     # Remote deployment to loki
 ```
 
-### 🔧 Manual Commands (if needed)
+### Manual Commands (if needed)
+
 ```bash
 # Format code before any changes
 nix fmt .
@@ -137,219 +188,61 @@ nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host 
 
 ## 🔒 Security
 
-### 🛡️ Core Security Features
-- **🔑 Authentication**: SSH key-only authentication with hardened config, sudo password enforcement
-- **🚨 Intrusion Prevention**: Fail2ban with progressive bans for SSH/web attacks
-- **🔐 Secrets**: agenix encrypted secrets management with age keys
-- **🌐 Network**: Tailscale mesh VPN for secure remote access
-- **🛡️ Isolation**: Firewall configuration per service with minimal exposure
-- **💾 Storage**: NFS over tailscale network, Samba restricted to tailscale with access controls
-- **🔀 Proxying**: Nginx reverse proxy with WebSocket support and security headers
-- **🌉 Tunneling**: Cloudflared secure tunnels for external access
+- **Authentication**: SSH key-only authentication, sudo password enforcement
+- **Network**: Tailscale mesh VPN, interface-specific firewall rules (SMB/NFS
+  over tailscale only)
+- **Intrusion Prevention**: Fail2ban with progressive bans (24h → 7d for
+  repeated offenses)
+- **Secrets**: agenix encryption with per-host age keys
+- **Storage**: NFS over Tailscale, Samba with authentication and access controls
+- **Monitoring**: Comprehensive logging and alerting for security events
 
-### 🔐 Security Hardening
-- **SSH**: MaxAuthTries=3, ClientAliveInterval=300, no root/password login
-- **Sudo**: Password required for all operations (no NOPASSWD)
-- **Fail2ban**: 24h bans escalating to 7 days, monitors SSH/nginx/auth failures
-- **Network Segmentation**: Services isolated to appropriate network ranges
-- **Service Isolation**: Manual firewall control, interface-specific rules
-
-## 🛠️ Development Workflow
-
-See **CLAUDE.md** for complete development commands and patterns.
-
-### ⚡ Quick Commands (via Just)
-```bash
-# Development cycle
-just check           # Format and validate flake
-just ci-quality-dry  # Quick CI validation
-just ci-validate     # Full local CI test
-
-# Local CI testing
-just ci-list         # See available workflows
-just ci-quality      # Run quality checks (statix, deadnix, format)
-just ci-pr           # Simulate pull request CI
-```
-
-### 🔧 Manual Commands
-- `nix fmt .` - Format all Nix files (required before commits)
-- `statix check` - Lint for Nix code quality
-- `deadnix -l` - Detect unused code
-- `nix flake check` - Validate flake configuration
-
-Commit format: `type(scope): description` (conventional commits)
-
-## 📋 Log Collection Status
-
-### ✅ **Active Log Sources**
-- **SystemD Journal**: Core system services including backup monitoring
-- **Docker Containers**: Container logs collected via Docker socket (Home Assistant, Tdarr, Portainer)
-- **Nginx Logs**: Error logs and optimized access logs with reduced cardinality
-- **Application Logs**: *arr services (Sonarr, Radarr, etc.), Jellyfin
-- **Service Logs**: Service failures, authentication, system events
-
-### 🔧 **Log Query Examples**
-```bash
-# Backup monitoring
-{job="systemd-journal", unit="restic-backups-system.service"}
-
-# Docker container logs
-{job="docker", container="homeassistant"}
-{job="docker", container="portainer"}
-
-# Service errors across all services
-{job="systemd-journal"} |= "ERROR"
-
-# Application logs by service
-{job="arr-services", level="Error"}
-{job="jellyfin"} |= "ERROR"
-
-# Nginx access logs (optimized)
-{job="nginx-access"} | json | status_class="4xx"
-
-# System authentication
-{job="systemd-journal", unit="sshd.service"}
-```
-
-### 📊 **Metrics Available**
-- **Stream Count**: ~27 active streams (optimized from 50k, well under 100k limit)
-- **Ingestion Rate**: ~5MB/hr average
-- **Retention**: 31 days (744 hours)
-- **Dashboard**: [Loki monitoring](https://grafana.${domain}/explore)
-
-## 💾 Backup Management
-
-### 🔄 Automatic Backups
-- **Schedule**: Daily backups with randomized delay
-- **Retention**: 14 daily, 8 weekly, 6 monthly, 2 yearly snapshots
-- **Encryption**: Repository-level encryption with auto-generated passwords
-- **Monitoring**: Backup logs available in Grafana via Loki integration
-
-### 📊 Backup Monitoring
-
-**Grafana Dashboard:**
-```bash
-# View backup dashboard (✅ ACTIVE - shows backup completion/failures)
-https://grafana.${domain}/d/restic-backup/restic-backup-monitoring
-
-# Key metrics available:
-# - Backup completion status
-# - Backup duration and timing
-# - Repository size and growth
-# - Error and warning detection
-```
-
-**Service Status:**
-```bash
-# Check backup service status
-systemctl status restic-backups-system.service
-journalctl -u restic-backups-system.service -f
-
-# Check backup timer schedule
-systemctl list-timers | grep restic
-```
-
-**Log Query Examples:**
-```bash
-# Loki queries for backup monitoring
-{job="systemd-journal", unit="restic-backups-system.service"}
-{job="systemd-journal", unit="restic-backups-system.service"} |= "ERROR"
-{job="systemd-journal", unit="restic-backups-system.service"} |= "completed"
-```
-
-### 🔍 Backup Validation & Management
-
-**List Snapshots:**
-```bash
-# On thor
-export RESTIC_REPOSITORY=/mnt/backup/thor/restic
-export RESTIC_PASSWORD_FILE=/etc/restic/password
-restic snapshots
-
-# On freya
-export RESTIC_REPOSITORY=/mnt/backup/freya/restic
-export RESTIC_PASSWORD_FILE=/etc/restic/password
-restic snapshots
-```
-
-**Validate Repository Integrity:**
-```bash
-# Quick check
-restic check
-
-# Thorough check (reads 10% of data)
-restic check --read-data-subset=10%
-
-# Full data verification (slow)
-restic check --read-data
-```
-
-**Repository Information:**
-```bash
-# Show repository stats
-restic stats
-
-# Show storage usage by snapshot
-restic stats --mode raw-data
-
-# Show duplicate data savings
-restic stats --mode restore-size
-```
-
-**Manual Backup Operations:**
-```bash
-# Trigger immediate backup
-systemctl start restic-backups-system.service
-
-# Manual restore (example)
-restic restore latest --target /tmp/restore --include /persist/important-file
-
-# Browse snapshot contents
-restic ls latest
-
-# Find files across snapshots
-restic find "*.nix" --snapshot latest
-```
-
-**Repository Maintenance:**
-```bash
-# Clean up and optimize repository
-restic forget --keep-daily 14 --keep-weekly 8 --keep-monthly 6 --keep-yearly 2 --prune
-
-# Rebuild index (if corrupted)
-restic rebuild-index
-
-# Check and repair repository
-restic check --read-data-subset=5%
-```
-
-### 🚨 Backup Recovery
-
-**Full System Restore:**
-1. Boot from NixOS installer
-2. Set up disk partitioning with disko
-3. Mount restore location: `mkdir /mnt/restore`
-4. Restore critical data: `restic restore latest --target /mnt/restore`
-5. Copy restored data to appropriate locations
-6. Rebuild system: `nixos-rebuild switch --flake`
-
-**Selective File Recovery:**
-```bash
-# List files in specific path
-restic ls latest --long /persist/home
-
-# Restore specific directory
-restic restore latest --target /tmp/restore --include /persist/home/user/documents
-
-# Restore with specific snapshot ID
-restic restore abc123def --target /tmp/restore
-```
+See [CLAUDE.md Security Architecture](CLAUDE.md#security-architecture) for
+detailed configuration.
 
 ## 📚 Documentation
 
-- **📋 CLAUDE.md** - Development commands and workflow  
-- **📝 TODO.md** - Planned improvements and pending tasks
-- **🗂️ docs/** - Comprehensive documentation directory
-  - **[Database Services](docs/database-services.md)** - PostgreSQL, pgAdmin, and integration patterns
-  - **[Monitoring Dashboards](docs/monitoring-dashboards.md)** - Grafana dashboards and analytics
-  - **[Documentation Index](docs/README.md)** - Complete documentation navigation
+### For Developers
+
+- **[CLAUDE.md](CLAUDE.md)** - Architecture overview, development guide,
+  configuration patterns
+- **[docs/command-reference.md](docs/command-reference.md)** - Complete command
+  documentation
+- **[docs/documentation-standards.md](docs/documentation-standards.md)** -
+  Documentation guidelines and standards
+
+### For Operations
+
+- **[docs/backup-operations.md](docs/backup-operations.md)** - Backup
+  management, recovery procedures, repository maintenance
+- **[docs/monitoring.md](docs/monitoring.md)** - Loki log queries, Prometheus
+  metrics, Grafana dashboards
+- **[docs/troubleshooting.md](docs/troubleshooting.md)** - Common issues,
+  solutions, debug commands
+
+### Project Management
+
+- **[TODO.md](TODO.md)** - Roadmap and pending improvements
+- **[docs/database-services.md](docs/database-services.md)** - PostgreSQL setup
+  and integration patterns
+- **[docs/monitoring-dashboards.md](docs/monitoring-dashboards.md)** - Dashboard
+  details and analytics
+
+### External Resources
+
+- [NixOS Manual](https://nixos.org/manual/nixos/stable/) - Official NixOS
+  documentation
+- [NixOS Options Search](https://search.nixos.org/options) - Search available
+  configuration options
+- [Home Manager](https://nix-community.github.io/home-manager/) - User
+  environment management
+- [Nix Package Search](https://search.nixos.org/packages) - Find packages in
+  nixpkgs
+
+---
+
+**Development**: See [CLAUDE.md](CLAUDE.md) for complete architecture details
+and development workflow.
+
+**Operations**: See [docs/](docs/) for backup, monitoring, and troubleshooting
+guides.
