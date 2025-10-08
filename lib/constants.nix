@@ -110,19 +110,6 @@ let
     monthly = 6; # Keep 6 monthly snapshots (6 months) - Thor's current setting
   };
 
-  # Common user groups
-  userGroups = [
-    "tank" # ZFS pool access
-    "media" # Media files access
-    "downloads" # Downloads access
-  ];
-
-  # Network access configuration
-  networks = {
-    localhost = ["127.0.0.1/32" "::1/128"];
-    tailscale = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"]; # Tailscale CGNAT range
-  };
-
   # Port conflict validation - check for duplicate port assignments
   portValues = builtins.attrValues ports;
   sortedPorts = builtins.sort (a: b: a < b) portValues;
@@ -143,7 +130,5 @@ in
       paths
       serviceGroups
       snapshotRetention
-      userGroups
-      networks
       ;
   }
