@@ -48,7 +48,23 @@ in {
     };
   };
 
-  hardware.audio.enable = true;
+  hardware = {
+    audio.enable = true;
+    # Enable graphics support for gaming
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+  };
+
+  # Gaming support
+  programs = {
+    steam = {
+      enable = true;
+      gamescopeSession.enable = true;
+    };
+    gamemode.enable = true;
+  };
 
   # Display manager - shared between GNOME and Hyprland
   services = {
@@ -100,5 +116,13 @@ in {
 
     # LaTeX support
     texlive.combined.scheme-medium
+
+    # Gaming applications
+    mangohud
+    protonup-qt
+    lutris
+    bottles
+    heroic
+    moonlight-qt
   ];
 }

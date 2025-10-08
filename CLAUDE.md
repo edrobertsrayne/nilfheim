@@ -14,8 +14,8 @@ Darwin flake configuration for system management across multiple hosts.
 Nilfheim manages four hosts with distinct roles:
 
 - **Freya** - Lenovo ThinkPad T480s workstation/laptop
-  - Roles: common, workstation, gaming
-  - Desktop: GNOME/Hyprland with GDM
+  - Roles: common, workstation
+  - Desktop: GNOME/Hyprland with GDM, gaming support (Steam, gamemode)
   - Storage: ZFS with impermanence, NFS client
   - Persistence: `/persist` (system) + `/home` (user data)
 
@@ -60,8 +60,7 @@ nilfheim/
 ├── roles/                 # Predefined role combinations
 │   ├── common.nix         # Base configuration for all hosts
 │   ├── server.nix         # Server-specific (Docker, tailscale routing, portainer)
-│   ├── workstation.nix    # Desktop environment, applications, power management
-│   ├── gaming.nix         # Gaming packages and config
+│   ├── workstation.nix    # Desktop/laptop (GNOME/Hyprland, apps, power, gaming)
 │   └── vps.nix            # VPS-optimized configuration
 ├── lib/
 │   ├── constants.nix      # Centralized ports, paths, settings
@@ -131,10 +130,11 @@ Development: VSCode, Firefox, terminal tools
 **Why Role-Based Configuration?**
 
 - Roles compose related modules for common use cases
-- Hosts select roles: `thor = [server]`, `freya = [common workstation gaming]`
+- Hosts select roles: `thor = [server]`, `freya = [common workstation]`
 - Avoids repeating module lists per host
-- Easy to test new combinations (e.g., add gaming role to any host)
+- Easy to test new combinations across hosts
 - Host-specific services (like Thor's homelab stack) live in host configs
+- Workstation role includes gaming support (Steam, gamemode, gaming apps)
 
 **Why Tailscale + NFS + Samba?**
 
