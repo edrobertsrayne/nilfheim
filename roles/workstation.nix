@@ -7,6 +7,9 @@
 in {
   nixpkgs.config.allowUnfree = true;
 
+  # Enable power management for workstations (especially laptops)
+  powerManagement.enable = true;
+
   catppuccin = {
     flavor = "mocha";
     enable = true;

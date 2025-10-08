@@ -5,7 +5,6 @@
     # Roles
     common = ../roles/common.nix;
     workstation = ../roles/workstation.nix;
-    laptop = ../roles/laptop.nix;
     homelab = ../roles/homelab.nix;
     gaming = ../roles/gaming.nix;
     vps = ../roles/vps.nix;
@@ -65,7 +64,7 @@
       freya = mkNixosSystem {
         hostname = "freya";
         extraModules = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s];
-        roles = [common workstation laptop gaming];
+        roles = [common workstation gaming];
       };
       thor = mkNixosSystem {
         hostname = "thor";
