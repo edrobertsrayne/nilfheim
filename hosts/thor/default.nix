@@ -1,5 +1,9 @@
-{username, ...}: let
-  constants = import ../../lib/constants.nix;
+{
+  username,
+  nilfheim,
+  ...
+}: let
+  inherit (nilfheim) constants;
 
   # Centralized share configuration to reduce duplication
   shareConfig = {

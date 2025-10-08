@@ -1,12 +1,13 @@
 {
   lib,
   config,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.nfs-server;
   clientCfg = config.services.nfs-client;
-  constants = import ../../../../lib/constants.nix;
 in {
   options = {
     services.nfs-server = {

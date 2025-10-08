@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.prowlarr;
   inherit (cfg.settings.server) port;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.prowlarr = {
     url = mkOption {

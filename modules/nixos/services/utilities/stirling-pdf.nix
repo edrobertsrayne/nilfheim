@@ -14,11 +14,12 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.stirling-pdf;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.stirling-pdf = {
     url = mkOption {

@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   inherit (config) homelab;
   cfg = config.services.grafana;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.grafana = {
     url = mkOption {

@@ -2,11 +2,12 @@
   lib,
   config,
   pkgs,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.pgadmin;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.pgadmin = {
     url = mkOption {

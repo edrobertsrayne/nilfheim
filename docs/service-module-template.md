@@ -9,11 +9,12 @@ This document provides standardized patterns for creating consistent service mod
   config,
   lib,
   pkgs,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.SERVICE_NAME;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.SERVICE_NAME = {
     # Standard URL option for proxy services
@@ -137,7 +138,8 @@ port = mkOption {
 ## Best Practices
 
 ### Constants Usage
-- Import constants for ports and common values
+- Use `nilfheim` namespace for library access (never relative imports)
+- Use `inherit (nilfheim) constants;` in let bindings
 - Use `constants.ports.serviceName` for port defaults
 - Reference `constants.nginxDefaults` for proxy settings
 

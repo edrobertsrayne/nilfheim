@@ -2,10 +2,11 @@
   config,
   lib,
   pkgs,
+  nilfheim,
   ...
 }: let
   inherit (lib) mkIf mkOption types;
-  constants = import ../../../../lib/constants.nix;
+  inherit (nilfheim) constants;
   cfg = config.services.backup.restic;
 in {
   options.services.backup.restic = {

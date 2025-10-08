@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.cadvisor;
-  constants = import ../../../../lib/constants.nix;
 in {
   config = mkIf cfg.enable {
     services = {

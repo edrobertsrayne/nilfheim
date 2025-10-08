@@ -235,9 +235,14 @@ layers.
 3. **Create module**: Follow structure in `modules/nixos/services/<category>/`
 4. **Configure service**:
    ```nix
-   # Use centralized ports and paths
-   port = constants.ports.servicename;
-   dataDir = "${constants.paths.dataDir}/servicename";
+   {config, lib, nilfheim, ...}:
+   let
+     inherit (nilfheim) constants;  # ALWAYS use nilfheim namespace
+   in {
+     # Use centralized ports and paths
+     port = constants.ports.servicename;
+     dataDir = "${constants.paths.dataDir}/servicename";
+   }
    ```
 5. **Add nginx proxy**:
    ```nix
@@ -372,6 +377,34 @@ Exceptions:
 - **Options**: Camel case (`services.serviceName.enable`)
 - **Constants**: Lowercase with hyphens (`constants.ports.service-name`)
 - **Secrets**: Lowercase with `.age` extension (`secret-name.age`)
+
+### Library Import Convention
+
+**CRITICAL: Always use the `nilfheim` namespace for library imports. Never use relative paths.**
+
+```nix
+# CORRECT - Use nilfheim namespace
+{config, lib, nilfheim, ...}:
+let
+  inherit (nilfheim) constants;
+in {
+  # Access: constants.ports.servicename
+}
+
+# WRONG - Never use relative imports
+{config, lib, ...}:
+let
+  constants = import ../../../../lib/constants.nix;  # DO NOT DO THIS
+in {
+  # ...
+}
+```
+
+**Rationale:**
+- Single source of truth for library access
+- Easier refactoring and maintenance
+- Prevents broken imports when moving files
+- Consistent across all modules
 
 ### Critical Constraints
 

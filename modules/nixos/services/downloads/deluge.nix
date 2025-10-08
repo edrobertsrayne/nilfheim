@@ -2,11 +2,12 @@
   config,
   lib,
   pkgs,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.deluge;
-  constants = import ../../../../lib/constants.nix;
 in {
   options.services.deluge = with types; {
     url = mkOption {
