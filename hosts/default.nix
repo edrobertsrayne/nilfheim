@@ -5,7 +5,7 @@
     # Roles
     common = ../roles/common.nix;
     workstation = ../roles/workstation.nix;
-    homelab = ../roles/homelab.nix;
+    server = ../roles/server.nix;
     gaming = ../roles/gaming.nix;
     vps = ../roles/vps.nix;
 
@@ -68,7 +68,7 @@
       };
       thor = mkNixosSystem {
         hostname = "thor";
-        roles = [homelab];
+        roles = [server];
       };
       loki = mkNixosSystem {
         hostname = "loki";

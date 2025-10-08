@@ -1,9 +1,13 @@
 {
   username,
   nilfheim,
+  config,
   ...
 }: let
   inherit (nilfheim) constants;
+
+  # Cloudflared tunnel configuration (local to thor)
+  tunnel = "23c4423f-ec30-423b-ba18-ba18904ddb85";
 
   # Centralized share configuration to reduce duplication
   shareConfig = {
@@ -94,4 +98,80 @@ in {
         shareConfig;
     };
   };
+
+  # Enable all homelab services (migrated from roles/homelab.nix)
+  nixpkgs.config.allowUnfree = true;
+
+  virtualisation = {
+    homeassistant.enable = true;
+    # portainer enabled via server role
+    tdarr.enable = true;
+  };
+
+  services = {
+    audiobookshelf.enable = false;
+    backup.restic = {
+      enable = true;
+      repository = "/mnt/backup/thor/restic";
+    };
+    bazarr.enable = true;
+    blocky.enable = true;
+    cadvisor.enable = true;
+    code-server.enable = true;
+    cloudflared = {
+      enable = true;
+      tunnels."${tunnel}" = {
+        credentialsFile = config.age.secrets.cloudflare-homelab.path;
+        default = "http_status:404";
+        ingress = {
+          "*.${config.domain.name}" = "http://localhost:80";
+        };
+      };
+    };
+    deluge.enable = false;
+    flaresolverr.enable = true;
+    glances.enable = true;
+    grafana.enable = true;
+    homepage-dashboard.enable = true;
+    loki.enable = true;
+    jellyfin.enable = true;
+    jellyseerr.enable = true;
+    karakeep.enable = true;
+    kavita.enable = false;
+    lidarr.enable = true;
+    mealie.enable = true;
+    n8n.enable = true;
+    nginx.enable = true;
+    pgadmin.enable = true;
+    postgresql.enable = true;
+    prometheus = {
+      enable = true;
+      alertmanager.enable = true;
+    };
+    promtail.enable = true;
+    smartctl-exporter.enable = true;
+    zfs-exporter.enable = true;
+    prowlarr.enable = true;
+    radarr.enable = true;
+    recyclarr.enable = true;
+    sabnzbd.enable = false;
+    sonarr.enable = true;
+    stirling-pdf.enable = true;
+    tailscale = {
+      extraUpFlags = [
+        "--exit-node 10.71.91.83"
+        "--exit-node-allow-lan-access=true"
+        ''--advertise-routes "192.168.68.0/24"''
+      ];
+    };
+    transmission.enable = true;
+    uptime-kuma.enable = true;
+  };
+
+  system.persist.extraRootDirectories = [
+    {
+      directory = "/var/lib/private";
+      mode = "0700";
+    }
+  ];
 }
