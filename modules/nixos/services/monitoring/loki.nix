@@ -151,8 +151,9 @@ in {
       "d ${cfg.dataDir}/tsdb-cache 0755 loki loki -"
       "d ${cfg.dataDir}/compactor 0755 loki loki -"
       "d ${cfg.dataDir}/rules 0755 loki loki -"
+      "d ${cfg.dataDir}/rules/fake 0755 loki loki -"
       "d ${cfg.dataDir}/rules-temp 0755 loki loki -"
-      "L+ ${cfg.dataDir}/rules/loki-rules.yml - - - - ${./alerts/loki-rules.yml}"
+      "L+ ${cfg.dataDir}/rules/fake/loki-rules.yml - - - - ${./alerts/loki-rules.yml}"
     ];
 
     system.persist.extraRootDirectories = [

@@ -159,3 +159,38 @@ groups:
         annotations:
           summary: "High number of firewall drops"
           description: "High number of packets being dropped by firewall rules."
+
+  - name: backup.logs.alerts
+    rules:
+      # Restic Backup Failure
+      - alert: ResticBackupFailed
+        expr: count_over_time({job="systemd-journal", unit="restic-backups-system.service"} |~ "(?i)(error|failed)" [24h]) > 0
+        for: 1m
+        labels:
+          severity: critical
+          component: backup
+        annotations:
+          summary: "Restic backup failed"
+          description: "Restic backup service encountered errors in the last 24 hours."
+
+      # Restic Backup Not Running
+      - alert: ResticBackupNotRun
+        expr: absent_over_time({job="systemd-journal", unit="restic-backups-system.service"} |~ "(?i)(completed|finished)" [26h])
+        for: 2h
+        labels:
+          severity: critical
+          component: backup
+        annotations:
+          summary: "Restic backup has not completed"
+          description: "No successful backup completion detected in the last 26 hours."
+
+      # Restic Backup Warnings
+      - alert: ResticBackupWarnings
+        expr: count_over_time({job="systemd-journal", unit="restic-backups-system.service"} |~ "(?i)(warning|warn)" [24h]) > 3
+        for: 5m
+        labels:
+          severity: warning
+          component: backup
+        annotations:
+          summary: "Restic backup has warnings"
+          description: "Restic backup service encountered multiple warnings in the last 24 hours."

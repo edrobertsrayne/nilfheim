@@ -1,0 +1,133 @@
+groups:
+  - name: system.resources.alerts
+    rules:
+      # CPU Load
+      - alert: HostHighCPULoad
+        expr: (100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 80
+        for: 10m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "Host CPU load is high"
+          description: "CPU load on {{ $labels.instance }} is {{ $value | humanize }}% for 10 minutes."
+
+      # Memory
+      - alert: HostOutOfMemory
+        expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100) < 10
+        for: 5m
+        labels:
+          severity: critical
+          component: system
+        annotations:
+          summary: "Host out of memory"
+          description: "Available memory on {{ $labels.instance }} is {{ $value | humanize }}%."
+
+      - alert: HostLowMemory
+        expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100) < 20
+        for: 10m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "Host low memory"
+          description: "Available memory on {{ $labels.instance }} is {{ $value | humanize }}%."
+
+      # Disk Space
+      - alert: HostOutOfDiskSpace
+        expr: ((node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.lxcfs|squashfs"} / node_filesystem_size_bytes) * 100) < 10
+        for: 5m
+        labels:
+          severity: critical
+          component: system
+        annotations:
+          summary: "Host out of disk space"
+          description: "Filesystem {{ $labels.mountpoint }} on {{ $labels.instance }} has {{ $value | humanize }}% available."
+
+      - alert: HostLowDiskSpace
+        expr: ((node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.lxcfs|squashfs"} / node_filesystem_size_bytes) * 100) < 20
+        for: 10m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "Host low disk space"
+          description: "Filesystem {{ $labels.mountpoint }} on {{ $labels.instance }} has {{ $value | humanize }}% available."
+
+      # Inodes
+      - alert: HostOutOfInodes
+        expr: ((node_filesystem_files_free{fstype!~"tmpfs|fuse.lxcfs|squashfs"} / node_filesystem_files) * 100) < 10
+        for: 5m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "Host out of inodes"
+          description: "Filesystem {{ $labels.mountpoint }} on {{ $labels.instance }} has {{ $value | humanize }}% inodes available."
+
+      # Disk I/O
+      - alert: HostUnusualDiskReadLatency
+        expr: rate(node_disk_read_time_seconds_total[5m]) / rate(node_disk_reads_completed_total[5m]) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "Unusual disk read latency"
+          description: "Disk {{ $labels.device }} on {{ $labels.instance }} has unusual read latency of {{ $value | humanize }}s."
+
+      - alert: HostUnusualDiskWriteLatency
+        expr: rate(node_disk_write_time_seconds_total[5m]) / rate(node_disk_writes_completed_total[5m]) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "Unusual disk write latency"
+          description: "Disk {{ $labels.device }} on {{ $labels.instance }} has unusual write latency of {{ $value | humanize }}s."
+
+  - name: service.availability.alerts
+    rules:
+      # Node Exporter Down
+      - alert: NodeExporterDown
+        expr: up{job="node"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: monitoring
+        annotations:
+          summary: "Node exporter is down"
+          description: "Cannot collect system metrics - node exporter on {{ $labels.instance }} is unreachable."
+
+      # Alertmanager Down
+      - alert: AlertmanagerDown
+        expr: up{job="alertmanager"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: monitoring
+        annotations:
+          summary: "Alertmanager is down"
+          description: "Alert routing is not functioning - alertmanager is unreachable."
+
+      # SMARTCTL Exporter Down
+      - alert: SmartctlExporterDown
+        expr: up{job="smartctl"} == 0
+        for: 5m
+        labels:
+          severity: warning
+          component: monitoring
+        annotations:
+          summary: "SMARTCTL exporter is down"
+          description: "Cannot collect disk health metrics - smartctl exporter is unreachable."
+
+      # cAdvisor Down (if enabled)
+      - alert: CadvisorDown
+        expr: up{job="cadvisor"} == 0
+        for: 5m
+        labels:
+          severity: warning
+          component: monitoring
+        annotations:
+          summary: "cAdvisor is down"
+          description: "Cannot collect container metrics - cAdvisor is unreachable."
