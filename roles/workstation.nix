@@ -72,6 +72,8 @@ in {
         autoSuspend = true;
       };
     };
+    # Disable power-profiles-daemon (GNOME default) to use auto-cpufreq from common role
+    power-profiles-daemon.enable = false;
   };
 
   # Configure NFS client to mount thor's shared storage

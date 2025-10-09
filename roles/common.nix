@@ -31,8 +31,6 @@
 
   time.timeZone = "Europe/London";
 
-  powerManagement.enable = true;
-
   environment.systemPackages = with pkgs; [
     vim
     wget
