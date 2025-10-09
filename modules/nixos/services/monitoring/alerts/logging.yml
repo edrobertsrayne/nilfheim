@@ -46,15 +46,17 @@ groups:
           description: "Promtail instance {{ $labels.instance }} is using {{ $value | humanize1024 }} of memory, exceeding 500MB threshold."
 
       # No Log Activity Detected
-      - alert: PromtailNoLogActivity
-        expr: rate(promtail_read_lines_total[10m]) == 0
-        for: 15m
-        labels:
-          severity: warning
-          component: promtail
-        annotations:
-          summary: "No log activity detected in Promtail"
-          description: "Promtail instance {{ $labels.instance }} has not read any log lines for {{ $labels.path }} in the last 15 minutes."
+      # DISABLED: Fires for rotated log files creating excessive noise
+      # See issue #110 for resolution
+      # - alert: PromtailNoLogActivity
+      #   expr: rate(promtail_read_lines_total[10m]) == 0
+      #   for: 15m
+      #   labels:
+      #     severity: warning
+      #     component: promtail
+      #   annotations:
+      #     summary: "No log activity detected in Promtail"
+      #     description: "Promtail instance {{ $labels.instance }} has not read any log lines for {{ $labels.path }} in the last 15 minutes."
 
       # File Not Being Processed
       - alert: PromtailFileNotActive
