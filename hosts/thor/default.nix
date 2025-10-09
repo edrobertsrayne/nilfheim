@@ -99,13 +99,11 @@ in {
     };
   };
 
-  # Enable all homelab services (migrated from roles/homelab.nix)
   nixpkgs.config.allowUnfree = true;
 
   virtualisation = {
     homeassistant.enable = true;
-    # portainer enabled via server role
-    tdarr.enable = true;
+    tdarr.enable = false;
   };
 
   services = {
