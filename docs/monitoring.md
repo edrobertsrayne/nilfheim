@@ -429,7 +429,7 @@ Nilfheim implements comprehensive alerting across system resources, services, lo
 - **PromtailHighEncodingFailures**: Encoding failures > 0.1/sec for 5 minutes (warning)
 - **PromtailHighRequestErrors**: Request errors > 0.1/sec for 5 minutes (warning)
 - **PromtailHighMemoryUsage**: Memory > 500MB for 10 minutes (warning)
-- **PromtailNoLogActivity**: No log lines read for 15 minutes (warning)
+- ~~**PromtailNoLogActivity**: No log lines read for 15 minutes (warning)~~ *Disabled - see issue #110*
 - **PromtailFileNotActive**: No active files monitored for 10 minutes (warning)
 - **PromtailHighCPUUsage**: CPU > 80% for 10 minutes (warning)
 - **LokiNoIngestion**: Loki not receiving logs for 5 minutes (critical)
