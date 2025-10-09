@@ -371,16 +371,125 @@ curl -s localhost:9093/api/v2/alerts | jq
 
 # Via Prometheus
 curl -s localhost:9090/api/v1/alerts | jq
+
+# Check for firing alerts only
+curl -s localhost:9090/api/v1/alerts | jq '.data.alerts[] | select(.state == "firing")'
 ```
 
-#### Common Alert Rules
+### Alert Coverage
 
-- **Service Down**: When service becomes unavailable
-- **High CPU Usage**: CPU > 80% for 5 minutes
-- **High Memory Usage**: Memory > 90% for 5 minutes
-- **Disk Space Low**: Free space < 10%
-- **Backup Failed**: Backup job failed or hasn't run in 25 hours
-- **High Error Rate**: Error log rate exceeds threshold
+Nilfheim implements comprehensive alerting across system resources, services, logs, and backups.
+
+#### Prometheus Alerts (38 rules)
+
+**System Resources** (`system-resources.yml`):
+- **HostHighCPULoad**: CPU > 80% for 10 minutes (warning)
+- **HostOutOfMemory**: Available memory < 10% for 5 minutes (critical)
+- **HostLowMemory**: Available memory < 20% for 10 minutes (warning)
+- **HostOutOfDiskSpace**: Filesystem < 10% available for 5 minutes (critical)
+- **HostLowDiskSpace**: Filesystem < 20% available for 10 minutes (warning)
+- **HostOutOfInodes**: Inodes < 10% available for 5 minutes (warning)
+- **HostUnusualDiskReadLatency**: Read latency > 0.1s for 10 minutes (warning)
+- **HostUnusualDiskWriteLatency**: Write latency > 0.1s for 10 minutes (warning)
+
+**Service Availability** (`system-resources.yml`):
+- **NodeExporterDown**: Node exporter unreachable for 2 minutes (critical)
+- **AlertmanagerDown**: Alertmanager unreachable for 2 minutes (critical)
+- **SmartctlExporterDown**: SMARTCTL exporter unreachable for 5 minutes (warning)
+- **CadvisorDown**: cAdvisor unreachable for 5 minutes (warning)
+
+**Network Health** (`network-containers.yml`):
+- **HostNetworkInterfaceDown**: Physical interface down for 2 minutes (warning)
+- **HostNetworkReceiveErrors**: Receive errors > 10/sec for 5 minutes (warning)
+- **HostNetworkTransmitErrors**: Transmit errors > 10/sec for 5 minutes (warning)
+- **HostNetworkReceiveDrops**: Receive drops > 50/sec for 5 minutes (warning)
+- **HostNetworkTransmitDrops**: Transmit drops > 50/sec for 5 minutes (warning)
+
+**Container Health** (`network-containers.yml`):
+- **ContainerDown**: Container down for 5 minutes (critical)
+- **ContainerHighMemory**: Container memory > 90% of limit for 5 minutes (warning)
+- **ContainerHighCPU**: Container CPU > 80% for 10 minutes (warning)
+- **ContainerRestarting**: Container restarting frequently (warning)
+- **ContainerUnhealthy**: Container health check failing for 2 minutes (warning)
+
+**ZFS Health** (`health-checks.yml`):
+- **ZFSPoolDegraded**: Pool degraded or faulted for 5 minutes (critical)
+- **ZFSPoolHighUsage**: Pool > 85% full for 10 minutes (warning)
+- **ZFSPoolCriticalUsage**: Pool > 95% full for 5 minutes (critical)
+- **ZFSScrubErrors**: Scrub found errors (critical)
+- **ZFSScrubOld**: Scrub not run in 30 days for 1 hour (warning)
+
+**SMART Health** (`health-checks.yml`):
+- **SMARTDeviceFailure**: SMART health check failed (critical)
+- **SMARTDeviceHighTemperature**: Device temperature > 60°C for 10 minutes (warning)
+- **SMARTDeviceReallocatedSectors**: Reallocated sectors detected in last hour (warning)
+
+**Logging Infrastructure** (`logging.yml`):
+- **PromtailInstanceDown**: Promtail down for 2 minutes (critical)
+- **PromtailHighEncodingFailures**: Encoding failures > 0.1/sec for 5 minutes (warning)
+- **PromtailHighRequestErrors**: Request errors > 0.1/sec for 5 minutes (warning)
+- **PromtailHighMemoryUsage**: Memory > 500MB for 10 minutes (warning)
+- **PromtailNoLogActivity**: No log lines read for 15 minutes (warning)
+- **PromtailFileNotActive**: No active files monitored for 10 minutes (warning)
+- **PromtailHighCPUUsage**: CPU > 80% for 10 minutes (warning)
+- **LokiNoIngestion**: Loki not receiving logs for 5 minutes (critical)
+
+#### Loki Alerts (16 rules)
+
+**System Logs** (`loki-rules.yml`):
+- **SystemHighErrorRate**: Error rate > 10% for 10 minutes (warning)
+- **CriticalServiceFailure**: > 10 critical errors in 5 minutes (critical)
+- **FrequentServiceRestarts**: > 5 service restarts in 15 minutes (warning)
+
+**Application Logs** (`loki-rules.yml`):
+- **MediaStackHighErrors**: Media service error rate > 0.5/sec for 10 minutes (warning)
+- **ContainerLogErrors**: Container error rate > 0.1/sec for 5 minutes (warning)
+- **DownloadClientErrors**: > 5 download errors in 10 minutes (warning)
+
+**Nginx Logs** (`loki-rules.yml`):
+- **NginxHighErrorRate**: HTTP error rate > 10% for 10 minutes (warning)
+- **NginxHigh5xxErrors**: 5xx error rate > 1/sec for 5 minutes (critical)
+- **NginxErrorLogActivity**: Error log rate > 0.5/sec for 5 minutes (warning)
+- **SuspiciousAccessPatterns**: > 20 404 errors in 5 minutes (warning)
+- **AuthenticationFailures**: > 10 401 errors in 5 minutes (warning)
+
+**Security Logs** (`loki-rules.yml`):
+- **HighSSHConnectionAttempts**: > 5 SSH failures in 5 minutes (warning)
+- **HighFirewallDrops**: > 10 firewall drops in 5 minutes (info)
+
+**Backup Monitoring** (`loki-rules.yml`):
+- **ResticBackupFailed**: Backup errors detected in last 24 hours (critical)
+- **ResticBackupNotRun**: No successful backup in 26 hours for 2 hours (critical)
+- **ResticBackupWarnings**: > 3 backup warnings in 24 hours for 5 minutes (warning)
+
+### Alert File Locations
+
+- **Prometheus Rules**: `modules/nixos/services/monitoring/alerts/*.yml`
+  - `system-resources.yml` - System and service availability alerts
+  - `network-containers.yml` - Network and container health alerts
+  - `health-checks.yml` - ZFS and SMART disk health alerts
+  - `logging.yml` - Promtail and Loki infrastructure alerts
+- **Loki Rules**: `modules/nixos/services/monitoring/alerts/loki-rules.yml`
+  - Deployed to `/srv/loki/rules/fake/loki-rules.yml` (namespace required)
+
+### Managing Alerts
+
+```bash
+# Check Prometheus alert rules
+curl -s localhost:9090/api/v1/rules | jq '.data.groups[] | "\(.name): \(.rules | length) rules"'
+
+# Check Loki alert rules
+curl -s localhost:3100/prometheus/api/v1/rules | jq '.data.groups[] | "\(.name): \(.rules | length) rules"'
+
+# Validate Prometheus alert files
+promtool check rules modules/nixos/services/monitoring/alerts/*.yml
+
+# Reload Prometheus configuration
+systemctl reload prometheus.service
+
+# Restart Loki to reload rules
+systemctl restart loki.service
+```
 
 ## Troubleshooting
 

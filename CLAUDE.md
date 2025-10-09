@@ -88,12 +88,13 @@ Services Layer:
   Download: Transmission, Flaresolverr, Recyclarr
   Monitoring: Grafana ← Prometheus ← Exporters (node, exportarr, cAdvisor)
               Loki ← Promtail ← Logs (systemd, docker, apps)
+              Alertmanager ← 54 alert rules (system, network, containers, logs, backups)
   Data: PostgreSQL (DNS analytics) ← Blocky queries
   Containers: Docker (Home Assistant, Tdarr, Portainer)
   Utilities: Homepage (dashboard), Code-server, N8N, Mealie
 
 Backup System:
-  Restic → Local repositories → Monitored via Loki/Grafana
+  Restic → Local repositories → Monitored via Loki/Grafana alerts
 ```
 
 **Client Configuration (Freya):**
