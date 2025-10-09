@@ -65,9 +65,6 @@ Nilfheim documentation is organized into three main categories: **Architecture &
   - Docker container metrics
   - System health and ZFS monitoring
 
-### Planning
-- **[TODO List](../TODO.md)** - Roadmap, planned improvements, pending tasks
-
 ---
 
 ## 🚀 Quick Navigation
