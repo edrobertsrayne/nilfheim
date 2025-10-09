@@ -68,6 +68,9 @@ in {
           });
         ruleFiles = [
           ./alerts/logging.yml
+          ./alerts/health-checks.yml
+          ./alerts/system-resources.yml
+          ./alerts/network-containers.yml
         ];
         alertmanagers = [
           {
