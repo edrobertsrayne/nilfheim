@@ -65,6 +65,7 @@ in {
       [
         gnome-tweaks
         wl-clipboard
+        xclip
       ]
       ++ defaultExtensions
       ++ cfg.extraExtensions;

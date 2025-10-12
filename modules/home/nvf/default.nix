@@ -46,7 +46,7 @@ in {
 
             clipboard = {
               enable = true;
-              providers.wl-copy.enable = true;
+              providers.xclip.enable = true;
               registers = "unnamedplus";
             };
 
