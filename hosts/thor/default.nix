@@ -154,7 +154,7 @@ in {
     prowlarr.enable = true;
     radarr.enable = true;
     recyclarr.enable = true;
-    sabnzbd.enable = false;
+    sabnzbd.enable = true;
     sonarr.enable = true;
     stirling-pdf.enable = true;
     tailscale = {
