@@ -15,12 +15,12 @@ let
     kavita = 5000;
 
     # Download Clients
-    transmission = 9091;      # BitTorrent client web UI (peer port: 51413)
+    transmission = 9091; # BitTorrent client web UI (peer port: 51413)
     deluge = 8112;
     sabnzbd = 8080;
     autobrr = 7474;
-    cleanuparr = 11011;       # Automated download cleanup tool
-    huntarr = 9705;           # Download organization and management
+    cleanuparr = 11011; # Automated download cleanup tool
+    huntarr = 9705; # Download organization and management
 
     # Monitoring Services
     prometheus = 9090;
