@@ -19,6 +19,8 @@ let
     deluge = 8112;
     sabnzbd = 8080;
     autobrr = 7474;
+    cleanuparr = 11011;
+    huntarr = 9705;
 
     # Monitoring Services
     prometheus = 9090;
