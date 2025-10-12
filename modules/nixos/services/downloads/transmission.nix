@@ -2,9 +2,11 @@
   config,
   lib,
   pkgs,
+  nilfheim,
   ...
 }:
 with lib; let
+  inherit (nilfheim) constants;
   cfg = config.services.transmission;
 in {
   options.services.transmission = with types; {
@@ -27,8 +29,8 @@ in {
         home = mkDefault "/srv/transmission";
         package = pkgs.transmission_4;
         settings = {
-          rpc-bind-address = "127.0.0.1";
-          rpc-port = 9091;
+          rpc-bind-address = "0.0.0.0";
+          rpc-port = constants.ports.transmission;
           peer-port = 51413;
           rpc-whitelist-enabled = false;
           rpc-host-whitelist-enabled = false;
@@ -84,5 +86,9 @@ in {
         }
       ];
     };
+    networking.firewall.allowedTCPPorts = [
+      cfg.settings.rpc-port
+      cfg.settings.peer-port
+    ];
   };
 }
