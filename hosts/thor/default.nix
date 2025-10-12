@@ -103,7 +103,7 @@ in {
 
   virtualisation = {
     homeassistant.enable = true;
-    tdarr.enable = false;
+    tdarr.enable = true;
   };
 
   services = {
