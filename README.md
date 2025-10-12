@@ -79,7 +79,11 @@ detailed system design.
 
 - Jellyfin streaming server with Jellyseerr request management
 - *arr automation suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr)
-- Transmission with VPN, Flaresolverr, Recyclarr quality management
+- Transmission BitTorrent client with network access, peer port open for optimal
+  connectivity
+- Download management tools (Cleanuparr, Huntarr) for automated cleanup and
+  organization
+- Flaresolverr CAPTCHA solver, Recyclarr quality profile management
 
 **Monitoring & Analytics**
 
@@ -99,7 +103,9 @@ detailed system design.
 
 **Containers**
 
-- Docker with systemd integration (Home Assistant, Tdarr, Portainer)
+- Docker with systemd integration and auto-pull updates
+- Container services: Home Assistant, Tdarr transcoder, Cleanuparr, Huntarr
+- Portainer for container management web UI
 - cAdvisor for container metrics and monitoring
 
 ### 🛡️ Infrastructure

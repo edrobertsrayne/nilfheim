@@ -85,12 +85,13 @@ Storage Layer:
 
 Services Layer:
   Media: Jellyfin, Jellyseerr, *arr suite (Sonarr/Radarr/Lidarr/Bazarr/Prowlarr)
-  Download: Transmission, Flaresolverr, Recyclarr
+  Download: Transmission (direct IP + proxy, peer port 51413), Flaresolverr, Recyclarr, Cleanuparr, Huntarr
   Monitoring: Grafana ← Prometheus ← Exporters (node, exportarr, cAdvisor)
               Loki ← Promtail ← Logs (systemd, docker, apps)
               Alertmanager ← 54 alert rules (system, network, containers, logs, backups)
   Data: PostgreSQL (DNS analytics) ← Blocky queries
-  Containers: Docker (Home Assistant, Tdarr, Portainer)
+  Containers: Docker (Home Assistant, Tdarr, Cleanuparr, Huntarr, Portainer)
+              Auto-pull enabled for all containers
   Utilities: Homepage (dashboard), Code-server, N8N, Mealie
 
 Backup System:
@@ -316,6 +317,70 @@ layers.
 - Example: Blocky PostgreSQL logging only when PostgreSQL is enabled
 - Prevents runtime failures from missing dependencies
 
+#### Docker Container Modules
+
+**Located in:** `modules/nixos/virtualisation/*.nix`
+
+**When to Use Docker Containers:**
+- Applications without native NixOS modules
+- Upstream provides well-maintained container images
+- Self-contained applications without complex host integration
+- Examples: Cleanuparr, Huntarr, Home Assistant, Tdarr, Portainer
+
+**Docker Volumes vs Bind Mounts:**
+- **Use Docker volumes** for self-contained app config (Cleanuparr, Huntarr, Portainer data)
+- **Use bind mounts** when needing host filesystem access (Tdarr media, Home Assistant config editing)
+- **Always bind mount** for required host resources (docker.sock for Portainer)
+
+**Standard Docker Module Pattern:**
+```nix
+{lib, config, nilfheim, ...}:
+with lib; let
+  inherit (nilfheim) constants;
+  cfg = config.virtualisation.servicename;
+in {
+  options.virtualisation.servicename = {
+    enable = mkEnableOption "...";
+    port = mkOption { type = int; default = constants.ports.servicename; };
+    url = mkOption { type = str; default = "servicename.${config.domain.name}"; };
+  };
+
+  config = mkIf cfg.enable {
+    virtualisation.oci-containers.containers."servicename" = {
+      image = "image:tag";
+      ports = ["${toString cfg.port}:${toString cfg.port}"];
+      volumes = ["servicename-config:/config"];  # Docker volume (not bind mount)
+      extraOptions = ["--pull=always"];  # Auto-update on rebuild
+    };
+
+    services.nginx.virtualHosts."${cfg.url}" = {
+      locations."/".proxyPass = "http://127.0.0.1:${toString cfg.port}";
+      locations."/".proxyWebsockets = true;
+    };
+
+    services.homepage-dashboard.homelabServices = [{
+      group = "Category";
+      name = "ServiceName";
+      entry = {
+        href = "https://${cfg.url}";
+        icon = "icon.svg";
+        siteMonitor = "http://127.0.0.1:${toString cfg.port}";
+      };
+    }];
+  };
+}
+```
+
+**Auto-Pull Strategy:**
+- All containers use `--pull=always` for automatic updates on rebuild
+- Ensures latest security patches and features without manual intervention
+- Trade-off: Less reproducible, potential breaking changes
+- Alternative: Pin specific image versions if stability is critical
+
+**Module Registration:**
+- Add to `modules/nixos/virtualisation/default.nix` imports
+- Enable in host config: `virtualisation.servicename.enable = true;`
+
 ### Security Architecture
 
 #### Authentication & Access Control
@@ -512,7 +577,9 @@ chore(scope): maintenance tasks
 Grafana: 3000            Homepage: 3002          Loki: 3100
 Prometheus: 9090         Blocky: 4000            PostgreSQL: 5432
 Jellyfin: 8096           Sonarr: 8989            Radarr: 7878
-Transmission: 9091       Nginx: 80/443
+Transmission: 9091       Cleanuparr: 11011       Huntarr: 9705
+Nginx: 80/443
+Transmission peer: 51413 (open for torrent traffic)
 ```
 
 ---
