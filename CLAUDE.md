@@ -85,7 +85,7 @@ Storage Layer:
 
 Services Layer:
   Media: Jellyfin, Jellyseerr, *arr suite (Sonarr/Radarr/Lidarr/Bazarr/Prowlarr)
-  Download: Transmission (direct IP + proxy, peer port 51413), Flaresolverr, Recyclarr, Cleanuparr, Huntarr
+  Download: Transmission (direct IP + proxy, peer port 51413), SABnzbd (Usenet), Flaresolverr, Recyclarr, Cleanuparr, Huntarr
   Monitoring: Grafana ← Prometheus ← Exporters (node, exportarr, cAdvisor)
               Loki ← Promtail ← Logs (systemd, docker, apps)
               Alertmanager ← 54 alert rules (system, network, containers, logs, backups)

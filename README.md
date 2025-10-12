@@ -81,6 +81,7 @@ detailed system design.
 - *arr automation suite (Sonarr, Radarr, Lidarr, Bazarr, Prowlarr)
 - Transmission BitTorrent client with network access, peer port open for optimal
   connectivity
+- SABnzbd Usenet downloader with automatic download directory configuration
 - Download management tools (Cleanuparr, Huntarr) for automated cleanup and
   organization
 - Flaresolverr CAPTCHA solver, Recyclarr quality profile management
