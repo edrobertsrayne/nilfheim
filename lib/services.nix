@@ -112,6 +112,8 @@ in {
               };
             };
           };
+
+          networking.firewall.allowedTCPPorts = [port];
         }
       ]);
     };
