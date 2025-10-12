@@ -79,23 +79,20 @@ in {
         ];
 
         volumes = [
-          "${cfg.dataDir}/server:/app/server"
-          "${cfg.dataDir}/configs:/app/configs"
-          "${cfg.dataDir}/logs:/app/logs"
+          "tdarr_server:/app/server"
+          "tdarr_configs:/app/configs"
+          "tdarr_logs:/app/logs"
           "${cfg.mediaDir}:/media"
           "${cfg.cacheDir}:/temp"
         ];
 
         extraOptions =
           [
-            "--network=bridge"
             "--health-cmd=curl -f http://localhost:${toString cfg.webUIPort} || exit 1"
             "--health-interval=30s"
             "--health-retries=3"
             "--health-start-period=60s"
-            "--dns=1.1.1.1"
-            "--dns=8.8.8.8"
-            "--dns-search=."
+            "--pull=always"
           ]
           ++ (
             if cfg.enableVAAPI
@@ -113,9 +110,6 @@ in {
     };
 
     systemd.tmpfiles.rules = [
-      "d ${cfg.dataDir}/server 0755 root root"
-      "d ${cfg.dataDir}/configs 0755 root root"
-      "d ${cfg.dataDir}/logs 0755 root root"
       "d ${cfg.cacheDir} 0755 root root"
     ];
   };

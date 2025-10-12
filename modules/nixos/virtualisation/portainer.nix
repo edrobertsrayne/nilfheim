@@ -11,12 +11,6 @@ in {
   options.virtualisation.portainer = {
     enable = mkEnableOption "Portainer container management interface";
 
-    dataDir = mkOption {
-      type = types.path;
-      default = "/srv/portainer";
-      description = "Directory where Portainer stores its data";
-    };
-
     url = mkOption {
       type = types.str;
       default = "portainer.${config.domain.name}";
@@ -41,7 +35,7 @@ in {
           ];
 
           volumes = [
-            "${cfg.dataDir}:/data"
+            "portainer_data:/data"
             "/var/run/docker.sock:/var/run/docker.sock"
           ];
 
@@ -62,11 +56,6 @@ in {
         proxyWebsockets = true;
       };
     };
-
-    # Create data directory
-    systemd.tmpfiles.rules = [
-      "d ${cfg.dataDir} 0755 root root -"
-    ];
 
     # Homepage dashboard integration
     services.homepage-dashboard.homelabServices = [
