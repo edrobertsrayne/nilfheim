@@ -52,6 +52,10 @@ in {
         volumes = [
           "cleanuparr-config:/config"
         ];
+
+        extraOptions = [
+          "--pull=always"
+        ];
       };
     };
 

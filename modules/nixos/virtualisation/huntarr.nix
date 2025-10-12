@@ -47,6 +47,10 @@ in {
         volumes = [
           "huntarr-config:/config"
         ];
+
+        extraOptions = [
+          "--pull=always"
+        ];
       };
     };
 
