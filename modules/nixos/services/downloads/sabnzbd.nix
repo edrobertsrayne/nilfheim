@@ -28,10 +28,18 @@ in {
       }
     ];
 
+    systemd.services.sabnzbd.preStart = ''
+      if [ -f /var/lib/sabnzbd/sabnzbd.ini ]; then
+        # Only update host_whitelist if it doesn't include our domain
+        if ! grep -q "${cfg.url}" /var/lib/sabnzbd/sabnzbd.ini; then
+          sed -i "s/^host_whitelist = \(.*\)$/host_whitelist = \1, ${cfg.url}/" /var/lib/sabnzbd/sabnzbd.ini
+        fi
+      fi
+    '';
+
     services = {
       sabnzbd = {
         openFirewall = true;
-        configFile = config.age.secrets.sabnzbd-config.path or "/var/lib/sabnzbd/sabnzbd.ini";
       };
 
       homepage-dashboard.homelabServices = [
