@@ -6,6 +6,7 @@ in {
       hd-bluray-web = {
         api_key = cfg.radarr.apikey;
         base_url = "http://localhost:${toString cfg.radarr.settings.server.port}";
+        replace_existing_custom_formats = true;
         include = [
           {template = "radarr-quality-definition-movie";}
           {template = "radarr-quality-profile-hd-bluray-web";}
@@ -17,6 +18,7 @@ in {
       web-1080p = {
         api_key = cfg.sonarr.apikey;
         base_url = "http://localhost:${toString cfg.sonarr.settings.server.port}";
+        replace_existing_custom_formats = true;
         include = [
           {template = "sonarr-quality-definition-series";}
           {template = "sonarr-v4-quality-profile-web-1080p-alternative";}
