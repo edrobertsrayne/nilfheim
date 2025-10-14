@@ -102,7 +102,7 @@ in {
   nixpkgs.config.allowUnfree = true;
 
   virtualisation = {
-    cleanuparr.enable = true;
+    cleanuparr.enable = false;
     homeassistant.enable = true;
     huntarr.enable = true;
     tdarr.enable = true;
