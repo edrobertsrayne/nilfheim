@@ -46,16 +46,8 @@ in {
       };
     };
 
-    # Nginx reverse proxy
-    services.nginx.virtualHosts."${cfg.url}" = {
-      locations."/" = {
-        proxyPass = "https://127.0.0.1:${toString constants.ports.portainer}";
-        extraConfig = ''
-          proxy_ssl_verify off;
-        '';
-        proxyWebsockets = true;
-      };
-    };
+    # Cloudflare tunnel ingress
+    services.cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" = "https://127.0.0.1:${toString constants.ports.portainer}";
 
     # Homepage dashboard integration
     services.homepage-dashboard.homelabServices = [

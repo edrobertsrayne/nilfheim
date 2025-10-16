@@ -246,14 +246,10 @@ layers.
      dataDir = "${constants.paths.dataDir}/servicename";
    }
    ```
-5. **Add nginx proxy**:
+5. **Add Cloudflare tunnel ingress**:
    ```nix
-   services.nginx.virtualHosts."${cfg.url}" = {
-     locations."/" = {
-       proxyPass = "http://127.0.0.1:${toString port}";
-       proxyWebsockets = true;  # NixOS handles headers automatically
-     };
-   };
+   services.cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" =
+     "http://127.0.0.1:${toString port}";
    ```
 6. **Homepage integration**:
    ```nix
@@ -285,12 +281,12 @@ layers.
 
 #### Service Configuration Standards
 
-**Nginx Proxy:**
+**Cloudflare Tunnel Ingress:**
 
-- Use `proxyWebsockets = true` for WebSocket support
-- NixOS automatically provides: Host header, X-Forwarded-* headers, timeouts,
-  buffers
-- Avoid custom `extraConfig` unless service requires specific headers
+- All services use Cloudflare tunnels for external access
+- WebSocket support is built-in (no special configuration needed)
+- Simple pattern: map hostname to `http://localhost:port`
+- Configured via `services.cloudflared.tunnels."${config.domain.tunnel}".ingress`
 
 **Port Allocation:**
 
@@ -353,10 +349,8 @@ in {
       extraOptions = ["--pull=always"];  # Auto-update on rebuild
     };
 
-    services.nginx.virtualHosts."${cfg.url}" = {
-      locations."/".proxyPass = "http://127.0.0.1:${toString cfg.port}";
-      locations."/".proxyWebsockets = true;
-    };
+    services.cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" =
+      "http://127.0.0.1:${toString cfg.port}";
 
     services.homepage-dashboard.homelabServices = [{
       group = "Category";

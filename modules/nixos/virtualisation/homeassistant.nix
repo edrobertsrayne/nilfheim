@@ -39,12 +39,7 @@ in {
       };
     };
 
-    services.nginx.virtualHosts."${cfg.url}" = {
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString constants.ports.homeassistant}";
-        proxyWebsockets = true;
-      };
-    };
+    services.cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" = "http://127.0.0.1:${toString constants.ports.homeassistant}";
 
     systemd.tmpfiles.rules = [
       "d ${cfg.configDir} 0755 root root"

@@ -13,13 +13,8 @@ in {
       # Configure cAdvisor to use our custom port
       cadvisor.port = constants.ports.cadvisor;
 
-      # Nginx reverse proxy
-      nginx.virtualHosts."cadvisor.${config.domain.name}" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString constants.ports.cadvisor}";
-          proxyWebsockets = true;
-        };
-      };
+      # Cloudflare tunnel ingress
+      cloudflared.tunnels."${config.domain.tunnel}".ingress."cadvisor.${config.domain.name}" = "http://127.0.0.1:${toString constants.ports.cadvisor}";
 
       # Homepage dashboard integration
       homepage-dashboard.homelabServices = [

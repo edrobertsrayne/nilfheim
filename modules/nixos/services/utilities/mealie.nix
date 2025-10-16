@@ -46,13 +46,8 @@ in {
         }
       ];
 
-      # Nginx proxy configuration
-      nginx.virtualHosts."${cfg.url}" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString nilfheim.constants.ports.mealie}";
-          proxyWebsockets = true;
-        };
-      };
+      # Cloudflare tunnel ingress
+      cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" = "http://127.0.0.1:${toString nilfheim.constants.ports.mealie}";
     };
 
     # Note: /var/lib/mealie is managed by systemd StateDirectory, not persistence
