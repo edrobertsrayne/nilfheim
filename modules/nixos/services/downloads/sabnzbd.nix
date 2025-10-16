@@ -22,8 +22,7 @@ in {
     system.persist.extraRootDirectories = [
       {
         directory = "/var/lib/sabnzbd";
-        user = cfg.user;
-        group = cfg.group;
+        inherit (cfg) user group;
         mode = "0750";
       }
     ];
@@ -60,15 +59,7 @@ in {
         }
       ];
 
-      nginx.virtualHosts."${cfg.url}" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString constants.ports.sabnzbd}";
-          proxyWebsockets = true;
-          extraConfig = ''
-            proxy_set_header X-Forwarded-Host $host;
-          '';
-        };
-      };
+      cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" = "http://127.0.0.1:${toString constants.ports.sabnzbd}";
     };
   };
 }

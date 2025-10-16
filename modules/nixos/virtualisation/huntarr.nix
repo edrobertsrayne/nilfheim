@@ -54,12 +54,7 @@ in {
       };
     };
 
-    services.nginx.virtualHosts."${cfg.url}" = {
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString cfg.port}";
-        proxyWebsockets = true;
-      };
-    };
+    services.cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" = "http://127.0.0.1:${toString cfg.port}";
 
     services.homepage-dashboard.homelabServices = [
       {

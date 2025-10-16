@@ -6,9 +6,6 @@
 }: let
   inherit (nilfheim) constants;
 
-  # Cloudflared tunnel configuration (local to thor)
-  tunnel = "23c4423f-ec30-423b-ba18-ba18904ddb85";
-
   # Centralized share configuration to reduce duplication
   shareConfig = {
     downloads = {
@@ -37,6 +34,9 @@ in {
     ./disko-configuration.nix
     ./hardware-configuration.nix
   ];
+
+  # Set Cloudflare tunnel ID
+  domain.tunnel = "23c4423f-ec30-423b-ba18-ba18904ddb85";
 
   # Ensure ZFS is set up properly
   boot.supportedFilesystems = ["zfs"];
@@ -120,12 +120,9 @@ in {
     code-server.enable = true;
     cloudflared = {
       enable = true;
-      tunnels."${tunnel}" = {
+      tunnels."${config.domain.tunnel}" = {
         credentialsFile = config.age.secrets.cloudflare-homelab.path;
         default = "http_status:404";
-        ingress = {
-          "*.${config.domain.name}" = "http://localhost:80";
-        };
       };
     };
     deluge.enable = false;
@@ -141,7 +138,6 @@ in {
     lidarr.enable = true;
     mealie.enable = true;
     n8n.enable = true;
-    nginx.enable = true;
     pgadmin.enable = true;
     postgresql.enable = true;
     prometheus = {

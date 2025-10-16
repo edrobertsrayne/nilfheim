@@ -48,19 +48,8 @@ in {
         };
       };
 
-      # Nginx proxy configuration
-      nginx.virtualHosts."${cfg.url}" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          proxyWebsockets = true;
-          extraConfig = ''
-            # n8n specific headers for webhook functionality
-            proxy_set_header Connection $connection_upgrade;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Accept-Encoding gzip;
-          '';
-        };
-      };
+      # Cloudflare tunnel ingress
+      cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" = "http://127.0.0.1:${toString cfg.port}";
 
       # Homepage dashboard integration
       homepage-dashboard.homelabServices = [

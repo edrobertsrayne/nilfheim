@@ -62,12 +62,7 @@ in {
         };
       };
 
-      nginx.virtualHosts."${cfg.url}" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString cfg.settings.rpc-port}";
-          proxyWebsockets = true;
-        };
-      };
+      cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" = "http://127.0.0.1:${toString cfg.settings.rpc-port}";
 
       homepage-dashboard.homelabServices = [
         {

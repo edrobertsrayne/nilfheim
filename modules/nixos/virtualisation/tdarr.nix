@@ -102,12 +102,7 @@ in {
       };
     };
 
-    services.nginx.virtualHosts."${cfg.url}" = {
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString cfg.webUIPort}";
-        proxyWebsockets = true;
-      };
-    };
+    services.cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" = "http://127.0.0.1:${toString cfg.webUIPort}";
 
     systemd.tmpfiles.rules = [
       "d ${cfg.cacheDir} 0755 root root"

@@ -91,19 +91,7 @@ in {
         ];
       };
 
-      nginx.virtualHosts."${cfg.url}" = {
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";
-          proxyWebsockets = true;
-        };
-        locations."~* \.(css|js|png|jpg|jpeg|gif|ico|svg)$" = {
-          proxyPass = "http://127.0.0.1:${toString cfg.listenPort}";
-          extraConfig = ''
-            expires 1h;
-            add_header Cache-Control "public, immutable";
-          '';
-        };
-      };
+      cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" = "http://127.0.0.1:${toString cfg.listenPort}";
     };
   };
 }

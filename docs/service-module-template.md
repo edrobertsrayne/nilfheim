@@ -20,7 +20,7 @@ in {
     # Standard URL option for proxy services
     url = mkOption {
       type = types.str;
-      default = "SERVICE_NAME.${config.homelab.domain}";
+      default = "SERVICE_NAME.${config.domain.name}";
       description = "URL for SERVICE_NAME proxy host.";
     };
 
@@ -59,13 +59,9 @@ in {
       }
     ];
 
-    # Nginx proxy configuration
-    services.nginx.virtualHosts."${cfg.url}" = {
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:${toString cfg.port}";
-        inherit (constants.nginxDefaults) proxyWebsockets;
-      };
-    };
+    # Cloudflare tunnel ingress configuration
+    services.cloudflared.tunnels."${config.domain.tunnel}".ingress."${cfg.url}" =
+      "http://127.0.0.1:${toString cfg.port}";
 
     # Additional configuration (firewall, users, etc.)
   };
@@ -81,10 +77,10 @@ For simple services that only need enable/disable:
 - Standard homepage integration
 
 ### 2. Proxy Service Pattern
-For services behind nginx proxy:
+For services exposed via Cloudflare tunnel:
 - Standard `url` option
 - Optional `port` option if configurable
-- Nginx proxy configuration with constants.nginxDefaults
+- Cloudflare tunnel ingress configuration
 - Homepage integration
 
 ### 3. Complex Service Pattern
@@ -120,7 +116,7 @@ For services with web interfaces:
 ```nix
 url = mkOption {
   type = types.str;
-  default = "service-name.${config.homelab.domain}";
+  default = "service-name.${config.domain.name}";
   description = "URL for service-name proxy host.";
 };
 ```
@@ -141,7 +137,7 @@ port = mkOption {
 - Use `nilfheim` namespace for library access (never relative imports)
 - Use `inherit (nilfheim) constants;` in let bindings
 - Use `constants.ports.serviceName` for port defaults
-- Reference `constants.nginxDefaults` for proxy settings
+- Use `config.domain.tunnel` for Cloudflare tunnel ingress configuration
 
 ### Naming Conventions
 - Use kebab-case for service names in URLs

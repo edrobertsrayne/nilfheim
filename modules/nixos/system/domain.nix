@@ -6,5 +6,9 @@ with lib; {
       default = "greensroad.uk";
       description = "Base domain for service proxies and DNS.";
     };
+    tunnel = mkOption {
+      type = types.str;
+      description = "Cloudflare tunnel UUID for this host.";
+    };
   };
 }
