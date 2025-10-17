@@ -22,8 +22,7 @@ in {
     system.persist.extraRootDirectories = [
       {
         directory = "/var/lib/sabnzbd";
-        user = cfg.user;
-        group = cfg.group;
+        inherit (cfg) user group;
         mode = "0750";
       }
     ];
