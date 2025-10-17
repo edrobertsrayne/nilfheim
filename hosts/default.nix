@@ -27,7 +27,7 @@
             inputs.disko.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             inputs.impermanence.nixosModules.impermanence
-            inputs.catppuccin.nixosModules.catppuccin
+            inputs.stylix.nixosModules.stylix
             ../modules/nixos
             ../secrets
           ]

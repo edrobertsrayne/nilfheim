@@ -90,13 +90,6 @@ in {
               laststatus = 3; # Global statusline like LazyVim
             };
 
-            theme = {
-              enable = true;
-              name = "catppuccin";
-              style = "mocha";
-              transparent = false;
-            };
-
             luaConfigPre = ''
               vim.opt.conceallevel = 2 -- Hide * markup for bold and italic
               vim.opt.confirm = true -- Confirm to save changes before exiting modified buffer

@@ -7,14 +7,12 @@
 in {
   nixpkgs.config.allowUnfree = true;
 
-  catppuccin = {
-    flavor = "mocha";
+  stylix = {
     enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
   };
 
   desktop = {
-    # Desktop Environments
-    gnome.enable = true;
     hyprland.enable = true;
 
     arduino.enable = true;
@@ -32,10 +30,6 @@ in {
   home-manager = {
     enable = true;
     users.${user.name}.config = {
-      catppuccin = {
-        flavor = "mocha";
-        enable = true;
-      };
       programs = {
         alacritty.enable = true;
         wezterm.enable = true;
@@ -47,14 +41,12 @@ in {
 
   hardware = {
     audio.enable = true;
-    # Enable graphics support for gaming
     graphics = {
       enable = true;
       enable32Bit = true;
     };
   };
 
-  # Gaming support
   programs = {
     steam = {
       enable = true;
@@ -63,7 +55,6 @@ in {
     gamemode.enable = true;
   };
 
-  # Display manager - shared between GNOME and Hyprland
   services = {
     displayManager = {
       gdm = {
@@ -72,11 +63,9 @@ in {
         autoSuspend = true;
       };
     };
-    # Disable power-profiles-daemon (GNOME default) to use auto-cpufreq from common role
     power-profiles-daemon.enable = false;
   };
 
-  # Configure NFS client to mount thor's shared storage
   services.nfs-client = {
     enable = true;
     server = "thor";
@@ -105,7 +94,7 @@ in {
     processing
     vlc
     # kicad
-    bambu-studio
+    # bambu-studio
 
     # Desktop applications
     discord
