@@ -78,13 +78,6 @@ in {
     programs.dconf.enable = true;
     home-manager.users.${user.name} = {
       dconf.settings = {
-        "org/gnome/desktop/interface" = {
-          color-scheme =
-            if cfg.darkMode
-            then "prefer-dark"
-            else "default";
-          enable-hot-corners = false;
-        };
         "org/gnome/desktop/background" = {
           picture-options = "zoom";
           picture-uri = "file://${wallpaper}";

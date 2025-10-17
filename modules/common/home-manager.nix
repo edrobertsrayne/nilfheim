@@ -19,7 +19,6 @@ in {
 
       sharedModules = [
         inputs.nvf.homeManagerModules.default
-        inputs.catppuccin.homeModules.catppuccin
         {
           programs.home-manager.enable = true;
           manual = {

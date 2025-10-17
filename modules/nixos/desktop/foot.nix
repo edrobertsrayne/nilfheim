@@ -22,7 +22,6 @@ in {
         server.enable = false;
         settings = {
           main = {
-            font = "JetBrainsMono Nerd Font:size=12";
             line-height = 14;
             underline-offset = 2;
             pad = "0x0 center";
