@@ -1,49 +1,53 @@
-_: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  terminal = lib.getExe pkgs.alacritty;
+  inherit (config.lib.stylix) colors;
+in {
+  stylix.targets.waybar.enable = false;
   programs.waybar = {
     enable = true;
     settings = {
       mainBar = {
+        reload_style_on_change = true;
         layer = "top";
         position = "top";
+        spacing = 0;
+        height = 26;
 
         modules-left = ["hyprland/workspaces"];
-        modules-center = ["hyprland/window"];
+        modules-center = ["clock"];
         modules-right = [
-          "tray"
-          "custom/hypridle"
-          "custom/hyprsunset"
-          "brightness"
-          "cpu"
-          "memory"
+          "bluetooth"
+          "network"
           "pulseaudio"
-          # "network"
+          "cpu"
           "battery"
-          "clock"
-          "custom/lock"
-          "custom/power"
         ];
 
         "hyprland/workspaces" = {
-          disable-scroll = true;
-          active-only = false;
-          all-outputs = true;
           on-click = "activate";
           sort-by-number = true;
-          format = "{}";
+          format = "{icon}";
           format-icons = {
-            urgent = "";
-            active = "";
-            default = "";
+            default = "";
+            "1" = "1";
+            "2" = "2";
+            "3" = "3";
+            "4" = "4";
+            "5" = "5";
+            "6" = "6";
+            "7" = "7";
+            "8" = "8";
+            "9" = "9";
+            active = "󱓻";
           };
           persistent-workspaces = {
             "*" = 5;
           };
-        };
-
-        "hyprland/window" = {
-          format = "{}";
-          separate-outputs = true;
-          max-length = 50;
         };
 
         tray = {
@@ -51,37 +55,11 @@ _: {
           spacing = 10;
         };
 
-        "custom/hypridle" = {
-          format = "{}";
-          exec = ''if pgrep hypridle > /dev/null; then echo "󰅶"; else echo "󰛊"; fi'';
-          on-click = ''if pgrep hypridle > /dev/null; then pkill hypridle && notify-send "Hypridle" "Disabled"; else hypridle & notify-send "Hypridle" "Enabled"; fi'';
-          tooltip-format = "Toggle hypridle (caffeine mode)";
-          interval = 5;
-        };
-
-        "custom/hyprsunset" = {
-          format = "{}";
-          exec = ''if pgrep hyprsunset > /dev/null; then echo "󰌶"; else echo "󰌵"; fi'';
-          on-click = ''if pgrep hyprsunset > /dev/null; then pkill hyprsunset && notify-send "Hyprsunset" "Blue light filter disabled"; else hyprsunset & notify-send "Hyprsunset" "Blue light filter enabled"; fi'';
-          tooltip-format = "Toggle blue light filter";
-          interval = 5;
-        };
-
-        backlight = {
-          tooltip = false;
-          format = "  {}%";
-          interval = 1;
-          on-scroll-up = "light -A 5";
-          on-scroll-down = "light -U 5";
-        };
-
         pulseaudio = {
-          format = "{icon} {volume}%";
-          format-bluetooth = "{icon}  {volume}%";
-          format-bluetooth-muted = "󰂲 ";
-          format-muted = "󰖁 ";
-          format-source = "󰍬 {volume}%";
-          format-source-muted = "󰍭 ";
+          format = "{icon}";
+          format-bluetooth = "{icon}";
+          format-bluetooth-muted = "󰂲";
+          format-muted = "󰖁";
           format-icons = {
             headphone = "󰋋";
             hands-free = "󱡒";
@@ -91,67 +69,69 @@ _: {
             car = "󰄋";
             default = ["󰕿" "󰖀" "󰕾"];
           };
-          on-click = "pavucontrol";
+          on-click = "${terminal} --class=Wiremix -e ${lib.getExe pkgs.wiremix}";
+          on-click-right = "${lib.getExe pkgs.pamixer} -t";
           tooltip-format = "Volume: {volume}%";
         };
 
         network = {
-          format-wifi = "󰖩  {essid}";
-          format-ethernet = "󰈀  Wired";
-          tooltip-format = "{ipaddr}";
-          format-linked = "󰖪  No IP";
-          format-disconnected = "󰖪  Disconnected";
-          format-alt = "{ifname}: {ipaddr}/{cidr}";
-          on-click = "nm-connection-editor";
-          interval = 5;
+          format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
+          format-wifi = "{icon}";
+          format = "{icon}";
+          format-ethernet = "󰀂";
+          format-disconnected = "󰤮";
+          tooltip-format-wifi = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+          tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+          on-click = "${terminal} -e nmtui";
+          interval = 3;
+          spacing = 1;
         };
 
         battery = {
           states = {
-            warning = 30;
-            critical = 15;
+            warning = 20;
+            critical = 10;
           };
-          format = "{icon} {capacity}%";
-          format-charging = "󰂄 {capacity}%";
-          format-plugged = "󰚥 {capacity}%";
-          format-full = "󱈑 {capacity}%";
+          format = "{capacity}% {icon}";
+          format-charging = "{icon}";
+          format-discharging = "{icon}";
+          format-plugged = "󰚥";
+          format-full = "󱈑";
           format-alt = "{icon} {time}";
-          format-icons = ["󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󱈑"];
-          tooltip-format = "{capacity}% - {timeTo}";
+          format-icons = {
+            default = ["󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󱈑"];
+            charging = ["󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅"];
+          };
+          tooltip-format-discharging = "{capacity}%";
+          tooltip-format-charging = "{capacity}%";
+        };
+
+        bluetooth = {
+          format = "";
+          format-disabled = "󰂲";
+          format-connected = "";
+          tooltip-format = "Devices connected: {num_connections}";
+          on-click = lib.getExe pkgs.blueberry;
         };
 
         clock = {
-          format = "{icon} {:%H:%M}";
-          format-alt = " {:%d/%m/%Y}";
-          tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+          format = "{:L%A %H:%M}";
+          format-alt = " {:L%d %B W%V %Y}";
+          tooltip = false;
         };
 
         cpu = {
           interval = 15;
-          format = "  {}%";
-          max-length = 10;
-        };
-
-        memory = {
-          interval = 30;
-          format = "  {}%";
-          max-length = 10;
-        };
-
-        "custom/lock" = {
-          format = "";
-          tooltip = false;
-          on-click = "hyprlock &";
-        };
-
-        "custom/power" = {
-          on-click = "wlogout &";
-          format = "";
-          tooltip = false;
+          format = " ";
+          on-click = "${terminal} -e ${lib.getExe pkgs.btop}";
         };
       };
     };
 
-    style = builtins.readFile ./waybar.css;
+    style = pkgs.replaceVars ./waybar.css {
+      font = config.stylix.fonts.monospace.name;
+      background = colors.withHashtag.base00;
+      foreground = colors.withHashtag.base05;
+    };
   };
 }

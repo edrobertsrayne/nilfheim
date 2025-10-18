@@ -1,104 +1,72 @@
 * {
-  font-family: "Noto Sans Nerd Font", "Noto Sans", sans-serif;
-  font-size: 14px;
+  background-color: @background@;
+  color: @foreground@;
+
+  border: none;
+  border-radius: 0;
   min-height: 0;
+  font-family: "@font@";
+  font-size: 14px;
 }
 
-#waybar {
-  background: @mantle;
-  color: @text;
-  margin: 5px 5px;
+.modules-left {
+  margin-left: 8px;
 }
 
-#workspaces {
-  margin: 5px 0px;
-  background-color: @mantle;
-  margin-left: 1rem;
+.modules-right {
+  margin-right: 8px;
 }
 
 #workspaces button {
-  color: @lavender;
-  padding: 0 0.4rem;
+  all: initial;
+  padding: 0 6px;
+  margin: 0 1.5px;
+  min-width: 9px;
 }
 
-#workspaces button.active {
-  background-color: @sky;
-  color: @mantle;
+#workspaces button.empty {
+  opacity: 0.5;
 }
 
-#workspaces button:hover {
-  color: @sapphire;
-  background-color: @crust;
-}
-
-#window,
-#memory,
-#cpu,
 #tray,
-#clock,
+#cpu,
 #battery,
-#pulseaudio,
 #network,
-#custom-hypridle,
-#custom-lock,
-#custom-power,
-#custom-hyprsunset {
-  background-color: @mantle;
-  padding: 0.5rem;
-  margin: 5px 0;
+#bluetooth,
+#pulseaudio,
+#custom-omarchy,
+#custom-screenrecording-indicator,
+#custom-update {
+  min-width: 12px;
+  margin: 0 7.5px;
 }
 
-#window {
-  font-weight: normal;
-  color: @text;
+#custom-expand-icon {
+  margin-right: 7px;
+}
+
+tooltip {
+  padding: 2px;
+}
+
+#custom-update {
+  font-size: 10px;
 }
 
 #clock {
-  color: @blue;
+  margin-left: 8.75px;
 }
 
-#battery {
-  color: @green;
+.hidden {
+  opacity: 0;
 }
 
-#battery.charging {
-  color: @green;
+#custom-screenrecording-indicator {
+  min-width: 12px;
+  margin-left: 8.75px;
+  font-size: 10px;
 }
 
-#battery.warning:not(.charging) {
-  color: @red;
-}
-
-#network {
-  color: @teal;
-}
-
-#network.disconnected {
-  color: @red;
-}
-
-#pulseaudio {
-  color: @maroon;
-}
-
-#custom-hypridle {
-  color: @text;
-}
-
-#custom-hyprsunset {
-  color: @yellow;
-}
-
-#tray {
-  color: @text;
-  margin-right: 1.0rem;
-}
-
-#tray > .passive {
-  -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-  -gtk-icon-effect: highlight;
-  color: @yellow;
+#custom-screenrecording-indicator.active {
+  color: #a55555;
 }
