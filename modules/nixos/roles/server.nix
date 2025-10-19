@@ -11,7 +11,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Auto-enable common role
     roles.common.enable = true;
 
     services.tailscale.useRoutingFeatures = "server";
