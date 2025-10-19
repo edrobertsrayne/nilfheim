@@ -23,28 +23,11 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Enable desktop services and applications
-    desktop = {
-      xkb.enable = true;
-      gtk.enable = true;
-      fonts.enable = true;
-    };
-
     # Enable Hyprland
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
       withUWSM = true;
-    };
-
-    # Audio
-    security.rtkit.enable = true;
-    services.pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      jack.enable = true;
     };
 
     # XDG Desktop Portal
@@ -57,19 +40,6 @@ in {
       config.common.default = ["hyprland" "gtk"];
     };
 
-    # Polkit for authentication
-    security.polkit.enable = true;
-
-    # Enable gamemode for gaming
-    programs.gamemode.enable = true;
-
-    # Enable Bluetooth
-    hardware.bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-    };
-    services.blueman.enable = true;
-
     # System packages for Hyprland ecosystem
     environment.systemPackages = with pkgs; [
       # Core Hyprland utilities
@@ -79,49 +49,19 @@ in {
       hyprpicker
       hyprsunset
       wlogout
-
-      # Terminal
-      foot
-
-      # Browser
-      firefox
+      hyprpolkitagent
 
       # Status bar
       waybar
 
-      # Notifications
-      swaynotificationcenter
-
       # Wallpaper management
       waypaper
 
-      # System utilities
+      # Wayland utilities
       wl-clipboard
       grim
       slurp
       swappy
-      brightnessctl
-      playerctl
-      pamixer
-
-      # Clipboard management
-      cliphist
-
-      # Network management
-      networkmanagerapplet
-
-      # System utilities
-      pavucontrol
-      blueman
-
-      # File manager
-      nautilus
-
-      # System monitor
-      btop
-
-      # Authentication
-      hyprpolkitagent
     ];
 
     # Home Manager configuration
@@ -130,14 +70,8 @@ in {
         ../../../home/desktop
       ];
 
-      # Enable desktop applications and services
+      # Enable Hyprland-specific services
       desktop = {
-        waybar.enable = true;
-        walker.enable = true;
-        rofi.enable = true;
-        wlogout.enable = true;
-        zathura.enable = true;
-        swaync.enable = true;
         hyprlock.enable = true;
         hypridle.enable = true;
         hyprpaper.enable = true;

@@ -30,32 +30,45 @@ in {
     desktop = {
       hyprland.enable = true;
 
-      arduino.enable = true;
-      firefox.enable = true;
-      obsidian.enable = true;
-      spotify.enable = true;
-      virtManager.enable = true;
-      vscode.enable = true;
-
       fonts.enable = true;
+      gtk.enable = true;
       xkb.enable = true;
     };
 
     home-manager = {
       enable = true;
       users.${user.name} = {
-        desktop.foot.enable = true;
+        desktop = {
+          foot.enable = true;
+          waybar.enable = true;
+          walker.enable = true;
+          rofi.enable = true;
+          wlogout.enable = true;
+          zathura.enable = true;
+          swaync.enable = true;
+        };
         programs = {
           alacritty.enable = true;
           wezterm.enable = true;
           kitty.enable = true;
           ghostty.enable = true;
         };
+        # Virt-Manager connection settings
+        dconf.settings = {
+          "org/virt-manager/virt-manager/connections" = {
+            autoconnect = ["qemu:///system"];
+            uris = ["qemu:///system"];
+          };
+        };
       };
     };
 
     hardware = {
       audio.enable = true;
+      bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+      };
       graphics = {
         enable = true;
         enable32Bit = true;
@@ -68,9 +81,29 @@ in {
         gamescopeSession.enable = true;
       };
       gamemode.enable = true;
+      firefox.enable = true;
+      virt-manager.enable = true;
+    };
+
+    virtualisation.libvirt.enable = true;
+
+    security.polkit.enable = true;
+
+    # Set Firefox as default browser
+    xdg.mime.defaultApplications = {
+      "text/html" = "firefox.desktop";
+      "x-scheme-handler/http" = "firefox.desktop";
+      "x-scheme-handler/https" = "firefox.desktop";
+    };
+
+    # Spotify firewall ports
+    networking.firewall = {
+      allowedTCPPorts = [57621];
+      allowedUDPPorts = [5353];
     };
 
     services = {
+      blueman.enable = true;
       displayManager = {
         gdm = {
           enable = true;
@@ -112,9 +145,14 @@ in {
       # bambu-studio
 
       # Desktop applications
+      arduino-ide
       discord
+      firefox
       gimp
       inkscape
+      obsidian
+      spotify
+      vscode
       zathura
 
       # LaTeX support
@@ -127,6 +165,15 @@ in {
       bottles
       heroic
       moonlight-qt
+
+      # System utilities
+      brightnessctl
+      playerctl
+      pamixer
+      cliphist
+      networkmanagerapplet
+      pavucontrol
+      nautilus
     ];
   };
 }
