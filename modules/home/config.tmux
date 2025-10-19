@@ -1,4 +1,5 @@
-set-option -ga terminal-overrides ",xterm-256color:Tc"
+# set-option -ga terminal-overrides ",xterm-256color:Tc"
+set-option -a terminal-features 'xterm-256color:RGB'
 
 # reload config
 bind r source-file ~/.config/tmux/tmux.conf
