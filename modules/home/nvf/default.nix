@@ -17,7 +17,6 @@ in {
   ];
 
   config = mkIf cfg.enable {
-    stylix.targets.nvf.enable = false;
     programs = {
       # dependencies for snacks-nvim
       ripgrep.enable = true;
@@ -33,7 +32,7 @@ in {
             vimAlias = true;
             viAlias = true;
 
-            theme = {
+            theme = mkForce {
               name = "tokyonight";
               style = "night";
               transparent = true;
