@@ -7,5 +7,8 @@ _: {
     ./hyprlock.nix
     ./wlogout.nix
     ./zathura.nix
+    ../walker
   ];
+
+  config.desktop.walker.enable = true;
 }
