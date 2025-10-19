@@ -8,8 +8,6 @@ with lib; let
   cfg = config.desktop.hyprland;
   inherit (config) user;
 in {
-  imports = [];
-
   options.desktop.hyprland = with types; {
     enable = mkEnableOption "Whether to enable the Hyprland window manager.";
     darkMode = mkOption {
@@ -25,6 +23,7 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # Enable desktop services and applications
     desktop = {
       xkb.enable = true;
       gtk.enable = true;
@@ -37,8 +36,6 @@ in {
       xwayland.enable = true;
       withUWSM = true;
     };
-
-    # Display manager handled by workstation role (GDM shared between desktops)
 
     # Audio
     security.rtkit.enable = true;
@@ -128,34 +125,45 @@ in {
     ];
 
     # Home Manager configuration
-    home-manager.users.${user.name} = mkMerge [
-      (mkIf cfg.enable {
-        imports = [
-          ./hyprland/config.nix
-          ./hyprland/programs.nix
-          ./hyprland/services.nix
-        ];
-      })
-      (mkIf cfg.enable {
-        # Create Screenshots directory
-        home.file."Pictures/Screenshots/.keep".text = "";
+    home-manager.users.${user.name} = {
+      imports = [
+        ../../../home/desktop
+      ];
 
-        # Additional utility programs
-        home.packages = with pkgs; [
-          # Wallpaper manager
-          waypaper
+      # Enable desktop applications and services
+      desktop = {
+        waybar.enable = true;
+        walker.enable = true;
+        rofi.enable = true;
+        wlogout.enable = true;
+        zathura.enable = true;
+        swaync.enable = true;
+        hyprlock.enable = true;
+        hypridle.enable = true;
+        hyprpaper.enable = true;
+      };
 
-          # Color picker
-          hyprpicker
+      # Enable Hyprland window manager
+      wayland.windowManager.hyprland.enable = true;
 
-          # Screenshot and clipboard utilities
-          wl-clipboard-rs
-          grim
-          slurp
-          swappy
-          hyprshot # Hyprland-specific screenshot tool
-        ];
-      })
-    ];
+      # Create Screenshots directory
+      home.file."Pictures/Screenshots/.keep".text = "";
+
+      # Additional utility programs
+      home.packages = with pkgs; [
+        # Wallpaper manager
+        waypaper
+
+        # Color picker
+        hyprpicker
+
+        # Screenshot and clipboard utilities
+        wl-clipboard-rs
+        grim
+        slurp
+        swappy
+        hyprshot # Hyprland-specific screenshot tool
+      ];
+    };
   };
 }

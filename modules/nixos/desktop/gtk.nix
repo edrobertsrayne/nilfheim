@@ -37,24 +37,18 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # System-level packages
     environment.systemPackages = [
       cfg.icon.package
       cfg.cursor.package
     ];
 
+    # System-level environment variables
     environment.sessionVariables = {
       XCURSOR_THEME = cfg.cursor.name;
     };
-    home-manager.users.${user.name} = {
-      gtk = {
-        enable = true;
-        cursorTheme = {
-          inherit (cfg.cursor) name package;
-        };
-        # iconTheme = {
-        #   inherit (cfg.icon) name package;
-        # };
-      };
-    };
+
+    # Enable home-manager GTK configuration
+    home-manager.users.${user.name}.desktop.gtk.enable = true;
   };
 }

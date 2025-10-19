@@ -3,10 +3,9 @@
     ./arduino.nix
     ./firefox.nix
     ./fonts.nix
-    ./foot.nix
     ./gnome.nix
     ./gtk.nix
-    ./hyprland.nix
+    ./hyprland
     ./obsidian.nix
     ./spotify.nix
     ./virt-manager.nix
