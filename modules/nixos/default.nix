@@ -8,6 +8,9 @@
     # Hardware configuration
     ./hardware
 
+    # Roles
+    ./roles
+
     # Services organized by category
     ./services/backup
     ./services/data

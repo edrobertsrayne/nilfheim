@@ -2,17 +2,11 @@
   flake = let
     inherit (inputs.nixpkgs) lib;
 
-    # Roles
-    common = ../roles/common.nix;
-    workstation = ../roles/workstation.nix;
-    server = ../roles/server.nix;
-
     mkNixosSystem = {
       system ? "x86_64-linux",
       hostname,
       username ? "ed",
       extraModules ? [],
-      roles ? [],
     }:
       lib.nixosSystem {
         inherit system;
@@ -31,7 +25,6 @@
             ../modules/nixos
             ../secrets
           ]
-          ++ roles
           ++ extraModules;
       };
     mkDarwinSystem = {
@@ -39,7 +32,6 @@
       hostname,
       username ? "ed",
       extraModules ? [],
-      roles ? [],
     }:
       inputs.nix-darwin.lib.darwinSystem {
         inherit system;
@@ -54,7 +46,6 @@
             ../modules/darwin
             ../secrets
           ]
-          ++ roles
           ++ extraModules;
       };
   in {
@@ -62,15 +53,12 @@
       freya = mkNixosSystem {
         hostname = "freya";
         extraModules = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s];
-        roles = [common workstation];
       };
       thor = mkNixosSystem {
         hostname = "thor";
-        roles = [server];
       };
       loki = mkNixosSystem {
         hostname = "loki";
-        roles = [server];
       };
       iso = lib.nixosSystem {
         system = "x86_64-linux";

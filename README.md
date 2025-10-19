@@ -36,8 +36,8 @@ Nilfheim manages four hosts with specialized roles:
 
 **Design principles:**
 
-- **Role-based composition** - Hosts select from predefined roles (common,
-  server, workstation, vps)
+- **Role-based composition** - Declarative role modules with automatic
+  dependencies (`roles.server.enable`, `roles.desktop.enable`)
 - **Centralized constants** - Single source of truth for ports, paths, network
   settings (`lib/constants.nix`)
 - **Service abstractions** - DRY configuration for similar services (e.g., *arr
@@ -63,10 +63,10 @@ detailed system design.
 ├── modules/               # Modular system configurations
 │   ├── common/            # Shared across platforms
 │   ├── nixos/             # NixOS-specific modules
+│   │   ├── roles/         # Role modules (common, server, desktop)
 │   │   └── services/      # Service modules by category
 │   ├── darwin/            # macOS-specific modules
 │   └── home/              # Home-manager configurations
-├── roles/                 # Predefined role combinations
 ├── lib/                   # Shared functions and constants
 └── secrets/               # Encrypted secrets with agenix
 ```
