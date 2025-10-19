@@ -10,11 +10,6 @@ with lib; let
 in {
   options.roles.desktop = {
     enable = mkEnableOption "Enable the desktop role";
-    terminal = mkOption {
-      default = lib.getExe pkgs.alacritty;
-      type = types.str;
-      description = "Default terminal emulator";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -42,23 +37,7 @@ in {
 
     home-manager = {
       enable = true;
-      users.${user.name} = {
-        desktop = {
-          alacritty.enable = true;
-          waybar.enable = true;
-          walker.enable = true;
-          rofi.enable = true;
-          wlogout.enable = true;
-          zathura.enable = true;
-          swaync.enable = true;
-        };
-        dconf.settings = {
-          "org/virt-manager/virt-manager/connections" = {
-            autoconnect = ["qemu:///system"];
-            uris = ["qemu:///system"];
-          };
-        };
-      };
+      users.${user.name}.modules.desktop.enable = true;
     };
 
     hardware = {

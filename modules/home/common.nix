@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   imports = [
+    ./desktop.nix
     ./nvf
     ./tmux.nix
   ];
