@@ -24,6 +24,7 @@ in {
         package = pkgs.nerd-fonts.jetbrains-mono;
         name = "JetBrainsMono Nerd Font";
       };
+      opacity.terminal = 0.9;
     };
 
     desktop = {
