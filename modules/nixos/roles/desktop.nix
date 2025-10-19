@@ -25,6 +25,11 @@ in {
         name = "JetBrainsMono Nerd Font";
       };
       opacity.terminal = 0.9;
+      cursor = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Classic";
+        size = 24;
+      };
     };
 
     desktop = {
