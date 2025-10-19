@@ -20,7 +20,6 @@ in {
     hyprland.enable = true;
 
     arduino.enable = true;
-    foot.enable = true;
     firefox.enable = true;
     obsidian.enable = true;
     spotify.enable = true;
@@ -33,7 +32,8 @@ in {
 
   home-manager = {
     enable = true;
-    users.${user.name}.config = {
+    users.${user.name} = {
+      desktop.foot.enable = true;
       programs = {
         alacritty.enable = true;
         wezterm.enable = true;
