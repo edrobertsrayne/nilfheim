@@ -9,7 +9,12 @@ with lib; let
   inherit (config) user;
 in {
   options.roles.desktop = {
-    enable = mkEnableOption "desktop role";
+    enable = mkEnableOption "Enable the desktop role";
+    terminal = mkOption {
+      default = lib.getExe pkgs.alacritty;
+      type = types.str;
+      description = "Default terminal emulator";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -39,19 +44,13 @@ in {
       enable = true;
       users.${user.name} = {
         desktop = {
-          foot.enable = true;
+          alacritty.enable = true;
           waybar.enable = true;
           walker.enable = true;
           rofi.enable = true;
           wlogout.enable = true;
           zathura.enable = true;
           swaync.enable = true;
-        };
-        programs = {
-          alacritty.enable = true;
-          wezterm.enable = true;
-          kitty.enable = true;
-          ghostty.enable = true;
         };
         dconf.settings = {
           "org/virt-manager/virt-manager/connections" = {
