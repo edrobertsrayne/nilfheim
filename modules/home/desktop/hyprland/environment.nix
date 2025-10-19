@@ -1,5 +1,5 @@
-{osConfig ? {}, ...}: let
-  cfg = osConfig.desktop.hyprland or {};
+{config, ...}: let
+  cfg = config.modules.desktop.hyprland or {};
   keyboardLayout = cfg.keyboardLayout or "gb,us";
 in {
   # Hyprland environment and system configuration

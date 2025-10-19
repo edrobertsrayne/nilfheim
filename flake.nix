@@ -86,5 +86,6 @@
       url = "github:abenz1267/walker";
       inputs.elephant.follows = "elephant";
     };
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 }

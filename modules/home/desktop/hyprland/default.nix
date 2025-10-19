@@ -1,5 +1,6 @@
 {
   imports = [
+    ./hyprland.nix
     ./appearance.nix
     ./autostart.nix
     ./window-rules.nix
