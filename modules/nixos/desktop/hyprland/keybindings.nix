@@ -1,4 +1,8 @@
-_: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   # Hyprland keybindings configuration
   wayland.windowManager.hyprland.settings = {
     # Key modifier
@@ -7,18 +11,17 @@ _: {
     # Keyboard bindings
     bind = [
       # Applications
-      "$mod, Return, exec, foot"
-      "$mod, Space, exec, rofi -show drun"
+      "$mod, Return, exec, ${lib.getExe pkgs.alacritty}"
+      "$mod, Space, exec, ${lib.getExe pkgs.walker}"
       "$mod, B, exec, firefox"
       "$mod, Q, killactive"
       "$mod, M, exit"
       "$mod, E, exec, nautilus"
       "$mod, V, togglefloating"
-      "$mod, R, exec, rofi -show drun"
       "$mod, P, pseudo"
-      "$mod, J, togglesplit"
+      "$mod SHIFT, J, togglesplit"
       "$mod, F, fullscreen"
-      "$mod, L, exec, hyprlock"
+      "$mod SHIFT, L, exec, hyprlock"
       "$mod SHIFT, C, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
 
       # System utilities
