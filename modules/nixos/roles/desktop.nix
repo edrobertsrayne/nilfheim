@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }:
 with lib; let
@@ -32,16 +33,36 @@ in {
       };
     };
 
-    desktop = {
-      hyprland.enable = true;
+    # Hyprland window manager
+    programs.hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      withUWSM = true;
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    };
 
+    # Portal configuration (Hyprland module handles xdg-desktop-portal-hyprland)
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+      ];
+      config.common.default = ["hyprland" "gtk"];
+    };
+
+    desktop = {
       fonts.enable = true;
       xkb.enable = true;
     };
 
     home-manager = {
       enable = true;
-      users.${user.name}.modules.desktop.enable = true;
+      users.${user.name} = {
+        modules.desktop = {
+          enable = true;
+          hyprland.enable = true;
+        };
+      };
     };
 
     hardware = {

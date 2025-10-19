@@ -38,7 +38,6 @@ in {
 
     desktop = {
       xkb.enable = true;
-      gtk.enable = true;
     };
 
     environment.gnome.excludePackages = with pkgs; [
