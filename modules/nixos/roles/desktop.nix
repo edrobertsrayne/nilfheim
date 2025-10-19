@@ -31,7 +31,6 @@ in {
       hyprland.enable = true;
 
       fonts.enable = true;
-      gtk.enable = true;
       xkb.enable = true;
     };
 
