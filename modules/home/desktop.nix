@@ -25,7 +25,6 @@ in {
       alacritty.enable = true;
       waybar.enable = true;
       walker.enable = true;
-      rofi.enable = true;
       wlogout.enable = true;
       zathura.enable = true;
       swaync.enable = true;
