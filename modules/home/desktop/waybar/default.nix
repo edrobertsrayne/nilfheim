@@ -5,8 +5,8 @@
   ...
 }: let
   cfg = config.desktop.waybar;
-  terminal = lib.getExe pkgs.alacritty;
   inherit (config.lib.stylix) colors;
+  inherit (config.modules.desktop) terminal;
 in {
   options.desktop.waybar = {
     enable = lib.mkEnableOption "Whether to enable waybar.";

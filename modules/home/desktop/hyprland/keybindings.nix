@@ -1,8 +1,11 @@
 {
+  config,
   pkgs,
   lib,
   ...
-}: {
+}: let
+  inherit (config.modules.desktop) terminal;
+in {
   # Hyprland keybindings configuration
   wayland.windowManager.hyprland.settings = {
     # Key modifier
@@ -11,7 +14,7 @@
     # Keyboard bindings
     bind = [
       # Applications
-      "$mod, Return, exec, ${lib.getExe pkgs.alacritty}"
+      "$mod, Return, exec, ${terminal}"
       "$mod, Space, exec, ${lib.getExe pkgs.walker}"
       "$mod, B, exec, firefox"
       "$mod, Q, killactive"
