@@ -13,14 +13,14 @@ Darwin flake configuration for system management across multiple hosts.
 
 Nilfheim manages four hosts with distinct roles:
 
-- **Freya** - Lenovo ThinkPad T480s workstation/laptop
-  - Roles: common, workstation
+- **Freya** - Lenovo ThinkPad T480s desktop/laptop
+  - Role: desktop (auto-enables common)
   - Desktop: GNOME/Hyprland with GDM, gaming support (Steam, gamemode)
   - Storage: ZFS with impermanence, NFS client
   - Persistence: `/persist` (system) + `/home` (user data)
 
 - **Thor** - Homelab server (primary infrastructure)
-  - Role: server
+  - Role: server (auto-enables common)
   - Services: Media (*arr suite, Jellyfin), monitoring stack, databases
   - Storage: ZFS pool (`tank`), NFS server, Samba shares
   - Network: Central hub for tailscale mesh, runs DNS (Blocky), reverse proxy
@@ -28,7 +28,7 @@ Nilfheim manages four hosts with distinct roles:
   - All homelab services configured directly in host config
 
 - **Loki** - VPS server
-  - Role: vps
+  - Role: server (auto-enables common)
   - Lightweight configuration for cloud deployment
 
 - **Odin** - macOS system
@@ -49,6 +49,10 @@ nilfheim/
 ├── modules/
 │   ├── common/            # Shared across all platforms
 │   ├── nixos/             # NixOS-specific modules
+│   │   ├── roles/         # Role modules with enable options
+│   │   │   ├── common.nix     # Base configuration (network, SSH, Docker, auto-cpufreq)
+│   │   │   ├── server.nix     # Server role (auto-enables common, tailscale routing, portainer)
+│   │   │   └── desktop.nix    # Desktop role (auto-enables common, desktop environment, gaming, NFS client)
 │   │   ├── services/      # Service modules by category
 │   │   │   ├── data/      # PostgreSQL, pgAdmin
 │   │   │   ├── monitoring/# Grafana, Prometheus, Loki, Promtail
@@ -57,11 +61,6 @@ nilfheim/
 │   │   │   └── ...
 │   ├── darwin/            # macOS-specific modules
 │   └── home/              # Home-manager user environment
-├── roles/                 # Predefined role combinations
-│   ├── common.nix         # Base configuration for all hosts
-│   ├── server.nix         # Server-specific (Docker, tailscale routing, portainer)
-│   ├── workstation.nix    # Desktop/laptop (GNOME/Hyprland, apps, power, gaming)
-│   └── vps.nix            # VPS-optimized configuration
 ├── lib/
 │   ├── constants.nix      # Centralized ports, paths, settings
 │   ├── services.nix       # Service abstraction helpers (mkArrService)
@@ -131,12 +130,13 @@ Development: VSCode, Firefox, terminal tools
 
 **Why Role-Based Configuration?**
 
-- Roles compose related modules for common use cases
-- Hosts select roles: `thor = [server]`, `freya = [common workstation]`
-- Avoids repeating module lists per host
-- Easy to test new combinations across hosts
+- Roles are NixOS modules that compose related configurations for common use cases
+- Enabled declaratively: `roles.server.enable = true`, `roles.desktop.enable = true`
+- Both `server` and `desktop` roles auto-enable `common` role (dependency management)
+- Avoids repeating configuration across hosts
+- Easy to see what's enabled in each host configuration
 - Host-specific services (like Thor's homelab stack) live in host configs
-- Workstation role includes gaming support (Steam, gamemode, gaming apps)
+- Desktop role includes gaming support (Steam, gamemode, gaming apps)
 
 **Why Tailscale + NFS + Samba?**
 
@@ -553,12 +553,12 @@ just loki                # Deploy to loki
 ### Key Files
 
 ```
-lib/constants.nix        # Ports, paths, network settings
-lib/services.nix         # Service abstractions (mkArrService)
-hosts/default.nix        # Host factory functions
-roles/                   # Role compositions
-modules/nixos/services/  # Service modules
-secrets/                 # Encrypted secrets (agenix)
+lib/constants.nix           # Ports, paths, network settings
+lib/services.nix            # Service abstractions (mkArrService)
+hosts/default.nix           # Host factory functions
+modules/nixos/roles/        # Role modules (common, server, desktop)
+modules/nixos/services/     # Service modules
+secrets/                    # Encrypted secrets (agenix)
 ```
 
 ### Commit Format

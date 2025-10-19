@@ -4,6 +4,9 @@
     ./hardware-configuration.nix
   ];
 
+  # Enable desktop role (auto-enables common)
+  roles.desktop.enable = true;
+
   # Configure backup service for freya
   services.backup.restic = {
     enable = true;

@@ -38,6 +38,9 @@ in {
     ./hardware-configuration.nix
   ];
 
+  # Enable server role (auto-enables common)
+  roles.server.enable = true;
+
   # Ensure ZFS is set up properly
   boot.supportedFilesystems = ["zfs"];
   boot.zfs.extraPools = ["tank"];

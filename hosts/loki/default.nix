@@ -5,6 +5,9 @@
     ./disko.nix
   ];
 
+  # Enable server role (auto-enables common)
+  roles.server.enable = true;
+
   networking.firewall.allowedTCPPorts = [80 443 3000 8080];
   networking.firewall.allowedUDPPorts = [443];
   system.persist.extraRootDirectories = ["/etc/dokploy" "/var/lib/docker" "/srv/docker"];
