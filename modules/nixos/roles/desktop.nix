@@ -13,7 +13,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Auto-enable common role
     roles.common.enable = true;
 
     nixpkgs.config.allowUnfree = true;
@@ -53,7 +52,6 @@ in {
           kitty.enable = true;
           ghostty.enable = true;
         };
-        # Virt-Manager connection settings
         dconf.settings = {
           "org/virt-manager/virt-manager/connections" = {
             autoconnect = ["qemu:///system"];
@@ -89,14 +87,12 @@ in {
 
     security.polkit.enable = true;
 
-    # Set Firefox as default browser
     xdg.mime.defaultApplications = {
       "text/html" = "firefox.desktop";
       "x-scheme-handler/http" = "firefox.desktop";
       "x-scheme-handler/https" = "firefox.desktop";
     };
 
-    # Spotify firewall ports
     networking.firewall = {
       allowedTCPPorts = [57621];
       allowedUDPPorts = [5353];
@@ -144,7 +140,6 @@ in {
       # kicad
       # bambu-studio
 
-      # Desktop applications
       arduino-ide
       discord
       firefox
@@ -154,11 +149,8 @@ in {
       spotify
       vscode
       zathura
-
-      # LaTeX support
       texlive.combined.scheme-medium
 
-      # Gaming applications
       mangohud
       protonup-qt
       lutris
@@ -166,7 +158,6 @@ in {
       heroic
       moonlight-qt
 
-      # System utilities
       brightnessctl
       playerctl
       pamixer
