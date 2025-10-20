@@ -56,6 +56,11 @@ in {
         undofile = true;
         mouse = "a";
         laststatus = 3; # Global statusline like LazyVim
+
+        # Folding configuration (for treesitter)
+        foldlevel = 99; # Start with all folds open
+        foldlevelstart = 99; # Open all folds when starting to edit
+        foldcolumn = "1"; # Show fold column indicator
       };
 
       # Additional Lua configuration (from luaConfigPre)
