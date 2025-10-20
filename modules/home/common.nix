@@ -100,6 +100,16 @@
           prs = "gh pr list";
           issues = "gh issue list";
         };
+        initExtra = ''
+          # Smart nvim launcher - open current dir if no args, otherwise open specified files
+          n() {
+            if [ "$#" -eq 0 ]; then
+              nvim .
+            else
+              nvim "$@"
+            fi
+          }
+        '';
       };
     };
 
