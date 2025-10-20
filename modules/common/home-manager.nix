@@ -19,6 +19,7 @@ in {
 
       sharedModules = [
         inputs.nvf.homeManagerModules.default
+        inputs.nixvim.homeModules.default
         inputs.walker.homeManagerModules.default
         {
           programs.home-manager.enable = true;

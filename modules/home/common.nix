@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./desktop.nix
-    ./nvf
+    ./nixvim
     ./tmux.nix
   ];
 
@@ -103,6 +103,6 @@
       };
     };
 
-    modules.nvf.enable = true;
+    modules.nixvim.enable = true;
   };
 }
