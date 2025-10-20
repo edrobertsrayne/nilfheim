@@ -163,7 +163,6 @@ in {
           };
         };
 
-        # Comment.nvim
         comment = {
           enable = true;
           settings = {
@@ -178,13 +177,9 @@ in {
           };
         };
 
-        # Surround
         nvim-surround.enable = true;
-
-        # Autopairs
         nvim-autopairs.enable = true;
 
-        # Gitsigns
         gitsigns = {
           enable = true;
           settings = {
@@ -259,7 +254,6 @@ in {
           };
         };
 
-        # Colorizer
         colorizer = {
           enable = true;
           settings = {
@@ -285,7 +279,6 @@ in {
           };
         };
 
-        # Dashboard
         dashboard = {
           enable = true;
           settings = {
@@ -361,7 +354,6 @@ in {
         # Tmux Navigator - Replaces broken custom code
         tmux-navigator.enable = true;
 
-        # Web devicons
         web-devicons.enable = true;
       };
 

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
@@ -19,11 +20,19 @@ in {
   ];
 
   config = mkIf cfg.enable {
-    # CRITICAL: Disable stylix integration
+    # Disable stylix to prevent theme conflicts with tokyonight
     stylix.targets.nixvim.enable = false;
 
     # Dependencies for snacks.nvim (fd and lazygit already in common.nix)
     programs.ripgrep.enable = true;
+
+    # Dependencies for conform.nvim formatters
+    home.packages = with pkgs; [
+      black # Python formatter
+      shfmt # Bash formatter
+      stylua # Lua formatter
+      nodePackages.prettier # Markdown/YAML/JSON formatter
+    ];
 
     programs.nixvim = {
       enable = true;

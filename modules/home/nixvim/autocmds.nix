@@ -13,12 +13,13 @@ in {
         checktime = {clear = true;};
         highlight_yank = {clear = true;};
         resize_splits = {clear = true;};
+        last_loc = {clear = true;};
         close_with_q = {clear = true;};
         wrap_spell = {clear = true;};
+        json_conceal = {clear = true;};
         auto_create_dir = {clear = true;};
       };
 
-      # Define autocmds
       autoCmd = [
         # Check if we need to reload the file when it changed
         {
@@ -53,6 +54,27 @@ in {
               local current_tab = vim.fn.tabpagenr()
               vim.cmd("tabdo wincmd =")
               vim.cmd("tabnext " .. current_tab)
+            end
+          '';
+        }
+
+        # Go to last location when opening a buffer
+        {
+          event = ["BufReadPost"];
+          group = "last_loc";
+          callback.__raw = ''
+            function(event)
+              local exclude = { "gitcommit" }
+              local buf = event.buf
+              if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].lazyvim_last_loc then
+                return
+              end
+              vim.b[buf].lazyvim_last_loc = true
+              local mark = vim.api.nvim_buf_get_mark(buf, '"')
+              local lcount = vim.api.nvim_buf_line_count(buf)
+              if mark[1] > 0 and mark[1] <= lcount then
+                pcall(vim.api.nvim_win_set_cursor, 0, mark)
+              end
             end
           '';
         }
@@ -98,6 +120,18 @@ in {
             function()
               vim.opt_local.wrap = true
               vim.opt_local.spell = true
+            end
+          '';
+        }
+
+        # Disable concealment in JSON files
+        {
+          event = ["FileType"];
+          group = "json_conceal";
+          pattern = ["json" "jsonc" "json5"];
+          callback.__raw = ''
+            function()
+              vim.opt_local.conceallevel = 0
             end
           '';
         }
