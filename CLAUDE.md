@@ -148,6 +148,178 @@ Development: VSCode, Firefox, terminal tools
 
 ---
 
+## AI Assistant Workflow
+
+**CRITICAL: Follow this workflow for all development tasks. Do NOT skip phases.**
+
+### The Four-Phase Cycle: Explore → Plan → Code → Commit
+
+This workflow is based on [Anthropic's Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
+and ensures high-quality implementations through deliberate, phased development.
+
+#### Phase 1: Explore (Research & Understand)
+
+**Objective**: Gather context and understand requirements **WITHOUT writing code**.
+
+**Actions**:
+- Read relevant files, configurations, and documentation
+- Search for existing patterns and similar implementations
+- Understand dependencies and integration points
+- Use subagents for complex research tasks
+- Identify potential challenges and edge cases
+
+**Output**: Clear understanding of:
+- What needs to be built
+- Where it fits in the codebase
+- What patterns/abstractions to use
+- Potential risks and trade-offs
+
+**CRITICAL**: Do NOT write any code during exploration. Focus entirely on understanding.
+
+#### Phase 2: Plan (Think & Design)
+
+**Objective**: Create a detailed implementation plan using extended reasoning.
+
+**Extended Reasoning Modes** (use appropriate level for task complexity):
+- `think` - Basic reasoning for simple tasks
+- `think hard` - Moderate reasoning for standard features
+- `think harder` - Deep reasoning for complex features
+- `ultrathink` - Maximum reasoning for:
+  - Architectural decisions
+  - Complex service integrations
+  - Multi-module refactoring
+  - Security-critical changes
+  - Performance optimizations
+
+**Planning Process**:
+1. Activate extended reasoning: "Please **ultrathink** this problem"
+2. Break down the task into specific, actionable steps
+3. Identify files to create/modify
+4. Plan testing and validation approach
+5. Consider rollback scenarios
+6. Document assumptions and open questions
+
+**Output**: Detailed plan including:
+- Step-by-step implementation sequence
+- Files to modify/create with rationale
+- Integration points and dependencies
+- Testing strategy
+- Risk mitigation approach
+
+**🛑 MANDATORY STOP POINT 🛑**
+
+After presenting the plan, Claude MUST:
+- **STOP and WAIT for explicit user approval**
+- NOT proceed to implementation automatically
+- NOT make any code changes
+- NOT run any modification commands
+
+User must explicitly approve with phrases like:
+- "Proceed with implementation"
+- "Implement the plan"
+- "Go ahead"
+- "Looks good, code it"
+
+If user has concerns, iterate on the plan before coding.
+
+#### Phase 3: Code (Implement & Verify)
+
+**Objective**: Implement the solution incrementally with continuous verification.
+
+**Implementation Guidelines**:
+- Follow the approved plan step-by-step
+- Implement one logical unit at a time
+- Verify each step before proceeding:
+  - Does it build? (`just check`)
+  - Does it match requirements?
+  - Are there edge cases missed?
+- Update the plan if new issues discovered
+- Ask for guidance if assumptions change
+
+**Anti-Patterns to Avoid**:
+- ❌ Implementing entire solution at once
+- ❌ Skipping verification between steps
+- ❌ Overfitting to initial constraints without checking
+- ❌ Ignoring build/test failures
+
+**Pro Patterns**:
+- ✅ Small, testable increments
+- ✅ Verify build after each file change
+- ✅ Run `just check` frequently
+- ✅ Test configuration changes before committing
+
+#### Phase 4: Commit (Document & Deploy)
+
+**Objective**: Commit tested changes with proper documentation.
+
+**Commit Requirements** (already detailed in "Quality Requirements"):
+- ✅ `just check` passes with **ZERO errors/warnings**
+- ✅ Configuration builds successfully
+- ✅ Changes tested (VM for NixOS, check for Darwin)
+- ✅ Conventional commit format
+- ✅ Documentation updated (if applicable)
+
+**Commit Process**:
+1. Run full validation: `just check`
+2. Test configuration: `just <hostname>`
+3. Update documentation (README.md, docs/, etc.)
+4. Create conventional commit
+5. Optional: Deploy to target host
+
+### When to Use This Workflow
+
+**ALWAYS use for**:
+- New service implementations
+- Complex refactoring (>3 files)
+- Architectural changes
+- Security modifications
+- Multi-step features
+
+**Optional for**:
+- Single-file bug fixes
+- Documentation updates
+- Simple configuration changes
+- Trivial edits (<10 lines)
+
+### Example Workflow
+
+```
+User: "Add Grafana Loki integration to the monitoring stack"
+
+Claude (Explore):
+- Reads modules/nixos/services/monitoring/
+- Reviews lib/constants.nix for available ports
+- Checks existing Prometheus/Grafana configuration
+- Identifies integration patterns in similar services
+
+Claude (Plan):
+- "Let me **ultrathink** this integration..."
+- Creates detailed plan:
+  1. Add Loki to constants.nix (port 3100)
+  2. Create modules/nixos/services/monitoring/loki.nix
+  3. Configure Grafana data source
+  4. Add Promtail for log collection
+  5. Configure nginx reverse proxy
+  6. Add homepage dashboard entry
+  7. Update docs/monitoring.md
+- **STOPS and presents plan for approval**
+
+User: "Looks good, proceed with implementation"
+
+Claude (Code):
+- Implements step 1, runs `just check`
+- Implements step 2, verifies build
+- Continues incrementally through all steps
+- Tests configuration with `just thor`
+
+Claude (Commit):
+- Runs `just check` (passes)
+- Creates commit: "feat(monitoring): add Grafana Loki with Promtail"
+- Updates documentation
+```
+
+---
+
 ## Development Guide
 
 ### Standard Workflow
@@ -518,11 +690,19 @@ in {
 
 ### Incremental Development
 
-- Break features into small, testable tasks
-- Implement one task completely before moving to the next
-- Test each task: build, deploy to test host, verify functionality
-- Commit working increments - avoid large, untested changesets
-- If a task fails, rollback and debug before continuing
+This section complements the **AI Assistant Workflow** (see above) by emphasizing
+technical implementation practices during the **Code phase**.
+
+- **Align with workflow phases**: Apply explore → plan → code → commit cycle
+- **Break features into small tasks**: Each task should be completable in < 30 minutes
+- **Implement one task completely**: Finish current task before starting next
+- **Verify each increment**:
+  - Does it build? (`just check`)
+  - Does it deploy successfully? (`just <hostname>`)
+  - Does it pass functional tests?
+- **Commit working increments**: Avoid large, untested changesets spanning multiple features
+- **Handle failures gracefully**: If task fails, rollback and debug before continuing
+- **Document as you go**: Update docs/comments during implementation, not after
 
 ### Configuration Readability
 
