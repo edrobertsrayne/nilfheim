@@ -48,7 +48,7 @@ in {
         # Completion
         completeopt = "menu,menuone,noselect";
 
-        # Other improvements
+        # Misc editor settings
         conceallevel = 2;
         pumheight = 15;
         showmode = false;
@@ -81,7 +81,7 @@ in {
 
       # Clipboard configuration
       clipboard = {
-        providers.xclip.enable = true;
+        providers.wl-copy.enable = true;
         register = "unnamedplus";
       };
     };
