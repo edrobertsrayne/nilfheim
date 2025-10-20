@@ -215,6 +215,7 @@ detailed configuration.
   configuration patterns
 - **[docs/command-reference.md](docs/command-reference.md)** - Complete command
   documentation
+- **[docs/keymaps.md](docs/keymaps.md)** - Comprehensive nixvim keymap reference
 - **[docs/documentation-standards.md](docs/documentation-standards.md)** -
   Documentation guidelines and standards
 
