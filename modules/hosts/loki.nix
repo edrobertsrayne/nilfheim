@@ -5,9 +5,19 @@
     modules = with inputs.self.modules.nixos; [
       home-manager
       nixos
+      desktop
 
       {
         networking.hostName = "loki";
+
+        virtualisation.vmVariant.virtualisation = {
+          memorySize = 4098;
+          cores = 4;
+          qemu.options = [
+            "-device virtio-vga-gl"
+            "-display sdl,gl=on,show-cursor=off"
+          ];
+        };
 
         fileSystems."/" = {
           device = "/dev/disk/by-label/nixos";
@@ -25,6 +35,6 @@
   };
 
   flake.modules.homeManager.loki = {
-    imports = with inputs.self.modules.homeManager; [core];
+    imports = with inputs.self.modules.homeManager; [core desktop];
   };
 }
