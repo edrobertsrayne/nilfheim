@@ -30,6 +30,6 @@
   };
 
   flake.modules.homeManager.loki = {
-    imports = with inputs.self.modules.homeManager; [utilities];
+    imports = with inputs.self.modules.homeManager; [core];
   };
 }
