@@ -1,18 +1,11 @@
 {
-  flake.modules.nixos.networking = { lib, ... }: {
-    # Enable networking
-    networking.networkmanager.enable = true;
-
-    # Enable SSH for remote access
-    services.openssh = {
-      enable = true;
-      settings = {
-        PermitRootLogin = lib.mkDefault "no";
-        PasswordAuthentication = lib.mkDefault true;
+  flake.modules.nixos.networking = {lib, ...}: {
+    networking = {
+      networkmanager.enable = true;
+      firewall = {
+        enable = true;
+        allowPing = true;
       };
     };
-
-    # Open firewall for SSH
-    networking.firewall.allowedTCPPorts = [ 22 ];
   };
 }
