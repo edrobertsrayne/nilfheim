@@ -3,16 +3,11 @@
     system = "x86_64-linux";
 
     modules = with inputs.self.modules.nixos; [
-      networking
-      user
       home-manager
       nixos
 
       {
         networking.hostName = "loki";
-
-        boot.loader.systemd-boot.enable = true;
-        boot.loader.efi.canTouchEfiVariables = true;
 
         fileSystems."/" = {
           device = "/dev/disk/by-label/nixos";

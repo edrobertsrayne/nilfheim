@@ -7,6 +7,7 @@
     inherit (config.networking) hostName;
     inherit (inputs.self.nilfheim.user) username;
   in {
+    imports = [inputs.home-manager.nixosModules.home-manager];
     users.users."${username}".shell = pkgs.zsh;
     programs.zsh.enable = true;
 
