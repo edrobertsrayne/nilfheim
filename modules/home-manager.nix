@@ -5,14 +5,15 @@
     ...
   }: let
     inherit (config.networking) hostName;
+    inherit (inputs.self.nilfheim.user) username;
   in {
-    users.users.ed.shell = pkgs.zsh;
+    users.users."${username}".shell = pkgs.zsh;
     programs.zsh.enable = true;
 
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      users.ed.imports = with inputs.self.modules.homeManager; [
+      users."${username}".imports = with inputs.self.modules.homeManager; [
         user
         (inputs.self.modules.homeManager."${hostName}" or {})
 
