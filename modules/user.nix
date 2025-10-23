@@ -1,15 +1,14 @@
-_: let
-  username = "ed";
-  fullname = "Ed Roberts Rayne";
+{inputs, ...}: let
+  inherit (inputs.self.nilfheim) user;
 in {
   flake.modules.nixos.user = {
     pkgs,
     lib,
     ...
   }: {
-    users.users.${username} = {
+    users.users.${user.username} = {
       isNormalUser = true;
-      description = fullname;
+      description = user.fullname;
       extraGroups = ["wheel" "networkmanager"];
       initialPassword = "password";
       packages = with pkgs; [
@@ -24,8 +23,8 @@ in {
 
   flake.modules.homeManager.user = {lib, ...}: {
     home = {
-      username = lib.mkDefault username;
-      homeDirectory = lib.mkDefault "/home/${username}";
+      username = lib.mkDefault user.username;
+      homeDirectory = lib.mkDefault "/home/${user.username}";
       stateVersion = "25.05";
     };
   };
