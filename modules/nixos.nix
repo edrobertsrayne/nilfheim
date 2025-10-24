@@ -6,7 +6,8 @@
     nix
     ssh
     avahi
-
+    secrets
+    tailscale
     {
       system.stateVersion = "25.05";
     }
