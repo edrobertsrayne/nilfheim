@@ -1,6 +1,7 @@
 {inputs, ...}: {
   flake.modules.nixos.nixos.imports = with inputs.self.modules.nixos; [
     inputs.disko.nixosModules.disko
+
     grub
     user
     networking
@@ -8,7 +9,7 @@
     ssh
     avahi
     secrets
-    tailscale
+    # tailscale
     {
       system.stateVersion = "25.05";
     }
