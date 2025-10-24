@@ -1,5 +1,6 @@
 {inputs, ...}: {
   flake.modules.nixos.nixos.imports = with inputs.self.modules.nixos; [
+    inputs.disko.nixosModules.disko
     grub
     user
     networking
