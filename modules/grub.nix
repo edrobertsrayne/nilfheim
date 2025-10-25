@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.grub = {
+  flake.modules.nixos.nixos = {
     boot.loader.grub = {
       enable = true;
       efiSupport = true;

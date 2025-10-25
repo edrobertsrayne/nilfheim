@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.tailscale = {
+  flake.modules.nixos.nixos = {
     pkgs,
     config,
     ...
