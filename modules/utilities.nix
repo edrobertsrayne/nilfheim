@@ -58,6 +58,8 @@ in {
           updates.auto_update = true;
         };
       };
+      tmux.enable = true;
+      zellij.enable = true;
       zoxide = {
         enable = true;
         options = ["--cmd cd"];
