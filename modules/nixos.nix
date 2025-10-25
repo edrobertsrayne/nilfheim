@@ -9,7 +9,7 @@
     ssh
     avahi
     secrets
-    # tailscale
+    tailscale
     {
       system.stateVersion = "25.05";
     }
