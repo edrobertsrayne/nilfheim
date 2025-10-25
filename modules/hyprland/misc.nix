@@ -1,6 +1,5 @@
 _: {
-  flake.modules.homeManager.hyprland = {config, ...}: let
-    keyboardLayout = "gb,us";
+  flake.modules.homeManager.hyprland = { ...}: let
   in {
     # Hyprland environment and system configuration
     wayland.windowManager.hyprland.settings = {
