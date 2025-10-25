@@ -9,6 +9,7 @@ _: {
 
       plugins = {
         fidget.enable = true;
+        trouble.enable = true;
 
         lazydev = {
           enable = true;
