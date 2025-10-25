@@ -1,6 +1,5 @@
 _: {
-  flake.modules.homeManager.hyprland = { ...}: let
-  in {
+  flake.modules.homeManager.hyprland = {
     # Hyprland environment and system configuration
     wayland.windowManager.hyprland.settings = {
       monitor = [
@@ -23,7 +22,7 @@ _: {
 
       # Input configuration
       input = {
-        kb_layout = keyboardLayout;
+        kb_layout = "gb,us";
         follow_mouse = 1;
         touchpad = {
           natural_scroll = true;

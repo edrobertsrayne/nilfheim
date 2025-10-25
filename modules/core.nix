@@ -51,7 +51,6 @@ in {
       lazydocker.enable = true;
       lazygit.enable = true;
       password-store.enable = true;
-      neovim.enable = true;
       starship.enable = true;
       tealdeer = {
         enable = true;
