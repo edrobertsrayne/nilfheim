@@ -6,6 +6,7 @@ _: {
   }: {
     environment.systemPackages = with pkgs; [tailscale];
     services.tailscale = {
+      enable = true;
       authKeyFile = config.age.secrets.tailscale.path;
       extraUpFlags = ["--ssh" "--accept-routes"];
     };
