@@ -2,7 +2,7 @@
   inherit (inputs.self.nilfheim) user;
   initialHashedPassword = "$y$j9T$vueRmYTLFOtT6Q3jiCH8M/$oTfJQqYfgnDprn/nBxRHgpz90EpDVDtAiV7Aqvx.U95";
 in {
-  flake.modules.nixos.user = {
+  flake.modules.nixos.nixos = {
     pkgs,
     lib,
     ...
