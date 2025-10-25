@@ -127,6 +127,39 @@ in {
         (mkLuaKeymap "n" "gy" "function() require('snacks.picker').lsp_type_definitions() end" "Goto T[y]pe Definition")
         (mkLuaKeymap "n" "<leader>ss" "function() require('snacks.picker').lsp_symbols() end" "LSP Symbols")
         (mkLuaKeymap "n" "<leader>sS" "function() require('snacks.picker').lsp_workspace_symbols() end" "LSP Workspace Symbols")
+
+        # ========================================
+        # Word Navigation (Snacks Words)
+        # ========================================
+
+        (mkLuaKeymap "n" "]]" "function() require('snacks.words').jump(vim.v.count1) end" "Next Reference")
+        (mkLuaKeymap "t" "]]" "function() require('snacks.words').jump(vim.v.count1) end" "Next Reference")
+        (mkLuaKeymap "n" "[[" "function() require('snacks.words').jump(-vim.v.count1) end" "Prev Reference")
+        (mkLuaKeymap "t" "[[" "function() require('snacks.words').jump(-vim.v.count1) end" "Prev Reference")
+
+        # ========================================
+        # UI Toggles and Utilities
+        # ========================================
+
+        (mkLuaKeymap "n" "<leader>z" "function() require('snacks.zen')() end" "Toggle Zen Mode")
+        (mkLuaKeymap "n" "<leader>Z" "function() require('snacks.zen').zoom() end" "Toggle Zoom")
+        (mkLuaKeymap "n" "<leader>." "function() require('snacks.scratch')() end" "Toggle Scratch Buffer")
+        (mkLuaKeymap "n" "<leader>S" "function() require('snacks.scratch').select() end" "Select Scratch Buffer")
+        (mkLuaKeymap "n" "<leader>n" "function() require('snacks.notifier').show_history() end" "Notification History")
+        (mkLuaKeymap "n" "<leader>un" "function() require('snacks.notifier').hide() end" "Dismiss All Notifications")
+
+        # ========================================
+        # File Operations
+        # ========================================
+
+        (mkLuaKeymap "n" "<leader>cR" "function() require('snacks.rename').rename_file() end" "Rename File")
+
+        # ========================================
+        # Terminal (Snacks)
+        # ========================================
+
+        (mkLuaKeymap "n" "<c-/>" "function() require('snacks.terminal')() end" "Toggle Terminal")
+        (mkLuaKeymap "n" "<c-_>" "function() require('snacks.terminal')() end" "which_key_ignore")
       ];
     };
   };

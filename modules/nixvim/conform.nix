@@ -4,7 +4,6 @@ _: {
       extraPackages = with pkgs; [
         stylua
         shfmt
-        # gofmt
         alejandra
         black
         nodePackages.prettier
@@ -19,7 +18,6 @@ _: {
           };
           formatters_by_ft = {
             bash = ["shfmt"];
-            # go = ["gofmt"];
             lua = ["stylua"];
             nix = ["alejandra"];
             markdown = ["prettier"];
@@ -28,20 +26,6 @@ _: {
           };
         };
       };
-      keymaps = [
-        {
-          mode = "";
-          key = "<leader>f";
-          action.__raw = ''
-            function()
-              require('conform').format { async = true, lsp_fallback = true }
-            end
-          '';
-          options = {
-            desc = "[F]ormat buffer";
-          };
-        }
-      ];
     };
   };
 }
