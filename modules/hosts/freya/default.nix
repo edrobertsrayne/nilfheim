@@ -21,6 +21,6 @@
   };
 
   flake.modules.homeManager.freya = {
-    imports = with inputs.self.modules.homeManager; [core desktop];
+    imports = with inputs.self.modules.homeManager; [utilities desktop];
   };
 }
