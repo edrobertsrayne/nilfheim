@@ -2,7 +2,28 @@
   inherit (inputs.self.nilfheim.user) fullname email;
 in {
   flake.modules.homeManager.core = {pkgs, ...}: {
-    home.shell.enableShellIntegration = true;
+    home = {
+      packages = with pkgs; [
+        claude-code
+      ];
+      shell.enableShellIntegration = true;
+      shellAliases = {
+        c = "clear";
+        ls = "eza";
+        l = "eza";
+        ".." = "z ..";
+        la = "eza -a";
+        ll = "eza -al";
+        lt = "eza -a --tree --level=2";
+        cat = "bat";
+        top = "btop";
+        du = "ncdu";
+        diff = "delta";
+        prs = "gh pr list";
+        issues = "gh issue list";
+        n = "nvim";
+      };
+    };
     programs = {
       bat.enable = true;
       dircolors.enable = true;
@@ -68,22 +89,6 @@ in {
         enable = true;
         enableCompletion = true;
         autosuggestion.enable = true;
-        shellAliases = {
-          c = "clear";
-          ls = "eza";
-          l = "eza";
-          ".." = "z ..";
-          la = "eza -a";
-          ll = "eza -al";
-          lt = "eza -a --tree --level=2";
-          cat = "bat";
-          top = "btop";
-          du = "ncdu";
-          diff = "delta";
-          prs = "gh pr list";
-          issues = "gh issue list";
-          n = "nvim";
-        };
       };
     };
   };

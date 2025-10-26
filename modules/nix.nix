@@ -42,5 +42,7 @@ in {
       flags = [];
       dates = "04:00";
     };
+
+    nixpkgs.config.allowUnfree = true;
   };
 }
