@@ -1,37 +1,66 @@
 _: {
   flake.modules.homeManager.nixvim = {
-    programs.nixvim.opts = {
-      breakindent = true;
-      completeopt = "menu,menuone,noselect";
-      confirm = true;
-      cursorline = true;
-      expandtab = true;
-      foldlevel = 99;
-      foldlevelstart = 99;
-      foldcolumn = "1";
-      hlsearch = true;
-      ignorecase = true;
-      inccommand = "split";
-      laststatus = 3;
-      list = true;
-      mouse = "a";
-      number = true;
-      relativenumber = true;
-      ruler = false;
-      scrolloff = 10;
-      shiftround = true;
-      shiftwidth = 2;
-      showmode = false;
-      signcolumn = "yes";
-      smartcase = true;
-      smartindent = true;
-      splitbelow = true;
-      splitright = true;
-      timeoutlen = 300;
-      undofile = true;
-      undolevels = 10000;
-      updatetime = 200;
-      wrap = false;
+    programs.nixvim = {
+      opts = {
+        # Editor behavior
+        autoindent = true;
+        expandtab = true;
+        tabstop = 2;
+        shiftwidth = 2;
+        smartcase = true;
+        ignorecase = true;
+        scrolloff = 8;
+        sidescrolloff = 8;
+        wrap = false;
+
+        # UI improvements
+        number = true;
+        relativenumber = true;
+        signcolumn = "yes";
+        colorcolumn = "120";
+        cursorline = true;
+
+        # Splits
+        splitbelow = true;
+        splitright = true;
+
+        # Timeouts
+        timeoutlen = 500;
+        updatetime = 200;
+
+        # Completion
+        completeopt = "menu,menuone,noselect";
+
+        # Misc editor settings
+        conceallevel = 2;
+        pumheight = 15;
+        showmode = false;
+        termguicolors = true;
+        undofile = true;
+        mouse = "a";
+        laststatus = 3; # Global statusline like LazyVim
+
+        # Folding configuration (for treesitter)
+        foldlevel = 99; # Start with all folds open
+        foldlevelstart = 99; # Open all folds when starting to edit
+        foldcolumn = "1"; # Show fold column indicator
+      };
+
+      # Additional Lua configuration (from luaConfigPre)
+      extraConfigLuaPre = ''
+        -- Additional vim options that need Lua
+        vim.opt.confirm = true -- Confirm to save changes before exiting modified buffer
+        vim.opt.formatoptions = "jcroqlnt" -- tcqj
+        vim.opt.grepformat = "%f:%l:%c:%m"
+        vim.opt.grepprg = "rg --vimgrep"
+        vim.opt.list = true -- Show some invisible characters (tabs...)
+        vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+        vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
+        vim.opt.spelllang = { "en" }
+        vim.opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
+        vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
+        vim.opt.winminwidth = 5 -- Minimum window width
+      '';
     };
   };
 }
