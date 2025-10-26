@@ -1,9 +1,11 @@
-_: {
+{inputs, ...}: {
   flake.modules.homeManager.hyprland = {
     pkgs,
     lib,
     ...
-  }: {
+  }: let
+    inherit (inputs.self.nilfheim.desktop) terminal browser;
+  in {
     wayland.windowManager.hyprland.settings = {
       "$mod" = "SUPER";
       bind =
@@ -16,7 +18,8 @@ _: {
           "$mod ALT, F, fullscreenstate, 0 2" # Full width (maximize vertically only)
 
           # Applications
-          "$mod SHIFT, B, exec, firefox"
+          "$mod, RETURN, exec, ${terminal}"
+          "$mod SHIFT, B, exec, ${browser}"
 
           # Close all windows
           "CTRL ALT, Delete, exec, hyprctl clients -j | ${lib.getExe pkgs.jq} -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}"

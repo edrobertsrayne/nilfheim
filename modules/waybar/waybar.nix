@@ -1,4 +1,4 @@
-_: {
+{inputs, ...}: {
   flake.modules.homeManager.waybar = {
     pkgs,
     lib,
@@ -6,6 +6,7 @@ _: {
     ...
   }: let
     inherit (config.lib.stylix) colors;
+    inherit (inputs.self.nilfheim.desktop) terminal;
   in {
     stylix.targets.waybar.enable = false;
     programs.waybar = {
@@ -69,7 +70,7 @@ _: {
               car = "󰄋";
               default = ["󰕿" "󰖀" "󰕾"];
             };
-            on-click = "alacritty --class=Wiremix -e ${lib.getExe pkgs.wiremix}";
+            on-click = "${terminal} --class=Wiremix -e ${lib.getExe pkgs.wiremix}";
             on-click-right = "${lib.getExe pkgs.pamixer} -t";
             tooltip-format = "Volume: {volume}%";
           };
@@ -82,7 +83,7 @@ _: {
             format-disconnected = "󰤮";
             tooltip-format-wifi = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
             tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
-            on-click = "alacritty -e nmtui";
+            on-click = "${terminal} -e nmtui";
             interval = 3;
             spacing = 1;
           };
@@ -123,7 +124,7 @@ _: {
           cpu = {
             interval = 15;
             format = " ";
-            on-click = "alacritty -e ${lib.getExe pkgs.btop}";
+            on-click = "${terminal} -e ${lib.getExe pkgs.btop}";
           };
         };
       };
