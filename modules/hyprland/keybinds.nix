@@ -4,7 +4,7 @@
     lib,
     ...
   }: let
-    inherit (inputs.self.nilfheim.desktop) terminal browser;
+    inherit (inputs.self.nilfheim.desktop) terminal browser launcher;
   in {
     wayland.windowManager.hyprland.settings = {
       "$mod" = "SUPER";
@@ -20,6 +20,7 @@
           # Applications
           "$mod, RETURN, exec, ${terminal}"
           "$mod SHIFT, B, exec, ${browser}"
+          "$mod, SPACE, exec, ${launcher}"
 
           # Close all windows
           "CTRL ALT, Delete, exec, hyprctl clients -j | ${lib.getExe pkgs.jq} -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}"
