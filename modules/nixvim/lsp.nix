@@ -21,6 +21,15 @@ _: {
           ];
         };
 
+        nvim-lightbulb = {
+          enable = true;
+          settings = {
+            autocmd.enabled = true;
+            sign.enabled = false;
+            virtual_text.enabled = true;
+          };
+        };
+
         lsp = {
           enable = true;
           servers = {

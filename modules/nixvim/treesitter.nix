@@ -1,9 +1,9 @@
 _: {
-  flake.modules.homeManager.nixvim = {pkgs, ...}: {
+  flake.modules.homeManager.nixvim = {
     programs.nixvim.plugins = {
       treesitter = {
         enable = true;
-	autoLoad = true;
+        autoLoad = true;
         settings = {
           highlight.enable = true;
           indent.enable = true;
