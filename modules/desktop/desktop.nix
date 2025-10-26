@@ -8,5 +8,6 @@
     hyprland
     nixvim
     waybar
+    walker
   ];
 }
