@@ -55,9 +55,12 @@ in {
         (mkLuaKeymap "n" "<leader>gs" "function() require('snacks.picker').git_status() end" "Git Status")
         (mkLuaKeymap "n" "<leader>gS" "function() require('snacks.picker').git_stash() end" "Git Stash")
         (mkLuaKeymap "n" "<leader>gd" "function() require('snacks.picker').git_diff() end" "Git Diff (Hunks)")
+        (mkLuaKeymap "n" "<leader>gD" "function() require('snacks.picker').git_diff({ extra_args = { '--base=origin' } }) end" "Git Diff (Origin)")
         (mkLuaKeymap "n" "<leader>gf" "function() require('snacks.picker').git_log_file() end" "Git Log File")
         (mkLuaKeymap "n" "<leader>gB" "function() require('snacks.gitbrowse')() end" "Git Browse")
         (mkLuaKeymap "v" "<leader>gB" "function() require('snacks.gitbrowse')() end" "Git Browse")
+        (mkLuaKeymap "n" "<leader>gY" "function() require('snacks.gitbrowse')({ open = function(url) vim.fn.setreg('+', url) end }) end" "Git Browse (Copy)")
+        (mkLuaKeymap "v" "<leader>gY" "function() require('snacks.gitbrowse')({ open = function(url) vim.fn.setreg('+', url) end }) end" "Git Browse (Copy)")
         (mkLuaKeymap "n" "<leader>gg" "function() require('snacks.lazygit')() end" "Lazygit")
 
         # Gitsigns keymaps

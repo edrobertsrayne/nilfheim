@@ -1,4 +1,6 @@
-_: {
+{inputs, ...}: let
+  inherit (inputs.self.lib.nixvim) mkLuaKeymap;
+in {
   flake.modules.homeManager.nixvim = {pkgs, ...}: {
     programs.nixvim = {
       extraPackages = with pkgs; [
@@ -26,6 +28,11 @@ _: {
           };
         };
       };
+
+      keymaps = [
+        (mkLuaKeymap "n" "<leader>cf" "function() require('conform').format() end" "Format")
+        (mkLuaKeymap "v" "<leader>cf" "function() require('conform').format() end" "Format")
+      ];
     };
   };
 }
