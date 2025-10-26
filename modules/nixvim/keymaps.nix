@@ -20,6 +20,7 @@ in {
       (mkKeymap "n" "<leader>uw" "<cmd>set wrap!<cr>" "Toggle Wrap")
       (mkLuaKeymap "n" "<leader>uf" "function() vim.g.autoformat = not vim.g.autoformat end" "Toggle Auto Format (Global)")
       (mkLuaKeymap "n" "<leader>uF" "function() vim.b.autoformat = not vim.b.autoformat end" "Toggle Auto Format (Buffer)")
+      (mkLuaKeymap "n" "<leader>uh" "function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end" "Toggle Inlay Hints")
 
       # Move lines up/down in normal mode
       (mkKeymap "n" "<A-j>" "<cmd>m .+1<cr>==" "Move line down")
@@ -36,6 +37,7 @@ in {
       # NEW: LSP Hover and Signature (LazyVim essentials)
       (mkKeymap "n" "K" "<cmd>lua vim.lsp.buf.hover()<cr>" "Hover")
       (mkKeymap "n" "gK" "<cmd>lua vim.lsp.buf.signature_help()<cr>" "Signature Help")
+      (mkKeymap "i" "<c-k>" "<cmd>lua vim.lsp.buf.signature_help()<cr>" "Signature Help")
       (mkKeymap "n" "<leader>cl" "<cmd>LspInfo<cr>" "LSP Info")
       (mkKeymap "n" "<leader>ca" "<cmd>lua vim.lsp.buf.code_action()<cr>" "Code Action")
       (mkKeymap "x" "<leader>ca" "<cmd>lua vim.lsp.buf.code_action()<cr>" "Code Action")
@@ -48,6 +50,7 @@ in {
       (mkKeymap "n" "]e" "<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<cr>" "Next Error")
       (mkKeymap "n" "[e" "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<cr>" "Prev Error")
       (mkKeymap "n" "]w" "<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.WARN})<cr>" "Next Warning")
+      (mkKeymap "n" "[w" "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.WARN})<cr>" "Prev Warning")
 
       # Quit
       (mkKeymap "n" "<leader>qq" "<cmd>qa<cr>" "Quit all")
@@ -71,6 +74,7 @@ in {
 
       # NEW: Buffer management (LazyVim)
       (mkKeymap "n" "<leader>bb" "<cmd>e #<cr>" "Switch to Other Buffer")
+      (mkKeymap "n" "<leader>`" "<cmd>e #<cr>" "Switch to Other Buffer")
       (mkKeymap "n" "<leader>bo" "<cmd>%bd|e#|bd#<cr>" "Delete Other Buffers")
       (mkLuaKeymap "n" "<leader>bD" "function() require('snacks.bufdelete')() vim.cmd('close') end" "Delete Buffer and Window")
       (mkKeymap "n" "[b" "<cmd>bprevious<cr>" "Prev Buffer")
@@ -87,6 +91,9 @@ in {
       # Clear search with <esc>
       (mkKeymap "n" "<esc>" "<cmd>noh<cr><esc>" "Escape and clear hlsearch")
       (mkKeymap "i" "<esc>" "<cmd>noh<cr><esc>" "Escape and clear hlsearch")
+
+      # File operations
+      (mkKeymap "n" "<leader>fn" "<cmd>enew<cr>" "New File")
 
       # Save file
       (mkKeymap "n" "<C-s>" "<cmd>w<cr><esc>" "Save file")
