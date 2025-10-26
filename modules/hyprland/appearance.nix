@@ -1,19 +1,40 @@
 _: {
   flake.modules.homeManager.hyprland = {
-    # Hyprland visual appearance configuration
+    lib,
+    config,
+    ...
+  }: let
+    inherit (config.lib.stylix) colors;
+  in {
     wayland.windowManager.hyprland.settings = {
-      # Decoration settings
+      general = {
+        gaps_in = 5;
+        gaps_out = 10;
+        border_size = 2;
+        layout = "dwindle";
+        allow_tearing = false;
+        resize_on_border = false;
+        "col.active_border" = lib.mkForce "rgba(${colors.base0D}ee) rgba(${colors.base0B}ee) 45deg";
+      };
+
       decoration = {
-        rounding = 8;
+        rounding = 4;
+        shadow = {
+          enabled = true;
+          range = 2;
+          render_power = 3;
+        };
         blur = {
           enabled = true;
           size = 3;
-          passes = 1;
-          vibrancy = 0.1696;
+          passes = 3;
         };
       };
 
-      # Animations
+      group = {
+        "col.border_active" = lib.mkForce "rgba(${colors.base0D}ee) rgba(${colors.base0B}ee) 45deg";
+      };
+
       animations = {
         enabled = true;
         bezier = [
@@ -37,9 +58,31 @@ _: {
           "layers, 1, 3.81, easeOutQuint"
           "layersIn, 1, 4, easeOutQuint, fade"
           "layersOut, 1, 1.5, linear, fade"
-          "workspaces, 1, 1.94, almostLinear, fade"
-          "specialWorkspace, 1, 3.83, almostLinear, fade"
+          "workspaces, 0, 0, ease"
+          "fadeLayersIn, 1, 1.73, almostLinear"
+          "fadeLayersOut, 1, 1.46, almostLinear"
         ];
+      };
+
+      dwindle = {
+        pseudotile = true;
+        preserve_split = true;
+      };
+
+      master = {
+        new_status = "master";
+      };
+
+      misc = {
+        force_default_wallpaper = -1;
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+        focus_on_activate = true;
+        anr_missed_pings = 3;
+      };
+
+      cursor = {
+        hide_on_key_press = true;
       };
     };
   };
