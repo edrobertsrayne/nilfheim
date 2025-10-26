@@ -4,7 +4,8 @@
     lib,
     ...
   }: let
-    inherit (inputs.self.nilfheim.desktop) terminal browser launcher;
+    inherit (inputs.self.nilfheim.desktop) terminal launcher;
+    browser-launcher = lib.getExe inputs.self.packages.${pkgs.system}.nilfheim-launch-browser;
   in {
     wayland.windowManager.hyprland.settings = {
       "$mod" = "SUPER";
@@ -19,7 +20,8 @@
 
           # Applications
           "$mod, RETURN, exec, ${terminal}"
-          "$mod SHIFT, B, exec, ${browser}"
+          "$mod SHIFT, B, exec, ${browser-launcher}"
+          "$mod SHIFT ALT, B, exec, ${browser-launcher} --private"
           "$mod, SPACE, exec, ${launcher}"
 
           # Close all windows
