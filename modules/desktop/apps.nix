@@ -7,6 +7,7 @@ _: {
       gimp
       inkscape
       typora
+      spotify
     ];
   };
 }
