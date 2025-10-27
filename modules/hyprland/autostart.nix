@@ -4,6 +4,7 @@ _: {
       exec-once = [
         "uswm-app -- waybar"
         "hyprpolkitagent"
+        "waypaper --restore"
       ];
     };
   };
