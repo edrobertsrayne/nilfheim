@@ -37,7 +37,8 @@ in {
       };
     };
     system.autoUpgrade = {
-      enable = true;
+      # enable = true;
+      enable = false;
       flake = "github:edrobertsrayne/nilfheim";
       flags = [];
       dates = "04:00";
