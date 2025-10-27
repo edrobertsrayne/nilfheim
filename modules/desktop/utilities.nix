@@ -5,6 +5,7 @@ _: {
       pamixer
       brightnessctl
       nautilus
+      sushi
       cliphist
       pavucontrol
     ];
