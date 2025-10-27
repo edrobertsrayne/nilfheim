@@ -10,6 +10,7 @@
       home-manager
       nixos
       desktop
+      tank
 
       {
         networking.hostName = "freya";
