@@ -8,6 +8,7 @@ _: {
       inkscape
       typora
       spotify
+      gnome-calculator
     ];
   };
 }
