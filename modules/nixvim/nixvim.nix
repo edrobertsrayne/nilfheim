@@ -15,7 +15,7 @@
         vimAlias = true;
         globals = {
           mapleader = " ";
-          maplocalleader = " ";
+          maplocalleader = "\\";
         };
         clipboard = {
           providers = {
