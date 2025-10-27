@@ -8,64 +8,70 @@
     browser-launcher = lib.getExe inputs.self.packages.${pkgs.system}.nilfheim-launch-browser;
   in {
     wayland.windowManager.hyprland.settings = {
-      "$mod" = "SUPER";
       bind =
         [
           # Window management
-          "$mod, W, killactive"
-          "$mod, Q, killactive"
-          "$mod, T, togglefloating"
-          "$mod, F, fullscreen"
-          "$mod ALT, F, fullscreenstate, 0 2" # Full width (maximize vertically only)
+          "SUPER, W, killactive"
+          "SUPER, Q, killactive"
+          "SUPER, T, togglefloating"
+          "SUPER, F, fullscreen"
+          "SUPER, P, pseudo"
+          "SUPER CTRL, F, fullscreenstate, 0 2"
+          "SUPER, J, togglesplit"
 
           # Applications
-          "$mod, RETURN, exec, ${terminal}"
-          "$mod SHIFT, B, exec, ${browser-launcher}"
-          "$mod SHIFT ALT, B, exec, ${browser-launcher} --private"
-          "$mod, SPACE, exec, ${launcher}"
+          "SUPER, RETURN, exec, ${terminal}"
+          "SUPER SHIFT, B, exec, ${browser-launcher}"
+          "SUPER SHIFT ALT, B, exec, ${browser-launcher} --private"
+          "SUPER, SPACE, exec, ${launcher}"
 
           # Close all windows
           "CTRL ALT, Delete, exec, hyprctl clients -j | ${lib.getExe pkgs.jq} -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}"
 
           # Workspace navigation
-          "$mod, Tab, workspace, e+1"
-          "$mod SHIFT, Tab, workspace, e-1"
-          "$mod CTRL, Tab, workspace, previous"
+          "SUPER, Tab, workspace, e+1"
+          "SUPER SHIFT, Tab, workspace, e-1"
+          "SUPER CTRL, Tab, workspace, previous"
 
           # Window focus (directional)
-          "$mod, left, movefocus, l"
-          "$mod, right, movefocus, r"
-          "$mod, up, movefocus, u"
-          "$mod, down, movefocus, d"
+          "SUPER, left, movefocus, l"
+          "SUPER, right, movefocus, r"
+          "SUPER, up, movefocus, u"
+          "SUPER, down, movefocus, d"
+
+          # Window cycling (Alt-Tab)
+          "ALT, Tab, cyclenext"
+          "ALT SHIFT, Tab, cyclenext, prev"
 
           # Window swap (directional)
-          "$mod SHIFT, left, swapwindow, l"
-          "$mod SHIFT, right, swapwindow, r"
-          "$mod SHIFT, up, swapwindow, u"
-          "$mod SHIFT, down, swapwindow, d"
+          "SUPER SHIFT, left, swapwindow, l"
+          "SUPER SHIFT, right, swapwindow, r"
+          "SUPER SHIFT, up, swapwindow, u"
+          "SUPER SHIFT, down, swapwindow, d"
 
           # Window resize
-          "$mod, equal, resizeactive, -40 0" # Grow left
-          "$mod, minus, resizeactive, 40 0" # Grow right
-          "$mod SHIFT, equal, resizeactive, 0 40" # Grow down
-          "$mod SHIFT, minus, resizeactive, 0 -40" # Grow up
+          "SUPER, equal, resizeactive, -40 0" # Grow left
+          "SUPER, minus, resizeactive, 40 0" # Grow right
+          "SUPER SHIFT, equal, resizeactive, 0 40" # Grow down
+          "SUPER SHIFT, minus, resizeactive, 0 -40" # Grow up
 
           # Window grouping (tabbed containers)
-          "$mod, G, togglegroup"
-          "$mod ALT, G, moveoutofgroup"
-          "$mod ALT, Tab, changegroupactive"
+          "SUPER, G, togglegroup"
+          "SUPER ALT, G, moveoutofgroup"
+          "SUPER ALT, Tab, changegroupactive"
+          "SUPER ALT SHIFT, Tab, changegroupactive, b"
 
           # Move window into group (directional)
-          "$mod ALT, left, moveintogroup, l"
-          "$mod ALT, right, moveintogroup, r"
-          "$mod ALT, up, moveintogroup, u"
-          "$mod ALT, down, moveintogroup, d"
+          "SUPER ALT, left, moveintogroup, l"
+          "SUPER ALT, right, moveintogroup, r"
+          "SUPER ALT, up, moveintogroup, u"
+          "SUPER ALT, down, moveintogroup, d"
 
           # Jump to specific window in group (1-4)
-          "$mod ALT, 1, changegroupactive, 0"
-          "$mod ALT, 2, changegroupactive, 1"
-          "$mod ALT, 3, changegroupactive, 2"
-          "$mod ALT, 4, changegroupactive, 3"
+          "SUPER ALT, 1, changegroupactive, 0"
+          "SUPER ALT, 2, changegroupactive, 1"
+          "SUPER ALT, 3, changegroupactive, 2"
+          "SUPER ALT, 4, changegroupactive, 3"
 
           # Audio controls
           ", XF86AudioRaiseVolume, exec, pamixer -i 5"
@@ -82,17 +88,17 @@
           ", XF86AudioPrev, exec, playerctl previous"
 
           # Keyboard layout toggle (all keyboards: gb ↔ us)
-          "$mod SHIFT, L, exec, hyprctl switchxkblayout all next"
+          "SUPER SHIFT, L, exec, hyprctl switchxkblayout all next"
         ]
         ++ (
           # workspaces
-          # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+          # binds SUPER + [shift +] {1..9} to [move to] workspace {1..9}
           builtins.concatLists (builtins.genList (
               i: let
                 ws = i + 1;
               in [
-                "$mod, code:1${toString i}, workspace, ${toString ws}"
-                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+                "SUPER, code:1${toString i}, workspace, ${toString ws}"
+                "SUPER SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
               ]
             )
             9)
@@ -100,8 +106,8 @@
 
       # Mouse bindings
       bindm = [
-        "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
+        "SUPER, mouse:272, movewindow"
+        "SUPER, mouse:273, resizewindow"
       ];
     };
   };
