@@ -73,20 +73,6 @@
           "SUPER ALT, 3, changegroupactive, 2"
           "SUPER ALT, 4, changegroupactive, 3"
 
-          # Audio controls
-          ", XF86AudioRaiseVolume, exec, pamixer -i 5"
-          ", XF86AudioLowerVolume, exec, pamixer -d 5"
-          ", XF86AudioMute, exec, pamixer -t"
-
-          # Brightness controls
-          ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
-          ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-
-          # Media controls
-          ", XF86AudioPlay, exec, playerctl play-pause"
-          ", XF86AudioNext, exec, playerctl next"
-          ", XF86AudioPrev, exec, playerctl previous"
-
           # Keyboard layout toggle (all keyboards: gb ↔ us)
           "SUPER SHIFT, L, exec, hyprctl switchxkblayout all next"
         ]
@@ -103,6 +89,33 @@
             )
             9)
         );
+
+      # Volume and brightness controls (with repeat on hold)
+      bindel = [
+        # Volume controls
+        ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise"
+        ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower"
+        ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
+
+        # Brightness controls
+        ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
+        ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+
+        # Precise volume adjustments
+        "ALT, XF86AudioRaiseVolume, exec, swayosd-client --output-volume +1"
+        "ALT, XF86AudioLowerVolume, exec, swayosd-client --output-volume -1"
+
+        # Precise brightness adjustments
+        "ALT, XF86MonBrightnessUp, exec, swayosd-client --brightness +1"
+        "ALT, XF86MonBrightnessDown, exec, swayosd-client --brightness -1"
+      ];
+
+      # Media controls (work when locked)
+      bindl = [
+        ", XF86AudioPlay, exec, swayosd-client --playerctl play-pause"
+        ", XF86AudioNext, exec, swayosd-client --playerctl next"
+        ", XF86AudioPrev, exec, swayosd-client --playerctl previous"
+      ];
 
       # Mouse bindings
       bindm = [
