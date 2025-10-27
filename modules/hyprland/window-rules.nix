@@ -19,10 +19,10 @@ _: {
         # Floating window tag system
         "float, tag:floating-window"
         "center, tag:floating-window"
-        "size 800 600, tag:floating-window"
+        "size 900 625, tag:floating-window"
 
         # Auto-tag floating windows
-        "tag +floating-window, class:(blueberry.py|Impala|Wiremix|org.gnome.NautilusPreviewer|com.gabm.satty|Nilfheim|About|TUI.float|waypaper)"
+        "tag +floating-window, class:(blueberry.py|Impala|Wiremix|org.gnome.NautilusPreviewer|com.gabm.satty|Nilfheim|About|TUI.float|waypaper|org.gnome.Nautilus)"
         "tag +floating-window, class:(xdg-desktop-portal-gtk|sublime_text|DesktopEditors|org.gnome.Nautilus), title:^(Open.*Files?|Open [F|f]older.*|Save.*Files?|Save.*As|Save|All Files)"
 
         # Calculator
