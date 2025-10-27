@@ -2,7 +2,8 @@ _: {
   flake.modules.homeManager.hyprland = {
     wayland.windowManager.hyprland.settings = {
       exec-once = [
-        "waybar"
+        "uswm-app -- waybar"
+        "hyprpolkitagent"
       ];
     };
   };
