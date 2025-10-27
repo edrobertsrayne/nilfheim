@@ -4,6 +4,9 @@ _: {
       playerctl
       pamixer
       brightnessctl
+      nautilus
+      cliphist
+      pavucontrol
     ];
   };
 }
