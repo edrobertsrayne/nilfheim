@@ -24,6 +24,7 @@
           "SUPER SHIFT, B, Open browser, exec, ${browser-launcher}"
           "SUPER SHIFT ALT, B, Open private browser, exec, ${browser-launcher} --private"
           "SUPER, SPACE, Application launcher, exec, ${launcher}"
+          "SUPER, E, Open file manager, exec, ${lib.getExe pkgs.nautilus}"
 
           # Close all windows
           "CTRL ALT, Delete, Close all windows, exec, hyprctl clients -j | ${lib.getExe pkgs.jq} -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}"
