@@ -8,113 +8,113 @@
     browser-launcher = lib.getExe inputs.self.packages.${pkgs.system}.nilfheim-launch-browser;
   in {
     wayland.windowManager.hyprland.settings = {
-      bind =
+      bindd =
         [
           # Window management
-          "SUPER, W, killactive"
-          "SUPER, Q, killactive"
-          "SUPER, T, togglefloating"
-          "SUPER, F, fullscreen"
-          "SUPER, P, pseudo"
-          "SUPER CTRL, F, fullscreenstate, 0 2"
-          "SUPER, J, togglesplit"
+          "SUPER, W, Close window, killactive"
+          "SUPER, Q, Close window, killactive"
+          "SUPER, T, Toggle floating, togglefloating"
+          "SUPER, F, Fullscreen, fullscreen"
+          "SUPER, P, Pseudo tiling mode, pseudo"
+          "SUPER CTRL, F, Fullscreen all monitors, fullscreenstate, 0 2"
+          "SUPER, J, Toggle split direction, togglesplit"
 
           # Applications
-          "SUPER, RETURN, exec, ${terminal}"
-          "SUPER SHIFT, B, exec, ${browser-launcher}"
-          "SUPER SHIFT ALT, B, exec, ${browser-launcher} --private"
-          "SUPER, SPACE, exec, ${launcher}"
+          "SUPER, RETURN, Open terminal, exec, ${terminal}"
+          "SUPER SHIFT, B, Open browser, exec, ${browser-launcher}"
+          "SUPER SHIFT ALT, B, Open private browser, exec, ${browser-launcher} --private"
+          "SUPER, SPACE, Application launcher, exec, ${launcher}"
 
           # Close all windows
-          "CTRL ALT, Delete, exec, hyprctl clients -j | ${lib.getExe pkgs.jq} -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}"
+          "CTRL ALT, Delete, Close all windows, exec, hyprctl clients -j | ${lib.getExe pkgs.jq} -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}"
 
           # Workspace navigation
-          "SUPER, Tab, workspace, e+1"
-          "SUPER SHIFT, Tab, workspace, e-1"
-          "SUPER CTRL, Tab, workspace, previous"
+          "SUPER, Tab, Next workspace, workspace, e+1"
+          "SUPER SHIFT, Tab, Previous workspace, workspace, e-1"
+          "SUPER CTRL, Tab, Last workspace, workspace, previous"
 
           # Window focus (directional)
-          "SUPER, left, movefocus, l"
-          "SUPER, right, movefocus, r"
-          "SUPER, up, movefocus, u"
-          "SUPER, down, movefocus, d"
+          "SUPER, left, Focus left, movefocus, l"
+          "SUPER, right, Focus right, movefocus, r"
+          "SUPER, up, Focus up, movefocus, u"
+          "SUPER, down, Focus down, movefocus, d"
 
           # Window cycling (Alt-Tab)
-          "ALT, Tab, cyclenext"
-          "ALT SHIFT, Tab, cyclenext, prev"
+          "ALT, Tab, Next window, cyclenext"
+          "ALT SHIFT, Tab, Previous window, cyclenext, prev"
 
           # Window swap (directional)
-          "SUPER SHIFT, left, swapwindow, l"
-          "SUPER SHIFT, right, swapwindow, r"
-          "SUPER SHIFT, up, swapwindow, u"
-          "SUPER SHIFT, down, swapwindow, d"
+          "SUPER SHIFT, left, Swap left, swapwindow, l"
+          "SUPER SHIFT, right, Swap right, swapwindow, r"
+          "SUPER SHIFT, up, Swap up, swapwindow, u"
+          "SUPER SHIFT, down, Swap down, swapwindow, d"
 
           # Window resize
-          "SUPER, equal, resizeactive, -40 0" # Grow left
-          "SUPER, minus, resizeactive, 40 0" # Grow right
-          "SUPER SHIFT, equal, resizeactive, 0 40" # Grow down
-          "SUPER SHIFT, minus, resizeactive, 0 -40" # Grow up
+          "SUPER, equal, Grow window left, resizeactive, -40 0"
+          "SUPER, minus, Grow window right, resizeactive, 40 0"
+          "SUPER SHIFT, equal, Grow window down, resizeactive, 0 40"
+          "SUPER SHIFT, minus, Grow window up, resizeactive, 0 -40"
 
           # Window grouping (tabbed containers)
-          "SUPER, G, togglegroup"
-          "SUPER ALT, G, moveoutofgroup"
-          "SUPER ALT, Tab, changegroupactive"
-          "SUPER ALT SHIFT, Tab, changegroupactive, b"
+          "SUPER, G, Toggle window group, togglegroup"
+          "SUPER ALT, G, Remove from group, moveoutofgroup"
+          "SUPER ALT, Tab, Next group window, changegroupactive"
+          "SUPER ALT SHIFT, Tab, Previous group window, changegroupactive, b"
 
           # Move window into group (directional)
-          "SUPER ALT, left, moveintogroup, l"
-          "SUPER ALT, right, moveintogroup, r"
-          "SUPER ALT, up, moveintogroup, u"
-          "SUPER ALT, down, moveintogroup, d"
+          "SUPER ALT, left, Add to group left, moveintogroup, l"
+          "SUPER ALT, right, Add to group right, moveintogroup, r"
+          "SUPER ALT, up, Add to group up, moveintogroup, u"
+          "SUPER ALT, down, Add to group down, moveintogroup, d"
 
           # Jump to specific window in group (1-4)
-          "SUPER ALT, 1, changegroupactive, 0"
-          "SUPER ALT, 2, changegroupactive, 1"
-          "SUPER ALT, 3, changegroupactive, 2"
-          "SUPER ALT, 4, changegroupactive, 3"
+          "SUPER ALT, 1, Jump to group window 1, changegroupactive, 0"
+          "SUPER ALT, 2, Jump to group window 2, changegroupactive, 1"
+          "SUPER ALT, 3, Jump to group window 3, changegroupactive, 2"
+          "SUPER ALT, 4, Jump to group window 4, changegroupactive, 3"
 
-          # Keyboard layout toggle (all keyboards: gb ↔ us)
-          "SUPER SHIFT, L, exec, hyprctl switchxkblayout all next"
+          # Keyboard layout toggle
+          "SUPER SHIFT, L, Switch keyboard layout, exec, hyprctl switchxkblayout all next"
         ]
         ++ (
-          # workspaces
+          # Dynamic workspace keybinds
           # binds SUPER + [shift +] {1..9} to [move to] workspace {1..9}
           builtins.concatLists (builtins.genList (
               i: let
                 ws = i + 1;
               in [
-                "SUPER, code:1${toString i}, workspace, ${toString ws}"
-                "SUPER SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+                "SUPER, code:1${toString i}, Workspace ${toString ws}, workspace, ${toString ws}"
+                "SUPER SHIFT, code:1${toString i}, Move to workspace ${toString ws}, movetoworkspace, ${toString ws}"
               ]
             )
             9)
         );
 
-      # Volume and brightness controls (with repeat on hold)
-      bindel = [
+      # Volume and brightness controls (repeating + locked + descriptions)
+      bindeld = [
         # Volume controls
-        ", XF86AudioRaiseVolume, exec, swayosd-client --output-volume raise"
-        ", XF86AudioLowerVolume, exec, swayosd-client --output-volume lower"
-        ", XF86AudioMute, exec, swayosd-client --output-volume mute-toggle"
+        ", XF86AudioRaiseVolume, Volume up, exec, swayosd-client --output-volume raise"
+        ", XF86AudioLowerVolume, Volume down, exec, swayosd-client --output-volume lower"
+        ", XF86AudioMute, Mute, exec, swayosd-client --output-volume mute-toggle"
 
         # Brightness controls
-        ", XF86MonBrightnessUp, exec, swayosd-client --brightness raise"
-        ", XF86MonBrightnessDown, exec, swayosd-client --brightness lower"
+        ", XF86MonBrightnessUp, Brightness up, exec, swayosd-client --brightness raise"
+        ", XF86MonBrightnessDown, Brightness down, exec, swayosd-client --brightness lower"
 
         # Precise volume adjustments
-        "ALT, XF86AudioRaiseVolume, exec, swayosd-client --output-volume +1"
-        "ALT, XF86AudioLowerVolume, exec, swayosd-client --output-volume -1"
+        "ALT, XF86AudioRaiseVolume, Volume up (precise), exec, swayosd-client --output-volume +1"
+        "ALT, XF86AudioLowerVolume, Volume down (precise), exec, swayosd-client --output-volume -1"
 
         # Precise brightness adjustments
-        "ALT, XF86MonBrightnessUp, exec, swayosd-client --brightness +1"
-        "ALT, XF86MonBrightnessDown, exec, swayosd-client --brightness -1"
+        "ALT, XF86MonBrightnessUp, Brightness up (precise), exec, swayosd-client --brightness +1"
+        "ALT, XF86MonBrightnessDown, Brightness down (precise), exec, swayosd-client --brightness -1"
       ];
 
-      # Media controls (work when locked)
-      bindl = [
-        ", XF86AudioPlay, exec, swayosd-client --playerctl play-pause"
-        ", XF86AudioNext, exec, swayosd-client --playerctl next"
-        ", XF86AudioPrev, exec, swayosd-client --playerctl previous"
+      # Media controls (locked + descriptions)
+      bindld = [
+        ", XF86AudioPlay, Play/pause, exec, swayosd-client --playerctl play-pause"
+        ", XF86AudioNext, Next track, exec, swayosd-client --playerctl next"
+        ", XF86AudioPrev, Previous track, exec, swayosd-client --playerctl previous"
       ];
 
       # Mouse bindings
