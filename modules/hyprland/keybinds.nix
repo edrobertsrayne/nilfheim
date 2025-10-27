@@ -7,7 +7,6 @@
     inherit (inputs.self.nilfheim.desktop) launcher;
     launch-browser = lib.getExe inputs.self.packages.${pkgs.system}.launch-browser;
     launch-terminal = lib.getExe inputs.self.packages.${pkgs.system}.launch-terminal;
-    launch-webapp = lib.getExe inputs.self.packages.${pkgs.system}.launch-webapp;
   in {
     wayland.windowManager.hyprland.settings = {
       bindd =
@@ -28,7 +27,6 @@
           "SUPER, SPACE, Application launcher, exec, ${launcher}"
           "SUPER SHIFT, E, Open file manager, exec, ${lib.getExe pkgs.nautilus}"
           "SUPER SHIFT, W, Open wallpaper browser, exec, waypaper --folder $HOME/Pictures/Wallpapers"
-          "SUPER SHIFT, A, Open Claude webapp, exec, ${launch-webapp} \"https://claude.ai\""
           "SUPER ALT, W, Switch to a random wallpaper, exec, waypaper --random --folder $HOME/Pictures/Wallpapers"
 
           # Close all windows
