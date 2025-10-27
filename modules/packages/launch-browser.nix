@@ -49,6 +49,6 @@ let
     };
 in {
   perSystem = {pkgs, ...}: {
-    packages.nilfheim-launch-browser = app pkgs;
+    packages.launch-browser = app pkgs;
   };
 }

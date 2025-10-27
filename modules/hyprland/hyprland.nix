@@ -13,8 +13,13 @@
     };
   };
 
-  flake.modules.homeManager.hyprland = {
+  flake.modules.homeManager.hyprland = let
+    inherit (inputs.self.nilfheim.desktop) terminal;
+  in {
     wayland.windowManager.hyprland.enable = true;
-    home.sessionVariables.NIXOS_OZONE_WL = "1";
+    home.sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+      TERMINAL = terminal;
+    };
   };
 }
