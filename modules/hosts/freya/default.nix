@@ -11,6 +11,7 @@
       nixos
       desktop
       tank
+      powerManagement
 
       {
         networking.hostName = "freya";
