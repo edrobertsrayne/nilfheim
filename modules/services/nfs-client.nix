@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.tank = {
+  flake.modules.nixos.nfs-client = {
     services.rpcbind.enable = true; # Required for NFS
     boot.supportedFilesystems = ["nfs"]; # Ensure kernel module loads
     systemd.targets.network-online.enable = true;

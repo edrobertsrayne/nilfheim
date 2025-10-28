@@ -7,7 +7,7 @@
 
       home-manager
       desktop
-      tank
+      nfs-client
       powerManagement
     ];
   };
