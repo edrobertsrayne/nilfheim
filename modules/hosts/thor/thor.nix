@@ -5,6 +5,7 @@
       ./_hardware-configuration.nix
 
       server
+      portainer
     ];
 
     services.tailscale = {
