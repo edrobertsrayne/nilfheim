@@ -6,6 +6,7 @@
 
       server
       portainer
+      blocky
     ];
 
     services.tailscale = {
