@@ -12,7 +12,7 @@ in {
   "homepage.age".publicKeys = systems ++ users;
   "autobrr.age".publicKeys = systems ++ users;
   "kavita.age".publicKeys = systems ++ users;
-  "cloudflare-homelab.age".publicKeys = systems ++ users;
+  "cloudflare-thor.age".publicKeys = systems ++ users;
   "karakeep.age".publicKeys = systems ++ users;
   "postgresql-blocky-password.age".publicKeys = systems ++ users;
   "pgadmin-password.age".publicKeys = systems ++ users;

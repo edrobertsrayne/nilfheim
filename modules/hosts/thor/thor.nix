@@ -1,4 +1,9 @@
 {inputs, ...}: {
+  flake.nilfheim.server.cloudflare = {
+    tunnel = "23c4423f-ec30-423b-ba18-ba18904ddb85";
+    secret = ../../../secrets/cloudflare-thor.age;
+  };
+
   flake.modules.nixos.thor = {
     imports = with inputs.self.modules.nixos; [
       ./_disko.nix
@@ -6,14 +11,22 @@
 
       portainer
       blocky
+      media
+      cloudflared
     ];
+    # Ensure ZFS is set up properly
+    boot.supportedFilesystems = ["zfs"];
+    boot.zfs.extraPools = ["tank"];
+
+    # Create tank group and add main user
+    users.groups.tank.members = ["${inputs.self.nilfheim.user.username}"];
 
     services.tailscale = {
       useRoutingFeatures = "server";
       extraUpFlags = [
-        "--exit-node 10.71.91.83"
-        "--exit-node-allow-lan-access=true"
-        ''--advertise-routes "192.168.68.0/24"''
+        # "--exit-node 10.71.91.83"
+        # "--exit-node-allow-lan-access=true"
+        # ''--advertise-routes "192.168.68.0/24"''
       ];
     };
 

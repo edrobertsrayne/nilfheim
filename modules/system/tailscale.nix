@@ -4,6 +4,9 @@ _: {
     config,
     ...
   }: {
+    age.secrets = {
+      tailscale.file = ../../secrets/tailscale.age;
+    };
     environment.systemPackages = with pkgs; [tailscale];
     services.tailscale = {
       enable = true;
