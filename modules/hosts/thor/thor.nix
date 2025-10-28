@@ -13,6 +13,7 @@
       blocky
       media
       cloudflared
+      home-assistant
     ];
     # Ensure ZFS is set up properly
     boot.supportedFilesystems = ["zfs"];
