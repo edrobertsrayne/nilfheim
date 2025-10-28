@@ -17,6 +17,7 @@ in {
           inherit apikey;
         };
       };
+      flaresolverr.enable = true;
     };
 
     systemd.tmpfiles.rules = [
