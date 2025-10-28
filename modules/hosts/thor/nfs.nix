@@ -1,4 +1,4 @@
-{...}: {
+_: {
   flake.modules.nixos.thor = {
     # Create /export directory structure
     systemd.tmpfiles.rules = [
