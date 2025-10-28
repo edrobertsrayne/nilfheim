@@ -1,28 +1,34 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  inherit (inputs.self.nilfheim) server;
+in {
   flake.modules.nixos.portainer = {
-    virtualisation = {
-      oci-containers = {
-        backend = "docker";
-        containers.portainer = {
-          image = "portainer/portainer-ce:latest";
-          autoStart = true;
+    virtualisation.oci-containers = {
+      backend = "docker";
+      containers.portainer = {
+        image = "portainer/portainer-ce:latest";
+        autoStart = true;
 
-          ports = let
-            inherit (inputs.self.lib) constants;
-          in [
-            "${toString constants.ports.portainer}:9443"
-            "${toString constants.ports.portainer-http}:9000"
-            "${toString constants.ports.portainer-agent}:8000"
-          ];
+        ports = [
+          "9443:9443"
+          "9000:9000"
+          "8000:8000"
+        ];
 
-          volumes = [
-            "portainer_data:/data"
-            "/var/run/docker.sock:/var/run/docker.sock"
-          ];
+        volumes = [
+          "portainer_data:/data"
+          "/var/run/docker.sock:/var/run/docker.sock"
+        ];
 
-          extraOptions = [
-            "--pull=always"
-          ];
+        extraOptions = [
+          "--pull=always"
+        ];
+      };
+    };
+
+    services.cloudflared = {
+      tunnels."${server.cloudflare.tunnel}" = {
+        ingress = {
+          "portainer.${server.domain}" = "http://127.0.0.1:9000";
         };
       };
     };
