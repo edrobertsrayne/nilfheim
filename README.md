@@ -1,4 +1,4 @@
-# Nilfheim
+# 🏔️ Niilfheim
 
 > A beautiful, aspect-oriented NixOS configuration following dendritic principles
 
@@ -6,7 +6,7 @@ Nilfheim is a complete NixOS configuration built around **dendritic architecture
 
 ---
 
-## Overview
+## 📋 Overview
 
 This configuration represents a ground-up rewrite focusing on:
 
@@ -19,9 +19,9 @@ This configuration represents a ground-up rewrite focusing on:
 
 ---
 
-## Features
+## ✨ Features
 
-### Desktop Environment
+### 🖥️ Desktop Environment
 
 - **Hyprland** compositor with comprehensive window management
 - **Stylix** theming system (Tokyo Night colorscheme)
@@ -30,14 +30,14 @@ This configuration represents a ground-up rewrite focusing on:
 - **Custom launchers** for browser, terminal, and webapps
 - **SwayOSD** for volume and brightness feedback
 
-### Development Tools
+### 🛠️ Development Tools
 
 - **Nixvim** with LazyVim-inspired plugins and keymaps
 - **Tmux** with vim-tmux-navigator integration
 - **CLI utilities**: bat, eza, fzf, delta, lazygit, lazydocker, zoxide
 - **Dev shells** for project-specific environments
 
-### Media Server Stack
+### 🎬 Media Server Stack
 
 - **Jellyfin** media server
 - **Jellyseerr** request management
@@ -45,7 +45,7 @@ This configuration represents a ground-up rewrite focusing on:
 - **Transmission** BitTorrent client
 - **Sabnzbd** Usenet client
 
-### Infrastructure
+### 🏗️ Infrastructure
 
 - **Home Assistant** home automation
 - **Blocky** DNS server with ad-blocking
@@ -56,7 +56,7 @@ This configuration represents a ground-up rewrite focusing on:
 
 ---
 
-## Influences & Credits
+## 🙏 Influences & Credits
 
 **Architecture & Configuration Management:**
 
@@ -78,7 +78,7 @@ This configuration represents a ground-up rewrite focusing on:
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -107,7 +107,7 @@ nixos-rebuild switch --flake github:edrobertsrayne/nilfheim#thor \
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 nilfheim/
@@ -138,7 +138,7 @@ For detailed architecture information, see
 
 ---
 
-## Current Hosts
+## 💻 Current Hosts
 
 | Host    | Type    | Status | Description |
 |---------|---------|--------|-------------|
@@ -149,7 +149,7 @@ For detailed architecture information, see
 
 ---
 
-## Documentation
+## 📚 Documentation
 
 ### Quick References
 
@@ -172,98 +172,3 @@ For detailed architecture information, see
 ### AI Agent Guidelines
 
 - [CLAUDE.md](CLAUDE.md) - Workflow and rules for AI-assisted development
-
----
-
-## Development
-
-### Quality Checks
-
-All changes must pass these checks before committing:
-
-```bash
-alejandra --check .              # Format check
-statix check .                   # Linting
-deadnix --fail .                 # Dead code detection
-nix flake check --impure         # Build verification
-```
-
-Auto-fix formatting:
-
-```bash
-alejandra .
-```
-
-### Workflow
-
-This project follows a strict four-phase workflow for all changes:
-
-1. **EXPLORE** - Understand the codebase (read-only)
-2. **PLAN** - Design the solution (no code changes)
-3. **CODE** - Implement the approved plan
-4. **COMMIT** - Verify quality and create commits
-
-See [CLAUDE.md](CLAUDE.md) for detailed workflow guidelines.
-
-### Adding New Modules
-
-**Simple aspect** (single concern):
-
-```nix
-# modules/ssh.nix
-{
-  flake.modules.nixos.ssh = {
-    services.openssh.enable = true;
-  };
-}
-```
-
-**Complex feature** (multiple files):
-
-```text
-modules/nixvim/
-├── nixvim.nix      # Main configuration
-├── keymaps.nix     # Keyboard shortcuts
-├── lsp.nix         # Language servers
-└── plugins.nix     # Plugin configuration
-```
-
-**Important**: Always `git add` new `.nix` files immediately — `import-tree`
-only loads git-tracked files!
-
-See [docs/reference/module-templates.md](docs/reference/module-templates.md)
-for more examples.
-
----
-
-## Commit Guidelines
-
-Use [Conventional Commits](https://www.conventionalcommits.org/) with aspect
-names as scope:
-
-```text
-feat(nixvim): add LSP support for Rust
-fix(hyprland): correct keybind for workspace switching
-refactor(desktop): reorganize aggregator imports
-chore(flake): update nixpkgs input
-```
-
-See [docs/reference/commit-guide.md](docs/reference/commit-guide.md) for
-detailed examples.
-
----
-
-## License
-
-MIT License - See LICENSE file for details
-
----
-
-## Acknowledgments
-
-Special thanks to the NixOS community and the creators of the projects that
-influenced this configuration. Standing on the shoulders of giants makes
-building beautiful systems possible.
-
-🌳 **Built with dendritic principles for a cleaner, more maintainable NixOS
-configuration.**
