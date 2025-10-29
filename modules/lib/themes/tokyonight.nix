@@ -1,6 +1,11 @@
 _: {
   flake.lib.themes.tokyonight = {
     base16 = "tokyo-night-dark";
+    nvf.theme = {
+      name = "tokyonight";
+      style = "night";
+      transparent = true;
+    };
     colorschemes.tokyonight = {
       enable = true;
       settings = {
