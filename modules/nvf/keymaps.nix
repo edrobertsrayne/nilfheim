@@ -3,44 +3,34 @@ _: {
     programs.nvf = {
       settings = {
         vim = {
-          # ===== KEYMAPS =====
-          # Custom key bindings (LazyVim-inspired)
-          # Leader key is <Space> by default in nvf
           maps = {
             normal = {
-              # === General ===
-              # Quick save
               "<leader>w" = {
                 action = ":w<CR>";
                 desc = "Save file";
               };
 
               # === LSP ===
-              # Hover documentation
               "K" = {
                 action = "vim.lsp.buf.hover";
                 lua = true;
                 desc = "Hover documentation";
               };
-              # Go to definition
               "gd" = {
                 action = "vim.lsp.buf.definition";
                 lua = true;
                 desc = "Go to definition";
               };
-              # Go to references
               "gr" = {
                 action = "vim.lsp.buf.references";
                 lua = true;
                 desc = "Go to references";
               };
-              # Code actions
               "<leader>ca" = {
                 action = "vim.lsp.buf.code_action";
                 lua = true;
                 desc = "Code actions";
               };
-              # Rename symbol
               "<leader>cr" = {
                 action = "vim.lsp.buf.rename";
                 lua = true;
@@ -112,16 +102,13 @@ _: {
               };
             };
 
-            # Insert mode mappings
             insert = {
-              # Quick escape
               "jk" = {
                 action = "<Esc>";
                 desc = "Exit insert mode";
               };
             };
 
-            # Visual mode mappings
             visual = {
               # Keep selection after indent
               "<" = {
@@ -133,7 +120,6 @@ _: {
                 desc = "Indent right";
               };
 
-              # Move lines up/down
               "J" = {
                 action = ":m '>+1<CR>gv=gv";
                 desc = "Move line down";

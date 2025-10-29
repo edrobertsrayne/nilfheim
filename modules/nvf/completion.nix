@@ -3,15 +3,12 @@ _: {
     programs.nvf = {
       settings = {
         vim = {
-          # ===== COMPLETION =====
-          # Autocomplete engine that shows suggestions as you type
           autocomplete = {
             nvim-cmp = {
-              enable = true; # Using nvim-cmp as the completion engine
+              enable = true;
             };
           };
 
-          # Snippet engine for expanding code templates
           snippets = {
             luasnip.enable = true;
           };
