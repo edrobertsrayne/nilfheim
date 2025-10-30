@@ -4,6 +4,7 @@ in {
   flake.modules.nixos.home-manager = {
     config,
     pkgs,
+    lib,
     ...
   }: {
     imports = [inputs.home-manager.nixosModules.home-manager];
@@ -17,8 +18,8 @@ in {
         (inputs.self.modules.homeManager."${config.networking.hostName}" or {})
         {
           home = {
-            username = lib.mkDefault user.username;
-            homeDirectory = lib.mkDefault "/home/${user.username}";
+            username = lib.mkDefault username;
+            homeDirectory = lib.mkDefault "/home/${username}";
             stateVersion = "25.05";
           };
         }
