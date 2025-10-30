@@ -4,6 +4,9 @@ _: {
       settings = {
         vim = {
           languages = {
+            enableFormat = true;
+            enableTreesitter = true;
+            enableExtraDiagnostics = true;
             nix = {
               enable = true;
               lsp = {
@@ -18,6 +21,8 @@ _: {
                 types = ["statix" "deadnix"];
               };
             };
+            markdown.enable = true;
+            python.enable = true;
           };
         };
       };

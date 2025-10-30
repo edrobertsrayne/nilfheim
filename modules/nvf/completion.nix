@@ -3,15 +3,8 @@ _: {
     programs.nvf = {
       settings = {
         vim = {
-          autocomplete = {
-            nvim-cmp = {
-              enable = true;
-            };
-          };
-
-          snippets = {
-            luasnip.enable = true;
-          };
+          autocomplete.blink-cmp.enable = true;
+          snippets.luasnip.enable = true;
         };
       };
     };
