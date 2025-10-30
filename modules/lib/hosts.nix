@@ -9,7 +9,7 @@
         inherit system;
         modules = [
           inputs.self.modules.nixos.nixos
-          inputs.self.modules.nixos.${name}
+          (inputs.self.modules.nixos.${name} or {})
           {
             networking.hostId = lib.mkDefault (builtins.substring 0 8 (
               builtins.hashString "sha256" "${name}"
@@ -26,7 +26,8 @@
         inherit system;
         modules = [
           inputs.self.modules.darwin.darwin
-          inputs.self.modules.darwin.${name}
+          inputs.self.modules.darwin.home-manager # enable by default on darwin machines
+          (inputs.self.modules.darwin.${name} or {})
           {
             networking.hostName = lib.mkDefault name;
             nixpkgs.hostPlatform = lib.mkDefault system;

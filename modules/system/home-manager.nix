@@ -1,12 +1,11 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  inherit (inputs.self.nilfheim.user) username;
+in {
   flake.modules.nixos.home-manager = {
     config,
     pkgs,
     ...
-  }: let
-    inherit (config.networking) hostName;
-    inherit (inputs.self.nilfheim.user) username;
-  in {
+  }: {
     imports = [inputs.home-manager.nixosModules.home-manager];
     users.users."${username}".shell = pkgs.zsh;
     programs.zsh.enable = true;
@@ -15,13 +14,42 @@
       useGlobalPkgs = true;
       useUserPackages = true;
       users."${username}".imports = with inputs.self.modules.homeManager; [
-        user
-        (inputs.self.modules.homeManager."${hostName}" or {})
-
+        (inputs.self.modules.homeManager."${config.networking.hostName}" or {})
         {
-          home.stateVersion = "25.05";
+          home = {
+            username = lib.mkDefault user.username;
+            homeDirectory = lib.mkDefault "/home/${user.username}";
+            stateVersion = "25.05";
+          };
         }
       ];
+    };
+  };
+
+  flake.modules.darwin.home-manager = {
+    config,
+    pkgs,
+    ...
+  }: let
+    inherit (inputs.self.nilfheim.user) username;
+  in {
+    imports = [inputs.home-manager.darwinModules.home-manager];
+    users.users."${username}" = {
+      shell = pkgs.zsh;
+      name = "${username}";
+      home = "/Users/${username}";
+    };
+    programs.zsh.enable = true;
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      users.${username} = {
+        imports = [(inputs.self.modules.homeManager.${config.networking.hostName} or {})];
+        programs.home-manager.enable = true;
+        home = {
+          stateVersion = "25.05";
+        };
+      };
     };
   };
 }
