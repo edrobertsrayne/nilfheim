@@ -45,4 +45,10 @@ in {
 
     nixpkgs.config.allowUnfree = true;
   };
+
+  flake.modules.darwin.darwin = {
+    nix.enable = false; # nix daemon managed by determinant
+
+    nixpkgs.config.allowUnfree = true;
+  };
 }
