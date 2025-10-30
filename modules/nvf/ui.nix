@@ -17,6 +17,10 @@ _: {
             borders.enable = true;
             noice.enable = true;
             colorizer.enable = true;
+            breadcrumbs = {
+              enable = true;
+              navbuddy.enable = true;
+            };
           };
         };
       };

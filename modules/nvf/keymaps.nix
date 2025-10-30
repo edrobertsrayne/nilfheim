@@ -38,15 +38,33 @@ _: {
               };
 
               # === Telescope (Find) ===
+              "<leader>e" = {
+                action = "<cmd>Neotree toggle<CR>";
+                desc = "Toggle NeoTree";
+              };
+
+              # === Telescope (Find) ===
+              "<leader><leader>" = {
+                action = "<cmd>Telescope find_files<CR>";
+                desc = "Find files";
+              };
               "<leader>ff" = {
                 action = "<cmd>Telescope find_files<CR>";
                 desc = "Find files";
+              };
+              "<leader>/" = {
+                action = "<cmd>Telescope live_grep<CR>";
+                desc = "Find text (grep)";
               };
               "<leader>fg" = {
                 action = "<cmd>Telescope live_grep<CR>";
                 desc = "Find text (grep)";
               };
               "<leader>fb" = {
+                action = "<cmd>Telescope buffers<CR>";
+                desc = "Find buffers";
+              };
+              "<leader>," = {
                 action = "<cmd>Telescope buffers<CR>";
                 desc = "Find buffers";
               };
