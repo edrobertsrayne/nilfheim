@@ -36,6 +36,7 @@ in {
             clipboard = "unnamedplus"; # Use system clipboard
             undofile = true; # Persistent undo history across sessions
             swapfile = false; # Disable swap files (we have persistent undo)
+            shortmess = "I"; # Disable the introductory message
           };
         };
       };
