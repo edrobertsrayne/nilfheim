@@ -49,24 +49,6 @@ _: {
                 desc = "Next buffer";
               };
 
-              # === Window navigation ===
-              "<C-h>" = {
-                action = "<C-w>h";
-                desc = "Move to left window";
-              };
-              "<C-j>" = {
-                action = "<C-w>j";
-                desc = "Move to bottom window";
-              };
-              "<C-k>" = {
-                action = "<C-w>k";
-                desc = "Move to top window";
-              };
-              "<C-l>" = {
-                action = "<C-w>l";
-                desc = "Move to right window";
-              };
-
               # === Window management ===
               "<leader>wd" = {
                 action = "<C-w>c";
