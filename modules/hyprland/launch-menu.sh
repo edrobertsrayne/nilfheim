@@ -35,7 +35,11 @@ menu() {
 }
 
 terminal() {
-  alacritty --class=Niflheim -e "$@"
+  alacritty --class=Nilfheim -e "$@"
+}
+
+terminal_present() {
+  launch-presentation-terminal "$1"
 }
 
 show_capture_menu() { 
@@ -44,11 +48,7 @@ show_capture_menu() {
   *window*) take-screenshot active ;;
   *screen*) take-screenshot output ;;
   *colour*)
-    if pgrep -x hyprpicker >/dev/null; then
-      pkill hyprpicker
-    else
-      hyprpicker -a
-    fi
+    pkill -x hyprpicker || hyprpicker -a
     ;;
   *) back_to show_main_menu ;;
   esac
@@ -65,13 +65,16 @@ show_system_menu() {
 }
 
 show_main_menu() {
-  go_to_menu "$(menu "Go" "󰀻  Apps\n  Capture\n  About\n  System")"
+  go_to_menu "$(menu "Go" "󰀻  Apps\n  Capture\n  Edit Config\n󰃢  Clean\n  Rebuild\n  About\n  System")"
 }
 
 go_to_menu() {
   case "${1,,}" in
     *apps*) walker -p "Launch..." ;;
     *capture*) show_capture_menu ;;
+    *config*) launch-editor "$HOME"/.nilfheim ;;
+    *rebuild*) terminal_present "nh os switch" ;;
+    *clean*) terminal_present "nh clean all" ;;
     *about*) launch-about ;;
     *system*) show_system_menu ;;
   esac

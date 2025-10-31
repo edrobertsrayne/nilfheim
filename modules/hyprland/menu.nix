@@ -21,9 +21,12 @@
         hyprpicker
         hyprlock
         systemd
+        nh
         procps # provides pgrep/pkill
+        inputs.self.packages.${pkgs.system}.launch-presentation-terminal
         inputs.self.packages.${pkgs.system}.take-screenshot
         inputs.self.packages.${pkgs.system}.launch-about
+        inputs.self.packages.${pkgs.system}.launch-editor
       ];
       text = builtins.readFile ./launch-menu.sh;
     };
