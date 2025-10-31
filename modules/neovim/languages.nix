@@ -1,5 +1,10 @@
 _: {
-  flake.modules.homeManager.neovim = {
+  flake.modules.homeManager.neovim = {pkgs, ...}: {
+    home.packages = with pkgs; [
+      alejandra
+      statix
+      deadnix
+    ];
     programs.nvf = {
       settings = {
         vim = {
@@ -7,6 +12,7 @@ _: {
             enableFormat = true;
             enableTreesitter = true;
             enableExtraDiagnostics = true;
+            enableDAP = true;
             nix = {
               enable = true;
               lsp = {
@@ -23,6 +29,7 @@ _: {
             };
             markdown.enable = true;
             python.enable = true;
+            css.enable = true;
           };
         };
       };
