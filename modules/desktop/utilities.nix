@@ -8,6 +8,12 @@ _: {
       sushi
       cliphist
       pavucontrol
+
+      wl-clipboard
+      hyprpolkitagent
+      hyprpicker
+      hyprsunset
+      wlr-randr
     ];
   };
 }
