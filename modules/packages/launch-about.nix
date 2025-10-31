@@ -9,7 +9,7 @@ let
         fastfetch
       ];
       text = ''
-        exec setsid uwsm-app -- "''${TERMINAL:-alacritty}" --class=Nilfheim -o font.size=12 -e bash -c 'fastfetch; read -n 1 -s'
+        exec setsid uwsm-app -- "''${TERMINAL:-alacritty}" --class=Nilfheim -o font.size=11 -e bash -c 'fastfetch; read -n 1 -s'
       '';
     };
 in {
