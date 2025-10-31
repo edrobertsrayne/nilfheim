@@ -12,14 +12,14 @@ _: {
 
           maps = {
             normal = {
-              "<C-_>" = {
+              "<C-`>" = {
                 action = "<cmd>ToggleTerm<CR>";
                 desc = "Toggle terminal";
               };
             };
 
             terminal = {
-              "<C-_>" = {
+              "<C-`>" = {
                 action = "<cmd>ToggleTerm<CR>";
                 desc = "Toggle terminal";
               };
