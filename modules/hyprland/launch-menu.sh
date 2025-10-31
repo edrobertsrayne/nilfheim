@@ -42,7 +42,7 @@ terminal_present() {
   launch-presentation-terminal "$1"
 }
 
-show_capture_menu() { 
+show_capture_menu() {
   case $(menu "Capture" "󰹑  Grab the whole screen\n  Grab the current window\n󰗆  Grab an area\n  Grab a colour") in
   *area*) take-screenshot area ;;
   *window*) take-screenshot active ;;
@@ -50,6 +50,17 @@ show_capture_menu() {
   *colour*)
     pkill -x hyprpicker || hyprpicker -a
     ;;
+  *) back_to show_main_menu ;;
+  esac
+}
+
+show_learn_menu() {
+  case $(menu "Learn" "  Keybindings\n󱄅  Nixos Search\n  home-manager\n  nvf\n Bash") in
+  *keybindings*) show-keybindings ;;
+  *nixos*) launch-webapp "https://search.nixos.org/options" ;;
+  *home-manager*) launch-webapp "https://nix-community.github.io/home-manager/options.xhtml" ;;
+  *nvf*) launch-webapp "https://notashelf.github.io/nvf/options.html" ;;
+  *bash*) launch-webapp "https://devhints.io/bash" ;;
   *) back_to show_main_menu ;;
   esac
 }
@@ -65,18 +76,19 @@ show_system_menu() {
 }
 
 show_main_menu() {
-  go_to_menu "$(menu "Go" "󰀻  Apps\n  Capture\n  Edit Config\n󰃢  Clean\n  Rebuild\n  About\n  System")"
+  go_to_menu "$(menu "Go" "󰀻  Apps\n󰧑  Learn\n  Capture\n  Edit Config\n󰃢  Clean\n  Rebuild\n  About\n  System")"
 }
 
 go_to_menu() {
   case "${1,,}" in
-    *apps*) walker -p "Launch..." ;;
-    *capture*) show_capture_menu ;;
-    *config*) launch-editor "$HOME"/.nilfheim ;;
-    *rebuild*) terminal_present "nh os switch" ;;
-    *clean*) terminal_present "nh clean all" ;;
-    *about*) launch-about ;;
-    *system*) show_system_menu ;;
+  *apps*) walker -p "Launch..." ;;
+  *capture*) show_capture_menu ;;
+  *learn*) show_learn_menu ;;
+  *config*) launch-editor "$HOME"/.nilfheim ;;
+  *rebuild*) terminal_present "nh os switch" ;;
+  *clean*) terminal_present "nh clean all" ;;
+  *about*) launch-about ;;
+  *system*) show_system_menu ;;
   esac
 }
 

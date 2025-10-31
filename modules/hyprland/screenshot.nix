@@ -47,11 +47,11 @@ in {
       screenshot = lib.getExe inputs.self.packages.${pkgs.system}.take-screenshot;
     in {
       bindd = [
-        ", Print, Screenshot of the current window, exec, ${screenshot} active"
-        "SHIFT, Print, Screenshot of a selected area, exec, ${screenshot} area"
-        "ALT, Print, Screenshot of the current screen, exec, ${screenshot} output"
-        "CTRL, Print, Screenshot of all screens, exec, ${screenshot} screen"
-        "SUPER, Print, Colour picker, exec, pkill hyprpicker || hyprpicker -a"
+        ", Print, Screenshot: Window, exec, ${screenshot} active"
+        "SHIFT, Print, Screenshot: Area, exec, ${screenshot} area"
+        "ALT, Print, Screenshot: Screen, exec, ${screenshot} output"
+        "CTRL, Print, Screenshot: All, exec, ${screenshot} screen"
+        "SUPER, Print, Color picker, exec, pkill hyprpicker || hyprpicker -a"
       ];
     };
   };

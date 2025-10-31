@@ -21,13 +21,13 @@
           "SUPER, J, Toggle split direction, togglesplit"
 
           # Applications
-          "SUPER, RETURN, Open terminal, exec, ${launch-terminal}"
-          "SUPER SHIFT, B, Open browser, exec, ${launch-browser}"
-          "SUPER SHIFT ALT, B, Open private browser, exec, ${launch-browser} --private"
-          "SUPER, SPACE, Application launcher, exec, ${launcher}"
-          "SUPER SHIFT, E, Open file manager, exec, ${lib.getExe pkgs.nautilus}"
-          "SUPER SHIFT, W, Open wallpaper browser, exec, waypaper --folder $HOME/Pictures/Wallpapers"
-          "SUPER ALT, W, Switch to a random wallpaper, exec, waypaper --random --folder $HOME/Pictures/Wallpapers"
+          "SUPER, RETURN, Terminal, exec, ${launch-terminal}"
+          "SUPER SHIFT, B, Browser, exec, ${launch-browser}"
+          "SUPER SHIFT ALT, B, Private browser, exec, ${launch-browser} --private"
+          "SUPER, SPACE, App launcher, exec, ${launcher}"
+          "SUPER SHIFT, E, File manager, exec, ${lib.getExe pkgs.nautilus}"
+          "SUPER SHIFT, W, Wallpaper browser, exec, waypaper --folder $HOME/Pictures/Wallpapers"
+          "SUPER ALT, W, Random wallpaper, exec, waypaper --random --folder $HOME/Pictures/Wallpapers"
 
           # Close all windows
           "CTRL ALT, Delete, Close all windows, exec, hyprctl clients -j | ${lib.getExe pkgs.jq} -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}"

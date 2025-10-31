@@ -7,11 +7,13 @@
     wayland.windowManager.hyprland.settings.bindd = let
       launch-menu = lib.getExe inputs.self.packages.${pkgs.system}.launch-menu;
     in [
-      "SUPER ALT, SPACE, Launch main menu, exec, ${launch-menu}"
+      "SUPER ALT, SPACE, Main menu, exec, ${launch-menu}"
     ];
   };
 
-  perSystem = {pkgs, ...}: {
+  perSystem = {pkgs, ...}: let
+    selfPkgs = inputs.self.packages.${pkgs.system};
+  in {
     packages.launch-menu = pkgs.writeShellApplication {
       name = "launch-menu";
       runtimeInputs = with pkgs; [
@@ -23,12 +25,28 @@
         systemd
         nh
         procps # provides pgrep/pkill
-        inputs.self.packages.${pkgs.system}.launch-presentation-terminal
-        inputs.self.packages.${pkgs.system}.take-screenshot
-        inputs.self.packages.${pkgs.system}.launch-about
-        inputs.self.packages.${pkgs.system}.launch-editor
+        selfPkgs.launch-presentation-terminal
+        selfPkgs.take-screenshot
+        selfPkgs.launch-about
+        selfPkgs.launch-webapp
+        selfPkgs.launch-editor
+        selfPkgs.show-keybindings
       ];
       text = builtins.readFile ./launch-menu.sh;
+    };
+
+    packages.show-keybindings = pkgs.writeShellApplication {
+      name = "show-keybindings";
+      runtimeInputs = with pkgs; [
+        hyprland
+        jq
+        walker
+        libxkbcommon
+        gawk
+        gnused
+        coreutils
+      ];
+      text = builtins.readFile ./show-keybindings.sh;
     };
   };
 }
