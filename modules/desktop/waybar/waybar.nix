@@ -90,12 +90,10 @@
 
           battery = {
             states = {
-              warning = 20;
+              warning = 25;
               critical = 10;
             };
-            format = "{capacity}% {icon}";
-            format-charging = "{icon}";
-            format-discharging = "{icon}";
+            format = "{icon}";
             format-plugged = "󰚥";
             format-full = "󱈑";
             format-alt = "{icon} {time}";
@@ -103,8 +101,8 @@
               default = ["󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󱈑"];
               charging = ["󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅"];
             };
-            tooltip-format-discharging = "{capacity}%";
-            tooltip-format-charging = "{capacity}%";
+            tooltip-format-discharging = "{capacity} %";
+            tooltip-format-charging = "{time} until full";
           };
 
           bluetooth = {
@@ -133,6 +131,8 @@
         font = config.stylix.fonts.monospace.name;
         background = colors.withHashtag.base00;
         foreground = colors.withHashtag.base05;
+        critical = colors.withHashtag.base08;
+        warning = colors.withHashtag.base0A;
       };
     };
   };

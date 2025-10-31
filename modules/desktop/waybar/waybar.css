@@ -40,6 +40,12 @@
   min-width: 12px;
   margin: 0 7.5px;
 }
+#battery.warning {
+  color: @warning@;
+}
+#battery.critical {
+  color: @critical@;
+}
 
 #custom-expand-icon {
   margin-right: 7px;
