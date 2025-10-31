@@ -30,6 +30,7 @@ _: {
             markdown.enable = true;
             python.enable = true;
             css.enable = true;
+            bash.enable = true;
           };
         };
       };
