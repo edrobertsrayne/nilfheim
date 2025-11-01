@@ -7,7 +7,7 @@
     wayland.windowManager.hyprland.settings.bindd = let
       launch-menu = lib.getExe inputs.self.packages.${pkgs.system}.launch-menu;
     in [
-      "SUPER ALT, SPACE, Main menu, exec, ${launch-menu}"
+      "SUPER SHIFT, SPACE, Main menu, exec, ${launch-menu}"
     ];
   };
 
