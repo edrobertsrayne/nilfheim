@@ -19,7 +19,7 @@
 
     # Hyprland keybind
     wayland.windowManager.hyprland.settings.bindd = [
-      "SUPER SHIFT, D, Google Drive, exec, ${launch-webapp} \"https://drive.google.com\""
+      "SUPER SHIFT, G, Google Drive, exec, ${launch-webapp} \"https://drive.google.com\""
     ];
   };
 }

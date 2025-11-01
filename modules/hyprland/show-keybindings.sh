@@ -57,7 +57,7 @@ get_priority() {
 
   case "$desc" in
     # Tier 1: Most common actions (10)
-    Terminal*|Browser*|*launcher*|*menu*|*manager*|Gmail*|*Calendar*|*Drive*|NotebookLM*|Readwise*|*p5.js*|YouTube*|Obsidian*|Spotify*) echo 10 ;;
+    Terminal*|Browser*|*launcher*|*menu*|*manager*|Gmail*|*Calendar*|*Drive*|NotebookLM*|Readwise*|*p5.js*|YouTube*|Obsidian*|Spotify*|LazyDocker*) echo 10 ;;
 
     # Tier 2: Window management essentials (20)
     "Close window"|"Toggle floating"|Fullscreen|"Next window"|"Previous window") echo 20 ;;

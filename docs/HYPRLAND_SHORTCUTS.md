@@ -142,6 +142,7 @@ Print                 Screenshot window
 | `Super+Alt+W` | Switch to random wallpaper |
 | `Super+Shift+O` | Open Obsidian |
 | `Super+Shift+S` | Open Spotify |
+| `Super+Shift+D` | Open LazyDocker (Docker TUI) |
 
 ### Web Applications
 
@@ -149,7 +150,7 @@ Print                 Screenshot window
 |----------|--------|
 | `Super+Shift+M` | Open Gmail |
 | `Super+Shift+C` | Open Google Calendar |
-| `Super+Shift+D` | Open Google Drive |
+| `Super+Shift+G` | Open Google Drive |
 | `Super+Shift+N` | Open NotebookLM |
 | `Super+Shift+R` | Open Readwise Reader |
 | `Super+Shift+P` | Open p5.js Editor |
