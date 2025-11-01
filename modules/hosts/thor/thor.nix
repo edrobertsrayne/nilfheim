@@ -25,7 +25,7 @@
     services.tailscale = {
       useRoutingFeatures = "server";
       extraUpFlags = [
-        "--exit-node 100.84.2.120"
+        "--exit-node=100.84.2.120"
         "--exit-node-allow-lan-access=true"
         ''--advertise-routes "192.168.68.0/24"''
       ];
