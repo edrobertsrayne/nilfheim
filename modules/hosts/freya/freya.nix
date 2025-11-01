@@ -10,6 +10,8 @@
       nfs-client
       powerManagement
     ];
+
+    boot.binfmt.emulatedSystems = ["aarch64-linux"];
   };
 
   flake.modules.homeManager.freya = {
