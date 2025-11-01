@@ -10,7 +10,7 @@ Super+Space           Application launcher
 Super+Alt+Space       Main menu
 Super+Shift+B         Open browser
 Super+W/Q             Close window
-Super+F               Fullscreen
+Super+Shift+F         Fullscreen
 Super+T               Toggle floating
 Super+1-9             Switch to workspace 1-9
 Alt+Tab               Next window
@@ -36,7 +36,7 @@ Print                 Screenshot window
 | `Super+W` | Close window |
 | `Super+Q` | Close window (alternative) |
 | `Super+T` | Toggle floating mode |
-| `Super+F` | Fullscreen current window |
+| `Super+Shift+F` | Fullscreen current window |
 | `Super+Ctrl+F` | Fullscreen on all monitors |
 | `Super+P` | Toggle pseudo tiling mode |
 | `Super+J` | Toggle split direction (vertical/horizontal) |
@@ -140,6 +140,23 @@ Print                 Screenshot window
 | `Super+Shift+E` | Open file manager (Nautilus) |
 | `Super+Shift+W` | Open wallpaper browser (Waypaper) |
 | `Super+Alt+W` | Switch to random wallpaper |
+| `Super+Shift+O` | Open Obsidian |
+| `Super+Shift+S` | Open Spotify |
+
+### Web Applications
+
+| Shortcut | Action |
+|----------|--------|
+| `Super+Shift+M` | Open Gmail |
+| `Super+Shift+C` | Open Google Calendar |
+| `Super+Shift+D` | Open Google Drive |
+| `Super+Shift+N` | Open NotebookLM |
+| `Super+Shift+R` | Open Readwise Reader |
+| `Super+Shift+P` | Open p5.js Editor |
+| `Super+Shift+Y` | Open YouTube |
+| `Super+Shift+A` | Open Claude |
+
+**Note**: Web apps launch in Chromium app mode for a native-like experience.
 
 ### System Actions
 

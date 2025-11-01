@@ -15,7 +15,7 @@
           "SUPER, W, Close window, killactive"
           "SUPER, Q, Close window, killactive"
           "SUPER, T, Toggle floating, togglefloating"
-          "SUPER, F, Fullscreen, fullscreen"
+          "SUPER SHIFT, F, Fullscreen, fullscreen"
           "SUPER, P, Pseudo tiling mode, pseudo"
           "SUPER CTRL, F, Fullscreen all monitors, fullscreenstate, 0 2"
           "SUPER, J, Toggle split direction, togglesplit"

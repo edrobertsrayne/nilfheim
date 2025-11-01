@@ -1,12 +1,11 @@
 _: {
   flake.modules.homeManager.desktop = {pkgs, ...}: {
-    programs.obsidian = {
-      enable = true;
-    };
+    # Install Spotify
+    home.packages = [pkgs.spotify];
 
     # Hyprland keybind
     wayland.windowManager.hyprland.settings.bindd = [
-      "SUPER SHIFT, O, Obsidian, exec, ${pkgs.obsidian}/bin/obsidian"
+      "SUPER SHIFT, S, Spotify, exec, ${pkgs.spotify}/bin/spotify"
     ];
   };
 }
