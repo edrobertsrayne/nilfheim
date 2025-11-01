@@ -21,7 +21,9 @@ nilfheim/
 │   ├── hosts/                   # Host-specific configurations
 │   │   └── {hostname}/          # Per-host modules
 │   ├── lib/                     # Custom library functions
-│   ├── {feature}/               # Feature-specific modules (nixvim/, hyprland/, waybar/)
+│   ├── darwin/                  # macOS-specific modules (macos.nix, homebrew.nix)
+│   ├── wayland/                 # Wayland-specific modules (waybar/, walker/, swayosd.nix)
+│   ├── {feature}/               # Feature-specific modules (nixvim/, hyprland/, desktop/)
 │   └── {aspect}.nix             # Root-level aspect modules (ssh.nix, nix.nix, etc.)
 └── secrets/                     # Secrets management
 ```
@@ -114,21 +116,31 @@ Choose the right location:
 | Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
 | Project option | `modules/nilfheim/+{name}.nix` | `modules/nilfheim/+user.nix` |
 | Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
+| Wayland-specific | `modules/wayland/` | `modules/wayland/waybar/` |
+| macOS-specific | `modules/darwin/` | `modules/darwin/macos.nix` |
+| Platform packages | `modules/{platform}/packages.nix` | `modules/hyprland/packages.nix` |
 
 ### Rule 3: Aggregator Pattern
 
 For related features that are commonly used together:
 1. Create individual feature modules first
 2. Create an aggregator that imports them
-3. Example: `desktop.nix` aggregates `hyprland`, `greetd`, `neovim`, `waybar`
+3. Example: `desktop.nix` aggregates cross-platform tools like `neovim` and `utilities`
 
 ```nix
-# Good: aggregator pattern
+# Good: aggregator pattern (cross-platform tools only)
 flake.modules.nixos.desktop.imports = with inputs.self.modules.nixos; [
-  hyprland
-  greetd
+  hyprland  # Window manager (system-level)
+  greetd    # Display manager
+];
+
+flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
+  neovim     # Cross-platform editor
+  utilities  # Cross-platform CLI tools
 ];
 ```
+
+**Note:** Aggregators should group related aspects, but avoid mixing platform-specific modules (like Wayland tools) with cross-platform modules. Host configurations explicitly compose platform-specific modules as needed.
 
 **Best Practice Example: Modular Feature Organization**
 
@@ -232,6 +244,92 @@ git add path/to/new-file.nix
 ```
 
 Without `git add`, the new file will not be loaded by the flake, causing evaluation errors or missing functionality.
+
+---
+
+## Cross-Platform Architecture
+
+Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separation of platform-specific and cross-platform modules.
+
+### Platform Categories
+
+**Cross-Platform Modules** - Work on any platform:
+- `modules/desktop/` - GUI applications (Firefox, VS Code, etc.)
+- `modules/neovim/` - Editor configuration
+- `modules/utilities/` - CLI tools (git, fzf, bat, etc.)
+
+**Linux-Specific Modules:**
+- `modules/hyprland/` - Hyprland window manager configuration
+- `modules/wayland/` - Wayland compositor tools (waybar, walker, swayosd)
+- `modules/system/` - NixOS system configuration (networking, nix, ssh)
+
+**Darwin-Specific Modules:**
+- `modules/darwin/` - macOS system defaults and Homebrew
+
+### Design Principles
+
+1. **Separation of Concerns:**
+   - Desktop apps (Firefox, Alacritty) belong in `desktop/` (cross-platform)
+   - Wayland-specific tools (waybar, walker) belong in `wayland/` (Linux-only)
+   - Window manager config (Hyprland) stays separate from desktop apps
+
+2. **Platform-Specific Packages:**
+   - Helper scripts that depend on platform-specific tools (like `uwsm` for Wayland) should be defined in platform-specific modules
+   - Example: `modules/hyprland/packages.nix` contains launch-* scripts that use Wayland session management
+
+3. **Explicit Host Composition:**
+   - Hosts explicitly import the modules they need
+   - Linux hosts import: `desktop`, `wayland`, `hyprland`
+   - Darwin hosts import: `desktop`, `darwin`
+
+### Example: Multi-Platform Configuration
+
+**Linux workstation (freya):**
+```nix
+flake.modules.homeManager.freya = {
+  imports = with inputs.self.modules.homeManager; [
+    utilities   # Cross-platform CLI tools
+    desktop     # Cross-platform GUI apps
+    hyprland    # Linux window manager
+    waybar      # Wayland status bar
+    walker      # Wayland launcher
+    swayosd     # Wayland OSD
+  ];
+};
+```
+
+**macOS workstation (odin):**
+```nix
+flake.modules.homeManager.odin = {
+  imports = with inputs.self.modules.homeManager; [
+    utilities   # Same CLI tools as Linux
+    desktop     # Same GUI apps as Linux
+    # No wayland/hyprland - use darwin-specific tools instead
+  ];
+};
+```
+
+**Server (thor):**
+```nix
+flake.modules.homeManager.thor = {
+  imports = with inputs.self.modules.homeManager; [
+    # Selective CLI utilities only (no shell customization)
+    git
+    fzf
+    bat
+    eza
+    lazygit
+    lazydocker
+  ];
+};
+```
+
+### Benefits
+
+- **Desktop apps work everywhere** - No Wayland/Hyprland dependencies in cross-platform modules
+- **No build failures** - Platform-specific packages isolated to their respective modules
+- **Easy to add platforms** - New platforms (Raspberry Pi, etc.) can selectively import modules
+- **Flexible composition** - Servers can import CLI tools without shell customization
 
 ---
 
