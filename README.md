@@ -1,8 +1,12 @@
-# 🏔️ Niilfheim
+# 🏔️ Nilfheim
 
-> A beautiful, aspect-oriented NixOS configuration following dendritic principles
+> A beautiful, aspect-oriented NixOS configuration following dendritic
+> principles
 
-Nilfheim is a complete NixOS configuration built around **dendritic architecture** — organizing modules by *what they do* rather than *where they run*. The result is a highly modular, composable, and maintainable system that embraces keyboard-first workflows and aesthetic design.
+Nilfheim is a complete NixOS configuration built around **dendritic
+architecture** — organizing modules by _what they do_ rather than _where they
+run_. The result is a highly modular, composable, and maintainable system that
+embraces keyboard-first workflows and aesthetic design.
 
 ---
 
@@ -10,10 +14,12 @@ Nilfheim is a complete NixOS configuration built around **dendritic architecture
 
 This configuration represents a ground-up rewrite focusing on:
 
-- **Aspect-Oriented Architecture**: Modules organized by purpose (desktop, development, media, system)
+- **Aspect-Oriented Architecture**: Modules organized by purpose (desktop,
+  development, media, system)
 - **Automatic Module Loading**: Zero-maintenance imports via `import-tree`
 - **Composable Design**: Mix and match aspects to build systems declaratively
-- **Keyboard-First Workflow**: Everything accessible via keyboard (inspired by omarchy)
+- **Keyboard-First Workflow**: Everything accessible via keyboard (inspired by
+  omarchy)
 - **Unified Theming**: System-wide consistency through Stylix (Tokyo Night)
 - **Self-Documenting**: Clear module boundaries with explicit dependencies
 
@@ -24,17 +30,22 @@ This configuration represents a ground-up rewrite focusing on:
 ### 🖥️ Desktop Environment
 
 - **Hyprland** compositor with comprehensive window management
+- **Interactive menu system** (Super+Alt+Space) with organized access to common
+  tasks
+- **Screenshot tools** - grimblast + satty for capture and annotation
 - **Stylix** theming system (Tokyo Night colorscheme)
 - **Walker** application launcher (Super+Space)
 - **Waybar** status bar with system information
-- **Custom launchers** for browser, terminal, and webapps
+- **Custom launchers** - launch-editor, launch-terminal, launch-browser,
+  launch-presentation-terminal
 - **SwayOSD** for volume and brightness feedback
 
 ### 🛠️ Development Tools
 
-- **Nixvim** with LazyVim-inspired plugins and keymaps
+- **Neovim** (nvf) with LazyVim-inspired modular configuration
 - **Tmux** with vim-tmux-navigator integration
 - **CLI utilities**: bat, eza, fzf, delta, lazygit, lazydocker, zoxide
+- **nh** - Nix helper for flake operations and system cleanup
 - **Dev shells** for project-specific environments
 
 ### 🎬 Media Server Stack
@@ -60,20 +71,19 @@ This configuration represents a ground-up rewrite focusing on:
 
 **Architecture & Configuration Management:**
 
-- [dendrix](https://github.com/vic/dendrix) - Dendritic architecture
-  principles for aspect-oriented NixOS configs
+- [dendrix](https://github.com/vic/dendrix) - Dendritic architecture principles
+  for aspect-oriented NixOS configs
 - [vix](https://github.com/vic/vix) - Reference implementation of dendritic
   patterns
-- [GaetanLepage/nix-config](https://github.com/GaetanLepage/nix-config) -
-  Modern NixOS configuration patterns
-- [fufexan/dotfiles](https://github.com/fufexan/dotfiles) - NixOS and
-  Hyprland configuration inspiration
+- [GaetanLepage/nix-config](https://github.com/GaetanLepage/nix-config) - Modern
+  NixOS configuration patterns
+- [fufexan/dotfiles](https://github.com/fufexan/dotfiles) - NixOS and Hyprland
+  configuration inspiration
 
 **Desktop & Design:**
 
-- [omarchy](https://github.com/basecamp/omarchy) - Overall design
-  philosophy, keyboard-first workflow, custom launcher scripts, and aesthetic
-  approach
+- [omarchy](https://github.com/basecamp/omarchy) - Overall design philosophy,
+  keyboard-first workflow, custom launcher scripts, and aesthetic approach
 - [stylix](https://github.com/danth/stylix) - System-wide theming engine
 
 ---
@@ -115,7 +125,7 @@ nilfheim/
 ├── modules/
 │   ├── desktop/           # Desktop environment aspects
 │   ├── hyprland/          # Hyprland compositor configuration
-│   ├── nixvim/            # Neovim configuration
+│   ├── neovim/            # Neovim configuration (modular)
 │   ├── utilities/         # CLI tools (one file per tool)
 │   ├── services/          # System services
 │   ├── media/             # Media server aspects
@@ -129,6 +139,7 @@ nilfheim/
 ├── secrets/               # Encrypted secrets (agenix)
 └── docs/                  # Documentation
     ├── reference/         # Technical reference docs
+    ├── NEOVIM_CHEATSHEET.md
     ├── TMUX_CHEATSHEET.md
     └── HYPRLAND_SHORTCUTS.md
 ```
@@ -140,12 +151,12 @@ For detailed architecture information, see
 
 ## 💻 Current Hosts
 
-| Host    | Type    | Status | Description |
-|---------|---------|--------|-------------|
-| **freya** | Desktop | ✅ Active | Main development workstation with Hyprland |
-| **thor**  | Server  | ✅ Active | Media server with Jellyfin and *arr suite |
-| **odin**  | Desktop  | ⏸️ Pending | Not yet migrated to dendritic architecture |
-| **loki**  | Server  | 🗑️ Retired | May be decommissioned |
+| Host      | Type    | Status      | Description                                  |
+| --------- | ------- | ----------- | -------------------------------------------- |
+| **freya** | Desktop | ✅ Active   | Main development workstation with Hyprland   |
+| **thor**  | Server  | ✅ Active   | Media server with Jellyfin and *arr suite    |
+| **odin**  | Desktop | 🔧 Updating | Neovim module enabled, migration in progress |
+| **loki**  | Server  | 🗑️ Retired  | Decommissioned                               |
 
 ---
 
@@ -154,7 +165,8 @@ For detailed architecture information, see
 ### Quick References
 
 - [Hyprland Shortcuts](docs/HYPRLAND_SHORTCUTS.md) - Keyboard shortcuts for
-  window management
+  window management, menu system, and screenshots
+- [Neovim Cheatsheet](docs/NEOVIM_CHEATSHEET.md) - Editor shortcuts and features
 - [Tmux Cheatsheet](docs/TMUX_CHEATSHEET.md) - Terminal multiplexer shortcuts
 
 ### Reference Documentation

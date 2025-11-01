@@ -120,7 +120,7 @@ Choose the right location:
 For related features that are commonly used together:
 1. Create individual feature modules first
 2. Create an aggregator that imports them
-3. Example: `desktop.nix` aggregates `hyprland`, `greetd`, `nixvim`, `waybar`
+3. Example: `desktop.nix` aggregates `hyprland`, `greetd`, `neovim`, `waybar`
 
 ```nix
 # Good: aggregator pattern
@@ -128,6 +128,60 @@ flake.modules.nixos.desktop.imports = with inputs.self.modules.nixos; [
   hyprland
   greetd
 ];
+```
+
+**Best Practice Example: Modular Feature Organization**
+
+The `modules/neovim/` directory demonstrates excellent modular structure for complex features:
+
+```
+modules/neovim/
+├── core.nix           # Core editor settings and options
+├── keymaps.nix        # Keyboard shortcuts and bindings
+├── lsp.nix            # Language server configuration
+├── languages.nix      # Language-specific settings (Nix, Python, etc.)
+├── telescope.nix      # Fuzzy finder configuration
+├── git.nix            # Git integration (gitsigns)
+├── terminal.nix       # Terminal integration (toggleterm, lazygit)
+├── filetree.nix       # File explorer (NeoTree)
+├── grug-far.nix       # Search and replace
+├── tmux-navigator.nix # Vim-tmux navigation integration
+├── diagnostics.nix    # Diagnostics and error display
+├── ui.nix             # UI components
+├── visuals.nix        # Visual enhancements
+├── editor.nix         # Editor behavior
+├── navigation.nix     # Navigation features
+├── completion.nix     # Completion engine
+├── treesitter.nix     # Syntax highlighting
+└── mini.nix           # Mini.nvim suite
+```
+
+**Why this structure works well:**
+
+1. **Single Responsibility:** Each file configures one specific aspect (LSP, git, telescope, etc.)
+2. **Easy to Navigate:** Finding configuration is intuitive - LSP settings in `lsp.nix`, git in `git.nix`
+3. **Self-Documenting:** File names clearly indicate what each module does
+4. **Composable:** Features can be enabled/disabled independently
+5. **Maintainable:** Changes to one feature don't affect others
+6. **Scalable:** New features (like `grug-far.nix`) can be added without refactoring
+
+**When to use this pattern:**
+
+- Complex features with multiple sub-components (editor, compositor, media stack)
+- When configuration for a single feature would exceed ~200 lines
+- When different aspects have distinct concerns (keybindings vs. LSP vs. languages)
+- When you want team members to easily find and modify specific functionality
+
+**Contrast with anti-pattern:**
+
+```nix
+# ❌ BAD: monolithic file
+modules/neovim.nix  # 2000+ lines of all neovim config
+
+# ✅ GOOD: modular directory
+modules/neovim/lsp.nix        # 150 lines focused on LSP
+modules/neovim/keymaps.nix    # 150 lines focused on keybindings
+modules/neovim/languages.nix  # 40 lines focused on language support
 ```
 
 ### Rule 4: Multi-Context Configuration

@@ -7,6 +7,7 @@
 ```text
 Super+Return          Open terminal
 Super+Space           Application launcher
+Super+Alt+Space       Main menu
 Super+Shift+B         Open browser
 Super+W/Q             Close window
 Super+F               Fullscreen
@@ -14,6 +15,7 @@ Super+T               Toggle floating
 Super+1-9             Switch to workspace 1-9
 Alt+Tab               Next window
 Super+Tab             Next workspace
+Print                 Screenshot window
 ```
 
 **Important Notes**:
@@ -132,6 +134,7 @@ Super+Tab             Next workspace
 |----------|--------|
 | `Super+Return` | Open terminal (launch-terminal) |
 | `Super+Space` | Application launcher (Walker) |
+| `Super+Alt+Space` | Main menu (interactive) |
 | `Super+Shift+B` | Open browser (launch-browser) |
 | `Super+Shift+Alt+B` | Open browser in private mode |
 | `Super+Shift+E` | Open file manager (Nautilus) |
@@ -146,6 +149,82 @@ Super+Tab             Next workspace
 | `Super+Shift+L` | Switch keyboard layout (cycle) |
 
 **Note**: The "close all windows" command uses jq to parse Hyprland client list.
+
+---
+
+## Main Menu System
+
+**Shortcut**: `Super+Alt+Space`
+
+The main menu provides organized access to common tasks through a keyboard-driven interface:
+
+### Menu Options
+
+| Menu Item | Description |
+|-----------|-------------|
+| **Apps** | Launch applications (opens Walker) |
+| **Learn** | Access documentation and references |
+| **Capture** | Screenshot and color picker tools |
+| **Edit Config** | Open Nilfheim configuration in editor |
+| **Clean** | Run `nh clean all` to remove old generations |
+| **Rebuild** | Run `nh os switch` to rebuild system |
+| **About** | Show system information |
+| **System** | Lock, suspend, restart, or shutdown |
+
+### Learn Submenu
+
+| Option | Opens |
+|--------|-------|
+| Keybindings | Interactive keybinding reference |
+| NixOS Search | NixOS options search |
+| home-manager | Home Manager options documentation |
+| nvf | Neovim configuration framework docs |
+| Bash | Bash cheatsheet |
+
+### Capture Submenu
+
+| Option | Action |
+|--------|--------|
+| Grab the whole screen | Screenshot entire screen |
+| Grab the current window | Screenshot active window |
+| Grab an area | Screenshot selected area |
+| Grab a colour | Color picker tool |
+
+### System Submenu
+
+| Option | Action |
+|--------|--------|
+| Lock | Lock screen (hyprlock) |
+| Suspend | Suspend system |
+| Restart | Reboot system |
+| Shutdown | Power off system |
+
+---
+
+## Screenshot & Color Tools
+
+### Screenshot Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Print` | Screenshot current window |
+| `Shift+Print` | Screenshot selected area |
+| `Alt+Print` | Screenshot current screen |
+| `Ctrl+Print` | Screenshot all screens |
+| `Super+Print` | Color picker (toggle) |
+
+**Features**:
+- Screenshots use **grimblast** for capture
+- **Satty** annotation tool opens automatically
+- Screenshots saved to `~/Pictures/Screenshots/`
+- Copied to clipboard by default
+- Timestamp format: `screenshot-YYYYMMDD-HHMMSS.png`
+
+### Color Picker
+
+- Activates **hyprpicker** for color selection
+- Press `Super+Print` again to cancel
+- Selected color copied to clipboard automatically
 
 ---
 
@@ -216,10 +295,12 @@ Super+Tab             Next workspace
 
 **Config managed via**:
 
-- `/home/ed/Projects/nilfheim/modules/hyprland/keybinds.nix`
-- `/home/ed/Projects/nilfheim/modules/hyprland/hyprland.nix`
-- `/home/ed/Projects/nilfheim/modules/hyprland/appearance.nix`
-- `/home/ed/Projects/nilfheim/modules/hyprland/window-rules.nix`
+- `modules/hyprland/keybinds.nix` - Keyboard shortcuts
+- `modules/hyprland/menu.nix` - Main menu system
+- `modules/hyprland/screenshot.nix` - Screenshot and color picker
+- `modules/hyprland/hyprland.nix` - Core compositor settings
+- `modules/hyprland/appearance.nix` - Visual styling
+- `modules/hyprland/window-rules.nix` - Window behavior rules
 
 **Actual config directory**: `~/.config/hypr/`
 
