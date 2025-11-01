@@ -56,11 +56,11 @@ show_capture_menu() {
 
 show_learn_menu() {
   case $(menu "Learn" "  Keybindings\n󱄅  Nixos Search\n  home-manager\n  nvf\n Bash") in
-  *keybindings*) show-keybindings ;;
-  *nixos*) launch-webapp "https://search.nixos.org/options" ;;
+  *Keybindings*) show-keybindings ;;
+  *Nixos*) launch-webapp "https://search.nixos.org/options" ;;
   *home-manager*) launch-webapp "https://nix-community.github.io/home-manager/options.xhtml" ;;
   *nvf*) launch-webapp "https://notashelf.github.io/nvf/options.html" ;;
-  *bash*) launch-webapp "https://devhints.io/bash" ;;
+  *Bash*) launch-webapp "https://devhints.io/bash" ;;
   *) back_to show_main_menu ;;
   esac
 }
