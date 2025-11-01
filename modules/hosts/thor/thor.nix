@@ -35,4 +35,21 @@
       data-root = "/srv/docker";
     };
   };
+
+  flake.modules.homeManager.thor = {
+    imports = with inputs.self.modules.homeManager; [
+      # CLI tools (no shell customization)
+      git
+      fzf
+      bat
+      eza
+      fd
+      lazygit
+      lazydocker
+      gh
+      delta
+      direnv
+      jq
+    ];
+  };
 }

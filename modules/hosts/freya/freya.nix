@@ -13,6 +13,13 @@
   };
 
   flake.modules.homeManager.freya = {
-    imports = with inputs.self.modules.homeManager; [utilities desktop];
+    imports = with inputs.self.modules.homeManager; [
+      utilities
+      desktop
+      hyprland
+      waybar
+      walker
+      swayosd
+    ];
   };
 }

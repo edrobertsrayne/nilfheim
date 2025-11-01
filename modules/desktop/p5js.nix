@@ -1,25 +1,14 @@
-{inputs, ...}: {
-  flake.modules.homeManager.desktop = {
-    pkgs,
-    lib,
-    ...
-  }: let
-    launch-webapp = lib.getExe inputs.self.packages.${pkgs.system}.launch-webapp;
-  in {
+_: {
+  flake.modules.homeManager.desktop = {pkgs, ...}: {
     # Desktop entry
     xdg.desktopEntries.p5js = {
       name = "p5.js Editor";
       comment = "Creative coding web editor";
-      exec = "${launch-webapp} \"https://editor.p5js.org\"";
+      exec = "${pkgs.firefox}/bin/firefox --new-window https://editor.p5js.org";
       icon = ./../../assets/icons/p5js.png;
       categories = ["Development"];
       terminal = false;
       type = "Application";
     };
-
-    # Hyprland keybind
-    wayland.windowManager.hyprland.settings.bindd = [
-      "SUPER SHIFT, P, p5.js Editor, exec, ${launch-webapp} \"https://editor.p5js.org\""
-    ];
   };
 }

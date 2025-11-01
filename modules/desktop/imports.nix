@@ -5,10 +5,7 @@
   ];
 
   flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
-    hyprland
-    waybar
     neovim
-    walker
     utilities
   ];
 }
