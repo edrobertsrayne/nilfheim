@@ -11,6 +11,7 @@ in {
     # Platform-specific home modules
     home-manager.users.${username}.imports = with inputs.self.modules.generic; [
       desktop # Cross-platform GUI apps
+      webapps # Web apps with keybinds
       hyprland # Hyprland user config
       waybar # Status bar
       walker # App launcher
@@ -28,26 +29,6 @@ in {
     home-manager.users.${username}.imports = with inputs.self.modules.generic; [
       desktop # Same cross-platform GUI apps
       # No Linux-specific modules
-    ];
-  };
-
-  # Cross-platform home desktop module (aggregator)
-  flake.modules.generic.desktop = {
-    imports = with inputs.self.modules.generic; [
-      # Cross-platform GUI applications
-      firefox
-      alacritty
-      chromium
-      vscode
-      obsidian
-      zathura
-      gtk
-      apps
-      games
-      utilities
-      lazydocker
-      spotify
-      _spotify
     ];
   };
 }
