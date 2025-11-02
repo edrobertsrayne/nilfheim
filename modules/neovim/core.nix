@@ -5,6 +5,10 @@ in {
     imports = [inputs.nvf.homeManagerModules.default];
     stylix.targets.nvf.enable = false;
 
+    home.shellAliases = {
+      n = "nvim";
+    };
+
     programs.nvf = {
       enable = true;
       settings = {
