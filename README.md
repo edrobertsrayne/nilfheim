@@ -75,6 +75,12 @@ This configuration represents a ground-up rewrite focusing on:
   for aspect-oriented NixOS configs
 - [vix](https://github.com/vic/vix) - Reference implementation of dendritic
   patterns
+- [mightyiam/dendritic](https://github.com/mightyiam/dendritic) - Reference
+  dendritic implementation by the pattern author
+- [mightyiam/infra](https://github.com/mightyiam/infra) - Personal
+  infrastructure using dendritic
+- [drupol/infra](https://github.com/drupol/infra) - Another infrastructure
+  example using dendritic
 - [GaetanLepage/nix-config](https://github.com/GaetanLepage/nix-config) - Modern
   NixOS configuration patterns
 - [fufexan/dotfiles](https://github.com/fufexan/dotfiles) - NixOS and Hyprland
