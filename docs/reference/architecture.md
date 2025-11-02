@@ -21,10 +21,11 @@ nilfheim/
 │   ├── hosts/                   # Host-specific configurations
 │   │   └── {hostname}/          # Per-host modules
 │   ├── lib/                     # Custom library functions
+│   ├── nixos/                   # NixOS-specific modules (networking, nix, ssh, etc.)
 │   ├── darwin/                  # macOS-specific modules (darwin.nix, homebrew.nix, zsh.nix)
-│   ├── wayland/                 # Wayland-specific modules (waybar/, walker/, swayosd.nix)
-│   ├── {feature}/               # Feature-specific modules (nixvim/, hyprland/, desktop/)
-│   └── {aspect}.nix             # Root-level aspect modules (ssh.nix, nix.nix, etc.)
+│   ├── applications/            # GUI applications (alacritty, firefox, vscode, spotify)
+│   ├── {feature}/               # Feature-specific modules (neovim/, hyprland/, desktop/)
+│   └── {aspect}.nix             # Root-level aspect modules (audio.nix, starship.nix, zsh.nix, etc.)
 └── secrets/                     # Secrets management
 ```
 
@@ -32,7 +33,7 @@ nilfheim/
 
 1. **NixOS Modules:** `flake.modules.nixos.*` - System-level configuration
 2. **Darwin Modules:** `flake.modules.darwin.*` - macOS system configuration
-3. **Generic Modules:** `flake.modules.homeManager.*` - Cross-platform user configuration (home-manager)
+3. **Generic Modules:** `flake.modules.home.*` - Cross-platform user configuration (home-manager)
 4. **Flake Options:** `flake.nilfheim.*` - Project-wide settings
 
 ### Key Concepts
@@ -117,10 +118,10 @@ Choose the right location:
 | Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
 | Project option | `modules/nilfheim/+{name}.nix` | `modules/nilfheim/+user.nix` |
 | Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
-| Wayland-specific | `modules/wayland/` | `modules/wayland/waybar/` |
+| GUI applications | `modules/applications/` | `modules/applications/firefox.nix` |
 | macOS-specific | `modules/darwin/` | `modules/darwin/darwin.nix` |
 | Platform packages | `modules/{platform}/packages.nix` | `modules/hyprland/packages.nix` |
-| System shell setup | `modules/{system,darwin}/zsh.nix` | `modules/system/zsh.nix` |
+| System shell setup | `modules/{nixos,darwin}/zsh.nix` | `modules/nixos/zsh.nix` |
 
 ### Rule 3: Aggregator Pattern
 
@@ -138,7 +139,7 @@ flake.modules.nixos.desktop = {
   ];
 
   # Platform-specific home imports
-  home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
+  home-manager.users.${username}.imports = with inputs.self.modules.home; [
     desktop      # Cross-platform GUI apps
     webapps      # Web apps with keybinds
     xdg          # XDG/MIME config (Linux-only)
@@ -151,14 +152,14 @@ flake.modules.nixos.desktop = {
 
 # Darwin desktop aggregator (cross-platform only)
 flake.modules.darwin.desktop = {
-  home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
+  home-manager.users.${username}.imports = with inputs.self.modules.home; [
     desktop      # Same cross-platform GUI apps
     # No Linux-specific modules
   ];
 };
 
 # Generic desktop aggregator (cross-platform GUI apps)
-flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
+flake.modules.home.desktop.imports = with inputs.self.modules.home; [
   firefox
   chromium
   vscode
@@ -229,7 +230,7 @@ When a feature needs configuration at multiple levels:
 
 **Shell configuration example:**
 ```nix
-# System-level: modules/system/zsh.nix
+# System-level: modules/nixos/zsh.nix
 { inputs, ... }: let
   inherit (inputs.self.nilfheim.user) username;
 in {
@@ -239,9 +240,9 @@ in {
   };
 }
 
-# User-level: modules/utilities/zsh.nix
+# User-level: modules/zsh.nix
 _: {
-  flake.modules.homeManager.zsh = {
+  flake.modules.home.zsh = {
     programs.zsh = {
       enable = true;
       enableCompletion = true;
@@ -264,21 +265,21 @@ in {
       greetd
     ];
 
-    home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
+    home-manager.users.${username}.imports = with inputs.self.modules.home; [
       desktop webapps xdg hyprland waybar walker swayosd
     ];
   };
 
   # Darwin desktop (cross-platform only)
   flake.modules.darwin.desktop = {
-    home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
+    home-manager.users.${username}.imports = with inputs.self.modules.home; [
       desktop  # Same cross-platform apps
     ];
   };
 
   # Generic cross-platform desktop apps
-  flake.modules.homeManager.desktop = {
-    imports = with inputs.self.modules.homeManager; [
+  flake.modules.home.desktop = {
+    imports = with inputs.self.modules.home; [
       firefox chromium vscode alacritty
     ];
   };
@@ -323,19 +324,20 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
 
 ### Platform Categories
 
-**Cross-Platform Modules** (`flake.modules.homeManager.*`) - Work on any platform:
-- `modules/desktop/` - GUI applications (Firefox, VS Code, etc.)
+**Cross-Platform Modules** (`flake.modules.home.*`) - Work on any platform:
+- `modules/applications/` - GUI applications (Firefox, VS Code, Alacritty, etc.)
 - `modules/neovim/` - Editor configuration
 - `modules/utilities/` - CLI tools (git, fzf, bat, etc.)
 - User-level shell config (`zsh.nix`, `starship.nix`)
 
 **Linux-Specific Modules** (`flake.modules.nixos.*`):
 - `modules/hyprland/` - Hyprland window manager configuration
-- `modules/wayland/` - Wayland compositor tools (waybar, walker, swayosd)
-- `modules/system/` - NixOS system configuration (networking, nix, ssh, home-manager)
+- `modules/waybar/` - Waybar status bar (top-level, flattened)
+- `modules/walker/` - Walker application launcher (top-level, flattened)
+- `modules/nixos/` - NixOS system configuration (networking, nix, ssh, home-manager)
 - `modules/desktop/webapps.nix` - Web apps with Hyprland keybinds
 - `modules/desktop/xdg.nix` - XDG/MIME configuration
-- System-level shell setup (`modules/system/zsh.nix`)
+- System-level shell setup (`modules/nixos/zsh.nix`)
 
 **Darwin-Specific Modules** (`flake.modules.darwin.*`):
 - `modules/darwin/` - macOS system defaults, Homebrew, and home-manager
@@ -363,6 +365,11 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
    - Hosts import aggregators (`desktop`, `utilities`) or individual modules
    - Platform logic handled internally by aggregators
 
+5. **Flattened Module Structure:**
+   - Single-file modules that were previously nested are now at top-level (e.g., `modules/audio.nix`, `modules/starship.nix`)
+   - GUI applications grouped in `modules/applications/` directory
+   - Platform-specific directories use explicit names (`nixos` instead of `system`)
+
 ### Example: Multi-Platform Configuration
 
 **Linux workstation (freya):**
@@ -377,8 +384,8 @@ flake.modules.nixos.freya = {
 };
 
 # User-level (home-manager)
-flake.modules.homeManager.freya = {
-  imports = with inputs.self.modules.homeManager; [
+flake.modules.home.freya = {
+  imports = with inputs.self.modules.home; [
     utilities        # CLI tools + aliases
     zsh              # User zsh config
     starship         # Prompt customization
@@ -398,8 +405,8 @@ flake.modules.darwin.odin = {
 };
 
 # User-level (home-manager)
-flake.modules.homeManager.odin = {
-  imports = with inputs.self.modules.homeManager; [
+flake.modules.home.odin = {
+  imports = with inputs.self.modules.home; [
     utilities        # Same CLI tools as Linux
     zsh              # Same user zsh config
     starship         # Same prompt
@@ -419,8 +426,8 @@ flake.modules.nixos.thor = {
 };
 
 # User-level (home-manager)
-flake.modules.homeManager.thor = {
-  imports = with inputs.self.modules.homeManager; [
+flake.modules.home.thor = {
+  imports = with inputs.self.modules.home; [
     # Selective CLI utilities only (no shell customization)
     utilities        # Or individual tools: git, fzf, bat, eza, etc.
   ];
