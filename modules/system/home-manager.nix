@@ -3,13 +3,10 @@
 in {
   flake.modules.nixos.home-manager = {
     config,
-    pkgs,
     lib,
     ...
   }: {
     imports = [inputs.home-manager.nixosModules.home-manager];
-    users.users."${username}".shell = pkgs.zsh;
-    programs.zsh.enable = true;
 
     home-manager = {
       useGlobalPkgs = true;
@@ -27,20 +24,14 @@ in {
     };
   };
 
-  flake.modules.darwin.home-manager = {
-    config,
-    pkgs,
-    ...
-  }: let
+  flake.modules.darwin.home-manager = {config, ...}: let
     inherit (inputs.self.nilfheim.user) username;
   in {
     imports = [inputs.home-manager.darwinModules.home-manager];
     users.users."${username}" = {
-      shell = pkgs.zsh;
       name = "${username}";
       home = "/Users/${username}";
     };
-    programs.zsh.enable = true;
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;

@@ -9,6 +9,7 @@
       ./_disko.nix
       ./_hardware-configuration.nix
 
+      zsh
       portainer
       blocky
       media
