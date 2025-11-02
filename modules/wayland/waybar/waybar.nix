@@ -122,7 +122,7 @@
           cpu = {
             interval = 15;
             format = " ";
-            on-click = "${terminal} -e ${lib.getExe pkgs.btop}";
+            on-click = "${terminal} --class=Nilfheim -e ${lib.getExe pkgs.btop}";
           };
         };
       };
