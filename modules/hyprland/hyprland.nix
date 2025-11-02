@@ -13,7 +13,7 @@
     };
   };
 
-  flake.modules.homeManager.hyprland = let
+  flake.modules.generic.hyprland = let
     inherit (inputs.self.nilfheim.desktop) terminal;
   in {
     wayland.windowManager.hyprland.enable = true;

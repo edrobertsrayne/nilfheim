@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.utilities = {pkgs, ...}: {
+  flake.modules.generic.utilities = {pkgs, ...}: {
     programs.gh = {
       enable = true;
       extensions = with pkgs; [gh-markdown-preview];

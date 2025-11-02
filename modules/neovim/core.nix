@@ -1,7 +1,7 @@
 {inputs, ...}: let
   inherit (inputs.self.nilfheim.theme) nvf;
 in {
-  flake.modules.homeManager.neovim = {
+  flake.modules.generic.neovim = {
     imports = [inputs.nvf.homeManagerModules.default];
     stylix.targets.nvf.enable = false;
 

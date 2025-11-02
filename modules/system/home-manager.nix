@@ -14,8 +14,8 @@ in {
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      users."${username}".imports = with inputs.self.modules.homeManager; [
-        (inputs.self.modules.homeManager."${config.networking.hostName}" or {})
+      users."${username}".imports = with inputs.self.modules.generic; [
+        (inputs.self.modules.generic."${config.networking.hostName}" or {})
         {
           home = {
             username = lib.mkDefault username;
@@ -45,7 +45,7 @@ in {
       useGlobalPkgs = true;
       useUserPackages = true;
       users.${username} = {
-        imports = [(inputs.self.modules.homeManager.${config.networking.hostName} or {})];
+        imports = [(inputs.self.modules.generic.${config.networking.hostName} or {})];
         programs.home-manager.enable = true;
         home = {
           stateVersion = "25.05";

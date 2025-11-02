@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.hyprland = {lib, ...}: {
+  flake.modules.generic.hyprland = {lib, ...}: {
     programs.hyprlock = {
       enable = true;
       # TODO: get the background image from waypaper and use on lock screen

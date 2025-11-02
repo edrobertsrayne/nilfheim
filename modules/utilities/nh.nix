@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.utilities = {
+  flake.modules.generic.utilities = {
     programs.nh = {
       enable = true;
       flake = "github:edrobertsrayne/nilfheim";
