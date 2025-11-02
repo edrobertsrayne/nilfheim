@@ -1,5 +1,5 @@
 _: {
-  flake.modules.home.neovim = {
+  flake.modules.homeManager.neovim = {
     programs.nvf.settings.vim = {
       mini = {
         ai.enable = true;

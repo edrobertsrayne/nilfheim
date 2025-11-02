@@ -1,5 +1,5 @@
 _: {
-  flake.modules.home.utilities = {
+  flake.modules.homeManager.utilities = {
     home = {
       shell.enableShellIntegration = true;
       shellAliases = {

@@ -1,5 +1,5 @@
 _: {
-  flake.modules.home.desktop = {
+  flake.modules.homeManager.desktop = {
     programs.firefox.enable = true;
   };
 }

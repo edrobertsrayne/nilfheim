@@ -1,7 +1,7 @@
 {inputs, ...}: let
   inherit (inputs.self.nilfheim.user) fullname email;
 in {
-  flake.modules.home.utilities = {
+  flake.modules.homeManager.utilities = {
     programs.git = {
       enable = true;
       settings.user = {

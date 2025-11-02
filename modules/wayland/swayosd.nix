@@ -1,5 +1,5 @@
 _: {
-  flake.modules.home.swayosd = {
+  flake.modules.homeManager.swayosd = {
     services.swayosd = {
       enable = true;
     };

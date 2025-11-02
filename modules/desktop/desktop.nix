@@ -9,7 +9,7 @@ in {
     ];
 
     # Platform-specific home modules
-    home-manager.users.${username}.imports = with inputs.self.modules.home; [
+    home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
       desktop # Cross-platform GUI apps
       webapps # Web apps with keybinds
       xdg # XDG/MIME config
@@ -27,7 +27,7 @@ in {
     ];
 
     # Cross-platform home modules only
-    home-manager.users.${username}.imports = with inputs.self.modules.home; [
+    home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
       desktop # Same cross-platform GUI apps
       # No Linux-specific modules
     ];
