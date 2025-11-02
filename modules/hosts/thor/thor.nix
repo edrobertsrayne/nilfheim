@@ -7,21 +7,15 @@
 
     modules.nixos.thor = {
       imports = with inputs.self.modules.nixos; [
-        ./_disko.nix
-        ./_hardware-configuration.nix
-
-        zsh
         portainer
         blocky
         media
         cloudflared
         home-assistant
       ];
-      # Ensure ZFS is set up properly
+
       boot.supportedFilesystems = ["zfs"];
       boot.zfs.extraPools = ["tank"];
-
-      # Create tank group and add main user
       users.groups.tank.members = ["${inputs.self.nilfheim.user.username}"];
 
       services.tailscale = {
@@ -40,7 +34,6 @@
 
     modules.homeManager.thor = {
       imports = with inputs.self.modules.homeManager; [
-        # CLI tools
         utilities
       ];
     };
