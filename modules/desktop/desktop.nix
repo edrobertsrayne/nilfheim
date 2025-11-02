@@ -16,7 +16,10 @@ in {
       waybar
       walker
       swayosd
-      applications
+      alacritty
+      firefox
+      spotify
+      vscode
     ];
   };
 
@@ -27,7 +30,10 @@ in {
 
     home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
       desktop
-      applications
+      alacritty
+      firefox
+      spotify
+      vscode
     ];
   };
 }
