@@ -4,7 +4,6 @@
       inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
       zsh
       desktop
-      powerManagement
     ];
 
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
