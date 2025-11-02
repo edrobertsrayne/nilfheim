@@ -1,29 +1,39 @@
 {inputs, ...}: let
   inherit (inputs.self.nilfheim) theme;
+
+  # Base theming configuration shared across all platforms
+  base = pkgs: {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme.base16}.yaml";
+    opacity.terminal = 0.95;
+    fonts.monospace = {
+      package = pkgs.nerd-fonts.jetbrains-mono;
+      name = "JetBrainsMono Nerd Font";
+    };
+  };
 in {
   flake.modules.nixos.desktop = {pkgs, ...}: {
-    imports = [
-      inputs.stylix.nixosModules.stylix
-    ];
+    imports = [inputs.stylix.nixosModules.stylix];
 
-    stylix = {
-      enable = true;
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme.base16}.yaml";
-      icons = {
-        enable = true;
-        package = pkgs.papirus-icon-theme;
-        dark = "Papirus-Dark";
+    stylix =
+      base pkgs
+      // {
+        # Linux-specific theming
+        icons = {
+          enable = true;
+          package = pkgs.papirus-icon-theme;
+          dark = "Papirus-Dark";
+        };
+        cursor = {
+          package = pkgs.bibata-cursors;
+          name = "Bibata-Modern-Classic";
+          size = 24;
+        };
       };
-      opacity.terminal = 0.95;
-      fonts.monospace = {
-        package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "JetBrainsMono Nerd Font";
-      };
-      cursor = {
-        package = pkgs.bibata-cursors;
-        name = "Bibata-Modern-Classic";
-        size = 24;
-      };
-    };
+  };
+
+  flake.modules.darwin.desktop = {pkgs, ...}: {
+    imports = [inputs.stylix.darwinModules.stylix];
+    stylix = base pkgs;
   };
 }
