@@ -23,8 +23,11 @@ nilfheim/
 │   ├── lib/                     # Custom library functions
 │   ├── nixos/                   # NixOS-specific modules (networking, nix, ssh, etc.)
 │   ├── darwin/                  # macOS-specific modules (darwin.nix, homebrew.nix, zsh.nix)
-│   ├── applications/            # GUI applications (alacritty, firefox, vscode, spotify)
-│   ├── {feature}/               # Feature-specific modules (neovim/, hyprland/, desktop/)
+│   ├── desktop/                 # Desktop environment and GUI applications
+│   │   ├── desktop.nix          # Platform-specific desktop aggregator
+│   │   ├── theme.nix            # Stylix theming with base function pattern
+│   │   └── *.nix                # Desktop apps (alacritty, firefox, vscode, spotify, etc.)
+│   ├── {feature}/               # Feature-specific modules (neovim/, hyprland/, waybar/, walker/)
 │   └── {aspect}.nix             # Root-level aspect modules (audio.nix, starship.nix, zsh.nix, etc.)
 └── secrets/                     # Secrets management
 ```
@@ -118,7 +121,9 @@ Choose the right location:
 | Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
 | Project option | `modules/nilfheim/+{name}.nix` | `modules/nilfheim/+user.nix` |
 | Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
-| GUI applications | `modules/applications/` | `modules/applications/firefox.nix` |
+| Desktop apps | `modules/desktop/` | `modules/desktop/firefox.nix` |
+| Desktop aggregator | `modules/desktop/desktop.nix` | Platform-specific desktop setup |
+| Theme config | `modules/desktop/theme.nix` | Stylix with base function pattern |
 | macOS-specific | `modules/darwin/` | `modules/darwin/darwin.nix` |
 | Platform packages | `modules/{platform}/packages.nix` | `modules/hyprland/packages.nix` |
 | System shell setup | `modules/{nixos,darwin}/zsh.nix` | `modules/nixos/zsh.nix` |
@@ -302,7 +307,65 @@ config.flake.modules.nixos.something = {
 };
 ```
 
-### Rule 6: Avoid Manual Imports
+### Rule 6: Theme Base Function Pattern
+
+For platform-specific configuration with shared settings, use the base function pattern:
+
+```nix
+# modules/desktop/theme.nix
+{ inputs, ... }: let
+  inherit (inputs.self.nilfheim) theme;
+
+  # Extract common configuration into a base function
+  base = pkgs: {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme.base16}.yaml";
+    opacity.terminal = 0.95;
+    fonts.monospace = {
+      package = pkgs.nerd-fonts.jetbrains-mono;
+      name = "JetBrainsMono Nerd Font";
+    };
+  };
+in {
+  # NixOS-specific configuration
+  flake.modules.nixos.desktop = {pkgs, ...}: {
+    imports = [inputs.stylix.nixosModules.stylix];
+
+    stylix = base pkgs // {
+      # Linux-specific theming
+      icons = {
+        enable = true;
+        package = pkgs.papirus-icon-theme;
+        dark = "Papirus-Dark";
+      };
+      cursor = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Classic";
+        size = 24;
+      };
+    };
+  };
+
+  # Darwin-specific configuration
+  flake.modules.darwin.desktop = {pkgs, ...}: {
+    imports = [inputs.stylix.darwinModules.stylix];
+    stylix = base pkgs;  # Uses base settings only
+  };
+}
+```
+
+**Benefits:**
+- Shared settings defined once in the `base` function
+- Platform-specific customizations added via attribute merging (`//`)
+- Clear separation of common vs platform-specific configuration
+- Easy to maintain and update shared settings
+
+**When to use:**
+- Platform-specific modules that share most configuration
+- Theme/styling configuration that varies slightly by platform
+- Any configuration where you want to avoid duplication
+
+### Rule 7: Avoid Manual Imports
 
 - ✗ DO NOT add imports in `flake.nix`
 - ✓ DO let `import-tree` discover modules automatically
@@ -325,7 +388,7 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
 ### Platform Categories
 
 **Cross-Platform Modules** (`flake.modules.home.*`) - Work on any platform:
-- `modules/applications/` - GUI applications (Firefox, VS Code, Alacritty, etc.)
+- `modules/desktop/` - GUI applications (Firefox, VS Code, Alacritty, Spotify, etc.)
 - `modules/neovim/` - Editor configuration
 - `modules/utilities/` - CLI tools (git, fzf, bat, etc.)
 - User-level shell config (`zsh.nix`, `starship.nix`)
@@ -365,10 +428,11 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
    - Hosts import aggregators (`desktop`, `utilities`) or individual modules
    - Platform logic handled internally by aggregators
 
-5. **Flattened Module Structure:**
+5. **Organized Module Structure:**
    - Single-file modules that were previously nested are now at top-level (e.g., `modules/audio.nix`, `modules/starship.nix`)
-   - GUI applications grouped in `modules/applications/` directory
+   - GUI applications grouped in `modules/desktop/` directory alongside desktop configuration
    - Platform-specific directories use explicit names (`nixos` instead of `system`)
+   - Theme configuration uses extracted `base` function pattern for shared settings
 
 ### Example: Multi-Platform Configuration
 

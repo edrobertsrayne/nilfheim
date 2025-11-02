@@ -123,8 +123,14 @@ nixos-rebuild switch --flake github:edrobertsrayne/nilfheim#thor \
 nilfheim/
 ├── flake.nix              # Entry point (minimal, just inputs)
 ├── modules/
-│   ├── applications/      # GUI applications (firefox, vscode, alacritty)
-│   ├── desktop/           # Desktop environment aspects
+│   ├── desktop/           # Desktop environment and GUI applications
+│   │   ├── desktop.nix    # Desktop aggregator with platform-specific setup
+│   │   ├── theme.nix      # Stylix theming with base function pattern
+│   │   ├── alacritty.nix  # Terminal emulator
+│   │   ├── firefox.nix    # Web browser
+│   │   ├── vscode.nix     # Code editor
+│   │   ├── spotify.nix    # Music player
+│   │   └── webapps.nix    # Web applications with keybinds
 │   ├── hyprland/          # Hyprland compositor configuration
 │   ├── neovim/            # Neovim configuration (modular)
 │   ├── utilities/         # CLI tools (one file per tool)
