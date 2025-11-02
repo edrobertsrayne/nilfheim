@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.homeManager.odin = {
-    imports = with inputs.self.modules.homeManager; [utilities neovim];
+  flake.modules.generic.odin = {
+    imports = with inputs.self.modules.generic; [utilities neovim];
   };
 }

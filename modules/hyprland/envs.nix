@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.hyprland = {
+  flake.modules.generic.hyprland = {
     wayland.windowManager.hyprland.settings = {
       env = [
         # Cursor

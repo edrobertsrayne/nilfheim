@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.desktop = {pkgs, ...}: {
+  flake.modules.generic.desktop = {pkgs, ...}: {
     programs.chromium = {
       enable = true;
       package = pkgs.google-chrome;

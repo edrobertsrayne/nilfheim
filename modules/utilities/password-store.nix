@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.utilities = {
+  flake.modules.generic.utilities = {
     programs.password-store.enable = true;
   };
 }

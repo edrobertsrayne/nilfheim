@@ -14,8 +14,8 @@
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
   };
 
-  flake.modules.homeManager.freya = {
-    imports = with inputs.self.modules.homeManager; [
+  flake.modules.generic.freya = {
+    imports = with inputs.self.modules.generic; [
       utilities
       desktop
       hyprland

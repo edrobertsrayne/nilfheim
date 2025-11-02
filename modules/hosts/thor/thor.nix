@@ -36,8 +36,8 @@
     };
   };
 
-  flake.modules.homeManager.thor = {
-    imports = with inputs.self.modules.homeManager; [
+  flake.modules.generic.thor = {
+    imports = with inputs.self.modules.generic; [
       # CLI tools (no shell customization)
       git
       fzf

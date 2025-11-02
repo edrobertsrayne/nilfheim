@@ -4,7 +4,7 @@
     greetd
   ];
 
-  flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
+  flake.modules.generic.desktop.imports = with inputs.self.modules.generic; [
     neovim
     utilities
   ];

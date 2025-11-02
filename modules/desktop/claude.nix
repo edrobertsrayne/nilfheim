@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.desktop = {pkgs, ...}: {
+  flake.modules.generic.desktop = {pkgs, ...}: {
     # Desktop entry
     xdg.desktopEntries.claude = {
       name = "Claude (Web)";

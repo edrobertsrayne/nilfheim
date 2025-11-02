@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.desktop = {
+  flake.modules.generic.desktop = {
     programs.spotify-player = {
       enable = true;
     };

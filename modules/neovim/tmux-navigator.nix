@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.neovim = {pkgs, ...}: {
+  flake.modules.generic.neovim = {pkgs, ...}: {
     programs.nvf.settings.vim = {
       lazy.plugins.vim-tmux-navigator = {
         package = pkgs.vimPlugins.vim-tmux-navigator;
