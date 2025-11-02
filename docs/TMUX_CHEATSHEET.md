@@ -250,6 +250,6 @@ Seamless navigation between Neovim and tmux panes.
 
 ## Configuration Location
 
-Config managed via: `/home/ed/Projects/nilfheim/modules/utilities/tmux.nix`
+Config managed via: `modules/utilities/tmux.nix`
 
 Actual config file: `~/.config/tmux/tmux.conf`

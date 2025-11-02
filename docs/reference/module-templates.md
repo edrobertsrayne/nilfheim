@@ -17,7 +17,7 @@ The simplest module structure for a single aspect:
   };
 
   # Home-Manager user-level config (if needed)
-  flake.modules.homeManager.myAspect = {
+  flake.modules.home.myAspect = {
     # User programs, dotfiles, configuration
     programs.someProgram.enable = true;
     home.packages = [ pkgs.somePackage ];
@@ -56,7 +56,7 @@ When a feature needs extensive configuration in both contexts:
     };
   };
 
-  flake.modules.homeManager.myFeature = {
+  flake.modules.home.myFeature = {
     # User-level: programs, dotfiles, user packages
     programs.myfeature = {
       enable = true;
@@ -163,8 +163,8 @@ For grouping related features together:
     };
   };
 
-  flake.modules.homeManager.desktop = {
-    imports = with inputs.self.modules.homeManager; [
+  flake.modules.home.desktop = {
+    imports = with inputs.self.modules.home; [
       # User-level desktop apps
       nixvim
       waybar
@@ -277,14 +277,14 @@ in {
 For features that need their own directory:
 
 ```nix
-# modules/nixvim/default.nix
+# modules/neovim/core.nix
 { inputs, ... }: {
-  flake.modules.homeManager.nixvim = {
+  flake.modules.home.neovim = {
     imports = [
-      ./options.nix
-      ./keybindings.nix
+      ./keymaps.nix
       ./lsp.nix
-      ./plugins.nix
+      ./languages.nix
+      ./telescope.nix
     ];
 
     programs.nixvim.enable = true;
@@ -293,25 +293,26 @@ For features that need their own directory:
 ```
 
 ```nix
-# modules/nixvim/options.nix
-{ inputs, ... }: {
-  programs.nixvim = {
-    options = {
-      number = true;
-      relativenumber = true;
-      # ... other options
-    };
-  };
-}
-```
-
-```nix
-# modules/nixvim/keybindings.nix
+# modules/neovim/keymaps.nix
 { inputs, ... }: {
   programs.nixvim = {
     keymaps = [
       # ... keybindings
     ];
+  };
+}
+```
+
+```nix
+# modules/neovim/lsp.nix
+{ inputs, ... }: {
+  programs.nixvim = {
+    plugins.lsp = {
+      enable = true;
+      servers = {
+        # ... LSP servers
+      };
+    };
   };
 }
 ```

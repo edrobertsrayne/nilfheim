@@ -123,19 +123,23 @@ nixos-rebuild switch --flake github:edrobertsrayne/nilfheim#thor \
 nilfheim/
 ├── flake.nix              # Entry point (minimal, just inputs)
 ├── modules/
+│   ├── applications/      # GUI applications (firefox, vscode, alacritty)
 │   ├── desktop/           # Desktop environment aspects
 │   ├── hyprland/          # Hyprland compositor configuration
 │   ├── neovim/            # Neovim configuration (modular)
 │   ├── utilities/         # CLI tools (one file per tool)
 │   ├── services/          # System services
 │   ├── media/             # Media server aspects
-│   ├── system/            # Core system configuration
+│   ├── nixos/             # NixOS system configuration
+│   ├── darwin/            # macOS system configuration
 │   ├── development/       # Development tools and shells
-│   ├── packages/          # Custom package derivations
 │   ├── nilfheim/          # Custom project options
 │   ├── hosts/             # Host-specific configurations
 │   ├── flake/             # Flake-parts configuration
-│   └── lib/               # Helper functions and themes
+│   ├── lib/               # Helper functions and themes
+│   ├── waybar/            # Waybar status bar
+│   ├── walker/            # Walker application launcher
+│   └── *.nix              # Top-level modules (audio, zsh, starship, etc.)
 ├── secrets/               # Encrypted secrets (agenix)
 └── docs/                  # Documentation
     ├── reference/         # Technical reference docs
