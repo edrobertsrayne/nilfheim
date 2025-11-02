@@ -1,35 +1,33 @@
 {inputs, ...}: let
   inherit (inputs.self.nilfheim.user) username;
 in {
-  # NixOS desktop aggregator
   flake.modules.nixos.desktop = {
     imports = with inputs.self.modules.nixos; [
       hyprland
       greetd
+      audio
     ];
 
-    # Platform-specific home modules
     home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
-      desktop # Cross-platform GUI apps
-      webapps # Web apps with keybinds
-      xdg # XDG/MIME config
-      hyprland # Hyprland user config
-      waybar # Status bar
-      walker # App launcher
-      swayosd # OSD
+      desktop
+      webapps
+      xdg
+      hyprland
+      waybar
+      walker
+      swayosd
+      applications
     ];
   };
 
-  # Darwin desktop aggregator
   flake.modules.darwin.desktop = {
     imports = with inputs.self.modules.darwin; [
       # Darwin-specific imports if any
     ];
 
-    # Cross-platform home modules only
     home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
-      desktop # Same cross-platform GUI apps
-      # No Linux-specific modules
+      desktop
+      applications
     ];
   };
 }
