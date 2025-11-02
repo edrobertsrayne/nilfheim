@@ -1,5 +1,5 @@
 _: {
-  flake.modules.home.desktop = {pkgs, ...}: {
+  flake.modules.homeManager.desktop = {pkgs, ...}: {
     gtk = {
       enable = true;
       iconTheme = {

@@ -38,8 +38,8 @@
       };
     };
 
-    modules.home.thor = {
-      imports = with inputs.self.modules.home; [
+    modules.homeManager.thor = {
+      imports = with inputs.self.modules.homeManager; [
         # CLI tools
         utilities
       ];

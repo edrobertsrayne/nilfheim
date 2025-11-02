@@ -1,5 +1,5 @@
 _: {
-  flake.modules.home.utilities = {
+  flake.modules.homeManager.utilities = {
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;

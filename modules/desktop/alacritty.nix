@@ -1,7 +1,7 @@
 {inputs, ...}: let
   inherit (inputs.self.nilfheim) theme;
 in {
-  flake.modules.home.desktop = {lib, ...}: {
+  flake.modules.homeManager.desktop = {lib, ...}: {
     programs.alacritty = {
       enable = true;
       settings = {

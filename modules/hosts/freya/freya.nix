@@ -14,8 +14,8 @@
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
   };
 
-  flake.modules.home.freya = {
-    imports = with inputs.self.modules.home; [
+  flake.modules.homeManager.freya = {
+    imports = with inputs.self.modules.homeManager; [
       starship
       utilities
       neovim

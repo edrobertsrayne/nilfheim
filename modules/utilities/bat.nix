@@ -1,5 +1,5 @@
 _: {
-  flake.modules.home.utilities = {
+  flake.modules.homeManager.utilities = {
     programs.bat.enable = true;
     home.shellAliases = {
       cat = "bat";

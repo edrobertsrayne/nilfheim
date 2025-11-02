@@ -1,5 +1,5 @@
 _: {
-  flake.modules.home.desktop = {
+  flake.modules.homeManager.desktop = {
     programs.lazydocker.enable = true;
   };
 }
