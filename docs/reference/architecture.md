@@ -32,7 +32,7 @@ nilfheim/
 
 1. **NixOS Modules:** `flake.modules.nixos.*` - System-level configuration
 2. **Darwin Modules:** `flake.modules.darwin.*` - macOS system configuration
-3. **Generic Modules:** `flake.modules.generic.*` - Cross-platform user configuration (home-manager)
+3. **Generic Modules:** `flake.modules.home.*` - Cross-platform user configuration (home-manager)
 4. **Flake Options:** `flake.nilfheim.*` - Project-wide settings
 
 ### Key Concepts
@@ -138,7 +138,7 @@ flake.modules.nixos.desktop = {
   ];
 
   # Platform-specific home imports
-  home-manager.users.${username}.imports = with inputs.self.modules.generic; [
+  home-manager.users.${username}.imports = with inputs.self.modules.home; [
     desktop      # Cross-platform GUI apps
     webapps      # Web apps with keybinds
     xdg          # XDG/MIME config (Linux-only)
@@ -151,14 +151,14 @@ flake.modules.nixos.desktop = {
 
 # Darwin desktop aggregator (cross-platform only)
 flake.modules.darwin.desktop = {
-  home-manager.users.${username}.imports = with inputs.self.modules.generic; [
+  home-manager.users.${username}.imports = with inputs.self.modules.home; [
     desktop      # Same cross-platform GUI apps
     # No Linux-specific modules
   ];
 };
 
 # Generic desktop aggregator (cross-platform GUI apps)
-flake.modules.generic.desktop.imports = with inputs.self.modules.generic; [
+flake.modules.home.desktop.imports = with inputs.self.modules.home; [
   firefox
   chromium
   vscode
@@ -241,7 +241,7 @@ in {
 
 # User-level: modules/utilities/zsh.nix
 _: {
-  flake.modules.generic.zsh = {
+  flake.modules.home.zsh = {
     programs.zsh = {
       enable = true;
       enableCompletion = true;
@@ -264,21 +264,21 @@ in {
       greetd
     ];
 
-    home-manager.users.${username}.imports = with inputs.self.modules.generic; [
+    home-manager.users.${username}.imports = with inputs.self.modules.home; [
       desktop webapps xdg hyprland waybar walker swayosd
     ];
   };
 
   # Darwin desktop (cross-platform only)
   flake.modules.darwin.desktop = {
-    home-manager.users.${username}.imports = with inputs.self.modules.generic; [
+    home-manager.users.${username}.imports = with inputs.self.modules.home; [
       desktop  # Same cross-platform apps
     ];
   };
 
   # Generic cross-platform desktop apps
-  flake.modules.generic.desktop = {
-    imports = with inputs.self.modules.generic; [
+  flake.modules.home.desktop = {
+    imports = with inputs.self.modules.home; [
       firefox chromium vscode alacritty
     ];
   };
@@ -323,7 +323,7 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
 
 ### Platform Categories
 
-**Cross-Platform Modules** (`flake.modules.generic.*`) - Work on any platform:
+**Cross-Platform Modules** (`flake.modules.home.*`) - Work on any platform:
 - `modules/desktop/` - GUI applications (Firefox, VS Code, etc.)
 - `modules/neovim/` - Editor configuration
 - `modules/utilities/` - CLI tools (git, fzf, bat, etc.)
@@ -377,8 +377,8 @@ flake.modules.nixos.freya = {
 };
 
 # User-level (home-manager)
-flake.modules.generic.freya = {
-  imports = with inputs.self.modules.generic; [
+flake.modules.home.freya = {
+  imports = with inputs.self.modules.home; [
     utilities        # CLI tools + aliases
     zsh              # User zsh config
     starship         # Prompt customization
@@ -398,8 +398,8 @@ flake.modules.darwin.odin = {
 };
 
 # User-level (home-manager)
-flake.modules.generic.odin = {
-  imports = with inputs.self.modules.generic; [
+flake.modules.home.odin = {
+  imports = with inputs.self.modules.home; [
     utilities        # Same CLI tools as Linux
     zsh              # Same user zsh config
     starship         # Same prompt
@@ -419,8 +419,8 @@ flake.modules.nixos.thor = {
 };
 
 # User-level (home-manager)
-flake.modules.generic.thor = {
-  imports = with inputs.self.modules.generic; [
+flake.modules.home.thor = {
+  imports = with inputs.self.modules.home; [
     # Selective CLI utilities only (no shell customization)
     utilities        # Or individual tools: git, fzf, bat, eza, etc.
   ];

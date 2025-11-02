@@ -1,5 +1,5 @@
 _: {
-  flake.modules.generic.desktop = {
+  flake.modules.home.desktop = {
     programs.zathura = {
       enable = true;
     };

@@ -1,5 +1,5 @@
 _: {
-  flake.modules.generic.neovim = {
+  flake.modules.home.neovim = {
     programs.nvf = {
       settings = {
         vim = {

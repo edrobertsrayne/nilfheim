@@ -1,5 +1,5 @@
 _: {
-  flake.modules.generic.neovim = {pkgs, ...}: {
+  flake.modules.home.neovim = {pkgs, ...}: {
     home.packages = with pkgs; [
       alejandra
       statix

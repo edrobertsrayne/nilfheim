@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.generic.xdg = {lib, ...}: let
+  flake.modules.home.xdg = {lib, ...}: let
     inherit (inputs.self.nilfheim.desktop) browser;
 
     # Map common browser commands to their .desktop file names
