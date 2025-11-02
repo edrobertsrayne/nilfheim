@@ -1,17 +1,20 @@
 {inputs, ...}: let
   inherit (inputs.self.nilfheim.user) username;
+
+  # Base system shell configuration
+  base = pkgs: {
+    programs.zsh.enable = true;
+    users.users.${username}.shell = pkgs.zsh;
+  };
 in {
   flake.modules = {
-    nixos.zsh = {pkgs, ...}: {
-      programs.zsh.enable = true;
-      users.users.${username}.shell = pkgs.zsh;
-      home-manager.users.${username}.imports = [inputs.self.modules.homeManager.zsh];
-    };
+    nixos.zsh = {pkgs, ...}:
+      base pkgs
+      // {
+        home-manager.users.${username}.imports = [inputs.self.modules.homeManager.zsh];
+      };
 
-    darwin.zsh = {pkgs, ...}: {
-      programs.zsh.enable = true;
-      users.users.${username}.shell = pkgs.zsh;
-    };
+    darwin.zsh = {pkgs, ...}: base pkgs;
 
     homeManager.zsh = {
       programs.zsh = {
