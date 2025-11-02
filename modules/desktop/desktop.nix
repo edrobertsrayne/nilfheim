@@ -1,5 +1,14 @@
 {inputs, ...}: let
   inherit (inputs.self.nilfheim.user) username;
+
+  # Cross-platform desktop modules
+  base = with inputs.self.modules.homeManager; [
+    desktop
+    alacritty
+    firefox
+    spotify
+    vscode
+  ];
 in {
   flake.modules.nixos.desktop = {
     imports = with inputs.self.modules.nixos; [
@@ -8,19 +17,17 @@ in {
       audio
     ];
 
-    home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
-      desktop
-      webapps
-      xdg
-      hyprland
-      waybar
-      walker
-      swayosd
-      alacritty
-      firefox
-      spotify
-      vscode
-    ];
+    home-manager.users.${username}.imports =
+      base
+      ++ (with inputs.self.modules.homeManager; [
+        # Linux-specific modules
+        webapps
+        xdg
+        hyprland
+        waybar
+        walker
+        swayosd
+      ]);
   };
 
   flake.modules.darwin.desktop = {
@@ -28,12 +35,6 @@ in {
       # Darwin-specific imports if any
     ];
 
-    home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
-      desktop
-      alacritty
-      firefox
-      spotify
-      vscode
-    ];
+    home-manager.users.${username}.imports = base;
   };
 }
