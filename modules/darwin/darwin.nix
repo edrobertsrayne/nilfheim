@@ -1,5 +1,6 @@
-_: {
+{inputs, ...}: {
   flake.modules.darwin.darwin = {
+    imports = [inputs.self.modules.darwin.home-manager];
     system = {
       primaryUser = "ed";
       defaults = {
