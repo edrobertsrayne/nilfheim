@@ -21,7 +21,7 @@ _: {
           '';
         }
         vim-tmux-navigator
-        nord
+        tokyo-night-tmux
       ];
 
       sensibleOnTop = true;
