@@ -39,18 +39,8 @@
 
   flake.modules.generic.thor = {
     imports = with inputs.self.modules.generic; [
-      # CLI tools (no shell customization)
-      git
-      fzf
-      bat
-      eza
-      fd
-      lazygit
-      lazydocker
-      gh
-      delta
-      direnv
-      jq
+      # CLI tools
+      utilities
     ];
   };
 }
