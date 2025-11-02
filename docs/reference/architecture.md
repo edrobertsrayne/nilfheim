@@ -515,4 +515,7 @@ flake.modules.home.thor = {
 - **Flake Parts:** https://flake.parts
 - **Reference Configs:**
   - https://github.com/vic/dendrix
+  - https://github.com/mightyiam/dendritic - Reference dendritic implementation by the pattern author
+  - https://github.com/mightyiam/infra - Personal infrastructure using dendritic
+  - https://github.com/drupol/infra - Another infrastructure example using dendritic
   - https://github.com/GaetanLepage/nix-config
