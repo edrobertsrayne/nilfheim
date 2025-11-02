@@ -1,5 +1,5 @@
 _: {
-  flake.modules.generic.utilities = {
+  flake.modules.home.utilities = {
     programs.jq.enable = true;
   };
 }

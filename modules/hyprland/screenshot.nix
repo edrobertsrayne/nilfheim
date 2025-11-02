@@ -27,7 +27,7 @@
       '';
     };
 in {
-  flake.modules.generic.hyprland = {
+  flake.modules.home.hyprland = {
     lib,
     pkgs,
     ...

@@ -1,5 +1,5 @@
 _: {
-  flake.modules.generic.desktop = {pkgs, ...}: {
+  flake.modules.home.desktop = {pkgs, ...}: {
     home.packages = with pkgs; [
       processing
       vlc

@@ -5,8 +5,8 @@
     ];
   };
 
-  flake.modules.generic.odin = {
-    imports = with inputs.self.modules.generic; [
+  flake.modules.home.odin = {
+    imports = with inputs.self.modules.home; [
       utilities
       zsh
       starship

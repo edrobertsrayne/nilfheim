@@ -1,5 +1,5 @@
 _: {
-  flake.modules.generic.hyprland = {
+  flake.modules.home.hyprland = {
     wayland.windowManager.hyprland.settings = {
       monitor = [
         ",preferred,auto,1"

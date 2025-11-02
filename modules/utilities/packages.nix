@@ -1,5 +1,5 @@
 _: {
-  flake.modules.generic.utilities = {pkgs, ...}: {
+  flake.modules.home.utilities = {pkgs, ...}: {
     home.packages = with pkgs; [
     ];
   };

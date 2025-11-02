@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.generic.hyprland = {
+  flake.modules.home.hyprland = {
     pkgs,
     lib,
     ...

@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.generic.webapps = {
+  flake.modules.home.webapps = {
     pkgs,
     lib,
     ...

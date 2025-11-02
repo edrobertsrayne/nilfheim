@@ -1,5 +1,5 @@
 _: {
-  flake.modules.generic.utilities = {
+  flake.modules.home.utilities = {
     programs.fd = {
       enable = true;
       ignores = [".git/" "*.bak"];

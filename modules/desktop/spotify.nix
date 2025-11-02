@@ -1,5 +1,5 @@
 _: {
-  flake.modules.generic.desktop = {pkgs, ...}: {
+  flake.modules.home.desktop = {pkgs, ...}: {
     # Install Spotify
     home.packages = [pkgs.spotify];
   };

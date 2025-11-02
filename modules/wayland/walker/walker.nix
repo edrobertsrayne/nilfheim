@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.generic.walker = {config, ...}: let
+  flake.modules.home.walker = {config, ...}: let
     inherit (config.lib.stylix) colors;
   in {
     imports = [inputs.walker.homeManagerModules.default];

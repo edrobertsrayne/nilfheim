@@ -38,8 +38,8 @@
       };
     };
 
-    modules.generic.thor = {
-      imports = with inputs.self.modules.generic; [
+    modules.home.thor = {
+      imports = with inputs.self.modules.home; [
         # CLI tools
         utilities
       ];
