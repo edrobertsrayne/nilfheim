@@ -5,7 +5,6 @@
       ./_hardware-configuration.nix
       inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
 
-      home-manager
       zsh
       desktop
       nfs-client
@@ -17,14 +16,8 @@
 
   flake.modules.generic.freya = {
     imports = with inputs.self.modules.generic; [
-      utilities
       zsh
       starship
-      desktop
-      hyprland
-      waybar
-      walker
-      swayosd
     ];
   };
 }
