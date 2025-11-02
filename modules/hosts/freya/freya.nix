@@ -18,6 +18,8 @@
     imports = with inputs.self.modules.generic; [
       zsh
       starship
+      utilities
+      neovim
     ];
   };
 }
