@@ -12,6 +12,7 @@ in {
     home-manager.users.${username}.imports = with inputs.self.modules.generic; [
       desktop # Cross-platform GUI apps
       webapps # Web apps with keybinds
+      xdg # XDG/MIME config
       hyprland # Hyprland user config
       waybar # Status bar
       walker # App launcher
