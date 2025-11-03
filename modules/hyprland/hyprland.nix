@@ -1,4 +1,7 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  inherit (inputs.self.nilfheim.user) username;
+  inherit (inputs.self.nilfheim.desktop) terminal;
+in {
   flake.modules.nixos.hyprland = {pkgs, ...}: {
     hardware.graphics = {
       enable = true;
@@ -14,15 +17,24 @@
     imports = with inputs.self.modules.nixos; [
       theme
     ];
+    home-manager.users.${username}.imports = [
+      inputs.self.modules.homeManager.hyprland
+    ];
   };
 
-  flake.modules.homeManager.hyprland = let
-    inherit (inputs.self.nilfheim.desktop) terminal;
-  in {
+  flake.modules.homeManager.hyprland = {
     wayland.windowManager.hyprland.enable = true;
     home.sessionVariables = {
       NIXOS_OZONE_WL = "1";
       TERMINAL = terminal;
     };
+
+    imports = with inputs.self.modules.homeManager; [
+      webapps
+      xdg
+      waybar
+      walker
+      swayosd
+    ];
   };
 }

@@ -3,7 +3,6 @@
 
   # Cross-platform desktop modules
   base = with inputs.self.modules.homeManager; [
-    desktop
     alacritty
     firefox
     spotify

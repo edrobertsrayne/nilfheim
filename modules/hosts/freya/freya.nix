@@ -3,7 +3,9 @@
     imports = with inputs.self.modules.nixos; [
       inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
       zsh
-      desktop
+      greetd
+      audio
+      hyprland
     ];
 
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
