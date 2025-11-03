@@ -3,8 +3,8 @@
 > A beautiful, aspect-oriented NixOS configuration following dendritic
 > principles
 
-Nilfheim is a complete NixOS configuration built around **dendritic
-architecture** — organizing modules by _what they do_ rather than _where they
+Nilfheim is a complete NixOS configuration built around [**dendritic
+architecture**](https://github.com/mightyiam/dendritic) — organizing modules by _what they do_ rather than _where they
 run_. The result is a highly modular, composable, and maintainable system that
 embraces keyboard-first workflows and aesthetic design.
 
@@ -22,6 +22,17 @@ This configuration represents a ground-up rewrite focusing on:
   omarchy)
 - **Unified Theming**: System-wide consistency through Stylix (Tokyo Night)
 - **Self-Documenting**: Clear module boundaries with explicit dependencies
+
+---
+
+## 💻 Current Hosts
+
+| Host      | Type    | Status      | Description                                  |
+| --------- | ------- | ----------- | -------------------------------------------- |
+| **freya** | Desktop | ✅ Active   | Main development workstation with Hyprland   |
+| **thor**  | Server  | ✅ Active   | Media server with Jellyfin and *arr suite    |
+| **odin**  | Desktop | 🔧 Updating | Neovim module enabled, migration in progress |
+| **loki**  | Server  | 🗑️ Retired  | Decommissioned                               |
 
 ---
 
@@ -120,59 +131,6 @@ sudo nixos-rebuild switch --flake .#thor   # Server
 nixos-rebuild switch --flake github:edrobertsrayne/nilfheim#thor \
   --target-host thor --use-remote-sudo
 ```
-
----
-
-## 📁 Project Structure
-
-```text
-nilfheim/
-├── flake.nix              # Entry point (minimal, just inputs)
-├── modules/
-│   ├── desktop/           # Desktop environment and GUI applications
-│   │   ├── desktop.nix    # Desktop aggregator with platform-specific setup
-│   │   ├── theme.nix      # Stylix theming with base function pattern
-│   │   ├── alacritty.nix  # Terminal emulator
-│   │   ├── firefox.nix    # Web browser
-│   │   ├── vscode.nix     # Code editor
-│   │   ├── spotify.nix    # Music player
-│   │   └── webapps.nix    # Web applications with keybinds
-│   ├── hyprland/          # Hyprland compositor configuration
-│   ├── neovim/            # Neovim configuration (modular)
-│   ├── utilities/         # CLI tools (one file per tool)
-│   ├── services/          # System services
-│   ├── media/             # Media server aspects
-│   ├── nixos/             # NixOS system configuration
-│   ├── darwin/            # macOS system configuration
-│   ├── development/       # Development tools and shells
-│   ├── nilfheim/          # Custom project options
-│   ├── hosts/             # Host-specific configurations
-│   ├── flake/             # Flake-parts configuration
-│   ├── lib/               # Helper functions and themes
-│   ├── waybar/            # Waybar status bar
-│   ├── walker/            # Walker application launcher
-│   └── *.nix              # Top-level modules (audio, zsh, starship, etc.)
-├── secrets/               # Encrypted secrets (agenix)
-└── docs/                  # Documentation
-    ├── reference/         # Technical reference docs
-    ├── NEOVIM_CHEATSHEET.md
-    ├── TMUX_CHEATSHEET.md
-    └── HYPRLAND_SHORTCUTS.md
-```
-
-For detailed architecture information, see
-[docs/reference/architecture.md](docs/reference/architecture.md).
-
----
-
-## 💻 Current Hosts
-
-| Host      | Type    | Status      | Description                                  |
-| --------- | ------- | ----------- | -------------------------------------------- |
-| **freya** | Desktop | ✅ Active   | Main development workstation with Hyprland   |
-| **thor**  | Server  | ✅ Active   | Media server with Jellyfin and *arr suite    |
-| **odin**  | Desktop | 🔧 Updating | Neovim module enabled, migration in progress |
-| **loki**  | Server  | 🗑️ Retired  | Decommissioned                               |
 
 ---
 
