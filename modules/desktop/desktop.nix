@@ -11,21 +11,12 @@
 in {
   flake.modules.nixos.desktop = {
     imports = with inputs.self.modules.nixos; [
-      hyprland
-      greetd
-      audio
     ];
 
     home-manager.users.${username}.imports =
       base
       ++ (with inputs.self.modules.homeManager; [
         # Linux-specific modules
-        webapps
-        xdg
-        hyprland
-        waybar
-        walker
-        swayosd
       ]);
   };
 
