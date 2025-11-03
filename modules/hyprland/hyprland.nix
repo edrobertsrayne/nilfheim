@@ -11,6 +11,9 @@
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     };
+    imports = with inputs.self.modules.nixos; [
+      theme
+    ];
   };
 
   flake.modules.homeManager.hyprland = let
