@@ -16,6 +16,7 @@ in {
     };
     imports = with inputs.self.modules.nixos; [
       theme
+      desktop
     ];
     home-manager.users.${username}.imports = [
       inputs.self.modules.homeManager.hyprland
@@ -35,6 +36,7 @@ in {
       waybar
       walker
       swayosd
+      desktop
     ];
   };
 }
