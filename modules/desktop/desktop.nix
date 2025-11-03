@@ -3,10 +3,6 @@
 
   # Cross-platform desktop modules
   base = with inputs.self.modules.homeManager; [
-    alacritty
-    firefox
-    spotify
-    vscode
   ];
 in {
   flake.modules.nixos.desktop = {

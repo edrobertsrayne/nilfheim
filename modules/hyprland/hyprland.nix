@@ -37,6 +37,15 @@ in {
       walker
       swayosd
       desktop
+      alacritty
+      hyprlock
+      hypridle
+      hyprpaper
+      gtk
     ];
+
+    programs = {
+      firefox.enable = true;
+    };
   };
 }

@@ -17,5 +17,11 @@
       utilities
       neovim
     ];
+
+    programs = {
+      firefox.enable = true;
+      vscode.enable = true;
+      zathura.enable = true;
+    };
   };
 }
