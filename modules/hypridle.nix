@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.hyprland = {
+  flake.modules.homeManager.hypridle = {
     services.hypridle = {
       enable = true;
       settings = {

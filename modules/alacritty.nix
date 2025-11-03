@@ -1,5 +1,5 @@
-{...}: {
-  flake.modules.homeManager.alacritty = {...}: {
+_: {
+  flake.modules.homeManager.alacritty = _: {
     programs.alacritty = {
       enable = true;
       settings = {
