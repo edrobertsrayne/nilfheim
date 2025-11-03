@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.nilfheim) theme;
+  inherit (inputs.self.nilfheim) theme user;
 
   # Base theming configuration shared across all platforms
   base = pkgs: {
@@ -12,7 +12,7 @@
     };
   };
 in {
-  flake.modules.nixos.desktop = {pkgs, ...}: {
+  flake.modules.nixos.theme = {pkgs, ...}: {
     imports = [inputs.stylix.nixosModules.stylix];
 
     stylix =
@@ -30,10 +30,12 @@ in {
           size = 24;
         };
       };
+    home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
   };
 
-  flake.modules.darwin.desktop = {pkgs, ...}: {
+  flake.modules.darwin.theme = {pkgs, ...}: {
     imports = [inputs.stylix.darwinModules.stylix];
     stylix = base pkgs;
+    home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
   };
 }
