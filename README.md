@@ -1,4 +1,4 @@
-# 🏔️ Nilfheim
+# ❄️ Nilfheim
 
 > A beautiful, aspect-oriented NixOS configuration following dendritic
 > principles
