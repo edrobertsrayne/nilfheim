@@ -17,7 +17,7 @@ The simplest module structure for a single aspect:
   };
 
   # Home-Manager user-level config (if needed)
-  flake.modules.home.myAspect = {
+  flake.modules.homeManager.myAspect = {
     # User programs, dotfiles, configuration
     programs.someProgram.enable = true;
     home.packages = [ pkgs.somePackage ];
@@ -56,7 +56,7 @@ When a feature needs extensive configuration in both contexts:
     };
   };
 
-  flake.modules.home.myFeature = {
+  flake.modules.homeManager.myFeature = {
     # User-level: programs, dotfiles, user packages
     programs.myfeature = {
       enable = true;
@@ -163,8 +163,8 @@ For grouping related features together:
     };
   };
 
-  flake.modules.home.desktop = {
-    imports = with inputs.self.modules.home; [
+  flake.modules.homeManager.desktop = {
+    imports = with inputs.self.modules.homeManager; [
       # User-level desktop apps
       nixvim
       waybar
@@ -279,7 +279,7 @@ For features that need their own directory:
 ```nix
 # modules/neovim/core.nix
 { inputs, ... }: {
-  flake.modules.home.neovim = {
+  flake.modules.homeManager.neovim = {
     imports = [
       ./keymaps.nix
       ./lsp.nix

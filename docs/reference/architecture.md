@@ -121,9 +121,10 @@ Choose the right location:
 | Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
 | Project option | `modules/nilfheim/+{name}.nix` | `modules/nilfheim/+user.nix` |
 | Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
-| Desktop apps | `modules/desktop/` | `modules/desktop/firefox.nix` |
 | Desktop aggregator | `modules/desktop/desktop.nix` | Platform-specific desktop setup |
-| Theme config | `modules/desktop/theme.nix` | Stylix with base function pattern |
+| Theme config | `modules/theme/theme.nix` | Stylix with base function pattern |
+| Cross-platform tools | `modules/{tool}.nix` | `modules/alacritty.nix`, `modules/gtk.nix` |
+| Hypr ecosystem tools | `modules/{tool}.nix` | `modules/hypridle.nix`, `modules/hyprlock.nix`, `modules/hyprpaper.nix` |
 | macOS-specific | `modules/darwin/` | `modules/darwin/darwin.nix` |
 | Platform packages | `modules/{platform}/packages.nix` | `modules/hyprland/packages.nix` |
 | System shell setup | `modules/{nixos,darwin}/zsh.nix` | `modules/nixos/zsh.nix` |
@@ -312,7 +313,7 @@ config.flake.modules.nixos.something = {
 For platform-specific configuration with shared settings, use the base function pattern:
 
 ```nix
-# modules/desktop/theme.nix
+# modules/theme/theme.nix
 { inputs, ... }: let
   inherit (inputs.self.nilfheim) theme;
 
@@ -387,19 +388,24 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
 
 ### Platform Categories
 
-**Cross-Platform Modules** (`flake.modules.home.*`) - Work on any platform:
-- `modules/desktop/` - GUI applications (Firefox, VS Code, Alacritty, Spotify, etc.)
+**Cross-Platform Modules** (`flake.modules.homeManager.*`) - Work on any platform:
+- `modules/alacritty.nix` - Terminal emulator
+- `modules/gtk.nix` - GTK theme configuration
 - `modules/neovim/` - Editor configuration
 - `modules/utilities/` - CLI tools (git, fzf, bat, etc.)
 - User-level shell config (`zsh.nix`, `starship.nix`)
+- Individual app configs (firefox, vscode, obsidian configured directly in hosts or aggregators)
 
 **Linux-Specific Modules** (`flake.modules.nixos.*`):
 - `modules/hyprland/` - Hyprland window manager configuration
+- `modules/hypridle.nix` - Hypr idle daemon (extracted from hyprland)
+- `modules/hyprlock.nix` - Hypr lock screen (extracted from hyprland)
+- `modules/hyprpaper.nix` - Hypr wallpaper daemon (extracted from hyprland)
 - `modules/waybar/` - Waybar status bar (top-level, flattened)
 - `modules/walker/` - Walker application launcher (top-level, flattened)
 - `modules/nixos/` - NixOS system configuration (networking, nix, ssh, home-manager)
 - `modules/desktop/webapps.nix` - Web apps with Hyprland keybinds
-- `modules/desktop/xdg.nix` - XDG/MIME configuration
+- `modules/xdg.nix` - XDG/MIME configuration (extracted from desktop)
 - System-level shell setup (`modules/nixos/zsh.nix`)
 
 **Darwin-Specific Modules** (`flake.modules.darwin.*`):
@@ -409,10 +415,12 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
 ### Design Principles
 
 1. **Separation of Concerns:**
-   - Desktop apps (Firefox, Alacritty) belong in `desktop/` (cross-platform)
-   - Wayland-specific tools (waybar, walker) belong in `wayland/` (Linux-only)
-   - Window manager config (Hyprland) stays separate from desktop apps
-   - Shell configuration split: system-level (`nixos.zsh`/`darwin.zsh`) and user-level (`generic.zsh`)
+   - Simple cross-platform tools (Alacritty, GTK) are root-level modules
+   - Complex apps (Firefox, VS Code) configured directly in consumers (hosts or aggregators)
+   - Wayland-specific tools (waybar, walker) are standalone top-level modules
+   - Hypr ecosystem tools (hypridle, hyprlock, hyprpaper) extracted as standalone modules
+   - Window manager config (Hyprland) stays separate and imports what it needs
+   - Shell configuration split: system-level (`nixos.zsh`/`darwin.zsh`) and user-level (`homeManager.zsh`)
 
 2. **Platform-Specific Aggregators:**
    - `nixos.desktop` and `darwin.desktop` handle platform-specific desktop setup
@@ -429,8 +437,9 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
    - Platform logic handled internally by aggregators
 
 5. **Organized Module Structure:**
-   - Single-file modules that were previously nested are now at top-level (e.g., `modules/audio.nix`, `modules/starship.nix`)
-   - GUI applications grouped in `modules/desktop/` directory alongside desktop configuration
+   - Single-file modules at root level follow aspect-oriented naming (e.g., `modules/audio.nix`, `modules/alacritty.nix`)
+   - Hypr ecosystem tools extracted to root level as standalone, reusable modules
+   - Complex features with multiple concerns use directories (e.g., `modules/neovim/`, `modules/hyprland/`)
    - Platform-specific directories use explicit names (`nixos` instead of `system`)
    - Theme configuration uses extracted `base` function pattern for shared settings
 
@@ -448,8 +457,8 @@ flake.modules.nixos.freya = {
 };
 
 # User-level (home-manager)
-flake.modules.home.freya = {
-  imports = with inputs.self.modules.home; [
+flake.modules.homeManager.freya = {
+  imports = with inputs.self.modules.homeManager; [
     utilities        # CLI tools + aliases
     zsh              # User zsh config
     starship         # Prompt customization
@@ -469,8 +478,8 @@ flake.modules.darwin.odin = {
 };
 
 # User-level (home-manager)
-flake.modules.home.odin = {
-  imports = with inputs.self.modules.home; [
+flake.modules.homeManager.odin = {
+  imports = with inputs.self.modules.homeManager; [
     utilities        # Same CLI tools as Linux
     zsh              # Same user zsh config
     starship         # Same prompt
@@ -490,8 +499,8 @@ flake.modules.nixos.thor = {
 };
 
 # User-level (home-manager)
-flake.modules.home.thor = {
-  imports = with inputs.self.modules.home; [
+flake.modules.homeManager.thor = {
+  imports = with inputs.self.modules.homeManager; [
     # Selective CLI utilities only (no shell customization)
     utilities        # Or individual tools: git, fzf, bat, eza, etc.
   ];
