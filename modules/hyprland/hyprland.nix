@@ -16,7 +16,6 @@ in {
     };
     imports = with inputs.self.modules.nixos; [
       theme
-      desktop
     ];
     home-manager.users.${username}.imports = [
       inputs.self.modules.homeManager.hyprland
@@ -31,12 +30,10 @@ in {
     };
 
     imports = with inputs.self.modules.homeManager; [
-      webapps
       xdg
       waybar
       walker
       swayosd
-      desktop
       alacritty
       hyprlock
       hypridle

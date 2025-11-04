@@ -11,7 +11,7 @@
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
   };
 
-  flake.modules.homeManager.freya = {
+  flake.modules.homeManager.freya = {pkgs, ...}: {
     imports = with inputs.self.modules.homeManager; [
       starship
       utilities
@@ -23,6 +23,10 @@
       firefox.enable = true;
       vscode.enable = true;
       zathura.enable = true;
+      chromium = {
+        enable = true;
+        package = pkgs.google-chrome;
+      };
     };
   };
 }
