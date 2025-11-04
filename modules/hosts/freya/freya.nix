@@ -16,6 +16,7 @@
       starship
       utilities
       neovim
+      obsidian
     ];
 
     programs = {

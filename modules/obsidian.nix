@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.desktop = {pkgs, ...}: {
+  flake.modules.homeManager.obsidian = {pkgs, ...}: {
     programs.obsidian = {
       enable = true;
     };
