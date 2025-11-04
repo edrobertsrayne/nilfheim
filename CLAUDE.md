@@ -235,6 +235,10 @@ nix flake check --impure  # Build verification (if applicable)
 ## Resources
 
 - **Dendritic Principles:** https://vic.github.io/dendrix/Dendritic.html
+- **Reference Implementations:**
+  - https://github.com/mightyiam/dendritic - Reference dendritic implementation by the pattern author
+  - https://github.com/mightyiam/infra - Personal infrastructure using dendritic
+  - https://github.com/drupol/infra - Another infrastructure example using dendritic
 - **Flake Parts:** https://flake.parts
 - **Conventional Commits:** https://www.conventionalcommits.org/
 

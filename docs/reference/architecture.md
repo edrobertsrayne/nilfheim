@@ -21,18 +21,23 @@ nilfheim/
 │   ├── hosts/                   # Host-specific configurations
 │   │   └── {hostname}/          # Per-host modules
 │   ├── lib/                     # Custom library functions
-│   ├── darwin/                  # macOS-specific modules (macos.nix, homebrew.nix)
-│   ├── wayland/                 # Wayland-specific modules (waybar/, walker/, swayosd.nix)
-│   ├── {feature}/               # Feature-specific modules (nixvim/, hyprland/, desktop/)
-│   └── {aspect}.nix             # Root-level aspect modules (ssh.nix, nix.nix, etc.)
+│   ├── nixos/                   # NixOS-specific modules (networking, nix, ssh, etc.)
+│   ├── darwin/                  # macOS-specific modules (darwin.nix, homebrew.nix, zsh.nix)
+│   ├── desktop/                 # Desktop environment and GUI applications
+│   │   ├── desktop.nix          # Platform-specific desktop aggregator
+│   │   ├── theme.nix            # Stylix theming with base function pattern
+│   │   └── *.nix                # Desktop apps (alacritty, firefox, vscode, spotify, etc.)
+│   ├── {feature}/               # Feature-specific modules (neovim/, hyprland/, waybar/, walker/)
+│   └── {aspect}.nix             # Root-level aspect modules (audio.nix, starship.nix, zsh.nix, etc.)
 └── secrets/                     # Secrets management
 ```
 
 ### Module Categories
 
 1. **NixOS Modules:** `flake.modules.nixos.*` - System-level configuration
-2. **Home-Manager Modules:** `flake.modules.homeManager.*` - User-level configuration
-3. **Flake Options:** `flake.nilfheim.*` - Project-wide settings
+2. **Darwin Modules:** `flake.modules.darwin.*` - macOS system configuration
+3. **Generic Modules:** `flake.modules.home.*` - Cross-platform user configuration (home-manager)
+4. **Flake Options:** `flake.nilfheim.*` - Project-wide settings
 
 ### Key Concepts
 
@@ -116,31 +121,60 @@ Choose the right location:
 | Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
 | Project option | `modules/nilfheim/+{name}.nix` | `modules/nilfheim/+user.nix` |
 | Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
-| Wayland-specific | `modules/wayland/` | `modules/wayland/waybar/` |
-| macOS-specific | `modules/darwin/` | `modules/darwin/macos.nix` |
+| Desktop aggregator | `modules/desktop/desktop.nix` | Platform-specific desktop setup |
+| Theme config | `modules/theme/theme.nix` | Stylix with base function pattern |
+| Cross-platform tools | `modules/{tool}.nix` | `modules/alacritty.nix`, `modules/gtk.nix` |
+| Hypr ecosystem tools | `modules/{tool}.nix` | `modules/hypridle.nix`, `modules/hyprlock.nix`, `modules/hyprpaper.nix` |
+| macOS-specific | `modules/darwin/` | `modules/darwin/darwin.nix` |
 | Platform packages | `modules/{platform}/packages.nix` | `modules/hyprland/packages.nix` |
+| System shell setup | `modules/{nixos,darwin}/zsh.nix` | `modules/nixos/zsh.nix` |
 
 ### Rule 3: Aggregator Pattern
 
 For related features that are commonly used together:
 1. Create individual feature modules first
 2. Create an aggregator that imports them
-3. Example: `desktop.nix` aggregates cross-platform tools like `neovim` and `utilities`
+3. Example: `desktop.nix` aggregates desktop setup with platform-specific imports
 
 ```nix
-# Good: aggregator pattern (cross-platform tools only)
-flake.modules.nixos.desktop.imports = with inputs.self.modules.nixos; [
-  hyprland  # Window manager (system-level)
-  greetd    # Display manager
-];
+# Good: platform-specific desktop aggregator
+flake.modules.nixos.desktop = {
+  imports = with inputs.self.modules.nixos; [
+    hyprland  # Window manager (system-level)
+    greetd    # Display manager
+  ];
 
-flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
-  neovim     # Cross-platform editor
-  utilities  # Cross-platform CLI tools
+  # Platform-specific home imports
+  home-manager.users.${username}.imports = with inputs.self.modules.home; [
+    desktop      # Cross-platform GUI apps
+    webapps      # Web apps with keybinds
+    xdg          # XDG/MIME config (Linux-only)
+    hyprland     # Hyprland user config
+    waybar       # Status bar
+    walker       # App launcher
+    swayosd      # OSD
+  ];
+};
+
+# Darwin desktop aggregator (cross-platform only)
+flake.modules.darwin.desktop = {
+  home-manager.users.${username}.imports = with inputs.self.modules.home; [
+    desktop      # Same cross-platform GUI apps
+    # No Linux-specific modules
+  ];
+};
+
+# Generic desktop aggregator (cross-platform GUI apps)
+flake.modules.home.desktop.imports = with inputs.self.modules.home; [
+  firefox
+  chromium
+  vscode
+  alacritty
+  # ... other cross-platform apps
 ];
 ```
 
-**Note:** Aggregators should group related aspects, but avoid mixing platform-specific modules (like Wayland tools) with cross-platform modules. Host configurations explicitly compose platform-specific modules as needed.
+**Note:** Platform-specific aggregators (`nixos.desktop`, `darwin.desktop`) handle platform-specific imports internally. This allows hosts to simply import `desktop` and get the appropriate setup for their platform.
 
 **Best Practice Example: Modular Feature Organization**
 
@@ -198,19 +232,62 @@ modules/neovim/languages.nix  # 40 lines focused on language support
 
 ### Rule 4: Multi-Context Configuration
 
-When a feature needs both NixOS and Home-Manager config:
+When a feature needs configuration at multiple levels:
 
+**Shell configuration example:**
 ```nix
-# Good: one file, multiple contexts
-{ inputs, ... }: {
-  flake.modules.nixos.myFeature = {
-    # NixOS system config
-    services.myService.enable = true;
+# System-level: modules/nixos/zsh.nix
+{ inputs, ... }: let
+  inherit (inputs.self.nilfheim.user) username;
+in {
+  flake.modules.nixos.zsh = {pkgs, ...}: {
+    programs.zsh.enable = true;
+    users.users.${username}.shell = pkgs.zsh;
+  };
+}
+
+# User-level: modules/zsh.nix
+_: {
+  flake.modules.home.zsh = {
+    programs.zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestion.enable = true;
+    };
+  };
+}
+```
+
+**Desktop configuration example:**
+```nix
+# One file, multiple platform contexts
+{ inputs, ... }: let
+  inherit (inputs.self.nilfheim.user) username;
+in {
+  # NixOS desktop (with Linux-specific tools)
+  flake.modules.nixos.desktop = {
+    imports = with inputs.self.modules.nixos; [
+      hyprland
+      greetd
+    ];
+
+    home-manager.users.${username}.imports = with inputs.self.modules.home; [
+      desktop webapps xdg hyprland waybar walker swayosd
+    ];
   };
 
-  flake.modules.homeManager.myFeature = {
-    # Home-manager user config
-    programs.myProgram.enable = true;
+  # Darwin desktop (cross-platform only)
+  flake.modules.darwin.desktop = {
+    home-manager.users.${username}.imports = with inputs.self.modules.home; [
+      desktop  # Same cross-platform apps
+    ];
+  };
+
+  # Generic cross-platform desktop apps
+  flake.modules.home.desktop = {
+    imports = with inputs.self.modules.home; [
+      firefox chromium vscode alacritty
+    ];
   };
 }
 ```
@@ -231,7 +308,65 @@ config.flake.modules.nixos.something = {
 };
 ```
 
-### Rule 6: Avoid Manual Imports
+### Rule 6: Theme Base Function Pattern
+
+For platform-specific configuration with shared settings, use the base function pattern:
+
+```nix
+# modules/theme/theme.nix
+{ inputs, ... }: let
+  inherit (inputs.self.nilfheim) theme;
+
+  # Extract common configuration into a base function
+  base = pkgs: {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme.base16}.yaml";
+    opacity.terminal = 0.95;
+    fonts.monospace = {
+      package = pkgs.nerd-fonts.jetbrains-mono;
+      name = "JetBrainsMono Nerd Font";
+    };
+  };
+in {
+  # NixOS-specific configuration
+  flake.modules.nixos.desktop = {pkgs, ...}: {
+    imports = [inputs.stylix.nixosModules.stylix];
+
+    stylix = base pkgs // {
+      # Linux-specific theming
+      icons = {
+        enable = true;
+        package = pkgs.papirus-icon-theme;
+        dark = "Papirus-Dark";
+      };
+      cursor = {
+        package = pkgs.bibata-cursors;
+        name = "Bibata-Modern-Classic";
+        size = 24;
+      };
+    };
+  };
+
+  # Darwin-specific configuration
+  flake.modules.darwin.desktop = {pkgs, ...}: {
+    imports = [inputs.stylix.darwinModules.stylix];
+    stylix = base pkgs;  # Uses base settings only
+  };
+}
+```
+
+**Benefits:**
+- Shared settings defined once in the `base` function
+- Platform-specific customizations added via attribute merging (`//`)
+- Clear separation of common vs platform-specific configuration
+- Easy to maintain and update shared settings
+
+**When to use:**
+- Platform-specific modules that share most configuration
+- Theme/styling configuration that varies slightly by platform
+- Any configuration where you want to avoid duplication
+
+### Rule 7: Avoid Manual Imports
 
 - ✗ DO NOT add imports in `flake.nix`
 - ✓ DO let `import-tree` discover modules automatically
@@ -253,73 +388,121 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
 
 ### Platform Categories
 
-**Cross-Platform Modules** - Work on any platform:
-- `modules/desktop/` - GUI applications (Firefox, VS Code, etc.)
+**Cross-Platform Modules** (`flake.modules.homeManager.*`) - Work on any platform:
+- `modules/alacritty.nix` - Terminal emulator
+- `modules/gtk.nix` - GTK theme configuration
 - `modules/neovim/` - Editor configuration
 - `modules/utilities/` - CLI tools (git, fzf, bat, etc.)
+- User-level shell config (`zsh.nix`, `starship.nix`)
+- Individual app configs (firefox, vscode, obsidian configured directly in hosts or aggregators)
 
-**Linux-Specific Modules:**
+**Linux-Specific Modules** (`flake.modules.nixos.*`):
 - `modules/hyprland/` - Hyprland window manager configuration
-- `modules/wayland/` - Wayland compositor tools (waybar, walker, swayosd)
-- `modules/system/` - NixOS system configuration (networking, nix, ssh)
+- `modules/hypridle.nix` - Hypr idle daemon (extracted from hyprland)
+- `modules/hyprlock.nix` - Hypr lock screen (extracted from hyprland)
+- `modules/hyprpaper.nix` - Hypr wallpaper daemon (extracted from hyprland)
+- `modules/waybar/` - Waybar status bar (top-level, flattened)
+- `modules/walker/` - Walker application launcher (top-level, flattened)
+- `modules/nixos/` - NixOS system configuration (networking, nix, ssh, home-manager)
+- `modules/desktop/webapps.nix` - Web apps with Hyprland keybinds
+- `modules/xdg.nix` - XDG/MIME configuration (extracted from desktop)
+- System-level shell setup (`modules/nixos/zsh.nix`)
 
-**Darwin-Specific Modules:**
-- `modules/darwin/` - macOS system defaults and Homebrew
+**Darwin-Specific Modules** (`flake.modules.darwin.*`):
+- `modules/darwin/` - macOS system defaults, Homebrew, and home-manager
+- System-level shell setup (`modules/darwin/zsh.nix`)
 
 ### Design Principles
 
 1. **Separation of Concerns:**
-   - Desktop apps (Firefox, Alacritty) belong in `desktop/` (cross-platform)
-   - Wayland-specific tools (waybar, walker) belong in `wayland/` (Linux-only)
-   - Window manager config (Hyprland) stays separate from desktop apps
+   - Simple cross-platform tools (Alacritty, GTK) are root-level modules
+   - Complex apps (Firefox, VS Code) configured directly in consumers (hosts or aggregators)
+   - Wayland-specific tools (waybar, walker) are standalone top-level modules
+   - Hypr ecosystem tools (hypridle, hyprlock, hyprpaper) extracted as standalone modules
+   - Window manager config (Hyprland) stays separate and imports what it needs
+   - Shell configuration split: system-level (`nixos.zsh`/`darwin.zsh`) and user-level (`homeManager.zsh`)
 
-2. **Platform-Specific Packages:**
+2. **Platform-Specific Aggregators:**
+   - `nixos.desktop` and `darwin.desktop` handle platform-specific desktop setup
+   - They internally import appropriate home-manager modules for their platform
+   - Hosts just import `desktop` and get the right configuration automatically
+
+3. **Platform-Specific Packages:**
    - Helper scripts that depend on platform-specific tools (like `uwsm` for Wayland) should be defined in platform-specific modules
    - Example: `modules/hyprland/packages.nix` contains launch-* scripts that use Wayland session management
 
-3. **Explicit Host Composition:**
-   - Hosts explicitly import the modules they need
-   - Linux hosts import: `desktop`, `wayland`, `hyprland`
-   - Darwin hosts import: `desktop`, `darwin`
+4. **Simplified Host Composition:**
+   - Home-manager enabled by default on all systems (nixos + darwin)
+   - Hosts import aggregators (`desktop`, `utilities`) or individual modules
+   - Platform logic handled internally by aggregators
+
+5. **Organized Module Structure:**
+   - Single-file modules at root level follow aspect-oriented naming (e.g., `modules/audio.nix`, `modules/alacritty.nix`)
+   - Hypr ecosystem tools extracted to root level as standalone, reusable modules
+   - Complex features with multiple concerns use directories (e.g., `modules/neovim/`, `modules/hyprland/`)
+   - Platform-specific directories use explicit names (`nixos` instead of `system`)
+   - Theme configuration uses extracted `base` function pattern for shared settings
 
 ### Example: Multi-Platform Configuration
 
 **Linux workstation (freya):**
 ```nix
+# System-level (NixOS)
+flake.modules.nixos.freya = {
+  imports = with inputs.self.modules.nixos; [
+    desktop          # Includes Hyprland, Wayland tools, and home config
+    zsh              # System-level zsh setup
+    # ... other system modules
+  ];
+};
+
+# User-level (home-manager)
 flake.modules.homeManager.freya = {
   imports = with inputs.self.modules.homeManager; [
-    utilities   # Cross-platform CLI tools
-    desktop     # Cross-platform GUI apps
-    hyprland    # Linux window manager
-    waybar      # Wayland status bar
-    walker      # Wayland launcher
-    swayosd     # Wayland OSD
+    utilities        # CLI tools + aliases
+    zsh              # User zsh config
+    starship         # Prompt customization
+    neovim           # Editor
   ];
 };
 ```
 
 **macOS workstation (odin):**
 ```nix
+# System-level (Darwin)
+flake.modules.darwin.odin = {
+  imports = with inputs.self.modules.darwin; [
+    zsh              # System-level zsh for macOS
+    # darwin.desktop when implemented
+  ];
+};
+
+# User-level (home-manager)
 flake.modules.homeManager.odin = {
   imports = with inputs.self.modules.homeManager; [
-    utilities   # Same CLI tools as Linux
-    desktop     # Same GUI apps as Linux
-    # No wayland/hyprland - use darwin-specific tools instead
+    utilities        # Same CLI tools as Linux
+    zsh              # Same user zsh config
+    starship         # Same prompt
+    neovim           # Same editor
   ];
 };
 ```
 
 **Server (thor):**
 ```nix
+# System-level (NixOS)
+flake.modules.nixos.thor = {
+  imports = with inputs.self.modules.nixos; [
+    zsh              # System-level zsh
+    # ... server-specific modules
+  ];
+};
+
+# User-level (home-manager)
 flake.modules.homeManager.thor = {
   imports = with inputs.self.modules.homeManager; [
     # Selective CLI utilities only (no shell customization)
-    git
-    fzf
-    bat
-    eza
-    lazygit
-    lazydocker
+    utilities        # Or individual tools: git, fzf, bat, eza, etc.
   ];
 };
 ```
@@ -330,6 +513,8 @@ flake.modules.homeManager.thor = {
 - **No build failures** - Platform-specific packages isolated to their respective modules
 - **Easy to add platforms** - New platforms (Raspberry Pi, etc.) can selectively import modules
 - **Flexible composition** - Servers can import CLI tools without shell customization
+- **Simplified host configs** - Home-manager enabled by default, aggregators handle platform logic
+- **Clear separation** - System shell setup separate from user shell customization
 
 ---
 
@@ -339,4 +524,7 @@ flake.modules.homeManager.thor = {
 - **Flake Parts:** https://flake.parts
 - **Reference Configs:**
   - https://github.com/vic/dendrix
+  - https://github.com/mightyiam/dendritic - Reference dendritic implementation by the pattern author
+  - https://github.com/mightyiam/infra - Personal infrastructure using dendritic
+  - https://github.com/drupol/infra - Another infrastructure example using dendritic
   - https://github.com/GaetanLepage/nix-config

@@ -1,10 +1,10 @@
-# 🏔️ Nilfheim
+# ❄️ Nilfheim
 
 > A beautiful, aspect-oriented NixOS configuration following dendritic
 > principles
 
-Nilfheim is a complete NixOS configuration built around **dendritic
-architecture** — organizing modules by _what they do_ rather than _where they
+Nilfheim is a complete NixOS configuration built around [**dendritic
+architecture**](https://github.com/mightyiam/dendritic) — organizing modules by _what they do_ rather than _where they
 run_. The result is a highly modular, composable, and maintainable system that
 embraces keyboard-first workflows and aesthetic design.
 
@@ -22,6 +22,17 @@ This configuration represents a ground-up rewrite focusing on:
   omarchy)
 - **Unified Theming**: System-wide consistency through Stylix (Tokyo Night)
 - **Self-Documenting**: Clear module boundaries with explicit dependencies
+
+---
+
+## 💻 Current Hosts
+
+| Host      | Type    | Status      | Description                                  |
+| --------- | ------- | ----------- | -------------------------------------------- |
+| **freya** | Desktop | ✅ Active   | Main development workstation with Hyprland   |
+| **thor**  | Server  | ✅ Active   | Media server with Jellyfin and *arr suite    |
+| **odin**  | Desktop | 🔧 Updating | Neovim module enabled, migration in progress |
+| **loki**  | Server  | 🗑️ Retired  | Decommissioned                               |
 
 ---
 
@@ -75,6 +86,12 @@ This configuration represents a ground-up rewrite focusing on:
   for aspect-oriented NixOS configs
 - [vix](https://github.com/vic/vix) - Reference implementation of dendritic
   patterns
+- [mightyiam/dendritic](https://github.com/mightyiam/dendritic) - Reference
+  dendritic implementation by the pattern author
+- [mightyiam/infra](https://github.com/mightyiam/infra) - Personal
+  infrastructure using dendritic
+- [drupol/infra](https://github.com/drupol/infra) - Another infrastructure
+  example using dendritic
 - [GaetanLepage/nix-config](https://github.com/GaetanLepage/nix-config) - Modern
   NixOS configuration patterns
 - [fufexan/dotfiles](https://github.com/fufexan/dotfiles) - NixOS and Hyprland
@@ -114,49 +131,6 @@ sudo nixos-rebuild switch --flake .#thor   # Server
 nixos-rebuild switch --flake github:edrobertsrayne/nilfheim#thor \
   --target-host thor --use-remote-sudo
 ```
-
----
-
-## 📁 Project Structure
-
-```text
-nilfheim/
-├── flake.nix              # Entry point (minimal, just inputs)
-├── modules/
-│   ├── desktop/           # Desktop environment aspects
-│   ├── hyprland/          # Hyprland compositor configuration
-│   ├── neovim/            # Neovim configuration (modular)
-│   ├── utilities/         # CLI tools (one file per tool)
-│   ├── services/          # System services
-│   ├── media/             # Media server aspects
-│   ├── system/            # Core system configuration
-│   ├── development/       # Development tools and shells
-│   ├── packages/          # Custom package derivations
-│   ├── nilfheim/          # Custom project options
-│   ├── hosts/             # Host-specific configurations
-│   ├── flake/             # Flake-parts configuration
-│   └── lib/               # Helper functions and themes
-├── secrets/               # Encrypted secrets (agenix)
-└── docs/                  # Documentation
-    ├── reference/         # Technical reference docs
-    ├── NEOVIM_CHEATSHEET.md
-    ├── TMUX_CHEATSHEET.md
-    └── HYPRLAND_SHORTCUTS.md
-```
-
-For detailed architecture information, see
-[docs/reference/architecture.md](docs/reference/architecture.md).
-
----
-
-## 💻 Current Hosts
-
-| Host      | Type    | Status      | Description                                  |
-| --------- | ------- | ----------- | -------------------------------------------- |
-| **freya** | Desktop | ✅ Active   | Main development workstation with Hyprland   |
-| **thor**  | Server  | ✅ Active   | Media server with Jellyfin and *arr suite    |
-| **odin**  | Desktop | 🔧 Updating | Neovim module enabled, migration in progress |
-| **loki**  | Server  | 🗑️ Retired  | Decommissioned                               |
 
 ---
 

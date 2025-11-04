@@ -26,7 +26,6 @@
         inherit system;
         modules = [
           inputs.self.modules.darwin.darwin
-          inputs.self.modules.darwin.home-manager # enable by default on darwin machines
           (inputs.self.modules.darwin.${name} or {})
           {
             networking.hostName = lib.mkDefault name;

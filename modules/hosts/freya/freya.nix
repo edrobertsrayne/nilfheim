@@ -1,14 +1,11 @@
 {inputs, ...}: {
   flake.modules.nixos.freya = {
     imports = with inputs.self.modules.nixos; [
-      ./_disko.nix
-      ./_hardware-configuration.nix
       inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
-
-      home-manager
-      desktop
-      nfs-client
-      powerManagement
+      zsh
+      greetd
+      audio
+      hyprland
     ];
 
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
@@ -16,12 +13,15 @@
 
   flake.modules.homeManager.freya = {
     imports = with inputs.self.modules.homeManager; [
+      starship
       utilities
-      desktop
-      hyprland
-      waybar
-      walker
-      swayosd
+      neovim
     ];
+
+    programs = {
+      firefox.enable = true;
+      vscode.enable = true;
+      zathura.enable = true;
+    };
   };
 }

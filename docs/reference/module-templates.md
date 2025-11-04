@@ -277,14 +277,14 @@ in {
 For features that need their own directory:
 
 ```nix
-# modules/nixvim/default.nix
+# modules/neovim/core.nix
 { inputs, ... }: {
-  flake.modules.homeManager.nixvim = {
+  flake.modules.homeManager.neovim = {
     imports = [
-      ./options.nix
-      ./keybindings.nix
+      ./keymaps.nix
       ./lsp.nix
-      ./plugins.nix
+      ./languages.nix
+      ./telescope.nix
     ];
 
     programs.nixvim.enable = true;
@@ -293,25 +293,26 @@ For features that need their own directory:
 ```
 
 ```nix
-# modules/nixvim/options.nix
-{ inputs, ... }: {
-  programs.nixvim = {
-    options = {
-      number = true;
-      relativenumber = true;
-      # ... other options
-    };
-  };
-}
-```
-
-```nix
-# modules/nixvim/keybindings.nix
+# modules/neovim/keymaps.nix
 { inputs, ... }: {
   programs.nixvim = {
     keymaps = [
       # ... keybindings
     ];
+  };
+}
+```
+
+```nix
+# modules/neovim/lsp.nix
+{ inputs, ... }: {
+  programs.nixvim = {
+    plugins.lsp = {
+      enable = true;
+      servers = {
+        # ... LSP servers
+      };
+    };
   };
 }
 ```

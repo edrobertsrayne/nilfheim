@@ -1,7 +1,5 @@
-{inputs, ...}: let
-  inherit (inputs.self.nilfheim) theme;
-in {
-  flake.modules.homeManager.desktop = {lib, ...}: {
+_: {
+  flake.modules.homeManager.alacritty = _: {
     programs.alacritty = {
       enable = true;
       settings = {
@@ -25,7 +23,6 @@ in {
             action = "Copy";
           }
         ];
-        colors = lib.mkForce theme.alacritty.colors;
       };
     };
   };
