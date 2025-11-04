@@ -12,6 +12,9 @@ _: {
         # Tiling for chromium browsers (fixes --app flag bug)
         "tile, tag:chromium-based-browser"
 
+        # Spotify workspace
+        "workspace name:spotify, class:spotify"
+
         # Browser opacity
         "opacity 1 0.97, tag:chromium-based-browser"
         "opacity 1 0.97, tag:firefox-based-browser"

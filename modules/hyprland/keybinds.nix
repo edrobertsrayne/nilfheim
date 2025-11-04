@@ -54,8 +54,8 @@
           "SUPER SHIFT, down, Swap down, swapwindow, d"
 
           # Window resize
-          "SUPER, equal, Grow window right, resizeactive, -40 0"
-          "SUPER, minus, Grow window left, resizeactive, 40 0"
+          "SUPER, equal, Grow window right, resizeactive, 40 0"
+          "SUPER, minus, Grow window left, resizeactive, -40 0"
           "SUPER SHIFT, equal, Grow window down, resizeactive, 0 40"
           "SUPER SHIFT, minus, Grow window up, resizeactive, 0 -40"
 
