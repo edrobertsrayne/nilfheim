@@ -110,7 +110,7 @@
             format-disabled = "󰂲";
             format-connected = "";
             tooltip-format = "Devices connected: {num_connections}";
-            on-click = lib.getExe' pkgs.blueberry "blueberry";
+            on-click = lib.getExe' pkgs.blueman "blueman";
           };
 
           clock = {

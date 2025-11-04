@@ -6,6 +6,7 @@
       greetd
       audio
       hyprland
+      bluetooth
     ];
 
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
