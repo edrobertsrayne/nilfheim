@@ -19,15 +19,14 @@
       runtimeInputs = with pkgs; [
         bash
         walker
-        alacritty
         hyprpicker
         hyprlock
         systemd
         nh
+        fastfetch
         procps # provides pgrep/pkill
         selfPkgs.launch-presentation-terminal
         selfPkgs.take-screenshot
-        selfPkgs.launch-about
         selfPkgs.launch-webapp
         selfPkgs.launch-editor
         selfPkgs.show-keybindings

@@ -35,7 +35,7 @@ menu() {
 }
 
 terminal() {
-  alacritty --class=Nilfheim -e "$@"
+  xdg-terminal-exec --app-id=Nilfheim "$@"
 }
 
 terminal_present() {
@@ -55,7 +55,7 @@ show_capture_menu() {
 }
 
 show_learn_menu() {
-  case $(menu "Learn" "  Keybindings\n󱄅  Nixos Search\n  home-manager\n  nvf\n Bash") in
+  case $(menu "Learn" "  Keybindings\n󱄅  Nixos Search\n  home-manager\n  nvf\n  Bash") in
   *Keybindings*) show-keybindings ;;
   *Nixos*) launch-webapp "https://search.nixos.org/options" ;;
   *home-manager*) launch-webapp "https://nix-community.github.io/home-manager/options.xhtml" ;;
@@ -87,7 +87,7 @@ go_to_menu() {
   *config*) launch-editor "$HOME"/.nilfheim ;;
   *rebuild*) terminal_present "nh os switch" ;;
   *clean*) terminal_present "nh clean all" ;;
-  *about*) launch-about ;;
+  *about*) xdg-terminal-exec --app-id=Nilfheim -e bash -c 'fastfetch; read -n 1 -s' ;;
   *system*) show_system_menu ;;
   esac
 }

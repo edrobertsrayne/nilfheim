@@ -33,9 +33,41 @@
       "application/x-extension-xht"
     ];
   in {
-    xdg.mimeApps = {
-      enable = true;
-      defaultApplications = lib.genAttrs browserMimeTypes (_: browserDesktopFile);
+    xdg = {
+      mimeApps = {
+        enable = true;
+        defaultApplications = lib.genAttrs browserMimeTypes (_: browserDesktopFile);
+      };
+
+      # Custom Alacritty desktop entry with xdg-terminal-exec support
+      dataFile."applications/alacritty-custom.desktop".text = ''
+        [Desktop Entry]
+        Type=Application
+        TryExec=alacritty
+        Exec=alacritty
+        Icon=Alacritty
+        Terminal=false
+        Categories=System;TerminalEmulator;
+        Name=Alacritty
+        GenericName=Terminal
+        Comment=A fast, cross-platform, OpenGL terminal emulator
+        StartupNotify=true
+        StartupWMClass=Alacritty
+        Actions=New;
+        X-TerminalArgExec=-e
+        X-TerminalArgAppId=--class=
+        X-TerminalArgTitle=--title=
+        X-TerminalArgDir=--working-directory=
+
+        [Desktop Action New]
+        Name=New Terminal
+        Exec=alacritty
+      '';
+
+      terminal-exec = {
+        enable = true;
+        settings.default = ["alacritty-custom.desktop"];
+      };
     };
   };
 }

@@ -5,7 +5,6 @@
     ...
   }: let
     launch-webapp = lib.getExe inputs.self.packages.${pkgs.system}.launch-webapp;
-    launch-terminal = lib.getExe inputs.self.packages.${pkgs.system}.launch-terminal;
   in {
     # Desktop entries for web applications
     xdg.desktopEntries = {
@@ -103,7 +102,7 @@
       "SUPER SHIFT, A, Open Claude webapp, exec, ${launch-webapp} \"https://claude.ai\""
 
       # Native applications (keybinds only - .desktop entries are in their own modules)
-      "SUPER SHIFT, D, LazyDocker, exec, ${launch-terminal} -e lazydocker"
+      "SUPER SHIFT, D, LazyDocker, exec, uwsm-app -- xdg-terminal-exec --app-id=Nilfheim -e lazydocker"
     ];
   };
 }

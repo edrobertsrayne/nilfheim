@@ -1,6 +1,5 @@
 {inputs, ...}: let
   inherit (inputs.self.nilfheim.user) username;
-  inherit (inputs.self.nilfheim.desktop) terminal;
 in {
   flake.modules.nixos.hyprland = {pkgs, ...}: {
     hardware.graphics = {
@@ -26,7 +25,6 @@ in {
     wayland.windowManager.hyprland.enable = true;
     home.sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      TERMINAL = terminal;
     };
 
     imports = with inputs.self.modules.homeManager; [

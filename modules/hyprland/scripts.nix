@@ -14,18 +14,6 @@
         '';
       };
 
-      launch-terminal = pkgs.writeShellApplication {
-        name = "launch-terminal";
-        runtimeInputs = with pkgs; [
-          uwsm
-          bash
-          util-linux
-        ];
-        text = ''
-          exec setsid uwsm-app -- "''${TERMINAL:-alacritty}" "''$@"
-        '';
-      };
-
       launch-browser = pkgs.writeShellApplication {
         name = "nilfheim-launch-browser";
         runtimeInputs = with pkgs; [
@@ -74,19 +62,6 @@
         '';
       };
 
-      launch-about = pkgs.writeShellApplication {
-        name = "launch-about";
-        runtimeInputs = with pkgs; [
-          uwsm
-          bash
-          util-linux
-          fastfetch
-        ];
-        text = ''
-          exec setsid uwsm-app -- "''${TERMINAL:-alacritty}" --class=Nilfheim -o font.size=11 -e bash -c 'fastfetch; read -n 1 -s'
-        '';
-      };
-
       launch-editor = pkgs.writeShellApplication {
         name = "launch-editor";
         runtimeInputs = with pkgs; [
@@ -101,7 +76,7 @@
           editor_name=$(basename "$editor_path")
           case "$editor_name" in
           nvim | vim | nano | micro | hx | helix)
-            exec setsid uwsm-app -- "''${TERMINAL:-alacritty}" -e "$editor_path" "''$@"
+            exec setsid uwsm-app -- xdg-terminal-exec --app-id=Nilfheim -e "$editor_path" "''$@"
             ;;
           *)
             exec setsid uwsm-app -- "$editor_path" "''$@"
@@ -120,7 +95,7 @@
         ];
         text = ''
           cmd="$*"
-          exec setsid uwsm-app -- "''${TERMINAL:-alacritty}" --class=Nilfheim --title=Nilfheim -e bash -c "show-logo; $cmd; show-done"
+          exec setsid uwsm-app -- xdg-terminal-exec --app-id=Nilfheim --title=Nilfheim -- bash -c "show-logo; $cmd; show-done"
         '';
       };
 

@@ -1,4 +1,4 @@
-{inputs, ...}: {
+_: {
   flake.modules.homeManager.waybar = {
     pkgs,
     lib,
@@ -6,7 +6,6 @@
     ...
   }: let
     inherit (config.lib.stylix) colors;
-    inherit (inputs.self.nilfheim.desktop) terminal;
   in {
     stylix.targets.waybar.enable = false;
     programs.waybar = {
@@ -70,7 +69,7 @@
               car = "󰄋";
               default = ["󰕿" "󰖀" "󰕾"];
             };
-            on-click = "${terminal} --class=Wiremix -e ${lib.getExe pkgs.wiremix}";
+            on-click = "xdg-terminal-exec --app-id=Wiremix -e ${lib.getExe pkgs.wiremix}";
             on-click-right = "${lib.getExe pkgs.pamixer} -t";
             tooltip-format = "Volume: {volume}%";
           };
@@ -83,7 +82,7 @@
             format-disconnected = "󰤮";
             tooltip-format-wifi = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
             tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
-            on-click = "${terminal} -e nmtui";
+            on-click = "xdg-terminal-exec --app-id=Nilfheim -e nmtui";
             interval = 3;
             spacing = 1;
           };
@@ -122,7 +121,7 @@
           cpu = {
             interval = 15;
             format = " ";
-            on-click = "${terminal} --class=Nilfheim -e ${lib.getExe pkgs.btop}";
+            on-click = "xdg-terminal-exec --app-id=Nilfheim -e ${lib.getExe pkgs.btop}";
           };
         };
       };

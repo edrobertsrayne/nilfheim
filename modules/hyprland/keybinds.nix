@@ -6,7 +6,6 @@
   }: let
     inherit (inputs.self.nilfheim.desktop) launcher;
     launch-browser = lib.getExe inputs.self.packages.${pkgs.system}.launch-browser;
-    launch-terminal = lib.getExe inputs.self.packages.${pkgs.system}.launch-terminal;
   in {
     wayland.windowManager.hyprland.settings = {
       bindd =
@@ -21,11 +20,11 @@
           "SUPER, J, Toggle split direction, togglesplit"
 
           # Applications
-          "SUPER, RETURN, Terminal, exec, ${launch-terminal}"
+          "SUPER, RETURN, Terminal, exec, uwsm-app -- xdg-terminal-exec"
           "SUPER SHIFT, B, Browser, exec, ${launch-browser}"
           "SUPER SHIFT ALT, B, Private browser, exec, ${launch-browser} --private"
           "SUPER, SPACE, App launcher, exec, ${launcher}"
-          "SUPER SHIFT, E, File manager, exec, ${lib.getExe pkgs.nautilus}"
+          "SUPER SHIFT, E, File manager, exec, uwsm-app -- ${lib.getExe pkgs.nautilus} --new-window"
           "SUPER SHIFT, W, Wallpaper browser, exec, waypaper --folder $HOME/Pictures/Wallpapers"
           "SUPER ALT, W, Random wallpaper, exec, waypaper --random --folder $HOME/Pictures/Wallpapers"
 
