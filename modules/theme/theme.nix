@@ -29,6 +29,7 @@ in {
           name = "Bibata-Modern-Classic";
           size = 24;
         };
+        targets.grub.enable = false;
       };
     home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
   };
