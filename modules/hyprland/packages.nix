@@ -21,7 +21,6 @@ _: {
       gimp
       inkscape
       typora
-      spotify
       gnome-calculator
     ];
   };

@@ -18,6 +18,7 @@
       utilities
       neovim
       obsidian
+      spicetify
     ];
 
     programs = {

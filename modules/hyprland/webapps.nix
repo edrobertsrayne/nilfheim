@@ -103,7 +103,6 @@
       "SUPER SHIFT, A, Open Claude webapp, exec, ${launch-webapp} \"https://claude.ai\""
 
       # Native applications (keybinds only - .desktop entries are in their own modules)
-      "SUPER SHIFT, S, Spotify, exec, ${pkgs.spotify}/bin/spotify"
       "SUPER SHIFT, D, LazyDocker, exec, ${launch-terminal} -e lazydocker"
     ];
   };

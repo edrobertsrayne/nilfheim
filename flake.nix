@@ -37,6 +37,7 @@
       url = "github:abenz1267/walker";
       inputs.elephant.follows = "elephant";
     };
+    spicetify-nix.url = "github:Gerg-L/spicetify-nix";
   };
 
   outputs = inputs @ {
