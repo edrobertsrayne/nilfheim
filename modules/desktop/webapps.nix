@@ -12,7 +12,7 @@
       gmail = {
         name = "Gmail";
         comment = "Google Mail";
-        exec = "${pkgs.firefox}/bin/firefox --new-window https://mail.google.com";
+        exec = "${launch-webapp} https://mail.google.com";
         icon = ./../../assets/icons/gmail.png;
         categories = ["Office"];
         terminal = false;
@@ -22,7 +22,7 @@
       youtube = {
         name = "YouTube";
         comment = "Watch and share videos";
-        exec = "${pkgs.firefox}/bin/firefox --new-window https://youtube.com";
+        exec = "${launch-webapp} https://youtube.com";
         icon = ./../../assets/icons/youtube.png;
         categories = ["AudioVideo"];
         terminal = false;
@@ -32,7 +32,7 @@
       claude = {
         name = "Claude (Web)";
         comment = "AI assistant by Anthropic";
-        exec = "${pkgs.firefox}/bin/firefox --new-window https://claude.ai";
+        exec = "${launch-webapp} https://claude.ai";
         icon = ./../../assets/icons/claude-ai.png;
         categories = ["Office"];
         terminal = false;
@@ -42,7 +42,7 @@
       google-calendar = {
         name = "Google Calendar";
         comment = "Google Calendar";
-        exec = "${pkgs.firefox}/bin/firefox --new-window https://calendar.google.com";
+        exec = "${launch-webapp} https://calendar.google.com";
         icon = ./../../assets/icons/google-calendar.png;
         categories = ["Office"];
         terminal = false;
@@ -52,7 +52,7 @@
       google-drive = {
         name = "Google Drive";
         comment = "Google Drive cloud storage";
-        exec = "${pkgs.firefox}/bin/firefox --new-window https://drive.google.com";
+        exec = "${launch-webapp} https://drive.google.com";
         icon = ./../../assets/icons/google-drive.png;
         categories = ["Office"];
         terminal = false;
@@ -62,7 +62,7 @@
       notebooklm = {
         name = "NotebookLM";
         comment = "AI-powered note taking and research assistant";
-        exec = "${pkgs.firefox}/bin/firefox --new-window https://notebooklm.google.com";
+        exec = "${launch-webapp} https://notebooklm.google.com";
         icon = ./../../assets/icons/notebooklm.png;
         categories = ["Office"];
         terminal = false;
@@ -72,7 +72,7 @@
       readwise = {
         name = "Readwise Reader";
         comment = "Read and annotate articles, PDFs, and more";
-        exec = "${pkgs.firefox}/bin/firefox --new-window https://read.readwise.io";
+        exec = "${launch-webapp} https://read.readwise.io";
         icon = ./../../assets/icons/readwise.png;
         categories = ["Office"];
         terminal = false;
@@ -82,7 +82,7 @@
       p5js = {
         name = "p5.js Editor";
         comment = "Creative coding web editor";
-        exec = "${pkgs.firefox}/bin/firefox --new-window https://editor.p5js.org";
+        exec = "${launch-webapp} https://editor.p5js.org";
         icon = ./../../assets/icons/p5js.png;
         categories = ["Development"];
         terminal = false;
