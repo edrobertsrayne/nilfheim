@@ -10,6 +10,8 @@
     ];
 
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
+    programs.nix-ld.enable = true;
   };
 
   flake.modules.homeManager.freya = {pkgs, ...}: {
@@ -19,6 +21,7 @@
       neovim
       obsidian
       spicetify
+      python
     ];
 
     programs = {
