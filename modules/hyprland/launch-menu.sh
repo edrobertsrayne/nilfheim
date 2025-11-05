@@ -43,7 +43,7 @@ terminal_present() {
 }
 
 show_capture_menu() {
-  case $(menu "Capture" "󰹑  Grab the whole screen\n  Grab the current window\n󰗆  Grab an area\n  Grab a colour") in
+  case $(menu "Capture" "󰹑  Grab the whole screen\n  Grab the current window\n󰗆  Grab an area\n  Grab a colour") in
   *area*) take-screenshot area ;;
   *window*) take-screenshot active ;;
   *screen*) take-screenshot output ;;
@@ -55,7 +55,7 @@ show_capture_menu() {
 }
 
 show_learn_menu() {
-  case $(menu "Learn" "  Keybindings\n󱄅  Nixos Search\n  home-manager\n  nvf\n  Bash") in
+  case $(menu "Learn" "  Keybindings\n󱄅  Nixos Search\n  home-manager\n  nvf\n  Bash") in
   *Keybindings*) show-keybindings ;;
   *Nixos*) launch-webapp "https://search.nixos.org/options" ;;
   *home-manager*) launch-webapp "https://nix-community.github.io/home-manager/options.xhtml" ;;
@@ -66,7 +66,7 @@ show_learn_menu() {
 }
 
 show_system_menu() {
-  case $(menu "System" "  Lock\n󰤄  Suspend\n󰜉  Restart\n󰐥  Shutdown") in
+  case $(menu "System" "  Lock\n󰤄  Suspend\n󰜉  Restart\n󰐥  Shutdown") in
   *Lock*) hyprlock ;;
   *Suspend*) systemctl suspend ;;
   *Restart*) systemctl reboot --no-wall ;;
@@ -76,7 +76,7 @@ show_system_menu() {
 }
 
 show_main_menu() {
-  go_to_menu "$(menu "Go" "󰀻  Apps\n󰧑  Learn\n  Capture\n  Edit Config\n󰃢  Clean\n  Rebuild\n  About\n  System")"
+  go_to_menu "$(menu "Go" "󰀻  Apps\n󰧑  Learn\n  Capture\n  Jelly\n  Edit Config\n󰃢  Clean\n  Rebuild\n  About\n  System")"
 }
 
 go_to_menu() {
@@ -84,6 +84,7 @@ go_to_menu() {
   *apps*) walker -p "Launch..." ;;
   *capture*) show_capture_menu ;;
   *learn*) show_learn_menu ;;
+  *jelly*) terminal jelly ;;
   *config*) launch-editor "$HOME"/.nilfheim ;;
   *rebuild*) terminal_present "nh os switch" ;;
   *clean*) terminal_present "nh clean all" ;;

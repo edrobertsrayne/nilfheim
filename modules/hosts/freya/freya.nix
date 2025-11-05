@@ -19,6 +19,7 @@
       neovim
       obsidian
       spicetify
+      jelly
     ];
 
     programs = {
