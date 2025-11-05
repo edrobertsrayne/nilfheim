@@ -12,10 +12,6 @@
       };
     };
 
-    flake.nilfheim.server.proxy.services.jellyfin = {
-      subdomain = "jellyfin.${inputs.self.nilfheim.server.domain}";
-      port = 8096;
-    };
     users.users.${config.services.jellyfin.user}.extraGroups = ["tank"];
 
     environment.systemPackages = [
@@ -61,5 +57,10 @@
         intel-media-driver # QSV up to 11th gen
       ];
     };
+  };
+
+  flake.nilfheim.server.proxy.services.jellyfin = {
+    subdomain = "jellyfin.${inputs.self.nilfheim.server.domain}";
+    port = 8096;
   };
 }

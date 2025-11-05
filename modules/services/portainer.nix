@@ -24,10 +24,10 @@ in {
         ];
       };
     };
+  };
 
-    flake.nilfheim.server.proxy.services.portainer = {
-      subdomain = "portainer.${server.domain}";
-      port = 9000;
-    };
+  flake.nilfheim.server.proxy.services.portainer = {
+    subdomain = "portainer.${server.domain}";
+    port = 9000;
   };
 }

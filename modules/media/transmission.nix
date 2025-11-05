@@ -57,10 +57,10 @@ in {
       cfg.settings.rpc-port
       cfg.settings.peer-port
     ];
+  };
 
-    flake.nilfheim.server.proxy.services.transmission = {
-      subdomain = "transmission.${server.domain}";
-      port = cfg.settings.rpc-port;
-    };
+  flake.nilfheim.server.proxy.services.transmission = {
+    subdomain = "transmission.${server.domain}";
+    port = 9091;
   };
 }

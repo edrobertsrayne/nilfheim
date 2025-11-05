@@ -23,10 +23,10 @@ in {
     systemd.tmpfiles.rules = [
       "d ${config.services.prowlarr.dataDir} 0755 prowlarr prowlarr - -"
     ];
+  };
 
-    flake.nilfheim.server.proxy.services.${service} = {
-      subdomain = "${service}.${server.domain}";
-      port = cfg.settings.server.port;
-    };
+  flake.nilfheim.server.proxy.services.${service} = {
+    subdomain = "${service}.${server.domain}";
+    port = 9696;
   };
 }

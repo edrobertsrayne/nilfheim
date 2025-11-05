@@ -19,11 +19,11 @@ in {
       };
     };
 
-    flake.nilfheim.server.proxy.services.${service} = {
-      subdomain = "${service}.${server.domain}";
-      port = cfg.settings.server.port;
-    };
-
     users.users.${cfg.user}.extraGroups = ["tank"];
+  };
+
+  flake.nilfheim.server.proxy.services.${service} = {
+    subdomain = "${service}.${server.domain}";
+    port = 7878;
   };
 }

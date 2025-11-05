@@ -21,10 +21,10 @@ in {
         fi
       fi
     '';
+  };
 
-    flake.nilfheim.server.proxy.services.sabnzbd = {
-      subdomain = "sabnznd.${server.domain}";
-      port = 8080;
-    };
+  flake.nilfheim.server.proxy.services.sabnzbd = {
+    subdomain = "sabnznd.${server.domain}";
+    port = 8080;
   };
 }
