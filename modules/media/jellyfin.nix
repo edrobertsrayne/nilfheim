@@ -12,12 +12,9 @@
       };
     };
 
-    services.cloudflared = {
-      tunnels."${inputs.self.nilfheim.server.cloudflare.tunnel}" = {
-        ingress = {
-          "jellyfin.greensroad.uk" = "http://127.0.0.1:8096";
-        };
-      };
+    flake.nilfheim.server.proxy.services.jellyfin = {
+      subdomain = "jellyfin.${inputs.self.nilfheim.server.domain}";
+      port = 8096;
     };
     users.users.${config.services.jellyfin.user}.extraGroups = ["tank"];
 

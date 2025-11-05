@@ -18,12 +18,9 @@ in {
     systemd.tmpfiles.rules = [
       "d /srv/homeassistant 0755 root root"
     ];
-    services.cloudflared = {
-      tunnels."${server.cloudflare.tunnel}" = {
-        ingress = {
-          "home.${server.domain}" = "http://127.0.0.1:8123";
-        };
-      };
+    flake.nilfheim.server.proxy.services.home-assistant = {
+      subdomain = "home.${server.domain}";
+      port = 8123;
     };
   };
 }

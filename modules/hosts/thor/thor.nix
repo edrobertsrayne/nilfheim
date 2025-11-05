@@ -12,6 +12,7 @@
         media
         cloudflared
         home-assistant
+        nginx-proxy
       ];
 
       boot.supportedFilesystems = ["zfs"];

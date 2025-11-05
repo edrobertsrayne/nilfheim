@@ -24,12 +24,9 @@ in {
       "d ${config.services.prowlarr.dataDir} 0755 prowlarr prowlarr - -"
     ];
 
-    services.cloudflared = {
-      tunnels."${server.cloudflare.tunnel}" = {
-        ingress = {
-          "${service}.${server.domain}" = "http://127.0.0.1:${builtins.toString cfg.settings.server.port}";
-        };
-      };
+    flake.nilfheim.server.proxy.services.${service} = {
+      subdomain = "${service}.${server.domain}";
+      port = cfg.settings.server.port;
     };
   };
 }

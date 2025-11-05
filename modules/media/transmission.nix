@@ -58,12 +58,9 @@ in {
       cfg.settings.peer-port
     ];
 
-    services.cloudflared = {
-      tunnels."${server.cloudflare.tunnel}" = {
-        ingress = {
-          "transmission.${server.domain}" = "http://127.0.0.1:${builtins.toString cfg.settings.rpc-port}";
-        };
-      };
+    flake.nilfheim.server.proxy.services.transmission = {
+      subdomain = "transmission.${server.domain}";
+      port = cfg.settings.rpc-port;
     };
   };
 }

@@ -22,13 +22,9 @@ in {
       fi
     '';
 
-    services.cloudflared = {
-      # TODO: Fix tunnel 404 error
-      tunnels."${server.cloudflare.tunnel}" = {
-        ingress = {
-          "sabnznd.greensroad.uk" = "http://127.0.0.1:8080";
-        };
-      };
+    flake.nilfheim.server.proxy.services.sabnzbd = {
+      subdomain = "sabnznd.${server.domain}";
+      port = 8080;
     };
   };
 }

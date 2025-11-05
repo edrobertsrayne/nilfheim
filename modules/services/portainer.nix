@@ -25,12 +25,9 @@ in {
       };
     };
 
-    services.cloudflared = {
-      tunnels."${server.cloudflare.tunnel}" = {
-        ingress = {
-          "portainer.${server.domain}" = "http://127.0.0.1:9000";
-        };
-      };
+    flake.nilfheim.server.proxy.services.portainer = {
+      subdomain = "portainer.${server.domain}";
+      port = 9000;
     };
   };
 }
