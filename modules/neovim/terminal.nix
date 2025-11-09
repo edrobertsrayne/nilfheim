@@ -5,24 +5,12 @@ _: {
         vim = {
           terminal = {
             toggleterm = {
-              enable = true;
-              lazygit.enable = true;
+              enable = false;
             };
           };
 
           maps = {
-            normal = {
-              "<C-`>" = {
-                action = "<cmd>ToggleTerm<CR>";
-                desc = "Toggle terminal";
-              };
-            };
-
             terminal = {
-              "<C-`>" = {
-                action = "<cmd>ToggleTerm<CR>";
-                desc = "Toggle terminal";
-              };
               "<Esc><Esc>" = {
                 action = "<C-\\><C-n>";
                 desc = "Exit terminal mode";

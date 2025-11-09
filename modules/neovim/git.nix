@@ -29,7 +29,7 @@ _: {
                 action = "<cmd>Gitsigns diffthis<CR>";
                 desc = "Git diff";
               };
-              "<leader>gp" = {
+              "<leader>gh" = {
                 action = "<cmd>Gitsigns preview_hunk<CR>";
                 desc = "Preview git hunk";
               };
@@ -44,6 +44,30 @@ _: {
               "<leader>gu" = {
                 action = "<cmd>Gitsigns undo_stage_hunk<CR>";
                 desc = "Undo stage hunk";
+              };
+
+              # === LazyGit ===
+              "<leader>gg" = {
+                action = "function() Snacks.lazygit() end";
+                lua = true;
+                desc = "LazyGit (root)";
+              };
+              "<leader>gG" = {
+                action = "function() Snacks.lazygit({ cwd = vim.fn.getcwd() }) end";
+                lua = true;
+                desc = "LazyGit (cwd)";
+              };
+
+              # === Git Browse ===
+              "<leader>gB" = {
+                action = "function() Snacks.gitbrowse() end";
+                lua = true;
+                desc = "Git Browse (open)";
+              };
+              "<leader>gY" = {
+                action = "function() Snacks.gitbrowse({ open = function(url) vim.fn.setreg('+', url) end }) end";
+                lua = true;
+                desc = "Git Browse (copy)";
               };
             };
           };

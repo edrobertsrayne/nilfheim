@@ -15,7 +15,6 @@ _: {
           };
           ui = {
             borders.enable = true;
-            noice.enable = true;
             colorizer.enable = true;
             breadcrumbs = {
               enable = true;
