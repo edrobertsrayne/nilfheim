@@ -11,6 +11,7 @@
         blocky
         media
         home-assistant
+        karakeep
       ];
 
       boot.supportedFilesystems = ["zfs"];
