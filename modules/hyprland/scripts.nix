@@ -90,8 +90,8 @@
         runtimeInputs = with pkgs; [
           uwsm
           util-linux
-          inputs.self.packages.${pkgs.system}.show-done
-          inputs.self.packages.${pkgs.system}.show-logo
+          inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.show-done
+          inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.show-logo
         ];
         text = ''
           cmd="$*"

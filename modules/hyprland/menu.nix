@@ -5,14 +5,14 @@
     ...
   }: {
     wayland.windowManager.hyprland.settings.bindd = let
-      launch-menu = lib.getExe inputs.self.packages.${pkgs.system}.launch-menu;
+      launch-menu = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.launch-menu;
     in [
       "SUPER SHIFT, SPACE, Main menu, exec, ${launch-menu}"
     ];
   };
 
   perSystem = {pkgs, ...}: let
-    selfPkgs = inputs.self.packages.${pkgs.system};
+    selfPkgs = inputs.self.packages.${pkgs.stdenv.hostPlatform.system};
   in {
     packages.launch-menu = pkgs.writeShellApplication {
       name = "launch-menu";

@@ -4,7 +4,7 @@
     lib,
     ...
   }: let
-    launch-webapp = lib.getExe inputs.self.packages.${pkgs.system}.launch-webapp;
+    launch-webapp = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.launch-webapp;
   in {
     # Desktop entries for web applications
     xdg.desktopEntries = {

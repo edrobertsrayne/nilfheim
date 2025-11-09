@@ -44,7 +44,7 @@ in {
     };
 
     wayland.windowManager.hyprland.settings = let
-      screenshot = lib.getExe inputs.self.packages.${pkgs.system}.take-screenshot;
+      screenshot = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.take-screenshot;
     in {
       bindd = [
         ", Print, Screenshot: Window, exec, ${screenshot} active"
