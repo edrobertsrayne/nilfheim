@@ -10,7 +10,6 @@
         audio
         hyprland
         bluetooth
-        nginx
       ]);
 
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
