@@ -53,9 +53,10 @@ This configuration represents a ground-up rewrite focusing on:
 
 ### 🛠️ Development Tools
 
-- **Neovim** (nvf) with LazyVim-inspired modular configuration
+- **Neovim** (nvf) with LazyVim-inspired modular configuration powered by snacks.nvim
 - **Tmux** with vim-tmux-navigator integration
 - **CLI utilities**: bat, eza, fzf, delta, lazygit, lazydocker, zoxide
+- **Python**: uv for fast package management
 - **nh** - Nix helper for flake operations and system cleanup
 - **Dev shells** for project-specific environments
 
@@ -63,7 +64,7 @@ This configuration represents a ground-up rewrite focusing on:
 
 - **Jellyfin** media server
 - **Jellyseerr** request management
-- **Arr Suite**: Sonarr, Radarr, Lidarr, Prowlarr
+- **Arr Suite**: Sonarr, Radarr, Lidarr, Prowlarr, Bazarr
 - **Transmission** BitTorrent client
 - **Sabnzbd** Usenet client
 
@@ -71,7 +72,9 @@ This configuration represents a ground-up rewrite focusing on:
 
 - **Home Assistant** home automation
 - **Blocky** DNS server with ad-blocking
-- **Portainer** container management with Cloudflare tunnel
+- **Nginx** reverse proxy for services
+- **Portainer** container management
+- **Karakeep** self-hosted bookmarking service
 - **NFS/Samba** network file sharing
 - **Tailscale** mesh VPN
 - **Docker** container runtime

@@ -36,7 +36,7 @@ niflheim/
 
 1. **NixOS Modules:** `flake.modules.nixos.*` - System-level configuration
 2. **Darwin Modules:** `flake.modules.darwin.*` - macOS system configuration
-3. **Generic Modules:** `flake.modules.home.*` - Cross-platform user configuration (home-manager)
+3. **Generic Modules:** `flake.modules.homeManager.*` - Cross-platform user configuration (home-manager)
 4. **Flake Options:** `flake.niflheim.*` - Project-wide settings
 
 ### Key Concepts
@@ -145,7 +145,7 @@ flake.modules.nixos.desktop = {
   ];
 
   # Platform-specific home imports
-  home-manager.users.${username}.imports = with inputs.self.modules.home; [
+  home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
     desktop      # Cross-platform GUI apps
     webapps      # Web apps with keybinds
     xdg          # XDG/MIME config (Linux-only)
@@ -158,14 +158,14 @@ flake.modules.nixos.desktop = {
 
 # Darwin desktop aggregator (cross-platform only)
 flake.modules.darwin.desktop = {
-  home-manager.users.${username}.imports = with inputs.self.modules.home; [
+  home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
     desktop      # Same cross-platform GUI apps
     # No Linux-specific modules
   ];
 };
 
 # Generic desktop aggregator (cross-platform GUI apps)
-flake.modules.home.desktop.imports = with inputs.self.modules.home; [
+flake.modules.homeManager.desktop.imports = with inputs.self.modules.homeManager; [
   firefox
   chromium
   vscode
@@ -248,7 +248,7 @@ in {
 
 # User-level: modules/zsh.nix
 _: {
-  flake.modules.home.zsh = {
+  flake.modules.homeManager.zsh = {
     programs.zsh = {
       enable = true;
       enableCompletion = true;
@@ -271,21 +271,21 @@ in {
       greetd
     ];
 
-    home-manager.users.${username}.imports = with inputs.self.modules.home; [
+    home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
       desktop webapps xdg hyprland waybar walker swayosd
     ];
   };
 
   # Darwin desktop (cross-platform only)
   flake.modules.darwin.desktop = {
-    home-manager.users.${username}.imports = with inputs.self.modules.home; [
+    home-manager.users.${username}.imports = with inputs.self.modules.homeManager; [
       desktop  # Same cross-platform apps
     ];
   };
 
   # Generic cross-platform desktop apps
-  flake.modules.home.desktop = {
-    imports = with inputs.self.modules.home; [
+  flake.modules.homeManager.desktop = {
+    imports = with inputs.self.modules.homeManager; [
       firefox chromium vscode alacritty
     ];
   };
@@ -392,9 +392,9 @@ Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separat
 - `modules/alacritty.nix` - Terminal emulator
 - `modules/gtk.nix` - GTK theme configuration
 - `modules/neovim/` - Editor configuration
-- `modules/utilities/` - CLI tools (git, fzf, bat, etc.)
+- `modules/utilities/` - CLI tools (git, fzf, bat, eza, delta, lazygit, etc.)
 - User-level shell config (`zsh.nix`, `starship.nix`)
-- Individual app configs (firefox, vscode, obsidian configured directly in hosts or aggregators)
+- Individual app configs (firefox, vscode, obsidian, spicetify configured directly in hosts)
 
 **Linux-Specific Modules** (`flake.modules.nixos.*`):
 - `modules/hyprland/` - Hyprland window manager configuration
