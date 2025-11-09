@@ -1,5 +1,5 @@
 _: {
-  flake.modules.nixos.capslock-remap = {
+  flake.modules.nixos.nixos = {
     services.keyd = {
       enable = true;
       keyboards.default = {
