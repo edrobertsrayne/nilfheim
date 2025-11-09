@@ -2,7 +2,7 @@
   flake = let
     tunnel = "23c4423f-ec30-423b-ba18-ba18904ddb85";
     secret = ../../../secrets/cloudflare-thor.age;
-    inherit (inputs.self.nilfheim.server) domain;
+    inherit (inputs.self.niflheim.server) domain;
   in {
     modules.nixos.thor = {config, ...}: {
       imports = with inputs.self.modules.nixos; [
@@ -15,7 +15,7 @@
 
       boot.supportedFilesystems = ["zfs"];
       boot.zfs.extraPools = ["tank"];
-      users.groups.tank.members = ["${inputs.self.nilfheim.user.username}"];
+      users.groups.tank.members = ["${inputs.self.niflheim.user.username}"];
 
       age.secrets.cloudflared.file = secret;
       services.cloudflared = {

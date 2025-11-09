@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.nilfheim) server;
+  inherit (inputs.self.niflheim) server;
 in {
   flake.modules.nixos.portainer = {
     virtualisation.oci-containers = {

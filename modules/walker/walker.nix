@@ -7,7 +7,7 @@
       enable = true;
       runAsService = true;
       config = {
-        theme = "nilfheim";
+        theme = "niflheim";
         force_keyboard_focus = true;
         close_when_open = true;
         disable_mouse = false;
@@ -16,7 +16,7 @@
         exact_search_prefix = "'";
       };
       themes = {
-        "nilfheim" = {
+        "niflheim" = {
           style =
             ''
               @define-color selected-text ${colors.withHashtag.base06};

@@ -89,9 +89,9 @@ When a feature needs extensive configuration in both contexts:
 For project-wide settings that other modules need to reference:
 
 ```nix
-# modules/nilfheim/+myoption.nix
+# modules/niflheim/+myoption.nix
 { inputs, config, lib, ... }: {
-  options.flake.nilfheim.myOption = {
+  options.flake.niflheim.myOption = {
     enable = lib.mkEnableOption "My feature";
 
     setting = lib.mkOption {
@@ -108,7 +108,7 @@ For project-wide settings that other modules need to reference:
     };
   };
 
-  config.flake.nilfheim.myOption = {
+  config.flake.niflheim.myOption = {
     # Default configuration can go here
     # Or leave empty and let host configs set values
   };
@@ -121,7 +121,7 @@ For project-wide settings that other modules need to reference:
 # modules/some-aspect.nix
 { inputs, config, lib, pkgs, ... }:
 let
-  cfg = config.flake.nilfheim.myOption;
+  cfg = config.flake.niflheim.myOption;
 in {
   flake.modules.nixos.someAspect = lib.mkIf cfg.enable {
     # Use the custom option values
@@ -241,10 +241,10 @@ For modules that should behave differently based on conditions:
 # modules/development.nix
 { inputs, config, lib, pkgs, ... }:
 let
-  cfg = config.flake.nilfheim.development;
+  cfg = config.flake.niflheim.development;
   isDevMachine = config.networking.hostName == "freya";
 in {
-  options.flake.nilfheim.development = {
+  options.flake.niflheim.development = {
     languages = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
@@ -373,7 +373,7 @@ For truly host-specific config (hardware, unique settings):
 |----------|----------|----------|
 | Simple aspect (SSH, Git) | Basic Module | `modules/{aspect}.nix` |
 | Feature with system + user config | Multi-Context | `modules/{feature}.nix` |
-| Shared settings/options | Custom Options | `modules/nilfheim/+{option}.nix` |
+| Shared settings/options | Custom Options | `modules/niflheim/+{option}.nix` |
 | Group related features | Aggregator | `modules/{group}.nix` |
 | Reusable functions | Helper Function | `modules/lib/{helper}.nix` |
 | Complex feature | Complex Feature | `modules/{feature}/` |

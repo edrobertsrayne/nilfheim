@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.nilfheim) server;
+  inherit (inputs.self.niflheim) server;
 in {
   flake.modules.nixos.media = {config, ...}: let
     cfg = config.services.sabnzbd;

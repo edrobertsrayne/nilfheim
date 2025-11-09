@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.nilfheim.theme) nvf;
+  inherit (inputs.self.niflheim.theme) nvf;
 in {
   flake.modules.homeManager.neovim = {
     imports = [inputs.nvf.homeManagerModules.default];

@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.nilfheim.user) username;
+  inherit (inputs.self.niflheim.user) username;
 in {
   flake.modules.nixos.nixos = {
     nix = {
@@ -38,7 +38,7 @@ in {
     };
     system.autoUpgrade = {
       enable = true;
-      flake = "github:edrobertsrayne/nilfheim";
+      flake = "github:edrobertsrayne/niflheim";
       flags = [];
       dates = "04:00";
     };

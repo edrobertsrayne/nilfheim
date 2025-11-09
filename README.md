@@ -1,9 +1,9 @@
-# ❄️ Nilfheim
+# ❄️ Niflheim
 
 > A beautiful, aspect-oriented NixOS configuration following dendritic
 > principles
 
-Nilfheim is a complete NixOS configuration built around [**dendritic
+Niflheim is a complete NixOS configuration built around [**dendritic
 architecture**](https://github.com/mightyiam/dendritic) — organizing modules by _what they do_ rather than _where they
 run_. The result is a highly modular, composable, and maintainable system that
 embraces keyboard-first workflows and aesthetic design.
@@ -116,8 +116,8 @@ This configuration represents a ground-up rewrite focusing on:
 
 ```bash
 # Clone the repository
-git clone git@github.com:edrobertsrayne/nilfheim.git
-cd nilfheim
+git clone git@github.com:edrobertsrayne/niflheim.git
+cd niflheim
 
 # Build a specific host configuration
 sudo nixos-rebuild switch --flake .#freya  # Desktop
@@ -128,7 +128,7 @@ sudo nixos-rebuild switch --flake .#thor   # Server
 
 ```bash
 # Build and deploy to a remote host
-nixos-rebuild switch --flake github:edrobertsrayne/nilfheim#thor \
+nixos-rebuild switch --flake github:edrobertsrayne/niflheim#thor \
   --target-host thor --use-remote-sudo
 ```
 

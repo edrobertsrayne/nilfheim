@@ -4,7 +4,7 @@
     lib,
     ...
   }: let
-    inherit (inputs.self.nilfheim.desktop) launcher;
+    inherit (inputs.self.niflheim.desktop) launcher;
     launch-browser = lib.getExe inputs.self.packages.${pkgs.system}.launch-browser;
   in {
     wayland.windowManager.hyprland.settings = {

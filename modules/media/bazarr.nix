@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.nilfheim.server) domain;
+  inherit (inputs.self.niflheim.server) domain;
 in {
   flake.modules.nixos.media = {config, ...}: let
     cfg = config.services.bazarr;

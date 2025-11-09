@@ -35,7 +35,7 @@ menu() {
 }
 
 terminal() {
-  xdg-terminal-exec --app-id=Nilfheim "$@"
+  xdg-terminal-exec --app-id=Niflheim "$@"
 }
 
 terminal_present() {
@@ -84,10 +84,10 @@ go_to_menu() {
   *apps*) walker -p "Launch..." ;;
   *capture*) show_capture_menu ;;
   *learn*) show_learn_menu ;;
-  *config*) launch-editor "$HOME"/.nilfheim ;;
+  *config*) launch-editor "$HOME"/.niflheim ;;
   *rebuild*) terminal_present "nh os switch" ;;
   *clean*) terminal_present "nh clean all" ;;
-  *about*) xdg-terminal-exec --app-id=Nilfheim -e bash -c 'fastfetch; read -n 1 -s' ;;
+  *about*) xdg-terminal-exec --app-id=Niflheim -e bash -c 'fastfetch; read -n 1 -s' ;;
   *system*) show_system_menu ;;
   esac
 }

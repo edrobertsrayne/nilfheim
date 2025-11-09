@@ -1,5 +1,5 @@
 {lib, ...}: {
-  options.flake.nilfheim.desktop = with lib; {
+  options.flake.niflheim.desktop = with lib; {
     browser = mkOption {
       type = types.str;
       default = "firefox";

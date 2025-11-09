@@ -1,5 +1,5 @@
 {lib, ...}: {
-  options.flake.nilfheim.user = with lib; {
+  options.flake.niflheim.user = with lib; {
     username = mkOption {
       type = types.str;
       default = "ed";

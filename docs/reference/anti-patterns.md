@@ -170,19 +170,19 @@ flake.modules.nixos.desktop.imports = with inputs.self.modules.nixos; [
 **Option 2: Use custom options for shared config**
 
 ```nix
-# modules/nilfheim/+shared.nix
-options.flake.nilfheim.shared.setting = lib.mkOption { ... };
+# modules/niflheim/+shared.nix
+options.flake.niflheim.shared.setting = lib.mkOption { ... };
 
 # modules/feature-x.nix
 flake.modules.nixos.feature-x = {
   # Use shared setting
-  config.something = config.flake.nilfheim.shared.setting;
+  config.something = config.flake.niflheim.shared.setting;
 };
 
 # modules/feature-y.nix
 flake.modules.nixos.feature-y = {
   # Also use shared setting
-  config.something = config.flake.nilfheim.shared.setting;
+  config.something = config.flake.niflheim.shared.setting;
 };
 ```
 
@@ -243,7 +243,7 @@ Agent:
 ### Anti-Pattern: Hard-Coded Values
 
 **Don't:** Hard-code usernames, paths, or host-specific values in aspect modules
-**Do:** Use `flake.nilfheim.*` options or function parameters
+**Do:** Use `flake.niflheim.*` options or function parameters
 
 ### Anti-Pattern: Ignoring Quality Checks
 

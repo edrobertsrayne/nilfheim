@@ -128,10 +128,10 @@ and are commonly used together.
 For breaking changes, add `!` after the scope and explain in footer:
 
 ```
-refactor(nilfheim)!: rename user option structure
+refactor(niflheim)!: rename user option structure
 
-BREAKING CHANGE: flake.nilfheim.user.name is now
-flake.nilfheim.user.username for consistency.
+BREAKING CHANGE: flake.niflheim.user.name is now
+flake.niflheim.user.username for consistency.
 Update host configurations accordingly.
 ```
 

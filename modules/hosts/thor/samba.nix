@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.nilfheim.user) username;
+  inherit (inputs.self.niflheim.user) username;
 in {
   flake.modules.nixos.thor = {
     # Create share directories

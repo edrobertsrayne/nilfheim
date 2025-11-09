@@ -13,11 +13,11 @@ This document provides detailed information about the Nilfheim NixOS configurati
 ### Directory Structure
 
 ```
-nilfheim/
+niflheim/
 ├── flake.nix                    # Entry point (minimal, just dependencies)
 ├── modules/
 │   ├── flake/                   # Flake-parts configuration
-│   ├── nilfheim/                # Custom project options (+user.nix, +theme.nix)
+│   ├── niflheim/                # Custom project options (+user.nix, +theme.nix)
 │   ├── hosts/                   # Host-specific configurations
 │   │   └── {hostname}/          # Per-host modules
 │   ├── lib/                     # Custom library functions
@@ -37,7 +37,7 @@ nilfheim/
 1. **NixOS Modules:** `flake.modules.nixos.*` - System-level configuration
 2. **Darwin Modules:** `flake.modules.darwin.*` - macOS system configuration
 3. **Generic Modules:** `flake.modules.home.*` - Cross-platform user configuration (home-manager)
-4. **Flake Options:** `flake.nilfheim.*` - Project-wide settings
+4. **Flake Options:** `flake.niflheim.*` - Project-wide settings
 
 ### Key Concepts
 
@@ -119,7 +119,7 @@ Choose the right location:
 | Simple aspect | `modules/{name}.nix` | `modules/ssh.nix` |
 | Complex feature | `modules/{feature}/` | `modules/nixvim/lsp.nix` |
 | Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
-| Project option | `modules/nilfheim/+{name}.nix` | `modules/nilfheim/+user.nix` |
+| Project option | `modules/niflheim/+{name}.nix` | `modules/niflheim/+user.nix` |
 | Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
 | Desktop aggregator | `modules/desktop/desktop.nix` | Platform-specific desktop setup |
 | Theme config | `modules/theme/theme.nix` | Stylix with base function pattern |
@@ -238,7 +238,7 @@ When a feature needs configuration at multiple levels:
 ```nix
 # System-level: modules/nixos/zsh.nix
 { inputs, ... }: let
-  inherit (inputs.self.nilfheim.user) username;
+  inherit (inputs.self.niflheim.user) username;
 in {
   flake.modules.nixos.zsh = {pkgs, ...}: {
     programs.zsh.enable = true;
@@ -262,7 +262,7 @@ _: {
 ```nix
 # One file, multiple platform contexts
 { inputs, ... }: let
-  inherit (inputs.self.nilfheim.user) username;
+  inherit (inputs.self.niflheim.user) username;
 in {
   # NixOS desktop (with Linux-specific tools)
   flake.modules.nixos.desktop = {
@@ -294,17 +294,17 @@ in {
 
 ### Rule 5: Custom Options
 
-Use `flake.nilfheim.*` for project-wide settings:
+Use `flake.niflheim.*` for project-wide settings:
 
 ```nix
-# Define in modules/nilfheim/+feature.nix
-options.flake.nilfheim.feature = {
+# Define in modules/niflheim/+feature.nix
+options.flake.niflheim.feature = {
   setting = lib.mkOption { ... };
 };
 
 # Reference in other modules
 config.flake.modules.nixos.something = {
-  value = config.flake.nilfheim.feature.setting;
+  value = config.flake.niflheim.feature.setting;
 };
 ```
 
@@ -315,7 +315,7 @@ For platform-specific configuration with shared settings, use the base function 
 ```nix
 # modules/theme/theme.nix
 { inputs, ... }: let
-  inherit (inputs.self.nilfheim) theme;
+  inherit (inputs.self.niflheim) theme;
 
   # Extract common configuration into a base function
   base = pkgs: {

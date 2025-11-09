@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.nilfheim) theme user;
+  inherit (inputs.self.niflheim) theme user;
 
   # Base theming configuration shared across all platforms
   base = pkgs: {

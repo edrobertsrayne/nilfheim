@@ -267,7 +267,7 @@ error: getting status of '/nix/store/.../modules/nonexistent.nix': No such file 
 
 | Type | Location |
 |------|----------|
-| Project setting | `modules/nilfheim/+{name}.nix` |
+| Project setting | `modules/niflheim/+{name}.nix` |
 | Helper function | `modules/lib/{name}.nix` |
 | Host-specific | `modules/hosts/{hostname}/` |
 | Simple aspect | `modules/{name}.nix` |

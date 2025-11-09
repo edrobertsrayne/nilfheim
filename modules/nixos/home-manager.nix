@@ -1,5 +1,5 @@
 {inputs, ...}: let
-  inherit (inputs.self.nilfheim.user) username;
+  inherit (inputs.self.niflheim.user) username;
 
   # Base home-manager configuration
   base = config: {

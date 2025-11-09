@@ -1,4 +1,4 @@
-# Nilfheim NixOS Configuration - AI Agent Guidelines
+# Niflheim NixOS Configuration - AI Agent Guidelines
 
 Dendritic NixOS configuration using aspect-oriented, modular organization. Follow workflow and rules below.
 
@@ -102,7 +102,7 @@ nix flake check --impure  # Build (if applicable)
 | Simple aspect | `modules/{name}.nix` | `modules/ssh.nix` |
 | Complex feature | `modules/{feature}/` | `modules/nixvim/lsp.nix` |
 | Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
-| Project option | `modules/nilfheim/+{name}.nix` | `modules/nilfheim/+user.nix` |
+| Project option | `modules/niflheim/+{name}.nix` | `modules/niflheim/+user.nix` |
 | Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
 
 **Naming:** Use aspect/purpose names (`ssh.nix`, `development-tools.nix`), not host names.
