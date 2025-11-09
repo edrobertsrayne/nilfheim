@@ -13,6 +13,12 @@ _: {
         transparent = true;
       };
     };
+    waybar = {
+      background = "#1a1b26";
+      foreground = "#a9b1d6";
+      critical = "#f7768e";
+      warning = "#e0af68";
+    };
     alacritty.colors = {
       primary = {
         background = "#1a1b26";

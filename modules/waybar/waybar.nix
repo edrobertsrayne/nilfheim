@@ -1,12 +1,10 @@
-_: {
+{inputs, ...}: {
   flake.modules.homeManager.waybar = {
     pkgs,
     lib,
     config,
     ...
-  }: let
-    inherit (config.lib.stylix) colors;
-  in {
+  }: {
     stylix.targets.waybar.enable = false;
     programs.waybar = {
       enable = true;
@@ -128,10 +126,7 @@ _: {
 
       style = pkgs.replaceVars ./waybar.css {
         font = config.stylix.fonts.monospace.name;
-        background = colors.withHashtag.base00;
-        foreground = colors.withHashtag.base05;
-        critical = colors.withHashtag.base08;
-        warning = colors.withHashtag.base0A;
+        inherit (inputs.self.niflheim.theme.waybar) background foreground warning critical;
       };
     };
   };
