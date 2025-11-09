@@ -1,13 +1,17 @@
 {inputs, ...}: {
   flake.modules.nixos.freya = {
-    imports = with inputs.self.modules.nixos; [
-      inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
-      zsh
-      greetd
-      audio
-      hyprland
-      bluetooth
-    ];
+    imports =
+      [
+        inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t480s
+      ]
+      ++ (with inputs.self.modules.nixos; [
+        zsh
+        greetd
+        audio
+        hyprland
+        bluetooth
+        nginx
+      ]);
 
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
 

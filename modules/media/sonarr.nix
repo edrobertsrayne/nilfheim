@@ -19,11 +19,10 @@ in {
       };
     };
 
-    services.cloudflared = {
-      tunnels."${server.cloudflare.tunnel}" = {
-        ingress = {
-          "${service}.${server.domain}" = "http://127.0.0.1:${builtins.toString cfg.settings.server.port}";
-        };
+    services.nginx.virtualHosts."${service}.${server.domain}" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:${builtins.toString cfg.settings.server.port}";
+        proxyWebsockets = true;
       };
     };
 

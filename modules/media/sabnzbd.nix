@@ -22,12 +22,13 @@ in {
       fi
     '';
 
-    services.cloudflared = {
-      # TODO: Fix tunnel 404 error
-      tunnels."${server.cloudflare.tunnel}" = {
-        ingress = {
-          "sabnznd.greensroad.uk" = "http://127.0.0.1:8080";
-        };
+    services.nginx.virtualHosts."${url}" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8080";
+        proxyWebsockets = true;
+        extraConfig = ''
+          proxy_set_header X-Forwarded-Host $host;
+        '';
       };
     };
   };
