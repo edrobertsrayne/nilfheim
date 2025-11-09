@@ -15,9 +15,46 @@ in {
     users.users.${cfg.user}.extraGroups = ["tank"];
 
     systemd.services.sabnzbd.preStart = ''
-      if [ -f /var/lib/sabnzbd/sabnzbd.ini ]; then
-        if ! grep -q "${url}" /var/lib/sabnzbd/sabnzbd.ini; then
-          sed -i "s/^host_whitelist = \(.*\)$/host_whitelist = \1, ${url}/" /var/lib/sabnzbd/sabnzbd.ini
+      CONFIG="/var/lib/sabnzbd/sabnzbd.ini"
+
+      # Create download directories
+      mkdir -p /mnt/media/downloads/{tv,movies}
+      chown -R ${cfg.user}:${cfg.group} /mnt/media/downloads
+
+      if [ -f "$CONFIG" ]; then
+        # Update host_whitelist to include necessary hosts
+        if ! grep -q "localhost" "$CONFIG"; then
+          sed -i "s/^host_whitelist = \(.*\)$/host_whitelist = \1, localhost, 127.0.0.1, ${url}/" "$CONFIG"
+        elif ! grep -q "${url}" "$CONFIG"; then
+          sed -i "s/^host_whitelist = \(.*\)$/host_whitelist = \1, ${url}/" "$CONFIG"
+        fi
+
+        # Update local_ranges
+        if grep -q "^local_ranges = ,$" "$CONFIG"; then
+          sed -i "s/^local_ranges = ,$/local_ranges = 127.0.0.1, ::1/" "$CONFIG"
+        fi
+
+        # Add categories if missing
+        if ! grep -q "^\[categories\]" "$CONFIG"; then
+          cat >> "$CONFIG" << 'EOF'
+      [categories]
+      [[tv]]
+      name = tv
+      order = 0
+      pp =
+      script = Default
+      dir = /mnt/media/downloads/tv
+      newzbin =
+      priority = -100
+      [[movies]]
+      name = movies
+      order = 1
+      pp =
+      script = Default
+      dir = /mnt/media/downloads/movies
+      newzbin =
+      priority = -100
+      EOF
         fi
       fi
     '';
