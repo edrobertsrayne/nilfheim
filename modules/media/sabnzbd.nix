@@ -18,8 +18,8 @@ in {
       CONFIG="/var/lib/sabnzbd/sabnzbd.ini"
 
       # Create download directories
-      mkdir -p /mnt/media/downloads/{tv,movies}
-      chown -R ${cfg.user}:${cfg.group} /mnt/media/downloads
+      mkdir -p /mnt/downloads/usenet/complete/{tv,movies}
+      chown -R ${cfg.user}:${cfg.group} /mnt/downloads/usenet/complete
 
       if [ -f "$CONFIG" ]; then
         # Update host_whitelist to include necessary hosts
@@ -43,7 +43,7 @@ in {
       order = 0
       pp =
       script = Default
-      dir = /mnt/media/downloads/tv
+      dir = /mnt/downloads/usenet/complete/tv
       newzbin =
       priority = -100
       [[movies]]
@@ -51,10 +51,18 @@ in {
       order = 1
       pp =
       script = Default
-      dir = /mnt/media/downloads/movies
+      dir = /mnt/downloads/usenet/complete/movies
       newzbin =
       priority = -100
       EOF
+        fi
+
+        # Update category directories
+        if grep -q "^\[\[tv\]\]" "$CONFIG"; then
+          sed -i '/^\[\[tv\]\]/,/^\[\[/ s|^dir = .*$|dir = /mnt/downloads/usenet/complete/tv|' "$CONFIG"
+        fi
+        if grep -q "^\[\[movies\]\]" "$CONFIG"; then
+          sed -i '/^\[\[movies\]\]/,/^\[\[/ s|^dir = .*$|dir = /mnt/downloads/usenet/complete/movies|' "$CONFIG"
         fi
       fi
     '';
