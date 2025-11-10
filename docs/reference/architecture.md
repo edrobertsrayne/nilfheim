@@ -1,6 +1,6 @@
-# Nilfheim Architecture Reference
+# Niflheim Architecture Reference
 
-This document provides detailed information about the Nilfheim NixOS configuration architecture, module organization, and development patterns.
+This document provides detailed information about the Niflheim NixOS configuration architecture, module organization, and development patterns.
 
 ## Project Architecture
 
@@ -384,7 +384,7 @@ Without `git add`, the new file will not be loaded by the flake, causing evaluat
 
 ## Cross-Platform Architecture
 
-Nilfheim supports multiple platforms (NixOS, Darwin/macOS) through clear separation of platform-specific and cross-platform modules.
+Niflheim supports multiple platforms (NixOS, Darwin/macOS) through clear separation of platform-specific and cross-platform modules.
 
 ### Platform Categories
 

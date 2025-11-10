@@ -1,4 +1,4 @@
-# Tmux Cheatsheet - Nilfheim Configuration
+# Tmux Cheatsheet - Niflheim Configuration
 
 ## Quick Reference Card
 

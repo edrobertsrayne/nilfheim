@@ -1,6 +1,6 @@
 # Module Templates
 
-This document provides code templates for common module patterns in Nilfheim configuration.
+This document provides code templates for common module patterns in Niflheim configuration.
 
 ## Basic Module Template
 

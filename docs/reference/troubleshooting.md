@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-This document helps you diagnose and fix common issues when working with Nilfheim configuration.
+This document helps you diagnose and fix common issues when working with Niflheim configuration.
 
 ## Quality Check Failures
 

@@ -1,4 +1,4 @@
-# Hyprland Shortcuts - Nilfheim Configuration
+# Hyprland Shortcuts - Niflheim Configuration
 
 ## Quick Reference Card
 
@@ -184,7 +184,7 @@ keyboard-driven interface:
 | **Apps**        | Launch applications (opens Walker)           |
 | **Learn**       | Access documentation and references          |
 | **Capture**     | Screenshot and color picker tools            |
-| **Edit Config** | Open Nilfheim configuration in editor        |
+| **Edit Config** | Open Niflheim configuration in editor        |
 | **Clean**       | Run `nh clean all` to remove old generations |
 | **Rebuild**     | Run `nh os switch` to rebuild system         |
 | **About**       | Show system information                      |

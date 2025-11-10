@@ -1,6 +1,6 @@
 # Anti-Patterns to Avoid
 
-This document describes common anti-patterns that violate dendritic principles and should be avoided in Nilfheim configuration.
+This document describes common anti-patterns that violate dendritic principles and should be avoided in Niflheim configuration.
 
 ## Anti-Pattern 1: Host-Centric Organization
 

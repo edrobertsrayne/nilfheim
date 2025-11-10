@@ -1,6 +1,6 @@
 # Commit Guidelines
 
-All commits for Nilfheim MUST follow the [Conventional Commits](https://www.conventionalcommits.org/) specification.
+All commits for Niflheim MUST follow the [Conventional Commits](https://www.conventionalcommits.org/) specification.
 
 ## Conventional Commits Format
 
