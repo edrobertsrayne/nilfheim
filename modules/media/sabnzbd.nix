@@ -17,10 +17,6 @@ in {
     systemd.services.sabnzbd.preStart = ''
       CONFIG="/var/lib/sabnzbd/sabnzbd.ini"
 
-      # Create download directories
-      mkdir -p /mnt/downloads/usenet/complete/{tv,movies}
-      chown -R ${cfg.user}:${cfg.group} /mnt/downloads/usenet/complete
-
       if [ -f "$CONFIG" ]; then
         # Update host_whitelist to include necessary hosts
         if ! grep -q "localhost" "$CONFIG"; then
@@ -32,37 +28,6 @@ in {
         # Update local_ranges
         if grep -q "^local_ranges = ,$" "$CONFIG"; then
           sed -i "s/^local_ranges = ,$/local_ranges = 127.0.0.1, ::1/" "$CONFIG"
-        fi
-
-        # Add categories if missing
-        if ! grep -q "^\[categories\]" "$CONFIG"; then
-          cat >> "$CONFIG" << 'EOF'
-      [categories]
-      [[tv]]
-      name = tv
-      order = 0
-      pp =
-      script = Default
-      dir = /mnt/downloads/usenet/complete/tv
-      newzbin =
-      priority = -100
-      [[movies]]
-      name = movies
-      order = 1
-      pp =
-      script = Default
-      dir = /mnt/downloads/usenet/complete/movies
-      newzbin =
-      priority = -100
-      EOF
-        fi
-
-        # Update category directories
-        if grep -q "^\[\[tv\]\]" "$CONFIG"; then
-          sed -i '/^\[\[tv\]\]/,/^\[\[/ s|^dir = .*$|dir = /mnt/downloads/usenet/complete/tv|' "$CONFIG"
-        fi
-        if grep -q "^\[\[movies\]\]" "$CONFIG"; then
-          sed -i '/^\[\[movies\]\]/,/^\[\[/ s|^dir = .*$|dir = /mnt/downloads/usenet/complete/movies|' "$CONFIG"
         fi
       fi
     '';
