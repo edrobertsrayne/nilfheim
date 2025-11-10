@@ -36,5 +36,9 @@
         package = pkgs.google-chrome;
       };
     };
+
+    home.packages = with pkgs; [
+      bambu-studio
+    ];
   };
 }
