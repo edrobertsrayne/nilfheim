@@ -20,6 +20,7 @@ _: {
               enable = true;
               navbuddy.enable = true;
             };
+            noice.enable = true;
           };
         };
       };
