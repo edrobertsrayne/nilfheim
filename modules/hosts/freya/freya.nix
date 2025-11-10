@@ -10,6 +10,7 @@
         audio
         hyprland
         bluetooth
+        gaming
       ]);
 
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
