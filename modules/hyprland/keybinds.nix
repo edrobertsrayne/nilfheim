@@ -6,6 +6,7 @@
   }: let
     inherit (inputs.self.niflheim.desktop) launcher;
     launch-browser = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.launch-browser;
+    show-keybindings = lib.getExe inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.show-keybindings;
   in {
     wayland.windowManager.hyprland.settings = {
       bindd =
@@ -27,7 +28,7 @@
           "SUPER SHIFT, E, File manager, exec, uwsm-app -- ${lib.getExe pkgs.nautilus} --new-window"
           "SUPER SHIFT, W, Wallpaper browser, exec, waypaper --folder $HOME/Pictures/Wallpapers"
           "SUPER ALT, W, Random wallpaper, exec, waypaper --random --folder $HOME/Pictures/Wallpapers"
-          "SUPER, K, Show keybindings, exec, show-keybindings"
+          "SUPER, K, Show keybindings, exec, ${show-keybindings}"
 
           # Close all windows
           "CTRL ALT, Delete, Close all windows, exec, hyprctl clients -j | ${lib.getExe pkgs.jq} -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}"
