@@ -10,9 +10,9 @@ _: {
       # Check if previous boot had a clean shutdown
       if ! ${pkgs.systemd}/bin/journalctl -b -1 | grep -q "Reached target System Shutdown"; then
         ${pkgs.systemd}/bin/systemd-cat -t unclean-boot -p warning echo "UNCLEAN BOOT DETECTED: Previous boot did not shut down cleanly (possible power loss)"
-        echo "unclean" > /var/lib/boot-status
+        echo "unclean" > /var/lib/boot-status/status
       else
-        echo "clean" > /var/lib/boot-status
+        echo "clean" > /var/lib/boot-status/status
       fi
     '';
   in {
