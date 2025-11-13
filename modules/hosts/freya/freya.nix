@@ -1,4 +1,6 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim.user) username;
+in {
   flake.modules.nixos.freya = {
     imports =
       [
@@ -16,6 +18,8 @@
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
     programs.nix-ld.enable = true;
+
+    users.users.${username}.extraGroups = ["dialout"];
   };
 
   flake.modules.homeManager.freya = {pkgs, ...}: {
