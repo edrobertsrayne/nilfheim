@@ -42,6 +42,7 @@
           netdevConfig = {
             Name = "vmbr0";
             Kind = "bridge";
+            MACAddress = "f8:b4:6a:a4:03:74"; # Use eno1's MAC
           };
         };
 
