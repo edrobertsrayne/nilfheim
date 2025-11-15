@@ -12,6 +12,10 @@
     };
   };
 in {
+  # Theme option definition
+  flake.niflheim.theme = inputs.self.lib.themes.tokyonight;
+
+  # NixOS theme module
   flake.modules.nixos.theme = {pkgs, ...}: {
     imports = [inputs.stylix.nixosModules.stylix];
 
@@ -34,9 +38,16 @@ in {
     home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
   };
 
+  # Darwin theme module
   flake.modules.darwin.theme = {pkgs, ...}: {
     imports = [inputs.stylix.darwinModules.stylix];
     stylix = base pkgs;
     home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
+  };
+
+  # Home-manager theme module
+  flake.modules.homeManager.theme = {lib, ...}: {
+    programs.alacritty.settings.colors = lib.mkForce theme.alacritty.colors;
+    stylix.targets.nvf.enable = false;
   };
 }
