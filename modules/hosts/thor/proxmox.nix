@@ -6,12 +6,21 @@
     networking = {
       networkmanager.enable = lib.mkForce false;
       useNetworkd = true;
+      # Trust bridge interface
+      firewall.trustedInterfaces = ["vmbr0"];
     };
 
     # Proxmox configuration
     services.proxmox-ve = {
       ipAddress = "192.168.68.108";
       bridges = ["vmbr0"];
+    };
+
+    # Disable bridge netfilter to allow L2 forwarding without iptables interference
+    boot.kernel.sysctl = {
+      "net.bridge.bridge-nf-call-iptables" = 0;
+      "net.bridge.bridge-nf-call-ip6tables" = 0;
+      "net.bridge.bridge-nf-call-arptables" = 0;
     };
 
     # Systemd configuration for network and SSH ordering
@@ -42,7 +51,6 @@
           netdevConfig = {
             Name = "vmbr0";
             Kind = "bridge";
-            MACAddress = "f8:b4:6a:a4:03:74"; # Use eno1's MAC
           };
         };
 
@@ -50,8 +58,14 @@
           # Attach physical interface to bridge
           "20-eno1" = {
             matchConfig.Name = "eno1";
-            networkConfig.Bridge = "vmbr0";
-            linkConfig.RequiredForOnline = "enslaved";
+            networkConfig = {
+              Bridge = "vmbr0";
+              LinkLocalAddressing = "no";
+            };
+            linkConfig = {
+              RequiredForOnline = "enslaved";
+              Promiscuous = true;
+            };
           };
 
           # Configure bridge with static IP
