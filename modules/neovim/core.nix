@@ -1,9 +1,6 @@
-{inputs, ...}: let
-  inherit (inputs.self.niflheim.theme) nvf;
-in {
+{inputs, ...}: {
   flake.modules.homeManager.neovim = {
     imports = [inputs.nvf.homeManagerModules.default];
-    stylix.targets.nvf.enable = false;
 
     home.shellAliases = {
       n = "nvim";
@@ -18,7 +15,9 @@ in {
 
           theme = {
             enable = true;
-            inherit (nvf.theme) name style transparent;
+            name = "tokyonight";
+            style = "night";
+            transparent = true;
           };
 
           options = {

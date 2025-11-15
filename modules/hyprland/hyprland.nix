@@ -13,8 +13,8 @@ in {
       package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
       portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     };
-    imports = with inputs.self.modules.nixos; [
-      theme
+    imports = [
+      inputs.self.modules.nixos.theme
     ];
     home-manager.users.${username}.imports = [
       inputs.self.modules.homeManager.hyprland
