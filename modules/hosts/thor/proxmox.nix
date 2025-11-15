@@ -14,36 +14,56 @@
       bridges = ["vmbr0"];
     };
 
-    # Network bridge configuration
-    systemd.network = {
-      enable = true;
+    # Systemd configuration for network and SSH ordering
+    systemd = {
+      # Ensure SSH waits for network to be ready
+      services = {
+        sshd = {
+          after = ["systemd-networkd-wait-online.service"];
+          wants = ["systemd-networkd-wait-online.service"];
+        };
 
-      # Create bridge device
-      netdevs."10-vmbr0" = {
-        netdevConfig = {
-          Name = "vmbr0";
-          Kind = "bridge";
+        systemd-networkd-wait-online = {
+          enable = true;
+          serviceConfig.ExecStart = [
+            "" # Clear default
+            "systemd-networkd-wait-online -i vmbr0" # Wait for bridge only
+          ];
         };
       };
 
-      networks = {
-        # Attach physical interface to bridge
-        "20-eno1" = {
-          matchConfig.Name = "eno1";
-          networkConfig.Bridge = "vmbr0";
-          linkConfig.RequiredForOnline = "enslaved";
+      # Network bridge configuration
+      network = {
+        enable = true;
+        wait-online.enable = true;
+
+        # Create bridge device
+        netdevs."10-vmbr0" = {
+          netdevConfig = {
+            Name = "vmbr0";
+            Kind = "bridge";
+          };
         };
 
-        # Configure bridge with static IP
-        "30-vmbr0" = {
-          matchConfig.Name = "vmbr0";
-          networkConfig = {
-            Address = "192.168.68.108/22";
-            Gateway = "192.168.68.1";
-            DNS = "127.0.0.1";
-            IPv6AcceptRA = true;
+        networks = {
+          # Attach physical interface to bridge
+          "20-eno1" = {
+            matchConfig.Name = "eno1";
+            networkConfig.Bridge = "vmbr0";
+            linkConfig.RequiredForOnline = "enslaved";
           };
-          linkConfig.RequiredForOnline = "routable";
+
+          # Configure bridge with static IP
+          "30-vmbr0" = {
+            matchConfig.Name = "vmbr0";
+            networkConfig = {
+              Address = "192.168.68.108/22";
+              Gateway = "192.168.68.1";
+              DNS = "127.0.0.1";
+              IPv6AcceptRA = true;
+            };
+            linkConfig.RequiredForOnline = "routable";
+          };
         };
       };
     };
