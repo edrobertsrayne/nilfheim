@@ -1,10 +1,12 @@
 {inputs, ...}: {
-  flake.modules.homeManager.neovim = {
+  flake.modules.homeManager.neovim = {lib, ...}: {
     imports = [inputs.nvf.homeManagerModules.default];
 
     home.shellAliases = {
       n = "nvim";
     };
+
+    stylix.targets.nvf.enable = lib.mkForce false;
 
     programs.nvf = {
       enable = true;

@@ -2,6 +2,7 @@
   flake.modules.darwin.odin = {
     imports = with inputs.self.modules.darwin; [
       zsh
+      theme
     ];
   };
 
@@ -11,6 +12,11 @@
       zsh
       starship
       neovim
+      wezterm
     ];
+
+    programs = {
+      vscode.enable = true;
+    };
   };
 }

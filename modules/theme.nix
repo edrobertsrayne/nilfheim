@@ -12,42 +12,41 @@
     };
   };
 in {
-  # Theme option definition
-  flake.niflheim.theme = inputs.self.lib.themes.tokyonight;
+  flake = {
+    niflheim.theme = inputs.self.lib.themes.tokyonight;
 
-  # NixOS theme module
-  flake.modules.nixos.theme = {pkgs, ...}: {
-    imports = [inputs.stylix.nixosModules.stylix];
+    modules = {
+      nixos.theme = {pkgs, ...}: {
+        imports = [inputs.stylix.nixosModules.stylix];
 
-    stylix =
-      base pkgs
-      // {
-        # Linux-specific theming
-        icons = {
-          enable = true;
-          package = pkgs.papirus-icon-theme;
-          dark = "Papirus-Dark";
-        };
-        cursor = {
-          package = pkgs.bibata-cursors;
-          name = "Bibata-Modern-Classic";
-          size = 24;
-        };
-        targets.grub.enable = false;
+        stylix =
+          base pkgs
+          // {
+            icons = {
+              enable = true;
+              package = pkgs.papirus-icon-theme;
+              dark = "Papirus-Dark";
+            };
+            cursor = {
+              package = pkgs.bibata-cursors;
+              name = "Bibata-Modern-Classic";
+              size = 24;
+            };
+            targets.grub.enable = false;
+          };
+        home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
       };
-    home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
-  };
 
-  # Darwin theme module
-  flake.modules.darwin.theme = {pkgs, ...}: {
-    imports = [inputs.stylix.darwinModules.stylix];
-    stylix = base pkgs;
-    home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
-  };
+      darwin.theme = {pkgs, ...}: {
+        imports = [inputs.stylix.darwinModules.stylix];
+        stylix = base pkgs;
+        home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
+      };
 
-  # Home-manager theme module
-  flake.modules.homeManager.theme = {lib, ...}: {
-    programs.alacritty.settings.colors = lib.mkForce theme.alacritty.colors;
-    stylix.targets.nvf.enable = false;
+      homeManager.theme = {lib, ...}: {
+        # imports = [inputs.stylix.homeModules.stylix];
+        programs.alacritty.settings.colors = lib.mkForce inputs.self.niflheim.theme.alacritty.colors;
+      };
+    };
   };
 }
