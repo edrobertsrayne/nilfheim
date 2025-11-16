@@ -1,10 +1,5 @@
 {inputs, ...}: {
-  flake.modules.nixos.proxmox = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: {
+  flake.modules.nixos.proxmox = {config, ...}: {
     imports = [inputs.proxmox-nixos.nixosModules.proxmox-ve];
 
     # Apply overlay to make proxmox packages available
