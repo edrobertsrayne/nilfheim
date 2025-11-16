@@ -3,6 +3,7 @@
     imports = with inputs.self.modules.darwin; [
       zsh
       theme
+      yabai
     ];
   };
 
