@@ -142,7 +142,9 @@ nixos-rebuild switch --flake github:edrobertsrayne/niflheim#thor \
 ### Quick References
 
 - [Hyprland Shortcuts](docs/HYPRLAND_SHORTCUTS.md) - Keyboard shortcuts for
-  window management, menu system, and screenshots
+  window management, menu system, and screenshots (Linux)
+- [Yabai + skhd Shortcuts](docs/YABAI_SHORTCUTS.md) - Window manager shortcuts
+  for macOS (SIP-compatible)
 - [Neovim Cheatsheet](docs/NEOVIM_CHEATSHEET.md) - Editor shortcuts and features
 - [Tmux Cheatsheet](docs/TMUX_CHEATSHEET.md) - Terminal multiplexer shortcuts
 
