@@ -1,8 +1,8 @@
-_: {
+{inputs, ...}: {
   flake.modules.nixos.thor = {lib, ...}: let
     ipAddress = "192.168.68.108";
   in {
-    # imports = [inputs.self.modules.nixos.proxmox];
+    imports = [inputs.self.modules.nixos.proxmox];
 
     networking = {
       networkmanager.enable = lib.mkForce false;
@@ -22,10 +22,9 @@ _: {
       nameservers = ["1.1.1.1" "8.8.8.8"];
     };
 
-    # Proxmox configuration
-    # services.proxmox-ve = {
-    #   ipAddress = "192.168.68.108";
-    #   bridges = ["vmbr0"];
-    # };
+    services.proxmox-ve = {
+      inherit ipAddress;
+      bridges = ["vmbr0"];
+    };
   };
 }
