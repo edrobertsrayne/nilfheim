@@ -30,6 +30,7 @@ All commits for Niflheim MUST follow the [Conventional Commits](https://www.conv
 **Good examples:**
 - `feat(nixvim): add telescope file browser`
 - `fix(hyprland): correct keybind for workspace switching`
+- `feat(yabai): add macOS window manager with skhd keybinds`
 - `refactor(desktop): reorganize aggregator imports`
 - `feat(ssh): enable agent forwarding`
 - `chore(flake): update nixpkgs input`
