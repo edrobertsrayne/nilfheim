@@ -1,4 +1,6 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) server;
+in {
   flake.modules.nixos.proxmox = {config, ...}: {
     imports = [inputs.proxmox-nixos.nixosModules.proxmox-ve];
 
@@ -29,5 +31,12 @@
     ];
 
     networking.firewall.allowedTCPPorts = [8006];
+
+    services.nginx.virtualHosts."proxmox.${server.domain}" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8006";
+        proxyWebsockets = true;
+      };
+    };
   };
 }
