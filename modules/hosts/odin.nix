@@ -3,10 +3,11 @@
     imports = with inputs.self.modules.darwin; [
       zsh
       theme
+      yabai
     ];
   };
 
-  flake.modules.homeManager.odin = {
+  flake.modules.homeManager.odin = {...}: {
     imports = with inputs.self.modules.homeManager; [
       utilities
       zsh

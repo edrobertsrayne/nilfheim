@@ -26,6 +26,7 @@ _: {
         "raycast"
         "steam"
         "tailscale-app"
+        "typora"
         "utm"
         "vlc"
       ];
