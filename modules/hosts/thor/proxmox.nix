@@ -1,4 +1,6 @@
-{inputs, ...}: {
+{inputs, ...}: let
+  inherit (inputs.self.niflheim) server;
+in {
   flake.modules.nixos.thor = {lib, ...}: let
     ipAddress = "192.168.68.108";
   in {
@@ -25,6 +27,13 @@
     services.proxmox-ve = {
       inherit ipAddress;
       bridges = ["vmbr0"];
+    };
+
+    services.nginx.virtualHosts."proxmox.${server.domain}" = {
+      locations."/" = {
+        proxyPass = "https://127.0.0.1:8006";
+        proxyWebsockets = true;
+      };
     };
   };
 }

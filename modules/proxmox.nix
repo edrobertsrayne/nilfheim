@@ -31,12 +31,5 @@ in {
     ];
 
     networking.firewall.allowedTCPPorts = [8006];
-
-    services.nginx.virtualHosts."proxmox.${server.domain}" = {
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8006";
-        proxyWebsockets = true;
-      };
-    };
   };
 }
