@@ -156,15 +156,17 @@ flake.modules.nixos.feature-x = {
 
 ### ✓ DO THIS INSTEAD
 
-**Option 1: Use aggregator modules**
+**Option 1: Import in host configs**
 
 ```nix
-# Good: explicit aggregation
-# modules/desktop.nix
-flake.modules.nixos.desktop.imports = with inputs.self.modules.nixos; [
-  feature-x
-  feature-y
-];
+# Good: explicit imports in host
+# modules/hosts/freya/freya.nix
+flake.modules.nixos.freya = {
+  imports = with inputs.self.modules.nixos; [
+    feature-x
+    feature-y
+  ];
+};
 ```
 
 **Option 2: Use custom options for shared config**
@@ -186,7 +188,7 @@ flake.modules.nixos.feature-y = {
 };
 ```
 
-**Principle:** Features should be independent. Use aggregators to compose them, or custom options for shared configuration.
+**Principle:** Features should be independent. Compose them in host configs, or use custom options for shared configuration.
 
 ---
 

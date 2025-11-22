@@ -27,12 +27,12 @@ This configuration represents a ground-up rewrite focusing on:
 
 ## 💻 Current Hosts
 
-| Host      | Type    | Status      | Description                                  |
-| --------- | ------- | ----------- | -------------------------------------------- |
-| **freya** | Desktop | ✅ Active   | Main development workstation with Hyprland   |
-| **thor**  | Server  | ✅ Active   | Media server with Jellyfin and *arr suite    |
-| **odin**  | Desktop | 🔧 Updating | Neovim module enabled, migration in progress |
-| **loki**  | Server  | 🗑️ Retired  | Decommissioned                               |
+| Host      | Type    | Status     | Description                                                     |
+| --------- | ------- | ---------- | --------------------------------------------------------------- |
+| **freya** | Desktop | ✅ Active  | Main development workstation with Hyprland                      |
+| **thor**  | Server  | ✅ Active  | Media server with Jellyfin and *arr suite, Proxmox integration  |
+| **odin**  | Desktop | ✅ Active  | macOS workstation with Yabai window manager                     |
+| **loki**  | Server  | 🗑️ Retired | Decommissioned                                                  |
 
 ---
 
@@ -53,10 +53,11 @@ This configuration represents a ground-up rewrite focusing on:
 
 ### 🛠️ Development Tools
 
-- **Neovim** (nvf) with LazyVim-inspired modular configuration powered by snacks.nvim
+- **Neovim** with modular configuration powered by snacks.nvim and LazyVim-inspired plugins
 - **Tmux** with vim-tmux-navigator integration
 - **CLI utilities**: bat, eza, fzf, delta, lazygit, lazydocker, zoxide
 - **Python**: uv for fast package management
+- **Wezterm** terminal emulator
 - **nh** - Nix helper for flake operations and system cleanup
 - **Dev shells** for project-specific environments
 
@@ -73,11 +74,13 @@ This configuration represents a ground-up rewrite focusing on:
 - **Home Assistant** home automation
 - **Blocky** DNS server with ad-blocking
 - **Nginx** reverse proxy for services
+- **Proxmox** integration with monitoring
 - **Portainer** container management
 - **Karakeep** self-hosted bookmarking service
 - **NFS/Samba** network file sharing
 - **Tailscale** mesh VPN
 - **Docker** container runtime
+- **Monitoring** - node-exporter, smartd, zfs-exporter, unclean-boot-detector
 
 ---
 

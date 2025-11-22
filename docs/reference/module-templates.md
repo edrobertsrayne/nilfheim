@@ -139,42 +139,25 @@ in {
 For grouping related features together:
 
 ```nix
-# modules/desktop.nix
+# modules/utilities/utilities.nix
 { inputs, ... }: {
-  flake.modules.nixos.desktop = {
-    imports = with inputs.self.modules.nixos; [
-      # Window manager and compositor
-      hyprland
-
-      # System services
-      greetd
-      pipewire
-
-      # Desktop utilities
-      clipboard
-      screenshot
-    ];
-
-    # Optional: aggregator-level configuration
-    # (Usually aggregators just import, but can add config)
-    environment.sessionVariables = {
-      # Session-wide variables for desktop
-      XDG_CURRENT_DESKTOP = "Hyprland";
-    };
-  };
-
-  flake.modules.homeManager.desktop = {
+  flake.modules.homeManager.utilities = {
     imports = with inputs.self.modules.homeManager; [
-      # User-level desktop apps
-      nixvim
-      waybar
-      terminal
+      # CLI tools
+      git
+      fzf
+      bat
+      eza
+      delta
+      lazygit
     ];
   };
 }
 ```
 
 **When to use:** Grouping related features that are commonly enabled together.
+
+**Note:** Current architecture favors direct imports in hosts over aggregators for maximum clarity.
 
 ---
 
