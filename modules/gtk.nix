@@ -1,5 +1,5 @@
 _: {
-  flake.modules.homeManager.gtk = {pkgs, ...}: {
+  flake.modules.homeManager.gtk = {
     gtk = {
       enable = true;
     };

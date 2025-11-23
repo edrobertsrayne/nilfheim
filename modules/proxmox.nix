@@ -1,6 +1,4 @@
-{inputs, ...}: let
-  inherit (inputs.self.niflheim) server;
-in {
+{inputs, ...}: {
   flake.modules.nixos.proxmox = {config, ...}: {
     imports = [inputs.proxmox-nixos.nixosModules.proxmox-ve];
 
