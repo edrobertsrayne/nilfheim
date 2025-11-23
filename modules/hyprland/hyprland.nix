@@ -32,7 +32,6 @@ in {
       waybar
       walker
       swayosd
-      alacritty
       hyprlock
       hypridle
       hyprpaper

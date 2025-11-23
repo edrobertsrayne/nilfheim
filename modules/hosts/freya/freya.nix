@@ -31,6 +31,7 @@ in {
       spicetify
       python
       ghostty
+      alacritty
     ];
 
     programs = {
