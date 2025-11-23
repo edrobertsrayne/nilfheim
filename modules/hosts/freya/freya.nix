@@ -30,6 +30,7 @@ in {
       obsidian
       spicetify
       python
+      ghostty
     ];
 
     programs = {
