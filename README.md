@@ -3,10 +3,11 @@
 > A beautiful, aspect-oriented NixOS configuration following dendritic
 > principles
 
-Niflheim is a complete NixOS configuration built around [**dendritic
-architecture**](https://github.com/mightyiam/dendritic) — organizing modules by _what they do_ rather than _where they
-run_. The result is a highly modular, composable, and maintainable system that
-embraces keyboard-first workflows and aesthetic design.
+Niflheim is a complete NixOS configuration built around
+[**dendritic architecture**](https://github.com/mightyiam/dendritic) —
+organizing modules by _what they do_ rather than _where they run_. The result is
+a highly modular, composable, and maintainable system that embraces
+keyboard-first workflows and aesthetic design.
 
 ---
 
@@ -27,12 +28,12 @@ This configuration represents a ground-up rewrite focusing on:
 
 ## 💻 Current Hosts
 
-| Host      | Type    | Status     | Description                                                     |
-| --------- | ------- | ---------- | --------------------------------------------------------------- |
-| **freya** | Desktop | ✅ Active  | Main development workstation with Hyprland                      |
-| **thor**  | Server  | ✅ Active  | Media server with Jellyfin and *arr suite, Proxmox integration  |
-| **odin**  | Desktop | ✅ Active  | macOS workstation with Yabai window manager                     |
-| **loki**  | Server  | 🗑️ Retired | Decommissioned                                                  |
+| Host      | Type    | Status     | Description                                                    |
+| --------- | ------- | ---------- | -------------------------------------------------------------- |
+| **freya** | Desktop | ✅ Active  | Main development workstation with Hyprland                     |
+| **thor**  | Server  | ✅ Active  | Media server with Jellyfin and *arr suite, Proxmox integration |
+| **odin**  | Desktop | ✅ Active  | macOS workstation with Yabai window manager                    |
+| **loki**  | Server  | 🗑️ Retired | Decommissioned                                                 |
 
 ---
 
@@ -53,11 +54,12 @@ This configuration represents a ground-up rewrite focusing on:
 
 ### 🛠️ Development Tools
 
-- **Neovim** with modular configuration powered by snacks.nvim and LazyVim-inspired plugins
+- **Neovim** with modular configuration powered by snacks.nvim and
+  LazyVim-inspired plugins
 - **Tmux** with vim-tmux-navigator integration
 - **CLI utilities**: bat, eza, fzf, delta, lazygit, lazydocker, zoxide
 - **Python**: uv for fast package management
-- **Wezterm** terminal emulator
+- **Terminal emulators**: Ghostty (default), Alacritty, Wezterm
 - **nh** - Nix helper for flake operations and system cleanup
 - **Dev shells** for project-specific environments
 
@@ -100,8 +102,6 @@ This configuration represents a ground-up rewrite focusing on:
   example using dendritic
 - [GaetanLepage/nix-config](https://github.com/GaetanLepage/nix-config) - Modern
   NixOS configuration patterns
-- [fufexan/dotfiles](https://github.com/fufexan/dotfiles) - NixOS and Hyprland
-  configuration inspiration
 
 **Desktop & Design:**
 
@@ -148,6 +148,8 @@ nixos-rebuild switch --flake github:edrobertsrayne/niflheim#thor \
   window management, menu system, and screenshots (Linux)
 - [Yabai + skhd Shortcuts](docs/YABAI_SHORTCUTS.md) - Window manager shortcuts
   for macOS (SIP-compatible)
+- [Ghostty Shortcuts](docs/GHOSTTY_SHORTCUTS.md) - Terminal emulator keyboard
+  shortcuts and features
 - [Neovim Cheatsheet](docs/NEOVIM_CHEATSHEET.md) - Editor shortcuts and features
 - [Tmux Cheatsheet](docs/TMUX_CHEATSHEET.md) - Terminal multiplexer shortcuts
 
