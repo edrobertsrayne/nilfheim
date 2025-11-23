@@ -18,6 +18,16 @@
         type = "Application";
       };
 
+      keep = {
+        name = "Google Keep";
+        comment = "Google Keep";
+        exec = "${launch-webapp} https://keep.google.com";
+        icon = ./../../assets/icons/google-keep.png;
+        categories = ["Office"];
+        terminal = false;
+        type = "Application";
+      };
+
       youtube = {
         name = "YouTube";
         comment = "Watch and share videos";
@@ -93,6 +103,7 @@
     wayland.windowManager.hyprland.settings.bindd = [
       # Web applications
       "SUPER SHIFT, M, Gmail, exec, ${launch-webapp} \"https://mail.google.com\""
+      "SUPER SHIFT, K, Google Keep, exec, ${launch-webapp} \"https://keep.google.com\""
       "SUPER SHIFT, C, Google Calendar, exec, ${launch-webapp} \"https://calendar.google.com\""
       "SUPER SHIFT, Y, YouTube, exec, ${launch-webapp} \"https://youtube.com\""
       "SUPER SHIFT, N, NotebookLM, exec, ${launch-webapp} \"https://notebooklm.google.com\""
