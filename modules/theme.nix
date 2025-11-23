@@ -44,7 +44,6 @@ in {
       };
 
       homeManager.theme = {lib, ...}: {
-        # imports = [inputs.stylix.homeModules.stylix];
         programs.alacritty.settings.colors = lib.mkForce inputs.self.niflheim.theme.alacritty.colors;
       };
     };
