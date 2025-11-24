@@ -13,6 +13,7 @@ in {
         hyprland
         bluetooth
         gaming
+        libvirt
       ]);
 
     boot.binfmt.emulatedSystems = ["aarch64-linux"];
