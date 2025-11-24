@@ -4,14 +4,16 @@
   in {
     imports = [inputs.spicetify-nix.homeManagerModules.spicetify];
 
-    programs.spicetify = {
-      enable = true;
-      enabledExtensions = with spkPkgs.extensions; [
-        adblock
-        hidePodcasts
-        shuffle
-        keyboardShortcut
-      ];
+    programs = {
+      spicetify = {
+        enable = true;
+        enabledExtensions = with spkPkgs.extensions; [
+          adblock
+          hidePodcasts
+          shuffle
+          keyboardShortcut
+        ];
+      };
     };
 
     home.packages = [pkgs.spicetify-cli];
