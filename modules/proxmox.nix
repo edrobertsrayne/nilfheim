@@ -28,6 +28,17 @@
       }
     ];
 
-    networking.firewall.allowedTCPPorts = [8006];
+    networking.firewall = {
+      allowedTCPPorts = [
+        3128
+        8006
+      ];
+      allowedTCPPortRanges = [
+        {
+          from = 5900;
+          to = 5999;
+        }
+      ];
+    };
   };
 }
