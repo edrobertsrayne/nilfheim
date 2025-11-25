@@ -48,5 +48,6 @@ _: {
         background = "#7aa2f7";
       };
     };
+    ghostty.theme = "TokyoNight";
   };
 }
