@@ -1,0 +1,363 @@
+/* Slider and trough utilities */
+trough highlight {
+  background: @base05;
+}
+
+scale trough {
+  margin: 0rem 1rem;
+  background-color: @base01;
+  min-height: 8px;
+  min-width: 70px;
+}
+
+slider {
+  background-color: @base0D;
+}
+
+/* Floating notifications container */
+.floating-notifications.background .notification-row .notification-background {
+  box-shadow:
+    0 0 8px 0 rgba(0, 0, 0, 0.8),
+    inset 0 0 0 1px @base01;
+  border-radius: 12px;
+  margin: 16px;
+  background-color: alpha(@base00, 0.95);
+  color: @base05;
+  padding: 0;
+}
+
+.floating-notifications .notification {
+  border-radius: 12px;
+}
+
+/* Control center container */
+.control-center {
+  box-shadow:
+    0 0 8px 0 rgba(0, 0, 0, 0.8),
+    inset 0 0 0 1px @base01;
+  border-radius: 12px;
+  margin: 16px;
+  background-color: alpha(@base00, 0.9);
+  color: @base05;
+  padding: 12px;
+}
+
+.control-center .notification-row .notification-background {
+  border-radius: 8px;
+  color: @base05;
+  background-color: @base01;
+  box-shadow: inset 0 0 0 1px @base02;
+  margin-top: 12px;
+}
+
+.control-center .notification-row .notification-background:hover {
+  box-shadow: inset 0 0 0 1px @base02;
+  background-color: @base04;
+  color: @base05;
+}
+
+.control-center .notification-row .notification-background:active {
+  box-shadow: inset 0 0 0 1px @base02;
+  background-color: @base0C;
+  color: @base05;
+}
+
+/* Shared notification styles */
+.notification {
+  padding: 8px;
+  border-radius: 8px;
+  margin: 4px 0;
+}
+
+.notification.critical {
+  box-shadow: inset 0 0 7px 0 @base08;
+}
+
+.notification .summary {
+  color: @base05;
+  font-size: 1rem;
+}
+
+.notification .time {
+  color: @base04;
+  font-size: 0.75rem;
+  margin-right: 20px;
+}
+
+.notification .body {
+  color: @base05;
+  font-size: 0.9rem;
+}
+
+.notification > *:last-child > * {
+  min-height: 3.4em;
+}
+
+/* Notification action buttons */
+.notification-action {
+  border-radius: 8px;
+  color: @base05;
+  box-shadow: inset 0 0 0 1px @base02;
+  margin: 8px;
+}
+
+.floating-notifications .notification-action {
+  background-color: @base01;
+}
+
+.control-center .notification-action {
+  background-color: @base00;
+}
+
+.notification-action:hover {
+  box-shadow: inset 0 0 0 1px @base02;
+  background-color: @base01;
+  color: @base05;
+}
+
+.notification-action:active {
+  box-shadow: inset 0 0 0 1px @base02;
+  background-color: @base0C;
+  color: @base05;
+}
+
+/* Close button */
+.close-button {
+  margin: 8px;
+  padding: 2px;
+  border-radius: 8px;
+  color: @base00;
+  background-color: @base08;
+}
+
+.close-button:hover {
+  background-color: @base08;
+  color: @base00;
+}
+
+.close-button:active {
+  background-color: @base08;
+  color: @base00;
+}
+
+/* Progress bars */
+.notification.critical progress {
+  background-color: @base08;
+}
+
+.notification.low progress,
+.notification.normal progress {
+  background-color: @base0D;
+}
+
+/* Control center widgets */
+.control-center .widget-title {
+  padding: 8px 12px;
+  margin: 12px;
+}
+
+.control-center .widget-title > label {
+  color: @base05;
+  font-size: 1.25rem;
+}
+
+.control-center .widget-title button {
+  border-radius: 8px;
+  color: @base05;
+  background-color: @base01;
+  box-shadow: inset 0 0 0 1px @base02;
+  padding: 8px;
+}
+
+.control-center .widget-title button:hover {
+  box-shadow: inset 0 0 0 1px @base02;
+  background-color: @base03;
+  color: @base05;
+}
+
+.control-center .widget-title button:active {
+  box-shadow: inset 0 0 0 1px @base02;
+  background-color: @base0C;
+  color: @base00;
+}
+
+.control-center-dnd {
+  margin-top: 5px;
+  border-radius: 8px;
+  background: @base01;
+  border: 1px solid @base02;
+  box-shadow: none;
+}
+
+.control-center-dnd:checked {
+  background: @base01;
+}
+
+.control-center-dnd slider {
+  background: @base02;
+  border-radius: 8px;
+}
+
+.widget-dnd {
+  padding: 8px 12px;
+  margin: 8px 12px;
+  font-size: 1rem;
+}
+
+.widget-dnd > switch {
+  font-size: initial;
+  border-radius: 8px;
+  background: @base01;
+  border: 1px solid @base02;
+  box-shadow: none;
+}
+
+.widget-dnd > switch:checked {
+  background: @base01;
+}
+
+.widget-dnd > switch slider {
+  background: @base02;
+  border-radius: 8px;
+  border: 1px solid @base03;
+}
+
+.widget-mpris {
+  background: alpha(@base01, 0.5);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 12px;
+}
+
+.widget-mpris .widget-mpris-player {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.widget-mpris .widget-mpris-album-art {
+  display: none;
+}
+
+.widget-mpris .widget-mpris-title {
+  color: @base05;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.widget-mpris .widget-mpris-subtitle {
+  color: @base04;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.widget-mpris button {
+  background: alpha(@base02, 0.5);
+  border-radius: 8px;
+  color: @base05;
+  padding: 8px;
+  margin: 4px;
+}
+
+.widget-mpris button:hover {
+  background: alpha(@base03, 0.7);
+}
+
+.widget-menubar > box > .menu-button-bar > button > label {
+  font-size: 2rem;
+  padding: 0.5rem 2rem;
+}
+
+.widget-menubar > box > .menu-button-bar > :last-child {
+  color: @base08;
+}
+
+.power-buttons button:hover,
+.powermode-buttons button:hover,
+.screenshot-buttons button:hover {
+  background: @base01;
+}
+
+.control-center .widget-label {
+  margin: 12px;
+}
+
+.control-center .widget-label > label {
+  color: @base05;
+  font-size: 1.5rem;
+}
+
+.widget-buttons-grid {
+  padding: 8px;
+  margin: 12px;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  margin: 4px;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button label {
+  font-size: 1.75rem;
+}
+
+.widget-volume {
+  background: alpha(@base01, 0.5);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 12px;
+}
+
+.widget-volume label {
+  font-size: 1rem;
+  color: @base05;
+  margin-bottom: 8px;
+}
+
+.widget-volume scale trough {
+  background: alpha(@base02, 0.8);
+  border-radius: 8px;
+  min-height: 8px;
+}
+
+.widget-volume scale trough highlight {
+  background: @base0D;
+  border-radius: 8px;
+}
+
+.widget-volume scale slider {
+  background: @base0D;
+  border-radius: 8px;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+.widget-backlight {
+  padding: 8px;
+  margin: 8px 12px;
+}
+
+.widget-backlight trough highlight {
+  background: @base0A;
+}
+
+.widget-backlight label {
+  font-size: 1.125rem;
+  color: @base0A;
+}
+
+.widget-backlight .KB {
+  padding-bottom: 1rem;
+}
+
+/* Hide all images in MPRIS notifications (both app icon and album art) */
+.notification-group.mpris .image,
+.notification.mpris .image,
+.notification-group.mpris image,
+.notification.mpris image {
+  display: none;
+}
+
+.image {
+  padding-right: 20px;
+}

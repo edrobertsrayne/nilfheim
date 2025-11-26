@@ -163,6 +163,7 @@ Print                 Screenshot window
 
 | Shortcut          | Action                                |
 | ----------------- | ------------------------------------- |
+| `Super+N`         | Toggle notification centre            |
 | `Ctrl+Alt+Delete` | Close all windows (emergency cleanup) |
 | `Super+Shift+L`   | Switch keyboard layout (cycle)        |
 
