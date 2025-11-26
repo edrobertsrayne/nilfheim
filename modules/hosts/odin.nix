@@ -2,7 +2,7 @@
   flake.modules.darwin.odin = {
     imports = with inputs.self.modules.darwin; [
       zsh
-      theme
+      stylix
       yabai
     ];
   };

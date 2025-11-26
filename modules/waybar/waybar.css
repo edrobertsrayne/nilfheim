@@ -1,12 +1,9 @@
 * {
-  background-color: @background@;
-  color: @foreground@;
-
+  background-color: @base00;
+  color: @base06;
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: "@font@";
-  font-size: 14px;
 }
 
 .modules-left {
@@ -41,10 +38,10 @@
   margin: 0 7.5px;
 }
 #battery.warning {
-  color: @warning@;
+  color: @base09;
 }
 #battery.critical {
-  color: @critical@;
+  color: @base08;
 }
 
 #custom-expand-icon {

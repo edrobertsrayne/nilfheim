@@ -1,11 +1,10 @@
 {inputs, ...}: let
-  inherit (inputs.self.niflheim) theme user;
+  inherit (inputs.self.niflheim) user;
 
-  # Base theming configuration shared across all platforms
   base = pkgs: {
     enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme.base16}.yaml";
-    opacity.terminal = 0.9;
+    base16Scheme = pkgs.lib.mkDefault "${pkgs.base16-schemes}/share/themes/tokyo-night-moon.yaml";
+    opacity.terminal = 0.95;
     fonts.monospace = {
       package = pkgs.nerd-fonts.jetbrains-mono;
       name = "JetBrainsMono Nerd Font";
@@ -13,10 +12,8 @@
   };
 in {
   flake = {
-    niflheim.theme = inputs.self.lib.themes.tokyonight;
-
     modules = {
-      nixos.theme = {pkgs, ...}: {
+      nixos.stylix = {pkgs, ...}: {
         imports = [inputs.stylix.nixosModules.stylix];
 
         stylix =
@@ -34,16 +31,16 @@ in {
             };
             targets.grub.enable = false;
           };
-        home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
+        home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.stylix];
       };
 
-      darwin.theme = {pkgs, ...}: {
+      darwin.stylix = {pkgs, ...}: {
         imports = [inputs.stylix.darwinModules.stylix];
         stylix = base pkgs;
-        home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
+        home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.stylix];
       };
 
-      homeManager.theme = {};
+      homeManager.stylix = {};
     };
   };
 }

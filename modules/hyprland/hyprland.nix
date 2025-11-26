@@ -14,7 +14,7 @@ in {
       portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     };
     imports = [
-      inputs.self.modules.nixos.theme
+      inputs.self.modules.nixos.stylix
     ];
     home-manager.users.${username}.imports = [
       inputs.self.modules.homeManager.hyprland
@@ -36,6 +36,7 @@ in {
       hypridle
       hyprpaper
       gtk
+      swaync
     ];
 
     programs = {
