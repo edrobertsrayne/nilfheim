@@ -1,28 +1,15 @@
-{inputs, ...}: {
+_: {
   flake.modules.homeManager.ghostty = {
     pkgs,
     lib,
-    config,
     ...
-  }: let
-    inherit (config.stylix) fonts opacity;
-  in {
-    stylix.targets.ghostty.enable = false;
+  }: {
     programs.ghostty = {
       enable = true;
       settings = {
-        font-family = [
-          fonts.monospace.name
-          fonts.emoji.name
-        ];
-        font-size =
-          if pkgs.stdenv.hostPlatform.isDarwin
-          then fonts.sizes.terminal * 4.0 / 3.0
-          else fonts.sizes.terminal;
-        background-opacity = opacity.terminal;
         env = ["TERM=xterm-256color"];
-        window-padding-x = 14;
-        window-padding-y = 14;
+        window-padding-x = 12;
+        window-padding-y = 12;
         window-padding-balance = true;
         confirm-close-surface = false;
         resize-overlay = "never";
@@ -38,7 +25,6 @@
           "super+control+shift+alt+arrow_left=resize_split:left,100"
           "super+control+shift+alt+arrow_right=resize_split:right,100"
         ];
-        inherit (inputs.self.niflheim.theme.ghostty) theme;
       };
     };
 

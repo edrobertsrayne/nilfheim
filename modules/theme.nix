@@ -5,7 +5,7 @@
   base = pkgs: {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme.base16}.yaml";
-    opacity.terminal = 0.95;
+    opacity.terminal = 0.9;
     fonts.monospace = {
       package = pkgs.nerd-fonts.jetbrains-mono;
       name = "JetBrainsMono Nerd Font";
@@ -43,9 +43,7 @@ in {
         home-manager.users.${user.username}.imports = [inputs.self.modules.homeManager.theme];
       };
 
-      homeManager.theme = {lib, ...}: {
-        programs.alacritty.settings.colors = lib.mkForce inputs.self.niflheim.theme.alacritty.colors;
-      };
+      homeManager.theme = {};
     };
   };
 }

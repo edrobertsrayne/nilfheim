@@ -10,8 +10,8 @@ _: {
         env = {TERM = "xterm-256color";};
         window = {
           padding = {
-            x = 14;
-            y = 14;
+            x = 12;
+            y = 12;
           };
           decorations = "None";
         };
