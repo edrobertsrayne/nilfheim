@@ -8,17 +8,17 @@ _: {
   in {
     wayland.windowManager.hyprland.settings = {
       general = {
-        gaps_in = 5;
-        gaps_out = 10;
+        gaps_in = 8;
+        gaps_out = 16;
         border_size = 2;
         layout = "dwindle";
         allow_tearing = false;
         resize_on_border = false;
-        "col.active_border" = lib.mkForce "rgba(${colors.base0D}ee) rgba(${colors.base0B}ee) 45deg";
+        "col.active_border" = lib.mkForce "rgba(${colors.base0D}ff) rgba(${colors.base0B}ff) 45deg";
       };
 
       decoration = {
-        rounding = 4;
+        rounding = 12;
         shadow = {
           enabled = true;
           range = 2;
