@@ -17,7 +17,7 @@ niflheim/
 ├── flake.nix                    # Entry point (minimal, just dependencies)
 ├── modules/
 │   ├── flake/                   # Flake-parts configuration
-│   ├── niflheim/                # Custom project options (+user.nix, +theme.nix)
+│   ├── niflheim/                # Custom project options (+user.nix)
 │   ├── hosts/                   # Host-specific configurations
 │   │   └── {hostname}/          # Per-host modules
 │   ├── lib/                     # Custom library functions
@@ -25,7 +25,6 @@ niflheim/
 │   ├── darwin/                  # macOS-specific modules (darwin.nix, homebrew.nix, zsh.nix)
 │   ├── desktop/                 # Desktop environment and GUI applications
 │   │   ├── desktop.nix          # Platform-specific desktop aggregator
-│   │   ├── theme.nix            # Stylix theming with base function pattern
 │   │   └── *.nix                # Desktop apps (alacritty, firefox, vscode, spotify, etc.)
 │   ├── {feature}/               # Feature-specific modules (neovim/, hyprland/, waybar/, walker/)
 │   └── {aspect}.nix             # Root-level aspect modules (audio.nix, starship.nix, zsh.nix, etc.)
@@ -121,7 +120,7 @@ Choose the right location:
 | Host-specific | `modules/hosts/{hostname}/` | `modules/hosts/freya/hardware.nix` |
 | Project option | `modules/niflheim/+{name}.nix` | `modules/niflheim/+user.nix` |
 | Helper functions | `modules/lib/{name}.nix` | `modules/lib/nixvim.nix` |
-| Theme config | `modules/theme.nix` | Stylix with base function pattern |
+| Stylix theming | `modules/stylix.nix` | Stylix with base function pattern |
 | Desktop options | `modules/niflheim/desktop.nix` | Custom desktop options (browser, launcher) |
 | Cross-platform tools | `modules/{tool}.nix` | `modules/alacritty.nix`, `modules/gtk.nix` |
 | Hypr ecosystem tools | `modules/{tool}.nix` | `modules/hypridle.nix`, `modules/hyprlock.nix`, `modules/hyprpaper.nix` |
@@ -288,19 +287,17 @@ config.flake.modules.nixos.something = {
 
 **Note:** The `+` prefix in filenames is optional - it's a convention to indicate custom options, but not required by import-tree.
 
-### Rule 6: Theme Base Function Pattern
+### Rule 6: Stylix Base Function Pattern
 
 For platform-specific configuration with shared settings, use the base function pattern:
 
 ```nix
-# modules/theme.nix
+# modules/stylix.nix
 { inputs, ... }: let
-  inherit (inputs.self.niflheim) theme;
-
   # Extract common configuration into a base function
   base = pkgs: {
     enable = true;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme.base16}.yaml";
+    base16Scheme = pkgs.lib.mkDefault "${pkgs.base16-schemes}/share/themes/tokyo-night-moon.yaml";
     opacity.terminal = 0.95;
     fonts.monospace = {
       package = pkgs.nerd-fonts.jetbrains-mono;
@@ -309,7 +306,7 @@ For platform-specific configuration with shared settings, use the base function 
   };
 in {
   # NixOS-specific configuration
-  flake.modules.nixos.theme = {pkgs, ...}: {
+  flake.modules.nixos.stylix = {pkgs, ...}: {
     imports = [inputs.stylix.nixosModules.stylix];
 
     stylix = base pkgs // {
@@ -323,7 +320,7 @@ in {
   };
 
   # Darwin-specific configuration
-  flake.modules.darwin.theme = {pkgs, ...}: {
+  flake.modules.darwin.stylix = {pkgs, ...}: {
     imports = [inputs.stylix.darwinModules.stylix];
     stylix = base pkgs;  # Uses base settings only
   };

@@ -108,6 +108,8 @@ This configuration represents a ground-up rewrite focusing on:
 - [omarchy](https://github.com/basecamp/omarchy) - Overall design philosophy,
   keyboard-first workflow, custom launcher scripts, and aesthetic approach
 - [stylix](https://github.com/danth/stylix) - System-wide theming engine
+- [base16](https://github.com/tinted-theming/home/blob/main/styling.md) -
+  Theming specification and color schemes
 
 ---
 
