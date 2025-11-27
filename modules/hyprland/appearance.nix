@@ -21,13 +21,22 @@ _: {
         rounding = 12;
         shadow = {
           enabled = true;
-          range = 2;
+          range = 30;
           render_power = 3;
+          offset = "0 5";
+          scale = 1.0;
         };
         blur = {
           enabled = true;
-          size = 3;
+          size = 8;
           passes = 3;
+          new_optimizations = true;
+          xray = false;
+          noise = 0.0117;
+          contrast = 0.8916;
+          brightness = 0.8172;
+          vibrancy = 0.1696;
+          vibrancy_darkness = 0.0;
         };
       };
 
@@ -38,29 +47,24 @@ _: {
       animations = {
         enabled = true;
         bezier = [
-          "myBezier, 0.05, 0.9, 0.1, 1.05"
-          "easeOutQuint, 0.23, 1, 0.32, 1"
-          "easeInOutCubic, 0.65, 0.05, 0.36, 1"
-          "linear, 0, 0, 1, 1"
-          "almostLinear, 0.5, 0.5, 0.75, 1.0"
-          "quick, 0.15, 0, 0.12, 1"
+          "easeInOut,  0.4, 0.0, 0.2, 1"
+          "easeIn, 0.0, 0.0, 0.2, 1"
+          "easeOut, 0.4, 0.0, 1, 1"
         ];
 
         animation = [
-          "global, 1, 10, default"
-          "border, 1, 5.39, easeOutQuint"
-          "windows, 1, 4.79, easeOutQuint"
-          "windowsIn, 1, 4.1, easeOutQuint, popin 87%"
-          "windowsOut, 1, 1.49, linear, popin 87%"
-          "fadeIn, 1, 1.73, almostLinear"
-          "fadeOut, 1, 1.46, almostLinear"
-          "fade, 1, 3.03, quick"
-          "layers, 1, 3.81, easeOutQuint"
-          "layersIn, 1, 4, easeOutQuint, fade"
-          "layersOut, 1, 1.5, linear, fade"
-          "workspaces, 0, 0, ease"
-          "fadeLayersIn, 1, 1.73, almostLinear"
-          "fadeLayersOut, 1, 1.46, almostLinear"
+          "windowsIn, 1, 3, easeOut, popin 90%"
+          "windowsOut, 1, 3, easeIn, popin 90%"
+          "windowsMove, 1, 3, easeInOut, slide"
+          "fadeIn, 1, 3, easeOut"
+          "fadeOut, 1, 3, easeIn"
+          "fadeSwitch, 1, 3, easeInOut"
+          "fadeShadow, 1, 3, easeInOut"
+          "fadeDim, 1, 3, easeInOut"
+          "workspaces, 1, 4, easeInOut, slide"
+          "specialWorkspace, 1, 3, easeOut, slidevert"
+          "border, 1, 2, easeOut"
+          "borderangle, 1, 100, easeOut, loop"
         ];
       };
 

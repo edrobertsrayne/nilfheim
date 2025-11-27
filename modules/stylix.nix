@@ -4,7 +4,7 @@
   base = pkgs: {
     enable = true;
     base16Scheme = pkgs.lib.mkDefault "${pkgs.base16-schemes}/share/themes/tokyo-night-moon.yaml";
-    opacity.terminal = 0.95;
+    opacity.terminal = 0.75;
     fonts.monospace = {
       package = pkgs.nerd-fonts.jetbrains-mono;
       name = "JetBrainsMono Nerd Font";
