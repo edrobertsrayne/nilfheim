@@ -69,7 +69,7 @@ _: {
             format-disconnected = "󰤮";
             tooltip-format-wifi = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
             tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
-            on-click = "xdg-terminal-exec --app-id=Niflheim -e nmtui";
+            on-click = "xdg-terminal-exec --app-id=com.niflheim.niflheim -e nmtui";
             interval = 3;
           };
 
@@ -103,7 +103,7 @@ _: {
           # cpu = {
           #   interval = 15;
           #   format = " ";
-          #   on-click = "xdg-terminal-exec --app-id=Niflheim -e ${lib.getExe pkgs.btop}";
+          #   on-click = "xdg-terminal-exec --app-id=com.niflheim.niflheim -e ${lib.getExe pkgs.btop}";
           # };
         };
       };

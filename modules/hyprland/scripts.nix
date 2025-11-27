@@ -76,7 +76,7 @@
           editor_name=$(basename "$editor_path")
           case "$editor_name" in
           nvim | vim | nano | micro | hx | helix)
-            exec setsid uwsm-app -- xdg-terminal-exec --app-id=Niflheim -e "$editor_path" "''$@"
+            exec setsid uwsm-app -- xdg-terminal-exec --app-id=com.niflheim.niflheim -e "$editor_path" "''$@"
             ;;
           *)
             exec setsid uwsm-app -- "$editor_path" "''$@"
@@ -95,7 +95,7 @@
         ];
         text = ''
           cmd="$*"
-          exec setsid uwsm-app -- xdg-terminal-exec --app-id=Niflheim --title=Niflheim -- bash -c "show-logo; $cmd; show-done"
+          exec setsid uwsm-app -- xdg-terminal-exec --app-id=com.niflheim.niflheim --title=Niflheim -- bash -c "show-logo; $cmd; show-done"
         '';
       };
 
