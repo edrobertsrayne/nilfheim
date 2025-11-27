@@ -14,17 +14,15 @@ _: {
           layer = "top";
           position = "top";
           spacing = 0;
-          margin-top = 8;
-          margin-left = 8;
-          margin-right = 8;
+          margin-top = 12;
+          margin-left = 12;
+          margin-right = 12;
 
           modules-left = ["hyprland/workspaces"];
           modules-center = ["clock"];
           modules-right = [
-            "bluetooth"
-            "network"
             "pulseaudio"
-            "cpu"
+            "network"
             "battery"
           ];
 
@@ -33,17 +31,7 @@ _: {
             sort-by-number = true;
             format = "{icon}";
             format-icons = {
-              default = "";
-              "1" = "1";
-              "2" = "2";
-              "3" = "3";
-              "4" = "4";
-              "5" = "5";
-              "6" = "6";
-              "7" = "7";
-              "8" = "8";
-              "9" = "9";
-              active = "󱓻";
+              "spotify" = "󰓇";
             };
             persistent-workspaces = {
               "*" = 5;
@@ -56,8 +44,8 @@ _: {
           };
 
           pulseaudio = {
-            format = "{icon}";
-            format-bluetooth = "{icon}";
+            format = "{icon} {volume}%";
+            format-bluetooth = "{icon} {volume}%";
             format-bluetooth-muted = "󰂲";
             format-muted = "󰖁";
             format-icons = {
@@ -71,12 +59,11 @@ _: {
             };
             on-click = "xdg-terminal-exec --app-id=Wiremix -e ${lib.getExe pkgs.wiremix}";
             on-click-right = "${lib.getExe pkgs.pamixer} -t";
-            tooltip-format = "Volume: {volume}%";
           };
 
           network = {
             format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
-            format-wifi = "{icon}";
+            format-wifi = "{icon} {essid}";
             format = "{icon}";
             format-ethernet = "󰀂";
             format-disconnected = "󰤮";
@@ -84,7 +71,6 @@ _: {
             tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
             on-click = "xdg-terminal-exec --app-id=Niflheim -e nmtui";
             interval = 3;
-            spacing = 1;
           };
 
           battery = {
@@ -92,16 +78,12 @@ _: {
               warning = 25;
               critical = 10;
             };
-            format = "{icon}";
+            format = "{icon} {capacity}%";
             format-plugged = "󰚥";
-            format-full = "󱈑";
-            format-alt = "{icon} {time}";
             format-icons = {
-              default = ["󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󱈑"];
+              default = ["󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
               charging = ["󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅"];
             };
-            tooltip-format-discharging = "{capacity} %";
-            tooltip-format-charging = "{time} until full";
           };
 
           bluetooth = {
@@ -113,16 +95,16 @@ _: {
           };
 
           clock = {
-            format = "{:L%A %H:%M}";
+            format = "{:L%A %B %d %H:%M}";
             format-alt = " {:L%d %B W%V %Y}";
             tooltip = false;
           };
 
-          cpu = {
-            interval = 15;
-            format = " ";
-            on-click = "xdg-terminal-exec --app-id=Niflheim -e ${lib.getExe pkgs.btop}";
-          };
+          # cpu = {
+          #   interval = 15;
+          #   format = " ";
+          #   on-click = "xdg-terminal-exec --app-id=Niflheim -e ${lib.getExe pkgs.btop}";
+          # };
         };
       };
 
@@ -138,12 +120,14 @@ _: {
           @define-color base0E ${base0E}; @define-color base0F ${base0F};
 
           * {
-            font-family: "${config.stylix.fonts.monospace.name}";
+            font-family: "${config.stylix.fonts.monospace.name} Propo";
             background-color: transparent;
             color: @base06;
-            font-size: 14px;
-            font-weight: 700;
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            font-size: 16px;
+
+            min-height: 0;
+            margin: 0;
+            padding: 0;
           }
         ''
         + (builtins.readFile ./waybar.css);
