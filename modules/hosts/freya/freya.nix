@@ -32,6 +32,7 @@ in {
       spicetify
       python
       ghostty
+      cava
     ];
 
     programs = {
