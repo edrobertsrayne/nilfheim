@@ -14,7 +14,9 @@ _: {
           layer = "top";
           position = "top";
           spacing = 0;
-          height = 28;
+          margin-top = 8;
+          margin-left = 8;
+          margin-right = 8;
 
           modules-left = ["hyprland/workspaces"];
           modules-center = ["clock"];
@@ -137,7 +139,11 @@ _: {
 
           * {
             font-family: "${config.stylix.fonts.monospace.name}";
-            font-size: ${toString config.stylix.fonts.sizes.desktop}pt;
+            background-color: transparent;
+            color: @base06;
+            font-size: 14px;
+            font-weight: 700;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
           }
         ''
         + (builtins.readFile ./waybar.css);
