@@ -18,7 +18,11 @@ _: {
           margin-left = 12;
           margin-right = 12;
 
-          modules-left = ["hyprland/workspaces"];
+          modules-left = [
+            "hyprland/workspaces"
+            "mpris"
+            "hyprland/submap"
+          ];
           modules-center = ["clock"];
           modules-right = [
             "pulseaudio"
@@ -36,6 +40,18 @@ _: {
             persistent-workspaces = {
               "*" = 5;
             };
+          };
+
+          "hyprland/submap" = {
+            tooltip = false;
+          };
+
+          mpris = {
+            format = "󰓇 {artist} - {title}";
+            player = "spotify";
+            on-click = "playerctl play-pause";
+            max-length = 40;
+            tooltip-format = "{artist} - {title}";
           };
 
           tray = {
