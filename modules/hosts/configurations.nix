@@ -7,6 +7,6 @@ in {
   };
 
   flake.darwinConfigurations = {
-    odin = darwinSystem "x86_64-darwin" "odin";
+    imac = darwinSystem "x86_64-darwin" "imac";
   };
 }

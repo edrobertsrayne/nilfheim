@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.modules.darwin.odin = {
+  flake.modules.darwin.imac = {
     imports = with inputs.self.modules.darwin; [
       zsh
       stylix
@@ -7,7 +7,7 @@
     ];
   };
 
-  flake.modules.homeManager.odin = {...}: {
+  flake.modules.homeManager.imac = {...}: {
     imports = with inputs.self.modules.homeManager; [
       utilities
       zsh
