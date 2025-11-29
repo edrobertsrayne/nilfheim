@@ -16,7 +16,14 @@ in {
         libvirt
       ]);
 
-    boot.binfmt.emulatedSystems = ["aarch64-linux"];
+    boot = {
+      loader.grub = {
+        enable = true;
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+      };
+      binfmt.emulatedSystems = ["aarch64-linux"];
+    };
 
     programs.nix-ld.enable = true;
 

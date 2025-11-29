@@ -14,8 +14,15 @@
         karakeep
       ];
 
-      boot.supportedFilesystems = ["zfs"];
-      boot.zfs.extraPools = ["tank"];
+      boot = {
+        loader.grub = {
+          enable = true;
+          efiSupport = true;
+          efiInstallAsRemovable = true;
+        };
+        supportedFilesystems = ["zfs"];
+        zfs.extraPools = ["tank"];
+      };
       users.groups.tank.members = ["${inputs.self.niflheim.user.username}"];
 
       age.secrets.cloudflared.file = secret;
