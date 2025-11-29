@@ -40,14 +40,11 @@ in {
       python
       ghostty
       cava
+      vscodium
     ];
 
     programs = {
       firefox.enable = true;
-      vscode = {
-        enable = true;
-        package = pkgs.vscodium;
-      };
       zathura.enable = true;
       chromium = {
         enable = true;
