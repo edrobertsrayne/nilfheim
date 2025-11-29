@@ -15,8 +15,8 @@ _: {
           position = "top";
           spacing = 0;
           margin-top = 12;
-          margin-left = 12;
-          margin-right = 12;
+          margin-left = 8;
+          margin-right = 8;
 
           modules-left = [
             "hyprland/workspaces"
@@ -139,7 +139,7 @@ _: {
             font-family: "${config.stylix.fonts.monospace.name} Propo";
             background-color: transparent;
             color: @base06;
-            font-size: 16px;
+            font-size: 14px;
 
             min-height: 0;
             margin: 0;

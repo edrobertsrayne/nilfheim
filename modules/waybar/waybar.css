@@ -1,17 +1,8 @@
-.modules-left,
-.modules-center,
-.modules-right {
+#workspaces {
   background-color: alpha(@base00, 0.8);
   padding: 8px;
   border-radius: 999px;
-}
-
-.modules-right label {
-  /* color: @base05; */
-}
-
-#workspaces {
-  margin-left: 6px;
+  margin: 0 4px;
 }
 
 #workspaces button {
@@ -25,6 +16,11 @@
 #workspaces button.active {
   min-width: 48px;
   background: alpha(@base0E, 0.8);
+  border-radius: 8px;
+}
+
+#workspaces button:hover {
+  background: alpha(@base0D, 0.8);
 }
 
 #workspaces button label {
@@ -34,11 +30,41 @@
 #battery,
 #network,
 #bluetooth,
+#clock,
+#mpris,
+#submap,
 #pulseaudio {
-  margin: 0 16px;
+  margin: 0 4px;
+  background-color: alpha(@base00, 0.8);
+  padding: 8px 16px;
+  border-radius: 999px;
+}
+
+#battery {
+  color: @base0B;
 }
 
 #clock {
   font-weight: 700;
-  padding: 0 8px;
+}
+
+#submap {
+  color: @base0C;
+}
+
+#mpris {
+  color: @base0B;
+}
+
+#network {
+  color: @base0E;
+}
+
+#pulseaudio {
+  color: @base09;
+}
+
+tooltip {
+  background: alpha(@base01, 0.7);
+  border: @base01;
 }
