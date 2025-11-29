@@ -50,11 +50,11 @@ in {
         enable = true;
         package = pkgs.google-chrome;
       };
+      vesktop.enable = true;
     };
 
     home.packages = with pkgs; [
       bambu-studio
-      discord
     ];
   };
 }
