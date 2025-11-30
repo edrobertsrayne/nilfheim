@@ -2,25 +2,44 @@ _: {
   flake.modules.nixos.thor = {
     disko.devices = {
       disk = {
-        main = {
+        nvme0 = {
           device = "/dev/nvme0n1";
           type = "disk";
           content = {
             type = "gpt";
             partitions = {
-              boot = {
-                name = "boot";
-                size = "1M";
-                type = "EF02";
-              };
               ESP = {
-                size = "500M";
+                size = "1G";
                 type = "EF00";
                 content = {
                   type = "filesystem";
                   format = "vfat";
                   mountpoint = "/boot";
-                  mountOptions = ["umask=0077"];
+                };
+              };
+              zfs = {
+                size = "100%";
+                content = {
+                  type = "zfs";
+                  pool = "zroot";
+                };
+              };
+            };
+          };
+        };
+        nvme1 = {
+          device = "/dev/nvme1n1";
+          type = "disk";
+          content = {
+            type = "gpt";
+            partitions = {
+              ESP = {
+                size = "1G";
+                type = "EF00";
+                content = {
+                  type = "filesystem";
+                  format = "vfat";
+                  mountpoint = "/boot-fallback";
                 };
               };
               zfs = {
@@ -53,31 +72,27 @@ _: {
       zpool = {
         zroot = {
           type = "zpool";
+          mode = "mirror";
           rootFsOptions = {
             acltype = "posixacl";
             atime = "off";
-            compression = "lz4"; # Optimized for speed (OS workloads)
-            mountpoint = "none";
+            compression = "lz4";
             xattr = "sa";
           };
           options.ashift = "12";
 
           datasets = {
-            "local" = {
-              type = "zfs_fs";
-              options.mountpoint = "none";
-            };
-            "local/srv" = {
+            srv = {
               type = "zfs_fs";
               mountpoint = "/srv";
               options."com.sun:auto-snapshot" = "true";
             };
-            "local/nix" = {
+            nix = {
               type = "zfs_fs";
               mountpoint = "/nix";
               options."com.sun:auto-snapshot" = "false";
             };
-            "local/root" = {
+            root = {
               type = "zfs_fs";
               mountpoint = "/";
               options."com.sun:auto-snapshot" = "false";
