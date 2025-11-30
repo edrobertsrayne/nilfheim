@@ -10,17 +10,18 @@
         portainer
         blocky
         media
-        home-assistant
-        karakeep
+        # home-assistant
+        # karakeep
       ];
 
       boot = {
-        loader.grub = {
-          enable = true;
-          efiSupport = true;
-          efiInstallAsRemovable = true;
+        loader = {
+          systemd-boot.enable = true;
+          efi = {
+            canTouchEfiVariables = true;
+            efiSysMountPoint = "/boot";
+          };
         };
-        supportedFilesystems = ["zfs"];
         zfs.extraPools = ["tank"];
       };
       users.groups.tank.members = ["${inputs.self.niflheim.user.username}"];
@@ -39,10 +40,10 @@
 
       services.tailscale = {
         useRoutingFeatures = "server";
-        extraUpFlags = [
-          "--exit-node=100.84.2.120"
-          "--exit-node-allow-lan-access=true"
-        ];
+        # extraUpFlags = [
+        #   "--exit-node=100.84.2.120"
+        #   "--exit-node-allow-lan-access=true"
+        # ];
       };
 
       virtualisation.docker.daemon.settings = {
