@@ -68,6 +68,24 @@ _: {
             };
           };
         };
+        disk1 = {
+          device = "/dev/sdb";
+          type = "disk";
+          content = {
+            type = "gpt";
+            partitions = {
+              data = {
+                size = "100%";
+                content = {
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/mnt/disk1";
+                  mountOptions = ["defaults"];
+                };
+              };
+            };
+          };
+        };
       };
       zpool = {
         zroot = {
