@@ -29,23 +29,28 @@
       users.groups.tank.members = ["${inputs.self.niflheim.user.username}"];
 
       age.secrets.cloudflared.file = secret;
-      services.cloudflared = {
-        enable = true;
-        tunnels."${tunnel}" = {
-          credentialsFile = config.age.secrets.cloudflared.path;
-          default = "http_status:404";
-          ingress = {
-            "*.${domain}" = "http://127.0.0.1:80";
+
+      services = {
+        cloudflared = {
+          enable = true;
+          tunnels."${tunnel}" = {
+            credentialsFile = config.age.secrets.cloudflared.path;
+            default = "http_status:404";
+            ingress = {
+              "*.${domain}" = "http://127.0.0.1:80";
+            };
           };
         };
-      };
 
-      services.tailscale = {
-        useRoutingFeatures = "server";
-        # extraUpFlags = [
-        #   "--exit-node=100.84.2.120"
-        #   "--exit-node-allow-lan-access=true"
-        # ];
+        tailscale = {
+          useRoutingFeatures = "server";
+          # extraUpFlags = [
+          #   "--exit-node=100.84.2.120"
+          #   "--exit-node-allow-lan-access=true"
+          # ];
+        };
+
+        fstrim.enable = true;
       };
 
       virtualisation.docker.daemon.settings = {
@@ -63,8 +68,6 @@
           "use_ino"
         ];
       };
-
-      services.fstrim.enable = true;
     };
 
     modules.homeManager.thor = {

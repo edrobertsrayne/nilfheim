@@ -1,4 +1,4 @@
-{inputs, ...}: {
+_: {
   flake.modules.nixos.thor = {lib, ...}: let
     ipAddress = "192.168.68.128";
   in {
