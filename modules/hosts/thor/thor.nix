@@ -57,17 +57,17 @@
         data-root = "/srv/docker";
       };
 
-      fileSystems."/mnt/storage" = {
-        device = "/mnt/disk*";
-        fsType = "mergerfs";
-        options = [
-          "defaults"
-          "minfreespace=50G"
-          "fsname=mergerfs-pool"
-          "category.create=mfs"
-          "use_ino"
-        ];
-      };
+      # fileSystems."/mnt/storage" = {
+      #   device = "/mnt/disk*";
+      #   fsType = "mergerfs";
+      #   options = [
+      #     "defaults"
+      #     "minfreespace=50G"
+      #     "fsname=mergerfs-pool"
+      #     "category.create=mfs"
+      #     "use_ino"
+      #   ];
+      # };
     };
 
     modules.homeManager.thor = {
