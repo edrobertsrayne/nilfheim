@@ -68,24 +68,6 @@ _: {
             };
           };
         };
-        disk1 = {
-          device = "/dev/disk/by-id/ata-ST8000VN004-3CP101_WWZAA86J";
-          type = "disk";
-          content = {
-            type = "gpt";
-            partitions = {
-              data = {
-                size = "100%";
-                content = {
-                  type = "filesystem";
-                  format = "ext4";
-                  mountpoint = "/mnt/disk1";
-                  mountOptions = ["defaults"];
-                };
-              };
-            };
-          };
-        };
       };
       zpool = {
         zroot = {

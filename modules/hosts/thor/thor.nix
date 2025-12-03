@@ -6,6 +6,8 @@
   in {
     modules.nixos.thor = {config, ...}: {
       imports = with inputs.self.modules.nixos; [
+        ./_hardware.nix
+
         nginx
         portainer
         blocky
