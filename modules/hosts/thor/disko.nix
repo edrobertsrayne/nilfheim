@@ -3,7 +3,7 @@ _: {
     disko.devices = {
       disk = {
         nvme0 = {
-          device = "/dev/nvme0n1";
+          device = "/dev/disk/by-id/nvme-SAMSUNG_MZVL8512HELU-00BTW_S7J1NX1X708010";
           type = "disk";
           content = {
             type = "gpt";
@@ -28,7 +28,7 @@ _: {
           };
         };
         nvme1 = {
-          device = "/dev/nvme1n1";
+          device = "/dev/disk/by-id/nvme-SAMSUNG_MZVL8512HELU-00BTW_S7J1NX2X726096";
           type = "disk";
           content = {
             type = "gpt";
@@ -53,7 +53,7 @@ _: {
           };
         };
         tank = {
-          device = "/dev/sda";
+          device = "/dev/disk/by-id/ata-Samsung_SSD_870_EVO_4TB_S6BCNF0W304378R";
           type = "disk";
           content = {
             type = "gpt";
@@ -69,7 +69,7 @@ _: {
           };
         };
         disk1 = {
-          device = "/dev/sdb";
+          device = "/dev/disk/by-id/ata-ST8000VN004-3CP101_WWZAA86J";
           type = "disk";
           content = {
             type = "gpt";
