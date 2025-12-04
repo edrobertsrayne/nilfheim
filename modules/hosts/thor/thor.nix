@@ -63,6 +63,14 @@
 
       environment.systemPackages = with pkgs; [
         mergerfs
+        smartmontools
+        e2fsprogs
+        parted
+        iotop
+        lm_sensors
+        ncdu
+        nmap
+        pciutils
       ];
 
       fileSystems."/mnt/storage" = {
