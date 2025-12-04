@@ -4,7 +4,11 @@
     secret = ../../../secrets/cloudflare-thor.age;
     inherit (inputs.self.niflheim.server) domain;
   in {
-    modules.nixos.thor = {config, ...}: {
+    modules.nixos.thor = {
+      config,
+      pkgs,
+      ...
+    }: {
       imports = with inputs.self.modules.nixos; [
         ./_hardware.nix
 
@@ -57,17 +61,21 @@
         data-root = "/srv/docker";
       };
 
-      # fileSystems."/mnt/storage" = {
-      #   device = "/mnt/disk*";
-      #   fsType = "mergerfs";
-      #   options = [
-      #     "defaults"
-      #     "minfreespace=50G"
-      #     "fsname=mergerfs-pool"
-      #     "category.create=mfs"
-      #     "use_ino"
-      #   ];
-      # };
+      environment.systemPackages = with pkgs; [
+        mergerfs
+      ];
+
+      fileSystems."/mnt/storage" = {
+        device = "/mnt/disk*";
+        fsType = "mergerfs";
+        options = [
+          "defaults"
+          "minfreespace=50G"
+          "fsname=mergerfs-pool"
+          "category.create=mfs"
+          "use_ino"
+        ];
+      };
     };
 
     modules.homeManager.thor = {
