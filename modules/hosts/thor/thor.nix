@@ -74,14 +74,15 @@
       ];
 
       fileSystems."/mnt/storage" = {
+        depends = [
+          "/mnt/disk1"
+        ];
         device = "/mnt/disk*";
         fsType = "mergerfs";
         options = [
           "defaults"
           "minfreespace=50G"
-          "fsname=mergerfs-pool"
-          "category.create=mfs"
-          "use_ino"
+          "fsname=mergerfs-storage"
         ];
       };
     };
